@@ -1,0 +1,41 @@
+paper_id: arxiv-2505.07078
+title: Can LLM-based Financial Investing Strategies Outperform the Market in Long Run?
+title_zh: 基于大语言模型的金融投资策略能否长期跑赢市场？
+authors:
+- Weixian Waylon Li
+- Hyeonjun Kim
+- Mihai Cucuringu
+- Tiejun Ma
+year: 2026
+venue: KDD 2026, Datasets & Benchmarks Track (Oral)
+doi: 10.1145/3770854.3785702
+arxiv_id: '2505.07078'
+paper_type: 评测框架与长期实证基准
+study_design: 20 年、100+ 标的的长期回测，控制幸存者、前视与数据窥探偏差
+version: v6（2026-06-26）
+publication_status: 已录用
+retrieved_at: '2026-08-18'
+source_url: https://arxiv.org/abs/2505.07078
+materials:
+  main_text: 已有（15 页 PDF）
+  supplement: 未单独打包；先查看正文附录与资源清单
+  figures: 随正文 PDF（若有）
+  data: 未打包数据集；查看资源与出处.yml
+  code: 已找到公开代码（https://github.com/waylonli/FINSABER）
+  quantml_note: 已打包（导读，不等同于原论文）
+reading:
+  recommended_depth: R2
+  completed_depth: R1
+  status: 已结构阅读
+  project_relevance: 高：可作为长期 Agent 评测协议与审计治理的领域案例
+  strategic_role:
+  - 治理
+  - 评测
+  - 警戒
+integrity:
+  source_identity_checked: true
+  pdf_checked: true
+  notes: 'PDF SHA-256: 5bdd2d6e5267bc18089e3fd9113a6a98caeb576291e9c6b0320f9a60b9b1382a。 QuantML 文章只作为中文导读和复现线索。'
+knowledge_status: original_pdf_r1_read
+updated_at: '2026-08-18T08:00:00+08:00'
+user_note: ''

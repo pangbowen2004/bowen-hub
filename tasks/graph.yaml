@@ -1,0 +1,565 @@
+# bowen-hub 任务图
+# 规则见 docs/11-Agent协同开发协议.md。状态不写在这里：看分支、PR 和 docs/progress/<任务ID>.md。
+#
+# 字段：
+#   wave         波次（由依赖推出的最早可开工批次；同一波次的任务可以同时做）
+#   dependsOn    必须先合并的任务
+#   owns         本任务独占的路径（glob）。两个任务的路径有包含关系时，更具体的那条优先
+#                （例：T02 拥有 services/api/src/lib/**，但 services/api/src/lib/auth/** 归 T40）
+#   scaffolds    本任务一次性建出来的空骨架；合并后归 owns 覆盖它们的任务（docs/11 第 4 节）
+#   sharedEdits  明确允许改的别人的文件，以及能改的范围
+#   read         开工前要读的文档（只读这些就够了）
+#   deliver      交付物
+#   accept       验收（命令 + 标准）；结果写进 docs/progress/<任务ID>.md
+#   deferred     依赖后面任务、放到 T52 统一验收的项
+#   difficulty   high / medium / low（high 建议交给最强的 Agent）
+#
+# 所有任务都默认要读：AGENTS.md、docs/00、docs/01、docs/11。
+# 生成物（mise run gen、TanStack Router 生成的文件）不受所有权限制，但只能由生成命令改动。
+
+tasks:
+
+  # ───────────── 地基与预接线 ─────────────
+
+  - id: T00
+    title: 仓库骨架与工具链
+    wave: 0
+    dependsOn: []
+    difficulty: medium
+    owns: [mise.toml, package.json, pnpm-workspace.yaml, turbo.json, biome.json, tsconfig.base.json, lighthouserc.json,
+           .editorconfig, .gitignore, .dependency-cruiser.cjs, packages/config/**, py/pyproject.toml,
+           py/.importlinter, tools/arch/**, tools/tasks/**, .github/workflows/ci.yml]
+    read: [docs/01 第 7–8 节, docs/11 第 3–4、8、10 节, docs/12 第 3 节]
+    deliver:
+      - mise 锁定 Node、pnpm、Python、uv 版本；docs/11 第 10 节的全部 mise 任务（暂时没有内容的先接成空操作）
+      - pnpm 工作区 + Turborepo；uv 工作区；Biome、tsc strict、ruff、pyright strict 的共享配置
+      - 依赖规则检查（dependency-cruiser、import-linter，规则逐条照 docs/01 第 7 节）
+      - tools/tasks：tasks:ready（读本文件和 git 状态，列出可开工任务）、check:ownership（按 PR 标题的任务号检查改动路径，支持 owns、scaffolds、sharedEdits、公共文件和生成物例外）
+      - ci.yml（docs/11 第 8 节的步骤，暂时没有内容的步骤自动跳过）；lighthouserc.json（性能与可访问性阈值见 docs/05 第 10 节）
+    accept:
+      - 干净克隆后 `mise install && mise run setup` 成功
+      - "`mise run check`、`mise run test` 通过"
+      - "`mise run tasks:ready` 只列出 T01"
+      - check:ownership 的单元测试：越界改动被拒绝；公共文件、骨架、生成物、sharedEdits 被允许
+      - CI 在一个空 PR 上是绿色
+
+  - id: T01
+    title: 契约与代码生成
+    wave: 1
+    dependsOn: [T00]
+    difficulty: high
+    owns: [contracts/**, packages/contracts/**, py/packages/hub-contracts/**, tools/gen/**, fixtures/samples/**]
+    read: [docs/08, docs/02 第 5–9 节, docs/03 第 4–7 节, docs/04 第 2–6 节, docs/06 第 1–3 节, docs/09 第 3 节,
+           docs/10 第 3、5 节, capabilities/*.yaml, prompts/*.md, config/newsroom.yaml, fixtures/README.md]
+    deliver:
+      - docs/08 第 5.1 节的全部接口与模型（TypeSpec），每个接口标 x-task；/ask 接口按 text/event-stream 声明
+      - contracts/capabilities.tsp：capabilities/*.yaml 里 io 引用的全部输入输出模型（字段和字数上限以对应提示词为准）
+      - 生成链：OpenAPI 3.1、JSON Schema、TS（类型、Zod、fetch 客户端、TanStack Query hooks、MSW）、Pydantic v2
+      - fixtures/samples/：每个 GET 接口返回的模型至少一份样例，优先由老数据转换（MarketDay 2026-08-27/28、MarketDaySummary、Hypothesis、WeeklyReport、WeeklySummary、MarketEvent、MarketReference、IndexBar、两篇 Paper 与 PaperPrivate、PaperSummary、PapersCatalog、GraphData、SearchIndex、Review、Upload、一期 legacy Edition、一期按新格式手写的早报 Edition、WatchItem、Run、AiCall、EvalResult）
+      - MSW 处理器默认返回 samples 里的数据
+      - 提示词渲染的共享测试向量（fixtures/samples/prompt-render/），供 T04 两端对照
+    accept:
+      - "`mise run gen` 连续两次无差异；`mise run contracts:check` 可运行"
+      - fixtures/samples 全部通过 JSON Schema 校验（TS 与 Python 各一个测试）
+      - 生成的 TS 通过 tsc；生成的 Pydantic 模型能导入并解析全部样例
+      - 契约里每个接口都有 x-task，且任务号存在于本文件
+
+  - id: T02
+    title: API 骨架与预接线
+    wave: 2
+    dependsOn: [T01]
+    difficulty: high
+    owns: [services/api/package.json, services/api/wrangler.jsonc, services/api/tsconfig.json, services/api/vitest.config.ts,
+           services/api/src/index.ts, services/api/src/app.ts, services/api/src/db/**, services/api/src/lib/**,
+           services/api/src/modules/platform/**, services/api/migrations/**, services/api/test/setup/**, services/api/test/platform/**]
+    scaffolds: [services/api/src/modules/news/**, services/api/src/modules/watchlist/**, services/api/src/modules/markets/**,
+                services/api/src/modules/papers/**, services/api/src/modules/mcp/**]
+    read: [docs/08, docs/09 第 1–5 节, docs/12 第 4 节]
+    deliver:
+      - Hono 应用：请求 ID、日志、problem+json 错误、三类鉴权分流、服务令牌校验（可写内部接口、可读 GET）
+      - 会话鉴权的占位中间件：本地 wrangler dev 放行，线上一律 401（T40 替换）
+      - 由契约生成 routes.gen.ts：全部接口挂上，未实现的返回 501（正文“未实现（任务 Txx）”）
+      - services/api/src/db/schema：docs/09 第 3 节的全部表（含 FTS5 虚拟表）与迁移；D1、R2 绑定
+      - platform 模块：documents、runs、ai-calls、eval results 的读写；运维页需要的查询（SQL 聚合）
+      - lib：R2 流式读写、GitHub repository_dispatch
+      - 各业务模块的空骨架（routes.ts、service.ts、repo.ts、mcp.ts）
+    accept:
+      - "`mise run test` 里 API 部分通过（Workers 测试环境）"
+      - 测试遍历 OpenAPI：每个接口都返回 501 或已实现，没有 404
+      - "`mise run db:migrate:local` 建出的表与 docs/09 第 3 节一致（测试比对表名）"
+      - 服务令牌：错误令牌 401、正确令牌可写内部接口、可读 GET 接口、不能调用私有写接口
+      - 线上模式下私有接口一律 401（测试用环境变量模拟）
+      - 本地 `wrangler dev` 后 `curl localhost:8787/v1/health` 返回 200
+
+  - id: T03
+    title: Python 底座与命令行预接线
+    wave: 2
+    dependsOn: [T01]
+    difficulty: medium
+    owns: [py/packages/hub-core/**, py/apps/hub-cli/**]
+    scaffolds: [py/packages/hub-ai/**, py/packages/hub-providers/**, py/packages/hub-market/**,
+                py/packages/hub-newsroom/**, py/packages/hub-papers/**, py/packages/hub-core/src/hub_core/export/**]
+    read: [docs/09 第 7–9 节, docs/12 第 4 节, docs/01 第 7 节, docs/02 第 4–5 节, docs/03 第 3 节]
+    deliver:
+      - 设置（pydantic-settings，变量名见 docs/12 第 4 节）、读 config/*.yaml
+      - HTTP 客户端（超时、有限重试、指数退避、记录来源健康）
+      - API 客户端（生成模型 + 服务令牌）、运行记录（PUT /v1/internal/runs/{runId}）、AI 用量写入（POST /v1/internal/ai-calls/batch）
+      - 邮件（SMTP，HTML + 纯文本，失败重试 3 次）；失败通知邮件；日志
+      - 协议：新闻、公告、内部人、日程、行情、TuShare 各一个数据源 Protocol；交易日历 Protocol 与纽交所（XNYS）实现（A 股日历由 T20 在 hub-providers/tushare 实现）
+      - hub 命令行：建好 7 个命令组；用 hub.commands entry point 加载各目录的 commands.py（docs/09 第 7 节）
+      - 预接线：各领域包与 hub-providers 的包目录、pyproject、全部 entry point 登记和 commands.py 占位（docs/09 第 7 节列出的每条命令都已注册，未实现的退出码 2 并提示任务号）
+    accept:
+      - "`uv run hub --help` 列出 news、market、papers、migrate、evals、providers、export"
+      - docs/09 第 7 节的每条命令都能 `--help`；未实现的退出码 2 且提示任务号
+      - HTTP 重试、邮件（假 SMTP）、设置读取、纽交所日历（含夏令时切换日）有单元测试
+      - import-linter 通过
+
+  - id: T04
+    title: AI 能力层：运行时、校验与评测框架
+    wave: 3
+    dependsOn: [T01, T03]
+    difficulty: high
+    owns: [py/packages/hub-ai/**, packages/ai/**, capabilities/_schema.json, config/llm.yaml, evals/README.md, tools/new-capability/**]
+    read: [docs/10, config/llm.yaml, capabilities/*.yaml, prompts/news_brief.md]
+    deliver:
+      - 能力清单的 JSON Schema，capabilities/*.yaml 全部通过校验
+      - 提示词渲染（docs/10 第 5.1 节），Python 与 TS 各一份，用 T01 的共享测试向量
+      - 档位解析、经 AI Gateway 调模型、结构化输出、重试、generatedBy、用量写入（两端）；流式能力的规则（docs/10 第 5 节）
+      - 校验注册；docs/10 第 5.2 节的通用校验（paper_draft 由 T30 注册）
+      - 评测：用例格式、docs/10 第 7.2 节的评分器、`hub evals run|compare|harvest`（hub_ai 的 commands.py）
+      - packages/ai 的构建步骤：把清单、提示词、llm.yaml 编进注册表模块
+      - "`mise run new:capability`"
+    accept:
+      - 两端单元测试（假模型，离线）通过；渲染测试向量两端输出一致
+      - 用测试夹具里的示例能力（tests/fixtures，不依赖任何产品能力）离线跑通一次评测并输出报告
+      - 经 AI Gateway 列出模型：确认 config/llm.yaml 三个档位的模型都可用（真实运行，贴输出；网关在 G0 已建好）
+
+  - id: T05
+    title: 设计系统与三个前端外壳
+    wave: 2
+    dependsOn: [T01]
+    difficulty: medium
+    owns: [packages/ui/**, .storybook/**,
+           apps/markets/package.json, apps/markets/astro.config.mjs, apps/markets/src/layouts/**, apps/markets/src/lib/**,
+           apps/papers/package.json, apps/papers/astro.config.mjs, apps/papers/src/layouts/**, apps/papers/src/lib/**,
+           apps/console/package.json, apps/console/vite.config.ts, apps/console/index.html, apps/console/src/main.tsx,
+           apps/console/src/router.tsx, apps/console/src/routes/__root.tsx, apps/console/src/lib/**, apps/console/src/mocks/**,
+           apps/console/playwright.config.ts, apps/console/e2e/_setup/**]
+    scaffolds: [apps/markets/src/pages/**, apps/papers/src/pages/**, apps/console/src/routes/**]
+    read: [docs/05, docs/03 第 8 节, docs/04 第 3–4 节]
+    deliver:
+      - 设计令牌、基础样式、docs/05 第 7 节的全部组件（Storybook 故事齐全）、格式化函数（带单元测试）
+      - 两个 Astro 站：布局、导航、DATA_SOURCE 数据加载（fixtures | api）、全部页面的占位
+      - 控制台：路由、根布局（桌面侧栏 / 手机底部标签栏）、MSW 基础设置、登录守卫占位、docs/05 第 6 节全部路由的占位、Playwright 配置
+    accept:
+      - 组件与格式化函数测试通过；Storybook 能构建
+      - 三个应用用样例数据构建成功
+      - Playwright：三个应用的占位页在 390px 下无横向滚动、控制台无报错
+
+  - id: T06
+    title: 云资源与部署流水线
+    wave: 3
+    dependsOn: [T02, T05]
+    difficulty: medium
+    owns: [infra/**, apps/console/functions/**, apps/console/wrangler.jsonc, .github/workflows/deploy-api.yml,
+           .github/workflows/deploy-console.yml, .github/workflows/deploy-markets.yml, .github/workflows/deploy-papers.yml]
+    sharedEdits: ["services/api/wrangler.jsonc：只改资源 ID 和 vars"]
+    read: [docs/12, docs/01 第 5 节, docs/07 第 2 节]
+    deliver:
+      - infra/bootstrap.ts：建 D1、R2、Pages 项目 bowen-console，确认 AI Gateway 存在（已存在的跳过），ID 写进 infra/cloudflare.json 和 services/api/wrangler.jsonc
+      - 设置 Worker 密钥与 vars（docs/12 第 4 节）；infra/check-secrets.ts：列出缺少的 GitHub 与 Worker 密钥（只列名字，不输出值）
+      - 四个部署工作流（docs/12 第 3 节）：控制台正式版 + 模拟版预览；公开站的 data_source（api / fixtures）与 target 输入；SITES_LIVE 逻辑
+      - 控制台的 Pages Function 代理（/v1、/auth、/mcp、/.well-known → Service Binding）
+    accept:
+      - "`wrangler d1 list`、`wrangler r2 bucket list` 能看到资源"
+      - "`curl $HUB_API_URL/v1/health` 返回 200；`curl https://bowen-console.pages.dev/v1/health` 经代理返回 200"
+      - 三个预览地址可以打开：控制台模拟版、两个公开站的样例数据版（关卡 G1）
+      - check-secrets 显示全部就绪
+
+  # ───────────── 美股新闻室 ─────────────
+
+  - id: T10
+    title: 美股与新闻数据源适配器
+    wave: 3
+    dependsOn: [T03]
+    difficulty: medium
+    owns: [py/packages/hub-providers/src/hub_providers/rss/**, py/packages/hub-providers/src/hub_providers/alpaca/**,
+           py/packages/hub-providers/src/hub_providers/tiingo/**, py/packages/hub-providers/src/hub_providers/sec/**,
+           py/packages/hub-providers/src/hub_providers/fred/**, py/packages/hub-providers/src/hub_providers/finnhub/**,
+           py/packages/hub-providers/src/hub_providers/treasury/**, py/packages/hub-providers/src/hub_providers/cboe/**,
+           py/packages/hub-providers/src/hub_providers/commands.py, py/packages/hub-providers/tests/news/**,
+           fixtures/http/news/**, config/news_sources.yaml, config/us_watchlist.yaml]
+    read: [docs/02 第 3–4 节, config/news_sources.yaml, config/us_watchlist.yaml, config/newsroom.yaml]
+    deliver:
+      - RSS（feedparser）；Alpaca 新闻与日线；Tiingo 日线兜底；美债收益率 XML、VIX CSV（地址首次运行时核对）
+      - SEC：company_tickers 对照 CIK、submissions、公告目录、8-K 的 Item 与 EX-99.1 正文（selectolax）、Form 4 XML
+      - FRED：按发布名称查 release id 与发布日期；Finnhub：财报日历
+      - 每个来源返回健康状态；外部请求录制成 fixtures/http/news/ 下的回放数据（覆盖一个完整交易日，供 T13 做 N-1）
+      - "`hub providers check`（含 T04 提供的模型检查）、`hub news sources --check`（只输出结果，不写 API）"
+    accept:
+      - pytest 离线通过（全部用回放数据）
+      - "`uv run hub providers check` 真实运行结果贴进进度记录：Alpaca 免费账号能否取新闻、Finnhub 免费档是否含财报日历、每个 RSS 是否可用"
+      - "us_watchlist.yaml 里 verify: true 的代码已核实，结果写进进度记录"
+
+  - id: T11
+    title: 新闻室确定性管线
+    wave: 3
+    dependsOn: [T03]
+    difficulty: high
+    owns: [py/packages/hub-newsroom/src/hub_newsroom/pipeline/**, py/packages/hub-newsroom/tests/pipeline/**,
+           config/newsroom.yaml, config/news_keywords.yaml]
+    read: [docs/02 第 1–6 节与附录 A, config/newsroom.yaml, config/news_keywords.yaml, fixtures/news/]
+    deliver:
+      - 归一、关联股票、去重聚类（先比来源权重，再按清单顺序）、规则打分（docs/02 第 5 节）
+      - 三个版次的组版（docs/02 第 6 节）：入选规则、排序、Form 4 规则、财报名单、日程（夏令时换算）、周日与周一特例、阅读预算裁剪、“与板块同向”事实
+      - 国际与科技栏目的确定性部分（附录 A）
+      - 组版结果是带 AI 空位的 Edition（契约模型）；给 AI 的事实包里数字用人读的写法
+    accept:
+      - 快照测试：用手写的样例输入（tests/pipeline/data/）生成三个版次的确定性部分
+      - 夏令时 / 冬令时两种情况下日程时间换算正确
+      - Form 4、3% 入选阈值、去重保留规则、阅读预算裁剪各有单元测试
+
+  - id: T12
+    title: 新闻 AI 能力
+    wave: 4
+    dependsOn: [T04, T11]
+    difficulty: high
+    owns: [capabilities/news.*.yaml, prompts/news_*.md, evals/news.*/**, py/packages/hub-newsroom/src/hub_newsroom/ai/**,
+           py/packages/hub-newsroom/tests/ai/**]
+    read: [docs/02 第 6–7、10 节, docs/10, capabilities/news.*.yaml, prompts/news_*.md]
+    deliver:
+      - 8 个 news.* 能力接入：从组版结果构造输入、把输出填回 Edition、每个能力的降级（docs/02 第 7 节）
+      - 评测用例：每个能力至少 10 条，news.us_rank 与 news.ticker_digest 至少 20 条；需要的 judge_*.md
+    accept:
+      - "`hub evals run --capability 'news.*'` 真实运行达到清单阈值（N-8），报告贴进进度记录"
+      - 用会失败的假模型测试：每个能力都走到降级；全部失败时产出“标题清单版”
+
+  - id: T13
+    title: 三个版次、邮件与定时工作流
+    wave: 5
+    dependsOn: [T06, T10, T11, T12, T14, T16]
+    difficulty: medium
+    owns: [py/packages/hub-newsroom/src/hub_newsroom/editions/**, py/packages/hub-newsroom/src/hub_newsroom/render/**,
+           py/packages/hub-newsroom/tests/editions/**, .github/workflows/news-morning.yml,
+           .github/workflows/news-premarket.yml, .github/workflows/news-weekly.yml]
+    read: [docs/02, docs/09 第 7–9 节]
+    deliver:
+      - "`hub news morning|premarket|weekly`：采集 → 管线 → AI → 渲染 → 写入 API（新闻、公告、内部人、日程、财报卡片、来源健康、期次与邮件 HTML）→ 发送 → 回写发送时间 → 运行记录"
+      - 邮件模板（docs/02 第 8 节）；页脚的来源状态与 AI 费用
+      - 三个工作流（cron、后备触发点、时间窗判断见 docs/09 第 8 节；都支持手动触发）
+    accept:
+      - N-1（用 fixtures/http/news 的回放数据）、N-2（发到 Kevin 邮箱）、N-3、N-4（模拟时钟）、N-6（去掉 Alpaca key）、N-7（错误的模型 key）
+      - 三个工作流各手动触发一次成功
+    deferred: [N-5, N-9]
+
+  - id: T14
+    title: API：新闻与自选股模块
+    wave: 3
+    dependsOn: [T02]
+    difficulty: medium
+    owns: [services/api/src/modules/news/**, services/api/src/modules/watchlist/**, services/api/test/news/**, services/api/test/watchlist/**]
+    read: [docs/08 第 5.1 节（x-task T14）, docs/09 第 1–4、6 节, docs/02 第 8–9 节]
+    deliver:
+      - x-task 为 T14 的全部接口（含财报卡片、自选股批量导入、prune）；FTS5 搜索；个股时间线（新闻、公告、内部人、财报卡片）；反馈；来源健康
+      - MCP 工具：news_latest_edition、news_search、news_ticker_timeline、watchlist_list、watchlist_add、watchlist_remove（写在各模块的 mcp.ts）
+    accept:
+      - 集成测试全部用生成的 Zod 校验响应
+      - Schemathesis 对 T14 的接口跑一遍无失败
+      - 自选股增删后 GET 结果正确；搜索能按股票和天数筛选
+
+  - id: T15
+    title: 控制台：今日、新闻与自选股页面
+    wave: 4
+    dependsOn: [T05, T14]
+    difficulty: medium
+    owns: [apps/console/src/routes/index.tsx, apps/console/src/routes/news/**, apps/console/src/routes/watchlist/**,
+           apps/console/src/features/today/**, apps/console/src/features/news/**, apps/console/src/features/watchlist/**,
+           apps/console/src/mocks/news/**, apps/console/e2e/news/**]
+    read: [docs/05 第 5–7 节, docs/02 第 6、8 节]
+    deliver: [docs/05 第 6 节中负责任务为 T15 的页面]
+    accept:
+      - Playwright（MSW）：各页面能打开；打分与“没用 / 有错”能提交；390px 无横向滚动
+      - 接本地 API（VITE_USE_MOCKS=0）走通一次自选股增删
+
+  - id: T16
+    title: 新闻迁移与自选股初值
+    wave: 4
+    dependsOn: [T06, T14]
+    difficulty: low
+    owns: [py/packages/hub-newsroom/src/hub_newsroom/migrate/**, py/packages/hub-newsroom/tests/migrate/**]
+    read: [docs/06 第 0–1、4 节, config/us_watchlist.yaml]
+    deliver: ["`hub migrate news-legacy`、`hub migrate watchlist`（--dry-run、--verify），对线上 API 执行"]
+    accept:
+      - docs/06 第 4 节新闻部分全部满足
+
+  # ───────────── A 股观测台 ─────────────
+
+  - id: T20
+    title: TuShare 适配器与缓存
+    wave: 3
+    dependsOn: [T03]
+    difficulty: medium
+    owns: [py/packages/hub-providers/src/hub_providers/tushare/**, py/packages/hub-providers/tests/tushare/**, fixtures/tushare/**]
+    read: [docs/03 第 2–3 节, config/market.yaml]
+    deliver:
+      - docs/03 第 3 节的全部接口、单位换算、缓存、并发与重试、核心表就绪判断；A 股交易日历（实现 hub-core 的日历协议）
+      - 录制 2026-08-27、2026-08-28 两天计算所需的全部原始数据（parquet，放 fixtures/tushare/），供离线对照
+    accept:
+      - 真实运行：拉取 2026-08-28 的全部核心表，行数贴进进度记录
+      - 离线测试用录制数据通过；moneyflow_mkt_dc 金额量级有核对测试（docs/03 第 3 节）
+
+  - id: T21
+    title: A 股指标计算与对照
+    wave: 4
+    dependsOn: [T20]
+    difficulty: high
+    owns: [py/packages/hub-market/src/hub_market/compute/**, py/packages/hub-market/src/hub_market/summary/**,
+           py/packages/hub-market/src/hub_market/compare/**, py/packages/hub-market/tests/compute/**, config/market*.yaml]
+    read: [docs/03 第 4、7 节, docs/07 第 4 节, config/market*.yaml, fixtures/market/]
+    deliver:
+      - docs/03 第 4 节全部计算（纯函数 + 单元测试）、状态摘要（4.16）
+      - 组装 MarketDay 与 MarketDaySummary
+      - "`hub market compare <date> [--input <文件>]`：与老输出对照，输出差异报告"
+    accept:
+      - "`hub market compare 2026-08-28`（用录制数据离线计算）的报告在 docs/07 第 4 节容差内（M-1），报告贴进进度记录"
+      - 每个指标块至少一个单元测试
+
+  - id: T22
+    title: 假设、演化与周报
+    wave: 3
+    dependsOn: [T03]
+    difficulty: high
+    owns: [py/packages/hub-market/src/hub_market/hypotheses/**, py/packages/hub-market/src/hub_market/evolution/**,
+           py/packages/hub-market/src/hub_market/weekly/**, py/packages/hub-market/tests/hypotheses/**,
+           py/packages/hub-market/tests/evolution/**, py/packages/hub-market/tests/weekly/**]
+    read: [docs/03 第 5–7 节, fixtures/market/hypotheses-ledger.json, fixtures/market/weekly-2026-08-28.json, fixtures/samples/]
+    deliver:
+      - 假设生成与结算（第 5 节，含 rule = null 的处理）、验证统计（MarketDay.validation）
+      - 近五日演化（第 6.1 节）；周报、WeeklySummary 与 Markdown 版（第 6.2 节）
+    accept:
+      - 用 fixtures/samples 的 2026-08-28 生成的假设，阈值与老账本 HYP-20260828-* 一致（M-2）
+      - 结算的三种结果、数据缺失保持 PENDING、超期转证据不足、rule = null 转证据不足各有测试
+      - 周报的 Research Error 只含 NOT_CONFIRMED（M-4 的单元部分）
+
+  - id: T23
+    title: API 市场模块与收盘任务
+    wave: 5
+    dependsOn: [T02, T06, T21, T22]
+    difficulty: medium
+    owns: [services/api/src/modules/markets/**, services/api/test/markets/**, py/packages/hub-market/src/hub_market/eod/**,
+           py/packages/hub-market/tests/eod/**, .github/workflows/market-eod.yml]
+    read: [docs/03 第 2、7 节, docs/08 第 5.1 节（x-task T23）, docs/09 第 8 节]
+    deliver:
+      - x-task 为 T23 的全部接口；MCP 工具 markets_day、markets_hypotheses
+      - "`hub market eod`（docs/03 第 2 节的完整顺序，含 --dry-run）与 `hub market backfill`（放在 hub_market/eod/）"
+      - market-eod.yml（完成后发出 markets-updated；支持手动触发）
+    accept:
+      - M-5、M-6
+      - 手动触发 market-eod 一次，API 里出现当天数据，deploy-markets 被触发
+    deferred: [M-8]
+
+  - id: T24
+    title: A 股观测台网站与事件维护页
+    wave: 3
+    dependsOn: [T05]
+    difficulty: medium
+    owns: [apps/markets/src/pages/**, apps/markets/src/components/**, apps/markets/e2e/**,
+           apps/console/src/routes/markets/**, apps/console/src/features/markets/**, apps/console/src/mocks/markets/**,
+           apps/console/e2e/markets/**]
+    read: [docs/03 第 7–8 节, docs/05]
+    deliver:
+      - docs/03 第 8 节全部页面，含 /archive/[date].md、/weekly/[date].md、/llms.txt
+      - 控制台 /markets/events（事件日历增删改）
+    accept:
+      - M-7（用样例数据构建）；Lighthouse 移动端性能 ≥ 90
+    deferred: [M-9]
+
+  # ───────────── 论文阅读馆 ─────────────
+
+  - id: T30
+    title: 论文领域：PDF、校验、派生
+    wave: 3
+    dependsOn: [T03]
+    difficulty: high
+    owns: [py/packages/hub-papers/src/hub_papers/pdf/**, py/packages/hub-papers/src/hub_papers/check/**,
+           py/packages/hub-papers/src/hub_papers/excerpt/**, py/packages/hub-papers/src/hub_papers/derive/**,
+           py/packages/hub-papers/src/hub_papers/ids/**, py/packages/hub-papers/tests/core/**, config/paper_*.yaml]
+    read: [docs/04 第 2、5.2、6、7 节, fixtures/papers/, fixtures/samples/]
+    deliver:
+      - PyMuPDF 抽页文本（pages.jsonl、pages.txt）与页图；论文 id 识别与 custom 短名规则（docs/04 第 5.1 节）
+      - 草稿校验（docs/04 第 5.2 节，中文错误清单），并注册为运行时的 paper_draft 校验；按行号填 sourceExcerpt
+      - "`hub papers derive`（docs/04 第 6 节）；`hub papers check`"
+    accept:
+      - 故意改坏的草稿：每一类错误都能被 check 发现并给出中文说明
+      - derive：公开版不含私有论文和任何私人内容；没有“共享概念”论文间边
+      - 对样例论文 arxiv-2505.07078 的 PDF（从 arXiv 下载）抽取的页数与 PDF 一致
+
+  - id: T31
+    title: 论文 AI 能力与入库流水线
+    wave: 5
+    dependsOn: [T04, T06, T30, T32]
+    difficulty: high
+    owns: [capabilities/papers.author.yaml, capabilities/papers.review.yaml, prompts/paper_author.md, prompts/paper_review.md,
+           evals/papers.author/**, evals/papers.review/**, py/packages/hub-papers/src/hub_papers/ingest/**,
+           py/packages/hub-papers/src/hub_papers/revise/**, py/packages/hub-papers/src/hub_papers/localtask/**,
+           py/packages/hub-papers/src/hub_papers/ai/**, py/packages/hub-papers/tests/ingest/**, .github/workflows/papers-ingest.yml]
+    read: [docs/04 第 5 节, docs/10, prompts/paper_author.md, prompts/paper_review.md]
+    deliver:
+      - "`hub papers ingest`（uploadId / --file / --arxiv，docs/04 第 5.1 节的全部步骤与状态）、`hub papers revise`、`hub papers task`、`hub papers submit`"
+      - papers.author（含校验修订循环与审核修订循环）、papers.review（附表格页图）
+      - 评测用例：author 至少 10 条（以校验通过率和 judge 为主）、review 至少 10 条（含已知问题的草稿）
+      - papers-ingest.yml
+    accept:
+      - 假模型离线跑通整条流水线（含一次修订循环）
+      - 真实运行 `hub papers ingest --file <一篇新 PDF>` 写入线上 API：30 分钟内出现草稿与审核记录（经 GET 接口核对）
+      - P-10 中 author、review 的评测达到阈值
+    deferred: ["P-7 经控制台上传的完整流程"]
+
+  - id: T32
+    title: API 论文模块（含问答）
+    wave: 4
+    dependsOn: [T02, T04]
+    difficulty: high
+    owns: [services/api/src/modules/papers/**, services/api/test/papers/**, capabilities/papers.qa.yaml, prompts/paper_qa.md, evals/papers.qa/**]
+    read: [docs/04 第 2、4、5.5、6 节, docs/08 第 5.1 节（x-task T32）, docs/09 第 1–4 节, docs/10 第 5 节]
+    deliver:
+      - x-task 为 T32 的全部接口；上传 PDF 流式写 R2；json_set 局部更新；papers-ingest / papers-revise / papers-changed 三种 dispatch；失败重试
+      - 问答：papers.qa 在 Worker 里流式运行（整篇原文放进上下文，超长时按 docs/04 第 4 节取页）
+      - MCP 工具：papers_search、papers_get、papers_ask、papers_ingest_url
+      - papers.qa 的评测用例（至少 20 条，含期望引用的页码）
+    accept:
+      - 集成测试：P-8（公开接口不泄露任何私人内容和私有论文）
+      - 20 MB 的 PDF 上传成功；一次约 3,000 token 的流式回答在线上不超 CPU 限制（超了就改为直接转发网关的流）
+      - P-10 中 qa 的评测达到阈值
+
+  - id: T33
+    title: 论文阅读馆网站
+    wave: 3
+    dependsOn: [T05]
+    difficulty: medium
+    owns: [apps/papers/src/pages/**, apps/papers/src/components/**, apps/papers/e2e/**]
+    read: [docs/04 第 3 节, docs/05]
+    deliver: ["docs/04 第 3 节全部页面，含 /papers/[id].md 与 /llms.txt"]
+    accept:
+      - P-3、P-5、P-9（用样例数据构建）
+
+  - id: T34
+    title: 控制台：论文页面
+    wave: 5
+    dependsOn: [T05, T32]
+    difficulty: medium
+    owns: [apps/console/src/routes/papers/**, apps/console/src/features/papers/**, apps/console/src/mocks/papers/**,
+           apps/console/e2e/papers/**]
+    read: [docs/04 第 4–5 节, docs/05]
+    deliver: ["docs/04 第 4 节全部功能（/papers、/papers/$id、/papers/inbox、/papers/graph），含上传与失败重试"]
+    accept:
+      - P-6 用 MSW 走通（含模拟的流式回答）；接本地 API 再走通一次
+
+  # ───────────── 平台 ─────────────
+
+  - id: T40
+    title: 鉴权与登录
+    wave: 4
+    dependsOn: [T02, T05, T06]
+    difficulty: high
+    owns: [services/api/src/lib/auth/**, services/api/test/auth/**, apps/console/src/routes/login/**,
+           apps/console/src/routes/settings/**, apps/console/src/features/auth/**, apps/console/src/mocks/auth/**,
+           apps/console/e2e/auth/**]
+    read: [docs/09 第 2 节, docs/12 第 4、6 节, docs/01 第 5 节]
+    deliver:
+      - Better Auth：通行密钥插件、一次性口令首次注册、会话 Cookie；替换 T02 的会话占位中间件
+      - Better Auth 的 MCP 插件（OAuth 2.1 授权服务器）与 /.well-known 元数据
+      - 控制台登录页、登录守卫、设置页（通行密钥管理、已授权 MCP 客户端的查看与撤销）
+    accept:
+      - Playwright 用虚拟认证器走通：首次注册 → 退出 → 再登录
+      - 未登录访问私有接口 401；登录后 200；服务令牌不能调用私有写接口
+    deferred: ["Kevin 在正式控制台注册自己的通行密钥（关卡 G2）"]
+
+  - id: T41
+    title: MCP 服务与运维页
+    wave: 6
+    dependsOn: [T14, T23, T32, T40]
+    difficulty: medium
+    owns: [services/api/src/modules/mcp/server.ts, services/api/src/modules/mcp/registry.ts, services/api/test/mcp/**,
+           services/api/src/modules/platform/capabilities.ts, apps/console/src/routes/ops/**, apps/console/src/features/ops/**,
+           apps/console/src/mocks/ops/**, apps/console/e2e/ops/**]
+    read: [docs/09 第 6 节, docs/10 第 7 节, docs/12 第 7 节]
+    deliver:
+      - /mcp：Streamable HTTP，OAuth 保护；汇总各模块 mcp.ts 的工具
+      - GET /v1/capabilities（读 packages/ai 的注册表 + 最近评测结果）
+      - 控制台 /ops：运行记录、AI 用量与费用（对比月度预算）、数据源健康、能力清单与评测走势
+    accept:
+      - 用官方 MCP Inspector 连本地 API：完成 OAuth 并列出全部 12 个工具（docs/09 第 6 节）
+      - /ops 页面的 Playwright 测试（MSW）通过
+    deferred: [P-11]
+
+  - id: T42
+    title: 数据导出与每周评测
+    wave: 5
+    dependsOn: [T02, T03, T04, T06, T14, T32]
+    difficulty: low
+    owns: [py/packages/hub-core/src/hub_core/export/**, py/packages/hub-core/tests/export/**,
+           services/api/src/modules/platform/export.ts, .github/workflows/data-export.yml, .github/workflows/evals-weekly.yml]
+    read: [docs/09 第 5、8 节, docs/10 第 7.3 节]
+    deliver:
+      - GET /v1/internal/export/{table}；`hub export` 写进 bowen-hub-data 并提交；导出成功后调用 prune
+      - data-export.yml、evals-weekly.yml（跳过 schedule 为 on-change 的能力）
+    accept:
+      - 手动触发 data-export：bowen-hub-data 出现一次提交，含除鉴权表外的全部表
+      - 手动触发 evals-weekly：已有评测集的能力（至少 papers.qa）结果写进 eval_results
+
+  # ───────────── 迁移与上线 ─────────────
+
+  - id: T50
+    title: 迁移论文
+    wave: 5
+    dependsOn: [T06, T30, T32, T40]
+    difficulty: high
+    owns: [py/packages/hub-papers/src/hub_papers/migrate/**, py/packages/hub-papers/tests/migrate/**]
+    read: [docs/06 第 0、3、4 节, docs/04 第 2 节, fixtures/papers/]
+    deliver: ["`hub migrate papers`（--dry-run、--verify），在 Kevin 的 Mac 上对线上 API 执行；最后运行 `hub papers derive`"]
+    accept:
+      - "`hub migrate papers --verify`：docs/06 第 4 节论文部分全部满足；键扫描报告里没有未处理的键"
+      - 公开 API 的 /v1/public/papers/catalog 里正好 19 篇
+    deferred: [P-1, P-2, P-4]
+
+  - id: T51
+    title: 迁移市场数据与补跑历史
+    wave: 6
+    dependsOn: [T06, T23]
+    difficulty: medium
+    owns: [py/packages/hub-market/src/hub_market/migrate/**, py/packages/hub-market/tests/migrate/**]
+    read: [docs/06 第 0、2、4 节, docs/03 第 5 节]
+    deliver: ["`hub migrate market-ledger|market-events`；执行 `hub market backfill --start 2026-07-01`"]
+    accept:
+      - docs/06 第 4 节市场部分全部满足
+      - M-3；M-4（补跑出的每个周五都有周报）
+
+  - id: T52
+    title: 整体验收与上线
+    wave: 7
+    dependsOn: [T00, T01, T02, T03, T04, T05, T06, T10, T11, T12, T13, T14, T15, T16, T20, T21, T22, T23, T24,
+                T30, T31, T32, T33, T34, T40, T41, T42, T50, T51]
+    difficulty: medium
+    owns: [e2e/**, docs/progress/T52.md]
+    read: [docs/00 第 5 节, docs/07, 各产品文档的验收表, 本文件各任务的 deferred]
+    deliver:
+      - 关卡 G2：把各产品验收表和各任务 deferred 的项逐项检查（M-9、P-1、P-2、P-4、P-7、P-11、Kevin 注册通行密钥），整理成一份给 Kevin 的验收清单（含预览地址和测试邮件）
+      - 关卡 G3：Kevin 确认后设置 SITES_LIVE=true，两个公开站发布到正式网址并核对
+      - 上线后连续 14 天的观察：N-5、N-9、M-8，以及全部定时任务无失败
+    accept:
+      - docs/00 第 5 节的成功标准逐条有证据
+      - Kevin 在对话里确认上线（记录在进度里）
+
+  - id: T53
+    title: 停用老系统与收尾
+    wave: 8
+    dependsOn: [T52]
+    difficulty: low
+    owns: [README.md, docs/progress/T53.md]
+    read: [docs/06 第 5 节]
+    deliver:
+      - README 的“日常怎么用”定稿（看新闻、看复盘、上传并公开一篇论文、在 Claude 里用 MCP）
+      - 关卡 G4：上线连续 14 天正常后，把停用清单交给 Kevin，确认后记录
+    accept:
+      - Kevin 确认老任务已停

@@ -1,0 +1,26 @@
+{
+  "paper_id": "acl-2021.acl-long.500",
+  "title": "OpenMEVA: A Benchmark for Evaluating Open-ended Story Generation Metrics",
+  "title_zh": "OpenMEVA: 开放式故事生成评估指标基准测试",
+  "authors": [
+    "Jian Guan",
+    "Zhexin Zhang",
+    "Zhuoer Feng",
+    "Zitao Liu",
+    "Wenbiao Ding",
+    "Xiaoxi Mao",
+    "Changjie Fan",
+    "Minlie Huang"
+  ],
+  "year": 2021,
+  "venue": "ACL",
+  "version": "v1",
+  "paper_type": "conference",
+  "study_design": "empirical",
+  "source_url": "https://aclanthology.org/2021.acl-long.500/",
+  "reading": {
+    "completed_depth": "R1",
+    "status": "Codex直接修正并核验；未发布"
+  },
+  "knowledge_status": "pending"
+}

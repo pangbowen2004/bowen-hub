@@ -1,0 +1,29 @@
+# 用 1–2 句话说清一份 8-K 公告的要点
+# 格式说明见 docs/10 第 3 节；输入输出模型在 contracts/capabilities.tsp
+id: news.filing_digest
+version: 1
+summary: 用 1–2 句话说清一份 8-K 公告的要点
+owner: newsroom
+runtime: python
+tier: fast
+autonomy: L2
+prompt: prompts/news_filing_digest.md
+io:
+  input: FilingDigestInput
+  output: FilingDigestOutput
+limits:
+  maxInputTokens: 20000
+  maxOutputTokens: 300
+  timeoutSec: 45
+checks:
+  - numbers_in_sources
+  - no_advice
+  - length_within
+fallback: items_only        # 只放 Item 分类和链接
+params: {}
+evals:
+  dataset: evals/news.filing_digest/
+  thresholds:
+    schema_valid: 1.0
+    numbers_in_sources: 1.0
+    judge_faithful: 0.9

@@ -1,0 +1,147 @@
+schema_version: 2
+paper_id: "arxiv-2505.07078"
+guide_version: "reader-first-v2"
+reading_goal: "读完后，你应该能解释为什么短窗口、明星股票上的亮眼 LLM 交易结果可能消失，并能分清绝对收益、风险调整收益和统计 alpha。"
+one_sentence: "FINSABER 把 LLM 交易策略放进 2004–2024 的历史成分股与滚动评估中，发现它们偶有高绝对收益，但没有形成稳定的风险调整优势，说明评测范围和数据可得性会决定我们看到的‘能力’。"
+
+section_titles:
+  prerequisites: "先分清三种‘跑赢市场’"
+  problem: "为什么四只明星股票的短期成绩不够"
+  method: "FINSABER 怎样扩大时间、股票池和基线"
+  experiment: "长期结果应同时看收益、风险和 alpha"
+  findings: "亮点仍有，但稳定优势没有出现"
+  bottom_line: "这是一篇评测审计论文，不是‘LLM 永远不能交易’"
+  project: "给科研 Agent 加上反选择性评测契约"
+
+prerequisites:
+  - term: "绝对收益与 Sharpe"
+    explanation: "年化收益只看赚多少；Sharpe 把收益相对波动进行风险调整。高收益若伴随大波动，Sharpe 仍可能很低。"
+    example: "某策略年化 14% 看似最好，但若 Sharpe 只有 .10，就很难称为稳定优势。"
+  - term: "CAPM alpha"
+    explanation: "在控制市场暴露后估计策略是否有额外收益；alpha 的点估计还要结合 p 值和不确定性。"
+    example: "alpha 为正但 p=.345，证据不足以排除随机波动。"
+  - term: "幸存者与前视偏差"
+    explanation: "只使用今天仍存在的公司、或让策略间接看到当时未知信息，会把历史回测变得不现实。"
+    example: "先知道哪些股票后来成为巨头，再回到过去测试，相当于带着答案选题。"
+  - term: "滚动评估"
+    explanation: "训练窗口随时间向前移动，每一步只使用当时可获得数据，并在之后的窗口评估。"
+    example: "用此前最多两三年训练，下一年测试，再整体向前滚动。"
+
+research_problem:
+  setup: "早期 LLM 投资研究常在少量热门股票和短时间段上展示策略，容易恰好覆盖强趋势，也常缺少含退市标的、历史成分股、强传统基线和成本台账。这样得到的高收益可能是评测选择，而不是可持续能力。"
+  existing_methods:
+    - name: "明星股票短窗回测"
+      what_it_does: "在 AAPL、AMZN、GOOGL、TSLA 等少数标的上复现 Agent 策略。"
+      why_not_enough: "股票和时期都被事后挑选，无法代表完整市场或多种 regime。"
+    - name: "只比绝对收益"
+      what_it_does: "用累计或年化收益选赢家。"
+      why_not_enough: "忽略波动、最大回撤、换手、成本和市场 beta，容易把高风险暴露当 alpha。"
+    - name: "弱基线"
+      what_it_does: "只与另一个 LLM Agent 或简单规则比较。"
+      why_not_enough: "无法判断复杂 Agent 是否超过 buy-and-hold、技术规则、统计/ML 和 RL 方法。"
+  gap: "论文真正问的是：把股票范围、时间跨度、历史可得性、风险指标和基线都扩大后，LLM 策略的优势还能不能稳定存在。"
+
+method:
+  thesis: "FINSABER 把投资拆成选股与择时两阶段，使用历史成分和含退市标的的数据，在长时间滚动窗口中统一比较规则、统计/ML、RL 与 LLM Agent，并同时报告收益、风险、alpha 和成本。"
+  pipeline:
+    - "汇集历史价格、新闻、申报文件和历史 S&P 500 成分信息。"
+    - "用随机、动量、低波动或 FinCon 形成股票集合，避免只盯今天的明星股。"
+    - "对每个标的运行 buy-and-hold、规则、预测模型、RL、FinMem 或 FinAgent 择时。"
+    - "按 1–2 年评估窗口滚动训练与测试，确保时间顺序向前。"
+    - "汇总年化收益、Sharpe、Sortino、最大回撤、CAPM alpha、regime 表现和 LLM 成本。"
+  components:
+    - name: "历史股票池"
+      question: "怎样避免只保留后来成功的公司？"
+      how: "使用历史成分列表并纳入退市标的，不按今天的指数成分回填过去。"
+      purpose: "降低幸存者偏差，让策略面对当时真实可选对象。"
+      caveat: "不同数据源起点与静态处理细节仍需代码级核查。"
+      anchor: "PDF pp.3–4, Figure 1 and §3"
+    - name: "滚动时间协议"
+      question: "怎样避免把整段未来信息混进训练？"
+      how: "限制历史训练窗口，向前滚动到下一评估期。"
+      purpose: "让每次决策尽量只使用当时可得数据。"
+      caveat: "LLM 预训练记忆造成的历史前视无法完全消除。"
+      anchor: "PDF Appendix B, pp.10–11"
+    - name: "多层基线"
+      question: "复杂 Agent 至少应该超过谁？"
+      how: "同时比较 buy-and-hold、技术规则、ARIMA/XGBoost 与 A2C/PPO/SAC/TD3。"
+      purpose: "防止把复杂性本身误当增益。"
+      caveat: "各方法调参预算是否完全公平仍需 R2 审计。"
+      anchor: "PDF pp.2–4, §3"
+    - name: "收益—风险—统计三层结果"
+      question: "怎样避免只摘一个最好看的收益数？"
+      how: "同时看 AR、Sharpe/Sortino、MDD、CAPM alpha/p 值与市场状态切片。"
+      purpose: "把高风险收益与稳定、可归因优势分开。"
+      caveat: "论文按股票聚合，不等同可交易的协调多资产组合。"
+      anchor: "PDF pp.6–8, Tables 4–6 and Figure 2"
+
+experiment:
+  setup: "主跨度为 2004–2024。论文先把四只明星股票的短窗结论拉长，再用历史成分股构造随机、动量、低波动和 FinCon 股票集合，比较多类择时策略；还做配对 t 检验、CAPM 回归与牛/熊/震荡状态分析。"
+  table:
+    columns: ["设置", "策略", "年化收益", "Sharpe/统计", "怎样理解"]
+    rows:
+      - ["低波动股票集", "Buy-and-Hold", "7.898%", "Sharpe .703", "风险调整后明显强于两种 LLM Agent"]
+      - ["低波动股票集", "FinAgent", "4.954%", "Sharpe .241", "复杂 Agent 未带来稳定优势"]
+      - ["动量股票集", "FinAgent", "13.950%", "Sharpe .104", "绝对收益最高但风险调整很弱"]
+      - ["动量 CAPM", "FinAgent", "alpha 6.571", "p=.345", "正点估计不足以证明显著 alpha"]
+  how_to_read: "先问绝对收益是否高，再问 Sharpe/回撤是否合理，最后问 CAPM alpha 是否有统计支持。任何一层失败，都不应只用最高年化收益宣称长期跑赢。"
+  anchor: "PDF pp.6–7, Tables 4 and 6"
+
+findings:
+  - title: "短窗明星股优势拉长后大多收缩"
+    evidence: "四股票扩展到 2004/各自可用起点–2024 后，仅 TSLA 保留较清楚的 LLM 相对优势，其他标的被 buy-and-hold 或简单方法匹配/超过。"
+    interpretation: "时间窗口和标的选择可以显著改变对 Agent 能力的判断。"
+    caveat: "这仍只有四只明星股，不能代表完整横截面。"
+    anchor: "PDF p.5, Table 3"
+  - title: "高绝对收益不等于稳定 alpha"
+    evidence: "动量设置 FinAgent 年化收益 13.950% 为该块最高，但 Sharpe 仅 .104；已报告 LLM CAPM alpha 的 p 值均大于 .34。"
+    interpretation: "亮眼收益可能来自风险暴露或少数路径，尚无稳定风险调整优势。"
+    caveat: "不显著不等于已证明 alpha 为零；统计功效和回归设定仍需审计。"
+    anchor: "PDF pp.6–7, Tables 4 and 6"
+  - title: "市场状态没有显示 LLM 在熊市更可靠"
+    evidence: "B&H Sharpe 在牛/震荡/熊市为 .61/.48/−.28，FinAgent 为 .12/.19/−.38，FinMem 为 −.19/−.10/−.97。"
+    interpretation: "论文设置中，LLM Agent 没有表现出稳定的跨 regime 防守能力。"
+    caveat: "regime 按年度指数收益阈值定义，年份数和后验切片可能影响结果。"
+    anchor: "PDF p.8, Figure 2"
+  - title: "运行 LLM 策略本身也有成本"
+    evidence: "示例 FinAgent 成本 $198.24、FinMem $31.79，复合实验总 LLM 成本约 $700，且不含嵌入成本。"
+    interpretation: "评测复杂 Agent 时应把 API 与数据成本纳入收益净值和可复现台账。"
+    caveat: "价格、模型版本和缓存规则会变化，数字只适用于论文时点。"
+    anchor: "PDF pp.14–15, Appendix G"
+
+bottom_line:
+  supports: "在论文的长期、历史成分和多基线评测下，所测 LLM 投资策略没有呈现一致的风险调整优势；若只选短窗口、明星股或最高绝对收益，很容易得到更乐观故事。"
+  does_not_support: "论文不能证明所有 LLM 投资方法永远无效，也不能用不显著 alpha 证明市场完全有效；结果还受统计单位、Agent 实现和模型版本影响。"
+  memorable: "先扩大时间和股票池，再看风险与 alpha；否则‘跑赢市场’很可能只是评测挑出来的。"
+
+limitations:
+  - "主要结果按单标的聚合，不是协调持仓、交易成本一致的真实多资产组合。"
+  - "配对 t 检验的观测单位、时间相关和多重比较处理需 R2 审计。"
+  - "LLM 预训练前视无法完全排除，Agent prompt、模型与数据版本影响复现。"
+  - "不同策略的训练和超参数搜索预算是否公平尚未充分核查。"
+
+project_connection:
+  translation: "AutoResearchLab 的实验候选也会受窗口、对象、基线和事后挑选影响；应把时间/样本快照、排除规则、滚动协议、强基线、成本和负结果固定进运行时。"
+  safe_design: "预注册评价窗口与主指标，保留历史可得性 manifest，禁止根据 test 结果重新选对象；同时报告点估计、风险/不确定性和所有失败切片。"
+  harness_connection: "Harness-Bench 关心 Agent 是否可靠执行，FINSABER 说明即使执行正确，评测设计仍可能制造虚假能力；两层必须同时审计。"
+
+source_figures:
+  - {page: 4, title: "Figure 1：FINSABER 数据—策略—评测链", caption: "检查每一步在历史时点可用什么信息。"}
+  - {page: 6, title: "Table 4：复合股票集结果", caption: "同时读年化收益、Sharpe、Sortino 与回撤。"}
+  - {page: 7, title: "Table 6：CAPM alpha", caption: "不要只看 alpha 符号，必须与 p 值和设定一起读。"}
+
+code_navigation:
+  status: "verified"
+  note: "官方仓库已升级为 FINSABER-2；复现论文原始 FINSABER-1 实验应使用 reproduce 分支，不要直接用 main 的新框架声称复现。"
+  checked_at: "2026-08-18"
+code_entries:
+  - {label: "官方仓库", description: "FINSABER-2 主框架及论文相关集成。", url: "https://github.com/waylonli/FINSABER"}
+  - {label: "论文复现分支", description: "官方 README 指定用于重现 FINSABER-1 论文结果。", url: "https://github.com/waylonli/FINSABER/tree/reproduce"}
+  - {label: "回测核心", description: "当前 package-oriented backtesting 实现。", url: "https://github.com/waylonli/FINSABER/tree/main/finsaber"}
+  - {label: "最小示例", description: "自定义数据集的可运行示例。", url: "https://github.com/waylonli/FINSABER/blob/main/examples/custom_dataset_example.py"}
+
+comprehension_check:
+  - {question: "为什么年化收益最高仍不能说策略最好？", expected_answer: "还要看波动、Sharpe、回撤、成本和市场暴露；高收益可能由高风险或少数路径驱动。"}
+  - {question: "FINSABER 如何减少幸存者偏差？", expected_answer: "使用历史指数成分并纳入退市标的，而不是把今天仍存在的公司回填到过去。"}
+  - {question: "论文最低充分结论是什么？", expected_answer: "在论文实现和长期评估范围内，所测 LLM 策略没有稳定风险调整优势；不能外推成所有 LLM 交易永远无效。"}
+  - {question: "对科研 Agent 的核心迁移是什么？", expected_answer: "把样本/时间快照、强基线、成本、主指标和 test 隔离写进可审计协议，防止事后选择制造成功。"}

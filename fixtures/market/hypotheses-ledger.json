@@ -1,0 +1,2505 @@
+{
+  "schemaVersion": "2.0.0",
+  "hypotheses": [
+    {
+      "id": "HYP-20260807-AI-HARDWARE-FUNDAMENTAL",
+      "createdOn": "2026-08-07",
+      "dueOn": "2026-08-10",
+      "title": "AI硬件出现新增基本面硬证据",
+      "scope": "theme",
+      "confirmation": "出现可核验的订单、利润或毛利率新增证据。",
+      "invalidation": "复核日仍无新增硬证据。",
+      "risk": "短期市场强弱可能先于基本面披露。",
+      "counterEvidence": "8月10日来源明确写明未取得新增订单、利润或毛利率证据。",
+      "result": "NOT_CONFIRMED",
+      "settledOn": "2026-08-10",
+      "resultNote": "复核日仍缺少新增基本面硬证据。",
+      "evidenceIds": [
+        "EVD-AI-HARDWARE-FUNDAMENTAL-GAP"
+      ]
+    },
+    {
+      "id": "HYP-20260807-AI-HARDWARE-RANK",
+      "createdOn": "2026-08-07",
+      "dueOn": "2026-08-10",
+      "title": "AI硬件保持来源综合强弱前二",
+      "scope": "theme",
+      "confirmation": "来源同口径当日和五日综合强弱均保持前二。",
+      "invalidation": "任一同口径排名跌出前二。",
+      "risk": "来源排名方法不可复算，只能结算来源标签是否延续。",
+      "counterEvidence": "没有订单、利润或毛利率新增硬证据。",
+      "result": "SOURCE_CONFIRMED",
+      "settledOn": "2026-08-10",
+      "resultNote": "来源标签为当日第1、五日第1；仅确认来源排名延续，不确认可交易性。",
+      "evidenceIds": [
+        "EVD-AI-HARDWARE-RANK"
+      ]
+    },
+    {
+      "id": "HYP-20260807-MARKET-CAPITAL",
+      "createdOn": "2026-08-07",
+      "dueOn": "2026-08-10",
+      "title": "指数与大单净流入代理重新同向改善",
+      "scope": "market",
+      "confirmation": "主要指数收涨，且同口径供应商大单净流入代理为正。",
+      "invalidation": "指数与该代理继续背离，或代理转为净流出。",
+      "risk": "供应商算法未披露，该代理不能代表真实机构资金。",
+      "counterEvidence": "8月10日上证收涨0.67%，但供应商大单净流入代理为-414.7亿元。",
+      "result": "NOT_CONFIRMED",
+      "settledOn": "2026-08-10",
+      "resultNote": "出现明确背离，原假设未确认。",
+      "evidenceIds": [
+        "EVD-INDEX-CLOSE",
+        "EVD-LARGE-ORDER-PROXY"
+      ]
+    },
+    {
+      "id": "HYP-20260810-DIRECTION-SPREAD",
+      "createdOn": "2026-08-10",
+      "dueOn": "2026-08-11",
+      "title": "方向高低剪刀差是收敛还是继续扩大",
+      "scope": "direction",
+      "confirmation": "最强与最弱方向的相对收益差由3.5%收敛至少25%，同时弱方向上涨覆盖改善。",
+      "invalidation": "剪刀差不降反升，且弱方向上涨覆盖继续下降。",
+      "risk": "剪刀差收敛可能来自强方向回落，也可能来自弱方向修复，必须分解两端贡献。",
+      "counterEvidence": "生成日最强酿酒与最弱玻璃基板相对收益差为3.5%。",
+      "result": "DATA_PENDING",
+      "settledOn": null,
+      "resultNote": "等待2026-08-11完整收盘快照按结构化规则结算。",
+      "evidenceIds": [
+        "EVD-FULL-MARKET-CLOSE"
+      ],
+      "rule": {
+        "type": "DIRECTION_SPREAD",
+        "entities": [
+          "酿酒",
+          "玻璃基板"
+        ],
+        "thresholds": {
+          "spreadMax": 0.025986,
+          "spreadInvalidMin": 0.034648,
+          "weakAdvanceBaseline": 0.2807017543859649
+        },
+        "baseline": {
+          "spread": 0.034648,
+          "strongMembershipAsOf": "2026-08-10",
+          "weakMembershipAsOf": "2026-08-10"
+        }
+      },
+      "generation": {
+        "engineVersion": "daily-hypothesis-v1.0.0",
+        "sourceSnapshotSha256": "5c8a1631d840e56247e5085125f4eeef9fb25996e036ad6513aee35e3d6f6bf4",
+        "mode": "DETERMINISTIC_RULE_GENERATED"
+      }
+    },
+    {
+      "id": "HYP-20260810-LIMIT-ECOLOGY",
+      "createdOn": "2026-08-10",
+      "dueOn": "2026-08-11",
+      "title": "封板质量、晋级梯队与负反馈能否保持协调",
+      "scope": "market",
+      "confirmation": "封板率不低于77.1%、多板梯队不少于9家、跌停不超过8家。",
+      "invalidation": "封板率低于65%，或多板梯队缩减过半且跌停家数明显增加。",
+      "risk": "不同交易板与ST状态涨跌幅制度不同，必须沿用逐股涨跌停价口径。",
+      "counterEvidence": "生成日封板率85.1%、多板13家、跌停6家；强基数可能快速回落。",
+      "result": "DATA_PENDING",
+      "settledOn": null,
+      "resultNote": "等待2026-08-11完整收盘快照按结构化规则结算。",
+      "evidenceIds": [
+        "EVD-FULL-MARKET-CLOSE"
+      ],
+      "rule": {
+        "type": "LIMIT_ECOLOGY",
+        "thresholds": {
+          "sealRateMin": 0.7712396694214877,
+          "multiBoardMin": 9,
+          "limitDownMax": 8,
+          "sealRateInvalid": 0.65,
+          "multiBoardInvalid": 6,
+          "limitDownInvalid": 9
+        },
+        "baseline": {
+          "sealRate": 0.8512396694214877,
+          "multiBoardCount": 13,
+          "limitDownCount": 6
+        }
+      },
+      "generation": {
+        "engineVersion": "daily-hypothesis-v1.0.0",
+        "sourceSnapshotSha256": "5c8a1631d840e56247e5085125f4eeef9fb25996e036ad6513aee35e3d6f6bf4",
+        "mode": "DETERMINISTIC_RULE_GENERATED"
+      }
+    },
+    {
+      "id": "HYP-20260810-LIQUIDITY",
+      "createdOn": "2026-08-10",
+      "dueOn": "2026-08-11",
+      "title": "午后流动性收缩是否延续",
+      "scope": "market",
+      "confirmation": "次日成交继续低于前日，且午后成交变化仍为负。",
+      "invalidation": "次日全天与午后成交同步恢复，且市场广度未显著恶化。",
+      "risk": "单日午后缩量可能受时点和基数影响。",
+      "counterEvidence": "8月10日上涨家数仍达4067家，缩量并未同步造成广度恶化。",
+      "result": "INCONCLUSIVE",
+      "settledOn": "2026-08-11",
+      "resultNote": "全天成交继续缩减2031.2亿元，但TuShare日线无法提供午后拆分；只满足一半条件，结算为证据不足。",
+      "evidenceIds": [
+        "EVD-TURNOVER",
+        "EVD-BREADTH"
+      ]
+    },
+    {
+      "id": "HYP-20260810-MARKET-PERSISTENCE",
+      "createdOn": "2026-08-10",
+      "dueOn": "2026-08-11",
+      "title": "广度、趋势存量与量能能否共同延续",
+      "scope": "market",
+      "confirmation": "上涨覆盖不低于50%，MA20上方比例不低于79.9%，且成交额不低于当日的90%。",
+      "invalidation": "上涨覆盖低于40%，或成交额收缩超过15%且MA20上方比例同步下降。",
+      "risk": "强扩散后的自然均值回归可能造成单日回落，确认规则只描述次日延续，不外推中期趋势。",
+      "counterEvidence": "生成日上涨覆盖73.5%、MA20上方89.9%，高基数提高了延续难度。",
+      "result": "DATA_PENDING",
+      "settledOn": null,
+      "resultNote": "等待2026-08-11完整收盘快照按结构化规则结算。",
+      "evidenceIds": [
+        "EVD-FULL-MARKET-CLOSE"
+      ],
+      "rule": {
+        "type": "MARKET_PERSISTENCE",
+        "thresholds": {
+          "advanceShareMin": 0.5,
+          "aboveMa20ShareMin": 0.7986998916576381,
+          "turnoverCnyMin": 2284840106936.1,
+          "advanceShareInvalid": 0.4,
+          "turnoverRatioInvalid": 0.85,
+          "aboveMa20DropInvalid": 0.08
+        },
+        "baseline": {
+          "turnoverCny": 2538711229929,
+          "aboveMa20Share": 0.8986998916576381
+        }
+      },
+      "generation": {
+        "engineVersion": "daily-hypothesis-v1.0.0",
+        "sourceSnapshotSha256": "5c8a1631d840e56247e5085125f4eeef9fb25996e036ad6513aee35e3d6f6bf4",
+        "mode": "DETERMINISTIC_RULE_GENERATED"
+      }
+    },
+    {
+      "id": "HYP-20260810-MEDICINE-PERSISTENCE",
+      "createdOn": "2026-08-10",
+      "dueOn": "2026-08-11",
+      "title": "医药前排聚焦能否转为板块扩散",
+      "scope": "sector",
+      "confirmation": "板块相对收益、上涨覆盖和成交占比至少两项改善，且前排未集体转弱。",
+      "invalidation": "前排一致转弱，或板块上涨覆盖与成交占比同步下降。",
+      "risk": "来源缺少完整板块横截面，暂不能计算阈值。",
+      "counterEvidence": "8月10日已有高位容量样本冲高回落。",
+      "result": "INCONCLUSIVE",
+      "settledOn": "2026-08-11",
+      "resultNote": "医药健康当日相对居前，但缺少8月10日同一透明篮子的上涨覆盖与成交占比快照，无法判定两项是否改善。",
+      "evidenceIds": [
+        "EVD-FULL-MARKET-CLOSE"
+      ]
+    },
+    {
+      "id": "HYP-20260810-PRESSURE",
+      "createdOn": "2026-08-10",
+      "dueOn": "2026-08-11",
+      "title": "上证第一压力带的有效突破条件",
+      "scope": "index",
+      "confirmation": "上证收盘稳定站上3975，且成交与上涨覆盖同步改善。",
+      "invalidation": "触及后回落并收于3975下方，或缩量突破且广度显著收窄。",
+      "risk": "真实指数日K已接入；压力点位仍来自来源图示，尚无历史样本标定与成功率。",
+      "counterEvidence": "压力可以短期越过，单点触及不能视为趋势确认。",
+      "result": "NOT_CONFIRMED",
+      "settledOn": "2026-08-11",
+      "resultNote": "上证收于3934.09，低于3975；成交环比-7.99%，上涨覆盖29.16%，突破确认条件未满足。",
+      "evidenceIds": [
+        "EVD-PRESSURE-3975"
+      ]
+    },
+    {
+      "id": "HYP-20260810-TECH-TRANSFER",
+      "createdOn": "2026-08-10",
+      "dueOn": "2026-08-11",
+      "title": "科技承接是否从高位硬件迁移至设备与软件",
+      "scope": "sector",
+      "confirmation": "设备或软件相对全A收益连续改善，成交额占比和上涨覆盖同步扩张。",
+      "invalidation": "设备与软件同步转弱，且高位硬件负反馈继续扩散。",
+      "risk": "当前只具备价格成交代理叙事，没有全量子链数据。",
+      "counterEvidence": "双创指数仍弱，承接方向未形成一致扩散。",
+      "result": "INCONCLUSIVE",
+      "settledOn": "2026-08-11",
+      "resultNote": "已取得行业级横截面，但设备、硬件与软件子链仍未使用统一点时成分定义，不能以行业篮子替代子链结算。",
+      "evidenceIds": [
+        "EVD-FULL-MARKET-CLOSE"
+      ]
+    },
+    {
+      "id": "HYP-20260810-TOP-DIRECTION",
+      "createdOn": "2026-08-10",
+      "dueOn": "2026-08-11",
+      "title": "酿酒居前能否转化为内部扩散延续",
+      "scope": "direction",
+      "confirmation": "酿酒继续取得正相对全A收益、上涨覆盖不低于70.0%，成交占比不低于生成日的75%。",
+      "invalidation": "酿酒相对收益转负且上涨覆盖低于45%，或方向中位收益转负。",
+      "risk": "同花顺方向成员是当前快照，不是点时历史；次日若成员发生变化，结算质量必须降级为证据不足。",
+      "counterEvidence": "生成日单日收益+2.05%、相对全A+0.69%，短期拥挤与分化风险上升。",
+      "result": "DATA_PENDING",
+      "settledOn": null,
+      "resultNote": "等待2026-08-11完整收盘快照按结构化规则结算。",
+      "evidenceIds": [
+        "EVD-FULL-MARKET-CLOSE"
+      ],
+      "rule": {
+        "type": "DIRECTION_PERSISTENCE",
+        "entity": "酿酒",
+        "thresholds": {
+          "relativeMin": 0.0,
+          "advanceShareMin": 0.7,
+          "amountShareMin": 0.006247700518606871,
+          "advanceShareInvalid": 0.45
+        },
+        "baseline": {
+          "membershipAsOf": "2026-08-10",
+          "return1d": 0.02053,
+          "advanceShare": 1.0,
+          "amountShare": 0.008330267358142495
+        }
+      },
+      "generation": {
+        "engineVersion": "daily-hypothesis-v1.0.0",
+        "sourceSnapshotSha256": "5c8a1631d840e56247e5085125f4eeef9fb25996e036ad6513aee35e3d6f6bf4",
+        "mode": "DETERMINISTIC_RULE_GENERATED"
+      }
+    },
+    {
+      "id": "HYP-20260810-WEAK-DIRECTION",
+      "createdOn": "2026-08-10",
+      "dueOn": "2026-08-11",
+      "title": "玻璃基板相对弱势能否收敛",
+      "scope": "direction",
+      "confirmation": "玻璃基板相对全A落后幅度收窄至0.5个百分点以内，上涨覆盖回到45%以上，且方向中位收益不再为负。",
+      "invalidation": "玻璃基板继续取得负相对收益且上涨覆盖低于35%，弱势扩散到方向中位数。",
+      "risk": "低位方向可能仅受风格轮换扰动；单日收敛不等于中期修复。",
+      "counterEvidence": "生成日收益-1.41%、相对全A-2.77%、上涨覆盖28.1%。",
+      "result": "DATA_PENDING",
+      "settledOn": null,
+      "resultNote": "等待2026-08-11完整收盘快照按结构化规则结算。",
+      "evidenceIds": [
+        "EVD-FULL-MARKET-CLOSE"
+      ],
+      "rule": {
+        "type": "DIRECTION_REPAIR",
+        "entity": "玻璃基板",
+        "thresholds": {
+          "relativeMin": -0.005,
+          "advanceShareMin": 0.45,
+          "medianReturnMin": 0.0,
+          "relativeInvalidMax": -0.02774457403394727,
+          "advanceShareInvalid": 0.35
+        },
+        "baseline": {
+          "membershipAsOf": "2026-08-10",
+          "relativeVsAllA": -0.02774457403394727,
+          "advanceShare": 0.2807017543859649
+        }
+      },
+      "generation": {
+        "engineVersion": "daily-hypothesis-v1.0.0",
+        "sourceSnapshotSha256": "5c8a1631d840e56247e5085125f4eeef9fb25996e036ad6513aee35e3d6f6bf4",
+        "mode": "DETERMINISTIC_RULE_GENERATED"
+      }
+    },
+    {
+      "id": "HYP-20260811-BREADTH-TREND-GAP",
+      "createdOn": "2026-08-11",
+      "dueOn": "2026-08-12",
+      "title": "单日普跌与MA20趋势存量的背离是否收敛",
+      "scope": "market",
+      "confirmation": "上涨覆盖回到40%以上，同时MA20上方比例保持75%以上。",
+      "invalidation": "上涨覆盖继续低于35%，且MA20上方比例明显下滑。",
+      "risk": "MA20为价格状态，不代表基本面，也可能在快速回撤中滞后。",
+      "counterEvidence": "8月11日上涨覆盖仅29.16%，但MA20上方仍为88.14%，两个尺度明显冲突。",
+      "result": "CONFIRMED",
+      "settledOn": "2026-08-12",
+      "resultNote": "8月12日上涨覆盖74.53%，MA20上方比例90.02%，两项均达到确认阈值。",
+      "evidenceIds": [
+        "EVD-BREADTH",
+        "EVD-FULL-MARKET-CLOSE"
+      ]
+    },
+    {
+      "id": "HYP-20260811-HIGH-LEVEL-DIVERGENCE",
+      "createdOn": "2026-08-11",
+      "dueOn": "2026-08-12",
+      "title": "资源与军工高位分歧是否收敛",
+      "scope": "sector",
+      "confirmation": "有色金属与国防军工跌幅明显收窄，且至少一个行业上涨覆盖回到45%以上。",
+      "invalidation": "两者继续居行业跌幅前列，MA20上方比例同步显著下滑。",
+      "risk": "单日行业等权收益易受小市值与极端样本影响。",
+      "counterEvidence": "有色金属与国防军工8月11日分别下跌3.05%和2.17%，但五日收益仍为正。",
+      "result": "CONFIRMED",
+      "settledOn": "2026-08-12",
+      "resultNote": "8月12日有色金属上涨1.09%、上涨覆盖79.45%；国防军工上涨1.00%、上涨覆盖77.86%，跌幅收窄与覆盖条件同时满足。",
+      "evidenceIds": [
+        "EVD-FULL-MARKET-CLOSE"
+      ]
+    },
+    {
+      "id": "HYP-20260811-LIMIT-ECOLOGY",
+      "createdOn": "2026-08-11",
+      "dueOn": "2026-08-12",
+      "title": "封板生态能否在普跌后保持稳定",
+      "scope": "market",
+      "confirmation": "封板率不低于74%，多板梯队不少于16家，跌停家数不扩张。",
+      "invalidation": "封板率与多板梯队同步收缩，或跌停家数明显增加。",
+      "risk": "不同交易板和ST股票涨跌幅制度不同，数量比较必须保持同一逐股判定口径。",
+      "counterEvidence": "8月11日81家触板中21家炸板，市场广度仍显著承压。",
+      "result": "CONFIRMED",
+      "settledOn": "2026-08-12",
+      "resultNote": "8月12日封板率88.18%、多板17家、跌停0家，三项条件全部满足。",
+      "evidenceIds": [
+        "EVD-LIMIT-ECOLOGY"
+      ]
+    },
+    {
+      "id": "HYP-20260811-MEDICINE-SPREAD",
+      "createdOn": "2026-08-11",
+      "dueOn": "2026-08-12",
+      "title": "医药相对强势能否从前排扩散到上涨覆盖",
+      "scope": "theme",
+      "confirmation": "医药健康继续取得正相对收益，且上涨覆盖高于50%。",
+      "invalidation": "医药健康相对收益转负且上涨覆盖继续低于市场中性线。",
+      "risk": "主题篮子由申万一级行业聚合，会掩盖医药子行业分化。",
+      "counterEvidence": "8月11日医药健康等权上涨0.32%，但上涨覆盖仅42.48%。",
+      "result": "NOT_CONFIRMED",
+      "settledOn": "2026-08-12",
+      "resultNote": "8月12日医药生物上涨0.53%、上涨覆盖54.78%，但落后全A等权平均涨幅约1.24%，只满足覆盖条件，未取得正相对收益。",
+      "evidenceIds": [
+        "EVD-FULL-MARKET-CLOSE"
+      ]
+    },
+    {
+      "id": "HYP-20260817-BREADTH-PERSISTENCE",
+      "createdOn": "2026-08-17",
+      "dueOn": "2026-08-18",
+      "title": "广度与量能共振能否延续",
+      "scope": "market",
+      "confirmation": "上涨覆盖保持50%以上、MA20上方比例保持80%以上，且成交额较8月17日收缩不超过10%。",
+      "invalidation": "上涨覆盖跌破40%，或成交额收缩超过15%且MA20上方比例同步下降。",
+      "risk": "8月17日属于单日强扩散，次日可能出现自然均值回归，不能把一天的普涨外推为趋势。",
+      "counterEvidence": "8月17日上涨覆盖78.26%、成交额环比增加11.40%，高基数本身提高了次日延续难度。",
+      "result": "NOT_CONFIRMED",
+      "settledOn": "2026-08-18",
+      "resultNote": "规则MARKET_PERSISTENCE按到期快照结算为NOT_CONFIRMED；实际输入：advanceShare=0.3828519855595668、aboveMa20Share=0.8095667870036101、turnoverCny=2419778578490",
+      "evidenceIds": [
+        "EVD-BREADTH",
+        "EVD-TURNOVER",
+        "EVD-FULL-MARKET-CLOSE"
+      ],
+      "rule": {
+        "type": "MARKET_PERSISTENCE",
+        "thresholds": {
+          "advanceShareMin": 0.5,
+          "aboveMa20ShareMin": 0.8,
+          "turnoverCnyMin": 2162260510749.0,
+          "advanceShareInvalid": 0.4,
+          "turnoverRatioInvalid": 0.85,
+          "aboveMa20DropInvalid": 0.08
+        },
+        "baseline": {
+          "turnoverCny": 2402511678610,
+          "aboveMa20Share": 0.8395017151110309
+        }
+      },
+      "generation": {
+        "engineVersion": "daily-hypothesis-v1.0.0",
+        "sourceSnapshotSha256": "7e36ff99708cf9ce52e190644ad00006982786008ebcbdbf02a109b2b9349904",
+        "mode": "LEGACY_TEXT_MIGRATED_TO_STRUCTURED_RULE"
+      },
+      "settlement": {
+        "engineVersion": "daily-hypothesis-v1.0.0",
+        "actual": {
+          "advanceShare": 0.3828519855595668,
+          "aboveMa20Share": 0.8095667870036101,
+          "turnoverCny": 2419778578490
+        },
+        "sourceSnapshotSha256": "4153b5692ce5a6e522f0d3d16f376be42863ac0338519e7aa8862da07f49a403"
+      }
+    },
+    {
+      "id": "HYP-20260817-ELECTRONIC-CHEMICAL-SPREAD",
+      "createdOn": "2026-08-17",
+      "dueOn": "2026-08-18",
+      "title": "电子化学品强势能否扩散而非单日脉冲",
+      "scope": "theme",
+      "confirmation": "电子化学品继续取得正相对收益，方向内上涨覆盖保持60%以上，且成交占比未明显收缩。",
+      "invalidation": "相对收益转负、上涨覆盖跌破45%，或前排上涨而方向中位数转负。",
+      "risk": "方向篮子是透明映射后的市场观察口径，不等同于官方指数，也不代表基本面兑现。",
+      "counterEvidence": "8月17日单日涨幅5.09%位居方向第一，短线拥挤与次日分化风险同时上升。",
+      "result": "INCONCLUSIVE",
+      "settledOn": "2026-08-18",
+      "resultNote": "规则DIRECTION_PERSISTENCE按到期快照结算为INCONCLUSIVE；实际输入：relativeVsAllA=0.004034162475862647、advanceShare=0.4418604651162791、medianReturn1d=-0.005076000000000001、amountShare=0.028181752914044594、membershipAsOf=2026-08-18",
+      "evidenceIds": [
+        "EVD-FULL-MARKET-CLOSE"
+      ],
+      "rule": {
+        "type": "DIRECTION_PERSISTENCE",
+        "entity": "电子化学品",
+        "thresholds": {
+          "relativeMin": 0.0,
+          "advanceShareMin": 0.6,
+          "amountShareMin": 0.01846374537288529,
+          "advanceShareInvalid": 0.45
+        },
+        "baseline": {
+          "membershipAsOf": "2026-08-17",
+          "return1d": 0.050922488372093025,
+          "advanceShare": 0.9302325581395349,
+          "amountShare": 0.02461832716384705
+        }
+      },
+      "generation": {
+        "engineVersion": "daily-hypothesis-v1.0.0",
+        "sourceSnapshotSha256": "7e36ff99708cf9ce52e190644ad00006982786008ebcbdbf02a109b2b9349904",
+        "mode": "LEGACY_TEXT_MIGRATED_TO_STRUCTURED_RULE"
+      },
+      "settlement": {
+        "engineVersion": "daily-hypothesis-v1.0.0",
+        "actual": {
+          "relativeVsAllA": 0.004034162475862647,
+          "advanceShare": 0.4418604651162791,
+          "medianReturn1d": -0.005076000000000001,
+          "amountShare": 0.028181752914044594,
+          "membershipAsOf": "2026-08-18"
+        },
+        "sourceSnapshotSha256": "4153b5692ce5a6e522f0d3d16f376be42863ac0338519e7aa8862da07f49a403"
+      }
+    },
+    {
+      "id": "HYP-20260817-LIMIT-ECOLOGY",
+      "createdOn": "2026-08-17",
+      "dueOn": "2026-08-18",
+      "title": "高封板率与多板梯队能否保持稳定",
+      "scope": "market",
+      "confirmation": "封板率不低于80%、多板梯队不少于12家、跌停家数不超过3家。",
+      "invalidation": "封板率跌破70%，或多板梯队少于8家且跌停家数同步增加。",
+      "risk": "涨跌幅制度因交易板与ST状态而异，必须沿用逐股涨跌停价口径，不能只看约10%涨跌幅。",
+      "counterEvidence": "8月17日封板率87.30%、多板15家、跌停1家处于较强状态，高位样本次日分化可能使指标快速回落。",
+      "result": "INCONCLUSIVE",
+      "settledOn": "2026-08-18",
+      "resultNote": "规则LIMIT_ECOLOGY按到期快照结算为INCONCLUSIVE；实际输入：sealRate=0.7297297297297297、multiBoardCount=19、limitDownCount=6",
+      "evidenceIds": [
+        "EVD-LIMIT-ECOLOGY"
+      ],
+      "rule": {
+        "type": "LIMIT_ECOLOGY",
+        "thresholds": {
+          "sealRateMin": 0.8,
+          "multiBoardMin": 12,
+          "limitDownMax": 3,
+          "sealRateInvalid": 0.7,
+          "multiBoardInvalid": 8,
+          "limitDownInvalid": 4
+        },
+        "baseline": {
+          "sealRate": 0.873015873015873,
+          "multiBoardCount": 15,
+          "limitDownCount": 1
+        }
+      },
+      "generation": {
+        "engineVersion": "daily-hypothesis-v1.0.0",
+        "sourceSnapshotSha256": "7e36ff99708cf9ce52e190644ad00006982786008ebcbdbf02a109b2b9349904",
+        "mode": "LEGACY_TEXT_MIGRATED_TO_STRUCTURED_RULE"
+      },
+      "settlement": {
+        "engineVersion": "daily-hypothesis-v1.0.0",
+        "actual": {
+          "sealRate": 0.7297297297297297,
+          "multiBoardCount": 19,
+          "limitDownCount": 6
+        },
+        "sourceSnapshotSha256": "4153b5692ce5a6e522f0d3d16f376be42863ac0338519e7aa8862da07f49a403"
+      }
+    },
+    {
+      "id": "HYP-20260817-LIQUOR-WEAKNESS",
+      "createdOn": "2026-08-17",
+      "dueOn": "2026-08-18",
+      "title": "白酒逆势偏弱是否开始收敛",
+      "scope": "theme",
+      "confirmation": "白酒相对全A的落后幅度收窄，上涨覆盖回到45%以上，且方向中位收益不再为负。",
+      "invalidation": "继续取得负相对收益且上涨覆盖低于35%，弱势从前排扩散至方向中位数。",
+      "risk": "单日防御与进攻风格切换可能造成白酒相对收益波动，不能以一天判断中期方向。",
+      "counterEvidence": "8月17日白酒方向下跌1.25%，是16个重点方向中唯一明显走弱者。",
+      "result": "CONFIRMED",
+      "settledOn": "2026-08-18",
+      "resultNote": "规则DIRECTION_REPAIR按到期快照结算为CONFIRMED；实际输入：relativeVsAllA=0.0026340314681107097、advanceShare=0.5333333333333333、medianReturn1d=0.0005475、amountShare=0.005188337583324185、membershipAsOf=2026-08-18",
+      "evidenceIds": [
+        "EVD-FULL-MARKET-CLOSE"
+      ],
+      "rule": {
+        "type": "DIRECTION_REPAIR",
+        "entity": "酿酒",
+        "thresholds": {
+          "relativeMin": -0.005,
+          "advanceShareMin": 0.45,
+          "medianReturnMin": 0.0,
+          "relativeInvalidMax": -0.030450533604140337,
+          "advanceShareInvalid": 0.35
+        },
+        "baseline": {
+          "membershipAsOf": "2026-08-17",
+          "relativeVsAllA": -0.030450533604140337,
+          "advanceShare": 0.16666666666666666
+        }
+      },
+      "generation": {
+        "engineVersion": "daily-hypothesis-v1.0.0",
+        "sourceSnapshotSha256": "7e36ff99708cf9ce52e190644ad00006982786008ebcbdbf02a109b2b9349904",
+        "mode": "LEGACY_TEXT_MIGRATED_TO_STRUCTURED_RULE"
+      },
+      "settlement": {
+        "engineVersion": "daily-hypothesis-v1.0.0",
+        "actual": {
+          "relativeVsAllA": 0.0026340314681107097,
+          "advanceShare": 0.5333333333333333,
+          "medianReturn1d": 0.0005475,
+          "amountShare": 0.005188337583324185,
+          "membershipAsOf": "2026-08-18"
+        },
+        "sourceSnapshotSha256": "4153b5692ce5a6e522f0d3d16f376be42863ac0338519e7aa8862da07f49a403"
+      }
+    },
+    {
+      "id": "HYP-20260818-LIMIT-ECOLOGY",
+      "createdOn": "2026-08-18",
+      "dueOn": "2026-08-19",
+      "title": "封板质量、晋级梯队与负反馈能否保持协调",
+      "scope": "market",
+      "confirmation": "封板率不低于75.0%、多板梯队不少于13家、跌停不超过8家。",
+      "invalidation": "封板率低于65%，或多板梯队缩减过半且跌停家数明显增加。",
+      "risk": "不同交易板与ST状态涨跌幅制度不同，必须沿用逐股涨跌停价口径。",
+      "counterEvidence": "生成日封板率73.0%、多板19家、跌停6家；强基数可能快速回落。",
+      "result": "NOT_CONFIRMED",
+      "settledOn": "2026-08-19",
+      "resultNote": "规则LIMIT_ECOLOGY按到期快照结算为NOT_CONFIRMED；实际输入：sealRate=0.7037037037037037、multiBoardCount=8、limitDownCount=130",
+      "evidenceIds": [
+        "EVD-FULL-MARKET-CLOSE"
+      ],
+      "rule": {
+        "type": "LIMIT_ECOLOGY",
+        "thresholds": {
+          "sealRateMin": 0.75,
+          "multiBoardMin": 13,
+          "limitDownMax": 8,
+          "sealRateInvalid": 0.65,
+          "multiBoardInvalid": 10,
+          "limitDownInvalid": 9
+        },
+        "baseline": {
+          "sealRate": 0.7297297297297297,
+          "multiBoardCount": 19,
+          "limitDownCount": 6
+        }
+      },
+      "generation": {
+        "engineVersion": "daily-hypothesis-v1.0.0",
+        "sourceSnapshotSha256": "4153b5692ce5a6e522f0d3d16f376be42863ac0338519e7aa8862da07f49a403",
+        "mode": "DETERMINISTIC_RULE_GENERATED"
+      },
+      "settlement": {
+        "engineVersion": "daily-hypothesis-v1.0.0",
+        "actual": {
+          "sealRate": 0.7037037037037037,
+          "multiBoardCount": 8,
+          "limitDownCount": 130
+        },
+        "sourceSnapshotSha256": "7791ca62de3497b88ea6ea0af77dec8d216020311f9e66b78038f03350293ba0"
+      }
+    },
+    {
+      "id": "HYP-20260818-MARKET-PERSISTENCE",
+      "createdOn": "2026-08-18",
+      "dueOn": "2026-08-19",
+      "title": "广度、趋势存量与量能能否共同延续",
+      "scope": "market",
+      "confirmation": "上涨覆盖不低于50%，MA20上方比例不低于71.0%，且成交额不低于当日的90%。",
+      "invalidation": "上涨覆盖低于40%，或成交额收缩超过15%且MA20上方比例同步下降。",
+      "risk": "强扩散后的自然均值回归可能造成单日回落，确认规则只描述次日延续，不外推中期趋势。",
+      "counterEvidence": "生成日上涨覆盖38.3%、MA20上方81.0%，高基数提高了延续难度。",
+      "result": "NOT_CONFIRMED",
+      "settledOn": "2026-08-19",
+      "resultNote": "规则MARKET_PERSISTENCE按到期快照结算为NOT_CONFIRMED；实际输入：advanceShare=0.08103230463815196、aboveMa20Share=0.5002707092582567、turnoverCny=2530010568957",
+      "evidenceIds": [
+        "EVD-FULL-MARKET-CLOSE"
+      ],
+      "rule": {
+        "type": "MARKET_PERSISTENCE",
+        "thresholds": {
+          "advanceShareMin": 0.5,
+          "aboveMa20ShareMin": 0.7095667870036101,
+          "turnoverCnyMin": 2177800720641.0,
+          "advanceShareInvalid": 0.4,
+          "turnoverRatioInvalid": 0.85,
+          "aboveMa20DropInvalid": 0.08
+        },
+        "baseline": {
+          "turnoverCny": 2419778578490,
+          "aboveMa20Share": 0.8095667870036101
+        }
+      },
+      "generation": {
+        "engineVersion": "daily-hypothesis-v1.0.0",
+        "sourceSnapshotSha256": "4153b5692ce5a6e522f0d3d16f376be42863ac0338519e7aa8862da07f49a403",
+        "mode": "DETERMINISTIC_RULE_GENERATED"
+      },
+      "settlement": {
+        "engineVersion": "daily-hypothesis-v1.0.0",
+        "actual": {
+          "advanceShare": 0.08103230463815196,
+          "aboveMa20Share": 0.5002707092582567,
+          "turnoverCny": 2530010568957
+        },
+        "sourceSnapshotSha256": "7791ca62de3497b88ea6ea0af77dec8d216020311f9e66b78038f03350293ba0"
+      }
+    },
+    {
+      "id": "HYP-20260818-TOP-DIRECTION",
+      "createdOn": "2026-08-18",
+      "dueOn": "2026-08-19",
+      "title": "玻璃基板居前能否转化为内部扩散延续",
+      "scope": "direction",
+      "confirmation": "玻璃基板继续取得正相对全A收益、上涨覆盖不低于55.0%，成交占比不低于生成日的75%。",
+      "invalidation": "玻璃基板相对收益转负且上涨覆盖低于45%，或方向中位收益转负。",
+      "risk": "同花顺方向成员是当前快照，不是点时历史；次日若成员发生变化，结算质量必须降级为证据不足。",
+      "counterEvidence": "生成日单日收益+1.14%、相对全A+1.09%，短期拥挤与分化风险上升。",
+      "result": "NOT_CONFIRMED",
+      "settledOn": "2026-08-19",
+      "resultNote": "规则DIRECTION_PERSISTENCE按到期快照结算为NOT_CONFIRMED；实际输入：relativeVsAllA=-0.033968076881429346、advanceShare=0.017543859649122806、medianReturn1d=-0.079758、amountShare=0.0422544039096562、membershipAsOf=2026-08-19",
+      "evidenceIds": [
+        "EVD-FULL-MARKET-CLOSE"
+      ],
+      "rule": {
+        "type": "DIRECTION_PERSISTENCE",
+        "entity": "玻璃基板",
+        "thresholds": {
+          "relativeMin": 0.0,
+          "advanceShareMin": 0.55,
+          "amountShareMin": 0.035969120380091875,
+          "advanceShareInvalid": 0.45
+        },
+        "baseline": {
+          "membershipAsOf": "2026-08-18",
+          "return1d": 0.011384964912280703,
+          "advanceShare": 0.5614035087719298,
+          "amountShare": 0.047958827173455836
+        }
+      },
+      "generation": {
+        "engineVersion": "daily-hypothesis-v1.0.0",
+        "sourceSnapshotSha256": "4153b5692ce5a6e522f0d3d16f376be42863ac0338519e7aa8862da07f49a403",
+        "mode": "DETERMINISTIC_RULE_GENERATED"
+      },
+      "settlement": {
+        "engineVersion": "daily-hypothesis-v1.0.0",
+        "actual": {
+          "relativeVsAllA": -0.033968076881429346,
+          "advanceShare": 0.017543859649122806,
+          "medianReturn1d": -0.079758,
+          "amountShare": 0.0422544039096562,
+          "membershipAsOf": "2026-08-19"
+        },
+        "sourceSnapshotSha256": "7791ca62de3497b88ea6ea0af77dec8d216020311f9e66b78038f03350293ba0"
+      }
+    },
+    {
+      "id": "HYP-20260818-WEAK-DIRECTION",
+      "createdOn": "2026-08-18",
+      "dueOn": "2026-08-19",
+      "title": "文化传媒相对弱势能否收敛",
+      "scope": "direction",
+      "confirmation": "文化传媒相对全A落后幅度收窄至0.5个百分点以内，上涨覆盖回到45%以上，且方向中位收益不再为负。",
+      "invalidation": "文化传媒继续取得负相对收益且上涨覆盖低于35%，弱势扩散到方向中位数。",
+      "risk": "低位方向可能仅受风格轮换扰动；单日收敛不等于中期修复。",
+      "counterEvidence": "生成日收益-1.13%、相对全A-1.19%、上涨覆盖19.9%。",
+      "result": "INCONCLUSIVE",
+      "settledOn": "2026-08-19",
+      "resultNote": "规则DIRECTION_REPAIR按到期快照结算为INCONCLUSIVE；实际输入：relativeVsAllA=0.004548923118570657、advanceShare=0.0663265306122449、medianReturn1d=-0.036012、amountShare=0.018808627281911117、membershipAsOf=2026-08-19",
+      "evidenceIds": [
+        "EVD-FULL-MARKET-CLOSE"
+      ],
+      "rule": {
+        "type": "DIRECTION_REPAIR",
+        "entity": "文化传媒",
+        "thresholds": {
+          "relativeMin": -0.005,
+          "advanceShareMin": 0.45,
+          "medianReturnMin": 0.0,
+          "relativeInvalidMax": -0.011850203565902896,
+          "advanceShareInvalid": 0.35
+        },
+        "baseline": {
+          "membershipAsOf": "2026-08-18",
+          "relativeVsAllA": -0.011850203565902896,
+          "advanceShare": 0.1989795918367347
+        }
+      },
+      "generation": {
+        "engineVersion": "daily-hypothesis-v1.0.0",
+        "sourceSnapshotSha256": "4153b5692ce5a6e522f0d3d16f376be42863ac0338519e7aa8862da07f49a403",
+        "mode": "DETERMINISTIC_RULE_GENERATED"
+      },
+      "settlement": {
+        "engineVersion": "daily-hypothesis-v1.0.0",
+        "actual": {
+          "relativeVsAllA": 0.004548923118570657,
+          "advanceShare": 0.0663265306122449,
+          "medianReturn1d": -0.036012,
+          "amountShare": 0.018808627281911117,
+          "membershipAsOf": "2026-08-19"
+        },
+        "sourceSnapshotSha256": "7791ca62de3497b88ea6ea0af77dec8d216020311f9e66b78038f03350293ba0"
+      }
+    },
+    {
+      "id": "HYP-20260819-DIRECTION-SPREAD",
+      "createdOn": "2026-08-19",
+      "dueOn": "2026-08-20",
+      "title": "方向高低剪刀差是收敛还是继续扩大",
+      "scope": "direction",
+      "confirmation": "最强与最弱方向的相对收益差由6.1%收敛至少25%，同时弱方向上涨覆盖改善。",
+      "invalidation": "剪刀差不降反升，且弱方向上涨覆盖继续下降。",
+      "risk": "剪刀差收敛可能来自强方向回落，也可能来自弱方向修复，必须分解两端贡献。",
+      "counterEvidence": "生成日最强酿酒与最弱MLCC相对收益差为6.1%。",
+      "result": "CONFIRMED",
+      "settledOn": "2026-08-20",
+      "resultNote": "规则DIRECTION_SPREAD按到期快照结算为CONFIRMED；实际输入：spread=0.013231、strongRelative=-0.0019147276664861958、weakRelative=-0.015145727666486196、weakAdvanceShare=0.5142857142857142",
+      "evidenceIds": [
+        "EVD-FULL-MARKET-CLOSE"
+      ],
+      "rule": {
+        "type": "DIRECTION_SPREAD",
+        "entities": [
+          "酿酒",
+          "MLCC"
+        ],
+        "thresholds": {
+          "spreadMax": 0.04553475,
+          "spreadInvalidMin": 0.060713,
+          "weakAdvanceBaseline": 0.0
+        },
+        "baseline": {
+          "spread": 0.060713,
+          "strongMembershipAsOf": "2026-08-19",
+          "weakMembershipAsOf": "2026-08-19"
+        }
+      },
+      "generation": {
+        "engineVersion": "daily-hypothesis-v1.0.0",
+        "sourceSnapshotSha256": "7791ca62de3497b88ea6ea0af77dec8d216020311f9e66b78038f03350293ba0",
+        "mode": "DETERMINISTIC_RULE_GENERATED"
+      },
+      "settlement": {
+        "engineVersion": "daily-hypothesis-v1.0.0",
+        "actual": {
+          "spread": 0.013231,
+          "strongRelative": -0.0019147276664861958,
+          "weakRelative": -0.015145727666486196,
+          "weakAdvanceShare": 0.5142857142857142
+        },
+        "sourceSnapshotSha256": "fa6b0ab9d47a763abe795094fcc54bf91d8c82b7be745e95fdc317340d736414"
+      }
+    },
+    {
+      "id": "HYP-20260819-LIMIT-ECOLOGY",
+      "createdOn": "2026-08-19",
+      "dueOn": "2026-08-20",
+      "title": "封板质量、晋级梯队与负反馈能否保持协调",
+      "scope": "market",
+      "confirmation": "封板率不低于75.0%、多板梯队不少于6家、跌停不超过132家。",
+      "invalidation": "封板率低于65%，或多板梯队缩减过半且跌停家数明显增加。",
+      "risk": "不同交易板与ST状态涨跌幅制度不同，必须沿用逐股涨跌停价口径。",
+      "counterEvidence": "生成日封板率70.4%、多板8家、跌停130家；强基数可能快速回落。",
+      "result": "NOT_CONFIRMED",
+      "settledOn": "2026-08-20",
+      "resultNote": "规则LIMIT_ECOLOGY按到期快照结算为NOT_CONFIRMED；实际输入：sealRate=0.6086956521739131、multiBoardCount=5、limitDownCount=13",
+      "evidenceIds": [
+        "EVD-FULL-MARKET-CLOSE"
+      ],
+      "rule": {
+        "type": "LIMIT_ECOLOGY",
+        "thresholds": {
+          "sealRateMin": 0.75,
+          "multiBoardMin": 6,
+          "limitDownMax": 132,
+          "sealRateInvalid": 0.65,
+          "multiBoardInvalid": 4,
+          "limitDownInvalid": 133
+        },
+        "baseline": {
+          "sealRate": 0.7037037037037037,
+          "multiBoardCount": 8,
+          "limitDownCount": 130
+        }
+      },
+      "generation": {
+        "engineVersion": "daily-hypothesis-v1.0.0",
+        "sourceSnapshotSha256": "7791ca62de3497b88ea6ea0af77dec8d216020311f9e66b78038f03350293ba0",
+        "mode": "DETERMINISTIC_RULE_GENERATED"
+      },
+      "settlement": {
+        "engineVersion": "daily-hypothesis-v1.0.0",
+        "actual": {
+          "sealRate": 0.6086956521739131,
+          "multiBoardCount": 5,
+          "limitDownCount": 13
+        },
+        "sourceSnapshotSha256": "fa6b0ab9d47a763abe795094fcc54bf91d8c82b7be745e95fdc317340d736414"
+      }
+    },
+    {
+      "id": "HYP-20260819-MARKET-PERSISTENCE",
+      "createdOn": "2026-08-19",
+      "dueOn": "2026-08-20",
+      "title": "广度、趋势存量与量能能否共同延续",
+      "scope": "market",
+      "confirmation": "上涨覆盖不低于50%，MA20上方比例不低于60.0%，且成交额不低于当日的90%。",
+      "invalidation": "上涨覆盖低于40%，或成交额收缩超过15%且MA20上方比例同步下降。",
+      "risk": "强扩散后的自然均值回归可能造成单日回落，确认规则只描述次日延续，不外推中期趋势。",
+      "counterEvidence": "生成日上涨覆盖8.1%、MA20上方50.0%，高基数提高了延续难度。",
+      "result": "INCONCLUSIVE",
+      "settledOn": "2026-08-20",
+      "resultNote": "规则MARKET_PERSISTENCE按到期快照结算为INCONCLUSIVE；实际输入：advanceShare=0.7392167478794441、aboveMa20Share=0.5859953077061902、turnoverCny=2093909021307",
+      "evidenceIds": [
+        "EVD-FULL-MARKET-CLOSE"
+      ],
+      "rule": {
+        "type": "MARKET_PERSISTENCE",
+        "thresholds": {
+          "advanceShareMin": 0.5,
+          "aboveMa20ShareMin": 0.6,
+          "turnoverCnyMin": 2277009512061.3003,
+          "advanceShareInvalid": 0.4,
+          "turnoverRatioInvalid": 0.85,
+          "aboveMa20DropInvalid": 0.08
+        },
+        "baseline": {
+          "turnoverCny": 2530010568957,
+          "aboveMa20Share": 0.5002707092582567
+        }
+      },
+      "generation": {
+        "engineVersion": "daily-hypothesis-v1.0.0",
+        "sourceSnapshotSha256": "7791ca62de3497b88ea6ea0af77dec8d216020311f9e66b78038f03350293ba0",
+        "mode": "DETERMINISTIC_RULE_GENERATED"
+      },
+      "settlement": {
+        "engineVersion": "daily-hypothesis-v1.0.0",
+        "actual": {
+          "advanceShare": 0.7392167478794441,
+          "aboveMa20Share": 0.5859953077061902,
+          "turnoverCny": 2093909021307
+        },
+        "sourceSnapshotSha256": "fa6b0ab9d47a763abe795094fcc54bf91d8c82b7be745e95fdc317340d736414"
+      }
+    },
+    {
+      "id": "HYP-20260819-TOP-DIRECTION",
+      "createdOn": "2026-08-19",
+      "dueOn": "2026-08-20",
+      "title": "酿酒居前能否转化为内部扩散延续",
+      "scope": "direction",
+      "confirmation": "酿酒继续取得正相对全A收益、上涨覆盖不低于55.0%，成交占比不低于生成日的75%。",
+      "invalidation": "酿酒相对收益转负且上涨覆盖低于45%，或方向中位收益转负。",
+      "risk": "同花顺方向成员是当前快照，不是点时历史；次日若成员发生变化，结算质量必须降级为证据不足。",
+      "counterEvidence": "生成日单日收益-2.47%、相对全A+1.55%，短期拥挤与分化风险上升。",
+      "result": "INCONCLUSIVE",
+      "settledOn": "2026-08-20",
+      "resultNote": "规则DIRECTION_PERSISTENCE按到期快照结算为INCONCLUSIVE；实际输入：relativeVsAllA=-0.0019147276664861958、advanceShare=0.8333333333333334、medianReturn1d=0.010297、amountShare=0.004183140121199275、membershipAsOf=2026-08-20",
+      "evidenceIds": [
+        "EVD-FULL-MARKET-CLOSE"
+      ],
+      "rule": {
+        "type": "DIRECTION_PERSISTENCE",
+        "entity": "酿酒",
+        "thresholds": {
+          "relativeMin": 0.0,
+          "advanceShareMin": 0.55,
+          "amountShareMin": 0.0035827521059450954,
+          "advanceShareInvalid": 0.45
+        },
+        "baseline": {
+          "membershipAsOf": "2026-08-19",
+          "return1d": -0.02467,
+          "advanceShare": 0.03333333333333333,
+          "amountShare": 0.004777002807926794
+        }
+      },
+      "generation": {
+        "engineVersion": "daily-hypothesis-v1.0.0",
+        "sourceSnapshotSha256": "7791ca62de3497b88ea6ea0af77dec8d216020311f9e66b78038f03350293ba0",
+        "mode": "DETERMINISTIC_RULE_GENERATED"
+      },
+      "settlement": {
+        "engineVersion": "daily-hypothesis-v1.0.0",
+        "actual": {
+          "relativeVsAllA": -0.0019147276664861958,
+          "advanceShare": 0.8333333333333334,
+          "medianReturn1d": 0.010297,
+          "amountShare": 0.004183140121199275,
+          "membershipAsOf": "2026-08-20"
+        },
+        "sourceSnapshotSha256": "fa6b0ab9d47a763abe795094fcc54bf91d8c82b7be745e95fdc317340d736414"
+      }
+    },
+    {
+      "id": "HYP-20260819-WEAK-DIRECTION",
+      "createdOn": "2026-08-19",
+      "dueOn": "2026-08-20",
+      "title": "MLCC相对弱势能否收敛",
+      "scope": "direction",
+      "confirmation": "MLCC相对全A落后幅度收窄至0.5个百分点以内，上涨覆盖回到45%以上，且方向中位收益不再为负。",
+      "invalidation": "MLCC继续取得负相对收益且上涨覆盖低于35%，弱势扩散到方向中位数。",
+      "risk": "低位方向可能仅受风格轮换扰动；单日收敛不等于中期修复。",
+      "counterEvidence": "生成日收益-8.54%、相对全A-4.52%、上涨覆盖0.0%。",
+      "result": "INCONCLUSIVE",
+      "settledOn": "2026-08-20",
+      "resultNote": "规则DIRECTION_REPAIR按到期快照结算为INCONCLUSIVE；实际输入：relativeVsAllA=-0.015145727666486196、advanceShare=0.5142857142857142、medianReturn1d=0.001109、amountShare=0.0228902090778542、membershipAsOf=2026-08-20",
+      "evidenceIds": [
+        "EVD-FULL-MARKET-CLOSE"
+      ],
+      "rule": {
+        "type": "DIRECTION_REPAIR",
+        "entity": "MLCC",
+        "thresholds": {
+          "relativeMin": -0.005,
+          "advanceShareMin": 0.45,
+          "medianReturnMin": 0.0,
+          "relativeInvalidMax": -0.04520407688142934,
+          "advanceShareInvalid": 0.35
+        },
+        "baseline": {
+          "membershipAsOf": "2026-08-19",
+          "relativeVsAllA": -0.04520407688142934,
+          "advanceShare": 0.0
+        }
+      },
+      "generation": {
+        "engineVersion": "daily-hypothesis-v1.0.0",
+        "sourceSnapshotSha256": "7791ca62de3497b88ea6ea0af77dec8d216020311f9e66b78038f03350293ba0",
+        "mode": "DETERMINISTIC_RULE_GENERATED"
+      },
+      "settlement": {
+        "engineVersion": "daily-hypothesis-v1.0.0",
+        "actual": {
+          "relativeVsAllA": -0.015145727666486196,
+          "advanceShare": 0.5142857142857142,
+          "medianReturn1d": 0.001109,
+          "amountShare": 0.0228902090778542,
+          "membershipAsOf": "2026-08-20"
+        },
+        "sourceSnapshotSha256": "fa6b0ab9d47a763abe795094fcc54bf91d8c82b7be745e95fdc317340d736414"
+      }
+    },
+    {
+      "id": "HYP-20260820-DIRECTION-SPREAD",
+      "createdOn": "2026-08-20",
+      "dueOn": "2026-08-21",
+      "title": "方向高低剪刀差是收敛还是继续扩大",
+      "scope": "direction",
+      "confirmation": "最强与最弱方向的相对收益差由4.9%收敛至少25%，同时弱方向上涨覆盖改善。",
+      "invalidation": "剪刀差不降反升，且弱方向上涨覆盖继续下降。",
+      "risk": "剪刀差收敛可能来自强方向回落，也可能来自弱方向修复，必须分解两端贡献。",
+      "counterEvidence": "生成日最强创新药与最弱电子化学品相对收益差为4.9%。",
+      "result": "CONFIRMED",
+      "settledOn": "2026-08-21",
+      "resultNote": "规则DIRECTION_SPREAD按到期快照结算为CONFIRMED；实际输入：spread=-0.039386000000000004、strongRelative=-0.03634509597690781、weakRelative=0.0030409040230921884、weakAdvanceShare=0.5813953488372093",
+      "evidenceIds": [
+        "EVD-FULL-MARKET-CLOSE"
+      ],
+      "rule": {
+        "type": "DIRECTION_SPREAD",
+        "entities": [
+          "创新药",
+          "电子化学品"
+        ],
+        "thresholds": {
+          "spreadMax": 0.03689325,
+          "spreadInvalidMin": 0.049191,
+          "weakAdvanceBaseline": 0.37209302325581395
+        },
+        "baseline": {
+          "spread": 0.049191,
+          "strongMembershipAsOf": "2026-08-20",
+          "weakMembershipAsOf": "2026-08-20"
+        }
+      },
+      "generation": {
+        "engineVersion": "daily-hypothesis-v1.0.0",
+        "sourceSnapshotSha256": "fa6b0ab9d47a763abe795094fcc54bf91d8c82b7be745e95fdc317340d736414",
+        "mode": "DETERMINISTIC_RULE_GENERATED"
+      },
+      "settlement": {
+        "engineVersion": "daily-hypothesis-v1.0.0",
+        "actual": {
+          "spread": -0.039386000000000004,
+          "strongRelative": -0.03634509597690781,
+          "weakRelative": 0.0030409040230921884,
+          "weakAdvanceShare": 0.5813953488372093
+        },
+        "sourceSnapshotSha256": "a5700a21da7666359ed290cd19df6dc508f37436d8434bc31cae229129d55578"
+      }
+    },
+    {
+      "id": "HYP-20260820-LIMIT-ECOLOGY",
+      "createdOn": "2026-08-20",
+      "dueOn": "2026-08-21",
+      "title": "封板质量、晋级梯队与负反馈能否保持协调",
+      "scope": "market",
+      "confirmation": "封板率不低于75.0%、多板梯队不少于5家、跌停不超过15家。",
+      "invalidation": "封板率低于65%，或多板梯队缩减过半且跌停家数明显增加。",
+      "risk": "不同交易板与ST状态涨跌幅制度不同，必须沿用逐股涨跌停价口径。",
+      "counterEvidence": "生成日封板率60.9%、多板5家、跌停13家；强基数可能快速回落。",
+      "result": "INCONCLUSIVE",
+      "settledOn": "2026-08-21",
+      "resultNote": "规则LIMIT_ECOLOGY按到期快照结算为INCONCLUSIVE；实际输入：sealRate=0.7435897435897436、multiBoardCount=13、limitDownCount=15",
+      "evidenceIds": [
+        "EVD-FULL-MARKET-CLOSE"
+      ],
+      "rule": {
+        "type": "LIMIT_ECOLOGY",
+        "thresholds": {
+          "sealRateMin": 0.75,
+          "multiBoardMin": 5,
+          "limitDownMax": 15,
+          "sealRateInvalid": 0.65,
+          "multiBoardInvalid": 2,
+          "limitDownInvalid": 16
+        },
+        "baseline": {
+          "sealRate": 0.6086956521739131,
+          "multiBoardCount": 5,
+          "limitDownCount": 13
+        }
+      },
+      "generation": {
+        "engineVersion": "daily-hypothesis-v1.0.0",
+        "sourceSnapshotSha256": "fa6b0ab9d47a763abe795094fcc54bf91d8c82b7be745e95fdc317340d736414",
+        "mode": "DETERMINISTIC_RULE_GENERATED"
+      },
+      "settlement": {
+        "engineVersion": "daily-hypothesis-v1.0.0",
+        "actual": {
+          "sealRate": 0.7435897435897436,
+          "multiBoardCount": 13,
+          "limitDownCount": 15
+        },
+        "sourceSnapshotSha256": "a5700a21da7666359ed290cd19df6dc508f37436d8434bc31cae229129d55578"
+      }
+    },
+    {
+      "id": "HYP-20260820-MARKET-PERSISTENCE",
+      "createdOn": "2026-08-20",
+      "dueOn": "2026-08-21",
+      "title": "广度、趋势存量与量能能否共同延续",
+      "scope": "market",
+      "confirmation": "上涨覆盖不低于50%，MA20上方比例不低于60.0%，且成交额不低于当日的90%。",
+      "invalidation": "上涨覆盖低于40%，或成交额收缩超过15%且MA20上方比例同步下降。",
+      "risk": "强扩散后的自然均值回归可能造成单日回落，确认规则只描述次日延续，不外推中期趋势。",
+      "counterEvidence": "生成日上涨覆盖73.9%、MA20上方58.6%，高基数提高了延续难度。",
+      "result": "INCONCLUSIVE",
+      "settledOn": "2026-08-21",
+      "resultNote": "规则MARKET_PERSISTENCE按到期快照结算为INCONCLUSIVE；实际输入：advanceShare=0.4519213422334476、aboveMa20Share=0.535089301822118、turnoverCny=1892255839011",
+      "evidenceIds": [
+        "EVD-FULL-MARKET-CLOSE"
+      ],
+      "rule": {
+        "type": "MARKET_PERSISTENCE",
+        "thresholds": {
+          "advanceShareMin": 0.5,
+          "aboveMa20ShareMin": 0.6,
+          "turnoverCnyMin": 1884518119176.3,
+          "advanceShareInvalid": 0.4,
+          "turnoverRatioInvalid": 0.85,
+          "aboveMa20DropInvalid": 0.08
+        },
+        "baseline": {
+          "turnoverCny": 2093909021307,
+          "aboveMa20Share": 0.5859953077061902
+        }
+      },
+      "generation": {
+        "engineVersion": "daily-hypothesis-v1.0.0",
+        "sourceSnapshotSha256": "fa6b0ab9d47a763abe795094fcc54bf91d8c82b7be745e95fdc317340d736414",
+        "mode": "DETERMINISTIC_RULE_GENERATED"
+      },
+      "settlement": {
+        "engineVersion": "daily-hypothesis-v1.0.0",
+        "actual": {
+          "advanceShare": 0.4519213422334476,
+          "aboveMa20Share": 0.535089301822118,
+          "turnoverCny": 1892255839011
+        },
+        "sourceSnapshotSha256": "a5700a21da7666359ed290cd19df6dc508f37436d8434bc31cae229129d55578"
+      }
+    },
+    {
+      "id": "HYP-20260820-TOP-DIRECTION",
+      "createdOn": "2026-08-20",
+      "dueOn": "2026-08-21",
+      "title": "创新药居前能否转化为内部扩散延续",
+      "scope": "direction",
+      "confirmation": "创新药继续取得正相对全A收益、上涨覆盖不低于63.7%，成交占比不低于生成日的75%。",
+      "invalidation": "创新药相对收益转负且上涨覆盖低于45%，或方向中位收益转负。",
+      "risk": "同花顺方向成员是当前快照，不是点时历史；次日若成员发生变化，结算质量必须降级为证据不足。",
+      "counterEvidence": "生成日单日收益+4.46%、相对全A+3.06%，短期拥挤与分化风险上升。",
+      "result": "NOT_CONFIRMED",
+      "settledOn": "2026-08-21",
+      "resultNote": "规则DIRECTION_PERSISTENCE按到期快照结算为NOT_CONFIRMED；实际输入：relativeVsAllA=-0.03634509597690781、advanceShare=0.05357142857142857、medianReturn1d=-0.0397915、amountShare=0.07771714219021175、membershipAsOf=2026-08-21",
+      "evidenceIds": [
+        "EVD-FULL-MARKET-CLOSE"
+      ],
+      "rule": {
+        "type": "DIRECTION_PERSISTENCE",
+        "entity": "创新药",
+        "thresholds": {
+          "relativeMin": 0.0,
+          "advanceShareMin": 0.6375,
+          "amountShareMin": 0.06498474200609916,
+          "advanceShareInvalid": 0.45
+        },
+        "baseline": {
+          "membershipAsOf": "2026-08-20",
+          "return1d": 0.044553,
+          "advanceShare": 0.9107142857142857,
+          "amountShare": 0.08664632267479888
+        }
+      },
+      "generation": {
+        "engineVersion": "daily-hypothesis-v1.0.0",
+        "sourceSnapshotSha256": "fa6b0ab9d47a763abe795094fcc54bf91d8c82b7be745e95fdc317340d736414",
+        "mode": "DETERMINISTIC_RULE_GENERATED"
+      },
+      "settlement": {
+        "engineVersion": "daily-hypothesis-v1.0.0",
+        "actual": {
+          "relativeVsAllA": -0.03634509597690781,
+          "advanceShare": 0.05357142857142857,
+          "medianReturn1d": -0.0397915,
+          "amountShare": 0.07771714219021175,
+          "membershipAsOf": "2026-08-21"
+        },
+        "sourceSnapshotSha256": "a5700a21da7666359ed290cd19df6dc508f37436d8434bc31cae229129d55578"
+      }
+    },
+    {
+      "id": "HYP-20260820-WEAK-DIRECTION",
+      "createdOn": "2026-08-20",
+      "dueOn": "2026-08-21",
+      "title": "电子化学品相对弱势能否收敛",
+      "scope": "direction",
+      "confirmation": "电子化学品相对全A落后幅度收窄至0.5个百分点以内，上涨覆盖回到45%以上，且方向中位收益不再为负。",
+      "invalidation": "电子化学品继续取得负相对收益且上涨覆盖低于35%，弱势扩散到方向中位数。",
+      "risk": "低位方向可能仅受风格轮换扰动；单日收敛不等于中期修复。",
+      "counterEvidence": "生成日收益-0.46%、相对全A-1.86%、上涨覆盖37.2%。",
+      "result": "CONFIRMED",
+      "settledOn": "2026-08-21",
+      "resultNote": "规则DIRECTION_REPAIR按到期快照结算为CONFIRMED；实际输入：relativeVsAllA=0.0030409040230921884、advanceShare=0.5813953488372093、medianReturn1d=0.0034289999999999998、amountShare=0.022348808461078746、membershipAsOf=2026-08-21",
+      "evidenceIds": [
+        "EVD-FULL-MARKET-CLOSE"
+      ],
+      "rule": {
+        "type": "DIRECTION_REPAIR",
+        "entity": "电子化学品",
+        "thresholds": {
+          "relativeMin": -0.005,
+          "advanceShareMin": 0.45,
+          "medianReturnMin": 0.0,
+          "relativeInvalidMax": -0.018556727666486195,
+          "advanceShareInvalid": 0.35
+        },
+        "baseline": {
+          "membershipAsOf": "2026-08-20",
+          "relativeVsAllA": -0.018556727666486195,
+          "advanceShare": 0.37209302325581395
+        }
+      },
+      "generation": {
+        "engineVersion": "daily-hypothesis-v1.0.0",
+        "sourceSnapshotSha256": "fa6b0ab9d47a763abe795094fcc54bf91d8c82b7be745e95fdc317340d736414",
+        "mode": "DETERMINISTIC_RULE_GENERATED"
+      },
+      "settlement": {
+        "engineVersion": "daily-hypothesis-v1.0.0",
+        "actual": {
+          "relativeVsAllA": 0.0030409040230921884,
+          "advanceShare": 0.5813953488372093,
+          "medianReturn1d": 0.0034289999999999998,
+          "amountShare": 0.022348808461078746,
+          "membershipAsOf": "2026-08-21"
+        },
+        "sourceSnapshotSha256": "a5700a21da7666359ed290cd19df6dc508f37436d8434bc31cae229129d55578"
+      }
+    },
+    {
+      "id": "HYP-20260821-DIRECTION-SPREAD",
+      "createdOn": "2026-08-21",
+      "dueOn": "2026-08-24",
+      "title": "方向高低剪刀差是收敛还是继续扩大",
+      "scope": "direction",
+      "confirmation": "最强与最弱方向的相对收益差由5.5%收敛至少25%，同时弱方向上涨覆盖改善。",
+      "invalidation": "剪刀差不降反升，且弱方向上涨覆盖继续下降。",
+      "risk": "剪刀差收敛可能来自强方向回落，也可能来自弱方向修复，必须分解两端贡献。",
+      "counterEvidence": "生成日最强MLCC与最弱创新药相对收益差为5.5%。",
+      "result": "CONFIRMED",
+      "settledOn": "2026-08-24",
+      "resultNote": "规则DIRECTION_SPREAD按到期快照结算为CONFIRMED；实际输入：spread=0.002631999999999999、strongRelative=-0.016376298467087467、weakRelative=-0.019008298467087466、weakAdvanceShare=0.11071428571428571",
+      "evidenceIds": [
+        "EVD-FULL-MARKET-CLOSE"
+      ],
+      "rule": {
+        "type": "DIRECTION_SPREAD",
+        "entities": [
+          "MLCC",
+          "创新药"
+        ],
+        "thresholds": {
+          "spreadMax": 0.04135425000000001,
+          "spreadInvalidMin": 0.05513900000000001,
+          "weakAdvanceBaseline": 0.05357142857142857
+        },
+        "baseline": {
+          "spread": 0.05513900000000001,
+          "strongMembershipAsOf": "2026-08-21",
+          "weakMembershipAsOf": "2026-08-21"
+        }
+      },
+      "generation": {
+        "engineVersion": "daily-hypothesis-v1.0.0",
+        "sourceSnapshotSha256": "a5700a21da7666359ed290cd19df6dc508f37436d8434bc31cae229129d55578",
+        "mode": "DETERMINISTIC_RULE_GENERATED"
+      },
+      "settlement": {
+        "engineVersion": "daily-hypothesis-v1.0.0",
+        "actual": {
+          "spread": 0.002631999999999999,
+          "strongRelative": -0.016376298467087467,
+          "weakRelative": -0.019008298467087466,
+          "weakAdvanceShare": 0.11071428571428571
+        },
+        "sourceSnapshotSha256": "72532f0751bf68bbc767c311a02e31cc863d528e02273d8e277f40358dcbab5f"
+      }
+    },
+    {
+      "id": "HYP-20260821-LIMIT-ECOLOGY",
+      "createdOn": "2026-08-21",
+      "dueOn": "2026-08-24",
+      "title": "封板质量、晋级梯队与负反馈能否保持协调",
+      "scope": "market",
+      "confirmation": "封板率不低于75.0%、多板梯队不少于9家、跌停不超过17家。",
+      "invalidation": "封板率低于65%，或多板梯队缩减过半且跌停家数明显增加。",
+      "risk": "不同交易板与ST状态涨跌幅制度不同，必须沿用逐股涨跌停价口径。",
+      "counterEvidence": "生成日封板率74.4%、多板13家、跌停15家；强基数可能快速回落。",
+      "result": "INCONCLUSIVE",
+      "settledOn": "2026-08-24",
+      "resultNote": "规则LIMIT_ECOLOGY按到期快照结算为INCONCLUSIVE；实际输入：sealRate=0.6956521739130435、multiBoardCount=10、limitDownCount=14",
+      "evidenceIds": [
+        "EVD-FULL-MARKET-CLOSE"
+      ],
+      "rule": {
+        "type": "LIMIT_ECOLOGY",
+        "thresholds": {
+          "sealRateMin": 0.75,
+          "multiBoardMin": 9,
+          "limitDownMax": 17,
+          "sealRateInvalid": 0.65,
+          "multiBoardInvalid": 6,
+          "limitDownInvalid": 18
+        },
+        "baseline": {
+          "sealRate": 0.7435897435897436,
+          "multiBoardCount": 13,
+          "limitDownCount": 15
+        }
+      },
+      "generation": {
+        "engineVersion": "daily-hypothesis-v1.0.0",
+        "sourceSnapshotSha256": "a5700a21da7666359ed290cd19df6dc508f37436d8434bc31cae229129d55578",
+        "mode": "DETERMINISTIC_RULE_GENERATED"
+      },
+      "settlement": {
+        "engineVersion": "daily-hypothesis-v1.0.0",
+        "actual": {
+          "sealRate": 0.6956521739130435,
+          "multiBoardCount": 10,
+          "limitDownCount": 14
+        },
+        "sourceSnapshotSha256": "72532f0751bf68bbc767c311a02e31cc863d528e02273d8e277f40358dcbab5f"
+      }
+    },
+    {
+      "id": "HYP-20260821-MARKET-PERSISTENCE",
+      "createdOn": "2026-08-21",
+      "dueOn": "2026-08-24",
+      "title": "广度、趋势存量与量能能否共同延续",
+      "scope": "market",
+      "confirmation": "上涨覆盖不低于50%，MA20上方比例不低于60.0%，且成交额不低于当日的90%。",
+      "invalidation": "上涨覆盖低于40%，或成交额收缩超过15%且MA20上方比例同步下降。",
+      "risk": "强扩散后的自然均值回归可能造成单日回落，确认规则只描述次日延续，不外推中期趋势。",
+      "counterEvidence": "生成日上涨覆盖45.2%、MA20上方53.5%，高基数提高了延续难度。",
+      "result": "NOT_CONFIRMED",
+      "settledOn": "2026-08-24",
+      "resultNote": "规则MARKET_PERSISTENCE按到期快照结算为NOT_CONFIRMED；实际输入：advanceShare=0.26330027051397653、aboveMa20Share=0.4205590622182146、turnoverCny=2021215318551",
+      "evidenceIds": [
+        "EVD-FULL-MARKET-CLOSE"
+      ],
+      "rule": {
+        "type": "MARKET_PERSISTENCE",
+        "thresholds": {
+          "advanceShareMin": 0.5,
+          "aboveMa20ShareMin": 0.6,
+          "turnoverCnyMin": 1703030255109.9001,
+          "advanceShareInvalid": 0.4,
+          "turnoverRatioInvalid": 0.85,
+          "aboveMa20DropInvalid": 0.08
+        },
+        "baseline": {
+          "turnoverCny": 1892255839011,
+          "aboveMa20Share": 0.535089301822118
+        }
+      },
+      "generation": {
+        "engineVersion": "daily-hypothesis-v1.0.0",
+        "sourceSnapshotSha256": "a5700a21da7666359ed290cd19df6dc508f37436d8434bc31cae229129d55578",
+        "mode": "DETERMINISTIC_RULE_GENERATED"
+      },
+      "settlement": {
+        "engineVersion": "daily-hypothesis-v1.0.0",
+        "actual": {
+          "advanceShare": 0.26330027051397653,
+          "aboveMa20Share": 0.4205590622182146,
+          "turnoverCny": 2021215318551
+        },
+        "sourceSnapshotSha256": "72532f0751bf68bbc767c311a02e31cc863d528e02273d8e277f40358dcbab5f"
+      }
+    },
+    {
+      "id": "HYP-20260821-TOP-DIRECTION",
+      "createdOn": "2026-08-21",
+      "dueOn": "2026-08-24",
+      "title": "MLCC居前能否转化为内部扩散延续",
+      "scope": "direction",
+      "confirmation": "MLCC继续取得正相对全A收益、上涨覆盖不低于60.0%，成交占比不低于生成日的75%。",
+      "invalidation": "MLCC相对收益转负且上涨覆盖低于45%，或方向中位收益转负。",
+      "risk": "同花顺方向成员是当前快照，不是点时历史；次日若成员发生变化，结算质量必须降级为证据不足。",
+      "counterEvidence": "生成日单日收益+1.81%、相对全A+1.88%，短期拥挤与分化风险上升。",
+      "result": "NOT_CONFIRMED",
+      "settledOn": "2026-08-24",
+      "resultNote": "规则DIRECTION_PERSISTENCE按到期快照结算为NOT_CONFIRMED；实际输入：relativeVsAllA=-0.016376298467087467、advanceShare=0.14285714285714285、medianReturn1d=-0.032633、amountShare=0.021404822010215586、membershipAsOf=2026-08-24",
+      "evidenceIds": [
+        "EVD-FULL-MARKET-CLOSE"
+      ],
+      "rule": {
+        "type": "DIRECTION_PERSISTENCE",
+        "entity": "MLCC",
+        "thresholds": {
+          "relativeMin": 0.0,
+          "advanceShareMin": 0.6,
+          "amountShareMin": 0.017986422371513117,
+          "advanceShareInvalid": 0.45
+        },
+        "baseline": {
+          "membershipAsOf": "2026-08-21",
+          "return1d": 0.018059000000000002,
+          "advanceShare": 0.8571428571428571,
+          "amountShare": 0.023981896495350822
+        }
+      },
+      "generation": {
+        "engineVersion": "daily-hypothesis-v1.0.0",
+        "sourceSnapshotSha256": "a5700a21da7666359ed290cd19df6dc508f37436d8434bc31cae229129d55578",
+        "mode": "DETERMINISTIC_RULE_GENERATED"
+      },
+      "settlement": {
+        "engineVersion": "daily-hypothesis-v1.0.0",
+        "actual": {
+          "relativeVsAllA": -0.016376298467087467,
+          "advanceShare": 0.14285714285714285,
+          "medianReturn1d": -0.032633,
+          "amountShare": 0.021404822010215586,
+          "membershipAsOf": "2026-08-24"
+        },
+        "sourceSnapshotSha256": "72532f0751bf68bbc767c311a02e31cc863d528e02273d8e277f40358dcbab5f"
+      }
+    },
+    {
+      "id": "HYP-20260821-WEAK-DIRECTION",
+      "createdOn": "2026-08-21",
+      "dueOn": "2026-08-24",
+      "title": "创新药相对弱势能否收敛",
+      "scope": "direction",
+      "confirmation": "创新药相对全A落后幅度收窄至0.5个百分点以内，上涨覆盖回到45%以上，且方向中位收益不再为负。",
+      "invalidation": "创新药继续取得负相对收益且上涨覆盖低于35%，弱势扩散到方向中位数。",
+      "risk": "低位方向可能仅受风格轮换扰动；单日收敛不等于中期修复。",
+      "counterEvidence": "生成日收益-3.71%、相对全A-3.63%、上涨覆盖5.4%。",
+      "result": "INCONCLUSIVE",
+      "settledOn": "2026-08-24",
+      "resultNote": "规则DIRECTION_REPAIR按到期快照结算为INCONCLUSIVE；实际输入：relativeVsAllA=-0.019008298467087466、advanceShare=0.11071428571428571、medianReturn1d=-0.032076、amountShare=0.05757863033372705、membershipAsOf=2026-08-24",
+      "evidenceIds": [
+        "EVD-FULL-MARKET-CLOSE"
+      ],
+      "rule": {
+        "type": "DIRECTION_REPAIR",
+        "entity": "创新药",
+        "thresholds": {
+          "relativeMin": -0.005,
+          "advanceShareMin": 0.45,
+          "medianReturnMin": 0.0,
+          "relativeInvalidMax": -0.03634509597690781,
+          "advanceShareInvalid": 0.35
+        },
+        "baseline": {
+          "membershipAsOf": "2026-08-21",
+          "relativeVsAllA": -0.03634509597690781,
+          "advanceShare": 0.05357142857142857
+        }
+      },
+      "generation": {
+        "engineVersion": "daily-hypothesis-v1.0.0",
+        "sourceSnapshotSha256": "a5700a21da7666359ed290cd19df6dc508f37436d8434bc31cae229129d55578",
+        "mode": "DETERMINISTIC_RULE_GENERATED"
+      },
+      "settlement": {
+        "engineVersion": "daily-hypothesis-v1.0.0",
+        "actual": {
+          "relativeVsAllA": -0.019008298467087466,
+          "advanceShare": 0.11071428571428571,
+          "medianReturn1d": -0.032076,
+          "amountShare": 0.05757863033372705,
+          "membershipAsOf": "2026-08-24"
+        },
+        "sourceSnapshotSha256": "72532f0751bf68bbc767c311a02e31cc863d528e02273d8e277f40358dcbab5f"
+      }
+    },
+    {
+      "id": "HYP-20260824-DIRECTION-SPREAD",
+      "createdOn": "2026-08-24",
+      "dueOn": "2026-08-25",
+      "title": "方向高低剪刀差是收敛还是继续扩大",
+      "scope": "direction",
+      "confirmation": "最强与最弱方向的相对收益差由4.2%收敛至少25%，同时弱方向上涨覆盖改善。",
+      "invalidation": "剪刀差不降反升，且弱方向上涨覆盖继续下降。",
+      "risk": "剪刀差收敛可能来自强方向回落，也可能来自弱方向修复，必须分解两端贡献。",
+      "counterEvidence": "生成日最强酿酒与最弱创新药相对收益差为4.2%。",
+      "result": "CONFIRMED",
+      "settledOn": "2026-08-25",
+      "resultNote": "规则DIRECTION_SPREAD按到期快照结算为CONFIRMED；实际输入：spread=-0.022342、strongRelative=-0.014095315182113235、weakRelative=0.008246684817886766、weakAdvanceShare=0.8214285714285714",
+      "evidenceIds": [
+        "EVD-FULL-MARKET-CLOSE"
+      ],
+      "rule": {
+        "type": "DIRECTION_SPREAD",
+        "entities": [
+          "酿酒",
+          "创新药"
+        ],
+        "thresholds": {
+          "spreadMax": 0.03139875,
+          "spreadInvalidMin": 0.041865,
+          "weakAdvanceBaseline": 0.11071428571428571
+        },
+        "baseline": {
+          "spread": 0.041865,
+          "strongMembershipAsOf": "2026-08-24",
+          "weakMembershipAsOf": "2026-08-24"
+        }
+      },
+      "generation": {
+        "engineVersion": "daily-hypothesis-v1.0.0",
+        "sourceSnapshotSha256": "72532f0751bf68bbc767c311a02e31cc863d528e02273d8e277f40358dcbab5f",
+        "mode": "DETERMINISTIC_RULE_GENERATED"
+      },
+      "settlement": {
+        "engineVersion": "daily-hypothesis-v1.0.0",
+        "actual": {
+          "spread": -0.022342,
+          "strongRelative": -0.014095315182113235,
+          "weakRelative": 0.008246684817886766,
+          "weakAdvanceShare": 0.8214285714285714
+        },
+        "sourceSnapshotSha256": "bc0f3d4a3a5d87131ae1f0e74f524d1baf365fb54d74ff0e76d51257f4d6d979"
+      }
+    },
+    {
+      "id": "HYP-20260824-LIMIT-ECOLOGY",
+      "createdOn": "2026-08-24",
+      "dueOn": "2026-08-25",
+      "title": "封板质量、晋级梯队与负反馈能否保持协调",
+      "scope": "market",
+      "confirmation": "封板率不低于75.0%、多板梯队不少于7家、跌停不超过16家。",
+      "invalidation": "封板率低于65%，或多板梯队缩减过半且跌停家数明显增加。",
+      "risk": "不同交易板与ST状态涨跌幅制度不同，必须沿用逐股涨跌停价口径。",
+      "counterEvidence": "生成日封板率69.6%、多板10家、跌停14家；强基数可能快速回落。",
+      "result": "INCONCLUSIVE",
+      "settledOn": "2026-08-25",
+      "resultNote": "规则LIMIT_ECOLOGY按到期快照结算为INCONCLUSIVE；实际输入：sealRate=0.7142857142857143、multiBoardCount=8、limitDownCount=4",
+      "evidenceIds": [
+        "EVD-FULL-MARKET-CLOSE"
+      ],
+      "rule": {
+        "type": "LIMIT_ECOLOGY",
+        "thresholds": {
+          "sealRateMin": 0.75,
+          "multiBoardMin": 7,
+          "limitDownMax": 16,
+          "sealRateInvalid": 0.65,
+          "multiBoardInvalid": 5,
+          "limitDownInvalid": 17
+        },
+        "baseline": {
+          "sealRate": 0.6956521739130435,
+          "multiBoardCount": 10,
+          "limitDownCount": 14
+        }
+      },
+      "generation": {
+        "engineVersion": "daily-hypothesis-v1.0.0",
+        "sourceSnapshotSha256": "72532f0751bf68bbc767c311a02e31cc863d528e02273d8e277f40358dcbab5f",
+        "mode": "DETERMINISTIC_RULE_GENERATED"
+      },
+      "settlement": {
+        "engineVersion": "daily-hypothesis-v1.0.0",
+        "actual": {
+          "sealRate": 0.7142857142857143,
+          "multiBoardCount": 8,
+          "limitDownCount": 4
+        },
+        "sourceSnapshotSha256": "bc0f3d4a3a5d87131ae1f0e74f524d1baf365fb54d74ff0e76d51257f4d6d979"
+      }
+    },
+    {
+      "id": "HYP-20260824-MARKET-PERSISTENCE",
+      "createdOn": "2026-08-24",
+      "dueOn": "2026-08-25",
+      "title": "广度、趋势存量与量能能否共同延续",
+      "scope": "market",
+      "confirmation": "上涨覆盖不低于50%，MA20上方比例不低于60.0%，且成交额不低于当日的90%。",
+      "invalidation": "上涨覆盖低于40%，或成交额收缩超过15%且MA20上方比例同步下降。",
+      "risk": "强扩散后的自然均值回归可能造成单日回落，确认规则只描述次日延续，不外推中期趋势。",
+      "counterEvidence": "生成日上涨覆盖26.3%、MA20上方42.1%，高基数提高了延续难度。",
+      "result": "INCONCLUSIVE",
+      "settledOn": "2026-08-25",
+      "resultNote": "规则MARKET_PERSISTENCE按到期快照结算为INCONCLUSIVE；实际输入：advanceShare=0.7634331049404977、aboveMa20Share=0.5308330328164443、turnoverCny=1844278181252",
+      "evidenceIds": [
+        "EVD-FULL-MARKET-CLOSE"
+      ],
+      "rule": {
+        "type": "MARKET_PERSISTENCE",
+        "thresholds": {
+          "advanceShareMin": 0.5,
+          "aboveMa20ShareMin": 0.6,
+          "turnoverCnyMin": 1819093786695.9001,
+          "advanceShareInvalid": 0.4,
+          "turnoverRatioInvalid": 0.85,
+          "aboveMa20DropInvalid": 0.08
+        },
+        "baseline": {
+          "turnoverCny": 2021215318551,
+          "aboveMa20Share": 0.4205590622182146
+        }
+      },
+      "generation": {
+        "engineVersion": "daily-hypothesis-v1.0.0",
+        "sourceSnapshotSha256": "72532f0751bf68bbc767c311a02e31cc863d528e02273d8e277f40358dcbab5f",
+        "mode": "DETERMINISTIC_RULE_GENERATED"
+      },
+      "settlement": {
+        "engineVersion": "daily-hypothesis-v1.0.0",
+        "actual": {
+          "advanceShare": 0.7634331049404977,
+          "aboveMa20Share": 0.5308330328164443,
+          "turnoverCny": 1844278181252
+        },
+        "sourceSnapshotSha256": "bc0f3d4a3a5d87131ae1f0e74f524d1baf365fb54d74ff0e76d51257f4d6d979"
+      }
+    },
+    {
+      "id": "HYP-20260824-TOP-DIRECTION",
+      "createdOn": "2026-08-24",
+      "dueOn": "2026-08-25",
+      "title": "酿酒居前能否转化为内部扩散延续",
+      "scope": "direction",
+      "confirmation": "酿酒继续取得正相对全A收益、上涨覆盖不低于55.0%，成交占比不低于生成日的75%。",
+      "invalidation": "酿酒相对收益转负且上涨覆盖低于45%，或方向中位收益转负。",
+      "risk": "同花顺方向成员是当前快照，不是点时历史；次日若成员发生变化，结算质量必须降级为证据不足。",
+      "counterEvidence": "生成日单日收益+1.13%、相对全A+2.29%，短期拥挤与分化风险上升。",
+      "result": "INCONCLUSIVE",
+      "settledOn": "2026-08-25",
+      "resultNote": "规则DIRECTION_PERSISTENCE按到期快照结算为INCONCLUSIVE；实际输入：relativeVsAllA=-0.014095315182113235、advanceShare=0.7333333333333333、medianReturn1d=0.010829、amountShare=0.004427055360422296、membershipAsOf=2026-08-25",
+      "evidenceIds": [
+        "EVD-FULL-MARKET-CLOSE"
+      ],
+      "rule": {
+        "type": "DIRECTION_PERSISTENCE",
+        "entity": "酿酒",
+        "thresholds": {
+          "relativeMin": 0.0,
+          "advanceShareMin": 0.55,
+          "amountShareMin": 0.004814841634772197,
+          "advanceShareInvalid": 0.45
+        },
+        "baseline": {
+          "membershipAsOf": "2026-08-24",
+          "return1d": 0.011266,
+          "advanceShare": 0.5666666666666667,
+          "amountShare": 0.006419788846362929
+        }
+      },
+      "generation": {
+        "engineVersion": "daily-hypothesis-v1.0.0",
+        "sourceSnapshotSha256": "72532f0751bf68bbc767c311a02e31cc863d528e02273d8e277f40358dcbab5f",
+        "mode": "DETERMINISTIC_RULE_GENERATED"
+      },
+      "settlement": {
+        "engineVersion": "daily-hypothesis-v1.0.0",
+        "actual": {
+          "relativeVsAllA": -0.014095315182113235,
+          "advanceShare": 0.7333333333333333,
+          "medianReturn1d": 0.010829,
+          "amountShare": 0.004427055360422296,
+          "membershipAsOf": "2026-08-25"
+        },
+        "sourceSnapshotSha256": "bc0f3d4a3a5d87131ae1f0e74f524d1baf365fb54d74ff0e76d51257f4d6d979"
+      }
+    },
+    {
+      "id": "HYP-20260824-WEAK-DIRECTION",
+      "createdOn": "2026-08-24",
+      "dueOn": "2026-08-25",
+      "title": "创新药相对弱势能否收敛",
+      "scope": "direction",
+      "confirmation": "创新药相对全A落后幅度收窄至0.5个百分点以内，上涨覆盖回到45%以上，且方向中位收益不再为负。",
+      "invalidation": "创新药继续取得负相对收益且上涨覆盖低于35%，弱势扩散到方向中位数。",
+      "risk": "低位方向可能仅受风格轮换扰动；单日收敛不等于中期修复。",
+      "counterEvidence": "生成日收益-3.06%、相对全A-1.90%、上涨覆盖11.1%。",
+      "result": "CONFIRMED",
+      "settledOn": "2026-08-25",
+      "resultNote": "规则DIRECTION_REPAIR按到期快照结算为CONFIRMED；实际输入：relativeVsAllA=0.008246684817886766、advanceShare=0.8214285714285714、medianReturn1d=0.020788、amountShare=0.05658793127055362、membershipAsOf=2026-08-25",
+      "evidenceIds": [
+        "EVD-FULL-MARKET-CLOSE"
+      ],
+      "rule": {
+        "type": "DIRECTION_REPAIR",
+        "entity": "创新药",
+        "thresholds": {
+          "relativeMin": -0.005,
+          "advanceShareMin": 0.45,
+          "medianReturnMin": 0.0,
+          "relativeInvalidMax": -0.019008298467087466,
+          "advanceShareInvalid": 0.35
+        },
+        "baseline": {
+          "membershipAsOf": "2026-08-24",
+          "relativeVsAllA": -0.019008298467087466,
+          "advanceShare": 0.11071428571428571
+        }
+      },
+      "generation": {
+        "engineVersion": "daily-hypothesis-v1.0.0",
+        "sourceSnapshotSha256": "72532f0751bf68bbc767c311a02e31cc863d528e02273d8e277f40358dcbab5f",
+        "mode": "DETERMINISTIC_RULE_GENERATED"
+      },
+      "settlement": {
+        "engineVersion": "daily-hypothesis-v1.0.0",
+        "actual": {
+          "relativeVsAllA": 0.008246684817886766,
+          "advanceShare": 0.8214285714285714,
+          "medianReturn1d": 0.020788,
+          "amountShare": 0.05658793127055362,
+          "membershipAsOf": "2026-08-25"
+        },
+        "sourceSnapshotSha256": "bc0f3d4a3a5d87131ae1f0e74f524d1baf365fb54d74ff0e76d51257f4d6d979"
+      }
+    },
+    {
+      "id": "HYP-20260825-LIMIT-ECOLOGY",
+      "createdOn": "2026-08-25",
+      "dueOn": "2026-08-26",
+      "title": "封板质量、晋级梯队与负反馈能否保持协调",
+      "scope": "market",
+      "confirmation": "封板率不低于75.0%、多板梯队不少于6家、跌停不超过6家。",
+      "invalidation": "封板率低于65%，或多板梯队缩减过半且跌停家数明显增加。",
+      "risk": "不同交易板与ST状态涨跌幅制度不同，必须沿用逐股涨跌停价口径。",
+      "counterEvidence": "生成日封板率71.4%、多板8家、跌停4家；强基数可能快速回落。",
+      "result": "INCONCLUSIVE",
+      "settledOn": "2026-08-26",
+      "resultNote": "规则LIMIT_ECOLOGY按到期快照结算为INCONCLUSIVE；实际输入：sealRate=0.6666666666666666、multiBoardCount=13、limitDownCount=2",
+      "evidenceIds": [
+        "EVD-FULL-MARKET-CLOSE"
+      ],
+      "rule": {
+        "type": "LIMIT_ECOLOGY",
+        "thresholds": {
+          "sealRateMin": 0.75,
+          "multiBoardMin": 6,
+          "limitDownMax": 6,
+          "sealRateInvalid": 0.65,
+          "multiBoardInvalid": 4,
+          "limitDownInvalid": 7
+        },
+        "baseline": {
+          "sealRate": 0.7142857142857143,
+          "multiBoardCount": 8,
+          "limitDownCount": 4
+        }
+      },
+      "generation": {
+        "engineVersion": "daily-hypothesis-v1.0.0",
+        "sourceSnapshotSha256": "bc0f3d4a3a5d87131ae1f0e74f524d1baf365fb54d74ff0e76d51257f4d6d979",
+        "mode": "DETERMINISTIC_RULE_GENERATED"
+      },
+      "settlement": {
+        "engineVersion": "daily-hypothesis-v1.0.0",
+        "actual": {
+          "sealRate": 0.6666666666666666,
+          "multiBoardCount": 13,
+          "limitDownCount": 2
+        },
+        "sourceSnapshotSha256": "10caabbb13bb6152da15096a3b6a136629e023e28dfbcaa3e9d638f31484bd14"
+      }
+    },
+    {
+      "id": "HYP-20260825-MARKET-PERSISTENCE",
+      "createdOn": "2026-08-25",
+      "dueOn": "2026-08-26",
+      "title": "广度、趋势存量与量能能否共同延续",
+      "scope": "market",
+      "confirmation": "上涨覆盖不低于50%，MA20上方比例不低于60.0%，且成交额不低于当日的90%。",
+      "invalidation": "上涨覆盖低于40%，或成交额收缩超过15%且MA20上方比例同步下降。",
+      "risk": "强扩散后的自然均值回归可能造成单日回落，确认规则只描述次日延续，不外推中期趋势。",
+      "counterEvidence": "生成日上涨覆盖76.3%、MA20上方53.1%，高基数提高了延续难度。",
+      "result": "INCONCLUSIVE",
+      "settledOn": "2026-08-26",
+      "resultNote": "规则MARKET_PERSISTENCE按到期快照结算为INCONCLUSIVE；实际输入：advanceShare=0.5310978907517577、aboveMa20Share=0.5379484405985218、turnoverCny=1821814999754",
+      "evidenceIds": [
+        "EVD-FULL-MARKET-CLOSE"
+      ],
+      "rule": {
+        "type": "MARKET_PERSISTENCE",
+        "thresholds": {
+          "advanceShareMin": 0.5,
+          "aboveMa20ShareMin": 0.6,
+          "turnoverCnyMin": 1659850363126.8,
+          "advanceShareInvalid": 0.4,
+          "turnoverRatioInvalid": 0.85,
+          "aboveMa20DropInvalid": 0.08
+        },
+        "baseline": {
+          "turnoverCny": 1844278181252,
+          "aboveMa20Share": 0.5308330328164443
+        }
+      },
+      "generation": {
+        "engineVersion": "daily-hypothesis-v1.0.0",
+        "sourceSnapshotSha256": "bc0f3d4a3a5d87131ae1f0e74f524d1baf365fb54d74ff0e76d51257f4d6d979",
+        "mode": "DETERMINISTIC_RULE_GENERATED"
+      },
+      "settlement": {
+        "engineVersion": "daily-hypothesis-v1.0.0",
+        "actual": {
+          "advanceShare": 0.5310978907517577,
+          "aboveMa20Share": 0.5379484405985218,
+          "turnoverCny": 1821814999754
+        },
+        "sourceSnapshotSha256": "10caabbb13bb6152da15096a3b6a136629e023e28dfbcaa3e9d638f31484bd14"
+      }
+    },
+    {
+      "id": "HYP-20260825-TOP-DIRECTION",
+      "createdOn": "2026-08-25",
+      "dueOn": "2026-08-26",
+      "title": "创新药居前能否转化为内部扩散延续",
+      "scope": "direction",
+      "confirmation": "创新药继续取得正相对全A收益、上涨覆盖不低于57.5%，成交占比不低于生成日的75%。",
+      "invalidation": "创新药相对收益转负且上涨覆盖低于45%，或方向中位收益转负。",
+      "risk": "同花顺方向成员是当前快照，不是点时历史；次日若成员发生变化，结算质量必须降级为证据不足。",
+      "counterEvidence": "生成日单日收益+2.36%、相对全A+0.82%，短期拥挤与分化风险上升。",
+      "result": "INCONCLUSIVE",
+      "settledOn": "2026-08-26",
+      "resultNote": "规则DIRECTION_PERSISTENCE按到期快照结算为INCONCLUSIVE；实际输入：relativeVsAllA=-0.0008584333874166216、advanceShare=0.55、medianReturn1d=0.0021869999999999997、amountShare=0.05585188319835688、membershipAsOf=2026-08-26",
+      "evidenceIds": [
+        "EVD-FULL-MARKET-CLOSE"
+      ],
+      "rule": {
+        "type": "DIRECTION_PERSISTENCE",
+        "entity": "创新药",
+        "thresholds": {
+          "relativeMin": 0.0,
+          "advanceShareMin": 0.575,
+          "amountShareMin": 0.04244094845291522,
+          "advanceShareInvalid": 0.45
+        },
+        "baseline": {
+          "membershipAsOf": "2026-08-25",
+          "return1d": 0.023577,
+          "advanceShare": 0.8214285714285714,
+          "amountShare": 0.05658793127055362
+        }
+      },
+      "generation": {
+        "engineVersion": "daily-hypothesis-v1.0.0",
+        "sourceSnapshotSha256": "bc0f3d4a3a5d87131ae1f0e74f524d1baf365fb54d74ff0e76d51257f4d6d979",
+        "mode": "DETERMINISTIC_RULE_GENERATED"
+      },
+      "settlement": {
+        "engineVersion": "daily-hypothesis-v1.0.0",
+        "actual": {
+          "relativeVsAllA": -0.0008584333874166216,
+          "advanceShare": 0.55,
+          "medianReturn1d": 0.0021869999999999997,
+          "amountShare": 0.05585188319835688,
+          "membershipAsOf": "2026-08-26"
+        },
+        "sourceSnapshotSha256": "10caabbb13bb6152da15096a3b6a136629e023e28dfbcaa3e9d638f31484bd14"
+      }
+    },
+    {
+      "id": "HYP-20260825-WEAK-DIRECTION",
+      "createdOn": "2026-08-25",
+      "dueOn": "2026-08-26",
+      "title": "电子化学品相对弱势能否收敛",
+      "scope": "direction",
+      "confirmation": "电子化学品相对全A落后幅度收窄至0.5个百分点以内，上涨覆盖回到45%以上，且方向中位收益不再为负。",
+      "invalidation": "电子化学品继续取得负相对收益且上涨覆盖低于35%，弱势扩散到方向中位数。",
+      "risk": "低位方向可能仅受风格轮换扰动；单日收敛不等于中期修复。",
+      "counterEvidence": "生成日收益-0.45%、相对全A-1.98%、上涨覆盖37.2%。",
+      "result": "INCONCLUSIVE",
+      "settledOn": "2026-08-26",
+      "resultNote": "规则DIRECTION_REPAIR按到期快照结算为INCONCLUSIVE；实际输入：relativeVsAllA=-0.003985433387416621、advanceShare=0.37209302325581395、medianReturn1d=-0.0028510000000000002、amountShare=0.016997860028916185、membershipAsOf=2026-08-26",
+      "evidenceIds": [
+        "EVD-FULL-MARKET-CLOSE"
+      ],
+      "rule": {
+        "type": "DIRECTION_REPAIR",
+        "entity": "电子化学品",
+        "thresholds": {
+          "relativeMin": -0.005,
+          "advanceShareMin": 0.45,
+          "medianReturnMin": 0.0,
+          "relativeInvalidMax": -0.019834315182113236,
+          "advanceShareInvalid": 0.35
+        },
+        "baseline": {
+          "membershipAsOf": "2026-08-25",
+          "relativeVsAllA": -0.019834315182113236,
+          "advanceShare": 0.37209302325581395
+        }
+      },
+      "generation": {
+        "engineVersion": "daily-hypothesis-v1.0.0",
+        "sourceSnapshotSha256": "bc0f3d4a3a5d87131ae1f0e74f524d1baf365fb54d74ff0e76d51257f4d6d979",
+        "mode": "DETERMINISTIC_RULE_GENERATED"
+      },
+      "settlement": {
+        "engineVersion": "daily-hypothesis-v1.0.0",
+        "actual": {
+          "relativeVsAllA": -0.003985433387416621,
+          "advanceShare": 0.37209302325581395,
+          "medianReturn1d": -0.0028510000000000002,
+          "amountShare": 0.016997860028916185,
+          "membershipAsOf": "2026-08-26"
+        },
+        "sourceSnapshotSha256": "10caabbb13bb6152da15096a3b6a136629e023e28dfbcaa3e9d638f31484bd14"
+      }
+    },
+    {
+      "id": "HYP-20260826-LIMIT-ECOLOGY",
+      "createdOn": "2026-08-26",
+      "dueOn": "2026-08-27",
+      "title": "封板质量、晋级梯队与负反馈能否保持协调",
+      "scope": "market",
+      "confirmation": "封板率不低于75.0%、多板梯队不少于9家、跌停不超过4家。",
+      "invalidation": "封板率低于65%，或多板梯队缩减过半且跌停家数明显增加。",
+      "risk": "不同交易板与ST状态涨跌幅制度不同，必须沿用逐股涨跌停价口径。",
+      "counterEvidence": "生成日封板率66.7%、多板13家、跌停2家；强基数可能快速回落。",
+      "result": "CONFIRMED",
+      "settledOn": "2026-08-27",
+      "resultNote": "规则LIMIT_ECOLOGY按到期快照结算为CONFIRMED；实际输入：sealRate=0.7878787878787878、multiBoardCount=16、limitDownCount=4",
+      "evidenceIds": [
+        "EVD-FULL-MARKET-CLOSE"
+      ],
+      "rule": {
+        "type": "LIMIT_ECOLOGY",
+        "thresholds": {
+          "sealRateMin": 0.75,
+          "multiBoardMin": 9,
+          "limitDownMax": 4,
+          "sealRateInvalid": 0.65,
+          "multiBoardInvalid": 6,
+          "limitDownInvalid": 5
+        },
+        "baseline": {
+          "sealRate": 0.6666666666666666,
+          "multiBoardCount": 13,
+          "limitDownCount": 2
+        }
+      },
+      "generation": {
+        "engineVersion": "daily-hypothesis-v1.0.0",
+        "sourceSnapshotSha256": "10caabbb13bb6152da15096a3b6a136629e023e28dfbcaa3e9d638f31484bd14",
+        "mode": "DETERMINISTIC_RULE_GENERATED"
+      },
+      "settlement": {
+        "engineVersion": "daily-hypothesis-v1.0.0",
+        "actual": {
+          "sealRate": 0.7878787878787878,
+          "multiBoardCount": 16,
+          "limitDownCount": 4
+        },
+        "sourceSnapshotSha256": "14f6c7964e700ad6fce31fc66126f87dba46eaec9d0be14ca1c34b040414eb0d"
+      }
+    },
+    {
+      "id": "HYP-20260826-MARKET-PERSISTENCE",
+      "createdOn": "2026-08-26",
+      "dueOn": "2026-08-27",
+      "title": "广度、趋势存量与量能能否共同延续",
+      "scope": "market",
+      "confirmation": "上涨覆盖不低于50%，MA20上方比例不低于60.0%，且成交额不低于当日的90%。",
+      "invalidation": "上涨覆盖低于40%，或成交额收缩超过15%且MA20上方比例同步下降。",
+      "risk": "强扩散后的自然均值回归可能造成单日回落，确认规则只描述次日延续，不外推中期趋势。",
+      "counterEvidence": "生成日上涨覆盖53.1%、MA20上方53.8%，高基数提高了延续难度。",
+      "result": "INCONCLUSIVE",
+      "settledOn": "2026-08-27",
+      "resultNote": "规则MARKET_PERSISTENCE按到期快照结算为INCONCLUSIVE；实际输入：advanceShare=0.6118622678925545、aboveMa20Share=0.5801334054443843、turnoverCny=2140959919627",
+      "evidenceIds": [
+        "EVD-FULL-MARKET-CLOSE"
+      ],
+      "rule": {
+        "type": "MARKET_PERSISTENCE",
+        "thresholds": {
+          "advanceShareMin": 0.5,
+          "aboveMa20ShareMin": 0.6,
+          "turnoverCnyMin": 1639633499778.6,
+          "advanceShareInvalid": 0.4,
+          "turnoverRatioInvalid": 0.85,
+          "aboveMa20DropInvalid": 0.08
+        },
+        "baseline": {
+          "turnoverCny": 1821814999754,
+          "aboveMa20Share": 0.5379484405985218
+        }
+      },
+      "generation": {
+        "engineVersion": "daily-hypothesis-v1.0.0",
+        "sourceSnapshotSha256": "10caabbb13bb6152da15096a3b6a136629e023e28dfbcaa3e9d638f31484bd14",
+        "mode": "DETERMINISTIC_RULE_GENERATED"
+      },
+      "settlement": {
+        "engineVersion": "daily-hypothesis-v1.0.0",
+        "actual": {
+          "advanceShare": 0.6118622678925545,
+          "aboveMa20Share": 0.5801334054443843,
+          "turnoverCny": 2140959919627
+        },
+        "sourceSnapshotSha256": "14f6c7964e700ad6fce31fc66126f87dba46eaec9d0be14ca1c34b040414eb0d"
+      }
+    },
+    {
+      "id": "HYP-20260826-TOP-DIRECTION",
+      "createdOn": "2026-08-26",
+      "dueOn": "2026-08-27",
+      "title": "酿酒居前能否转化为内部扩散延续",
+      "scope": "direction",
+      "confirmation": "酿酒继续取得正相对全A收益、上涨覆盖不低于55.0%，成交占比不低于生成日的75%。",
+      "invalidation": "酿酒相对收益转负且上涨覆盖低于45%，或方向中位收益转负。",
+      "risk": "同花顺方向成员是当前快照，不是点时历史；次日若成员发生变化，结算质量必须降级为证据不足。",
+      "counterEvidence": "生成日单日收益+0.88%、相对全A+0.62%，短期拥挤与分化风险上升。",
+      "result": "NOT_CONFIRMED",
+      "settledOn": "2026-08-27",
+      "resultNote": "规则DIRECTION_PERSISTENCE按到期快照结算为NOT_CONFIRMED；实际输入：relativeVsAllA=-0.019277746890210924、advanceShare=0.2、medianReturn1d=-0.007555、amountShare=0.004579271276909324、membershipAsOf=2026-08-27",
+      "evidenceIds": [
+        "EVD-FULL-MARKET-CLOSE"
+      ],
+      "rule": {
+        "type": "DIRECTION_PERSISTENCE",
+        "entity": "酿酒",
+        "thresholds": {
+          "relativeMin": 0.0,
+          "advanceShareMin": 0.55,
+          "amountShareMin": 0.0038133762702965155,
+          "advanceShareInvalid": 0.45
+        },
+        "baseline": {
+          "membershipAsOf": "2026-08-26",
+          "return1d": 0.00879,
+          "advanceShare": 0.5333333333333333,
+          "amountShare": 0.005084501693728687
+        }
+      },
+      "generation": {
+        "engineVersion": "daily-hypothesis-v1.0.0",
+        "sourceSnapshotSha256": "10caabbb13bb6152da15096a3b6a136629e023e28dfbcaa3e9d638f31484bd14",
+        "mode": "DETERMINISTIC_RULE_GENERATED"
+      },
+      "settlement": {
+        "engineVersion": "daily-hypothesis-v1.0.0",
+        "actual": {
+          "relativeVsAllA": -0.019277746890210924,
+          "advanceShare": 0.2,
+          "medianReturn1d": -0.007555,
+          "amountShare": 0.004579271276909324,
+          "membershipAsOf": "2026-08-27"
+        },
+        "sourceSnapshotSha256": "14f6c7964e700ad6fce31fc66126f87dba46eaec9d0be14ca1c34b040414eb0d"
+      }
+    },
+    {
+      "id": "HYP-20260826-WEAK-DIRECTION",
+      "createdOn": "2026-08-26",
+      "dueOn": "2026-08-27",
+      "title": "MLCC相对弱势能否收敛",
+      "scope": "direction",
+      "confirmation": "MLCC相对全A落后幅度收窄至0.5个百分点以内，上涨覆盖回到45%以上，且方向中位收益不再为负。",
+      "invalidation": "MLCC继续取得负相对收益且上涨覆盖低于35%，弱势扩散到方向中位数。",
+      "risk": "低位方向可能仅受风格轮换扰动；单日收敛不等于中期修复。",
+      "counterEvidence": "生成日收益-0.77%、相对全A-1.04%、上涨覆盖28.6%。",
+      "result": "CONFIRMED",
+      "settledOn": "2026-08-27",
+      "resultNote": "规则DIRECTION_REPAIR按到期快照结算为CONFIRMED；实际输入：relativeVsAllA=0.029086253109789073、advanceShare=0.9714285714285714、medianReturn1d=0.037315999999999995、amountShare=0.02169417905920512、membershipAsOf=2026-08-27",
+      "evidenceIds": [
+        "EVD-FULL-MARKET-CLOSE"
+      ],
+      "rule": {
+        "type": "DIRECTION_REPAIR",
+        "entity": "MLCC",
+        "thresholds": {
+          "relativeMin": -0.005,
+          "advanceShareMin": 0.45,
+          "medianReturnMin": 0.0,
+          "relativeInvalidMax": -0.010355433387416622,
+          "advanceShareInvalid": 0.35
+        },
+        "baseline": {
+          "membershipAsOf": "2026-08-26",
+          "relativeVsAllA": -0.010355433387416622,
+          "advanceShare": 0.2857142857142857
+        }
+      },
+      "generation": {
+        "engineVersion": "daily-hypothesis-v1.0.0",
+        "sourceSnapshotSha256": "10caabbb13bb6152da15096a3b6a136629e023e28dfbcaa3e9d638f31484bd14",
+        "mode": "DETERMINISTIC_RULE_GENERATED"
+      },
+      "settlement": {
+        "engineVersion": "daily-hypothesis-v1.0.0",
+        "actual": {
+          "relativeVsAllA": 0.029086253109789073,
+          "advanceShare": 0.9714285714285714,
+          "medianReturn1d": 0.037315999999999995,
+          "amountShare": 0.02169417905920512,
+          "membershipAsOf": "2026-08-27"
+        },
+        "sourceSnapshotSha256": "14f6c7964e700ad6fce31fc66126f87dba46eaec9d0be14ca1c34b040414eb0d"
+      }
+    },
+    {
+      "id": "HYP-20260827-DIRECTION-SPREAD",
+      "createdOn": "2026-08-27",
+      "dueOn": "2026-08-28",
+      "title": "方向高低剪刀差是收敛还是继续扩大",
+      "scope": "direction",
+      "confirmation": "最强与最弱方向的相对收益差由6.0%收敛至少25%，同时弱方向上涨覆盖改善。",
+      "invalidation": "剪刀差不降反升，且弱方向上涨覆盖继续下降。",
+      "risk": "剪刀差收敛可能来自强方向回落，也可能来自弱方向修复，必须分解两端贡献。",
+      "counterEvidence": "生成日最强电子化学品与最弱酿酒相对收益差为6.0%。",
+      "result": "CONFIRMED",
+      "settledOn": "2026-08-28",
+      "resultNote": "规则DIRECTION_SPREAD按到期快照结算为CONFIRMED；实际输入：spread=-0.009717999999999997、strongRelative=-0.016345239228411752、weakRelative=-0.006627239228411755、weakAdvanceShare=0.8333333333333334",
+      "evidenceIds": [
+        "EVD-FULL-MARKET-CLOSE"
+      ],
+      "rule": {
+        "type": "DIRECTION_SPREAD",
+        "entities": [
+          "电子化学品",
+          "酿酒"
+        ],
+        "thresholds": {
+          "spreadMax": 0.044717999999999994,
+          "spreadInvalidMin": 0.059623999999999996,
+          "weakAdvanceBaseline": 0.2
+        },
+        "baseline": {
+          "spread": 0.059623999999999996,
+          "strongMembershipAsOf": "2026-08-27",
+          "weakMembershipAsOf": "2026-08-27"
+        }
+      },
+      "generation": {
+        "engineVersion": "daily-hypothesis-v1.0.0",
+        "sourceSnapshotSha256": "14f6c7964e700ad6fce31fc66126f87dba46eaec9d0be14ca1c34b040414eb0d",
+        "mode": "DETERMINISTIC_RULE_GENERATED"
+      },
+      "settlement": {
+        "engineVersion": "daily-hypothesis-v1.0.0",
+        "actual": {
+          "spread": -0.009717999999999997,
+          "strongRelative": -0.016345239228411752,
+          "weakRelative": -0.006627239228411755,
+          "weakAdvanceShare": 0.8333333333333334
+        },
+        "sourceSnapshotSha256": "68c67f231ce367c9324e70d94a74011face979fb5786c3dd7eebb6ac2a3b9a8d"
+      }
+    },
+    {
+      "id": "HYP-20260827-LIMIT-ECOLOGY",
+      "createdOn": "2026-08-27",
+      "dueOn": "2026-08-28",
+      "title": "封板质量、晋级梯队与负反馈能否保持协调",
+      "scope": "market",
+      "confirmation": "封板率不低于75.0%、多板梯队不少于11家、跌停不超过6家。",
+      "invalidation": "封板率低于65%，或多板梯队缩减过半且跌停家数明显增加。",
+      "risk": "不同交易板与ST状态涨跌幅制度不同，必须沿用逐股涨跌停价口径。",
+      "counterEvidence": "生成日封板率78.8%、多板16家、跌停4家；强基数可能快速回落。",
+      "result": "CONFIRMED",
+      "settledOn": "2026-08-28",
+      "resultNote": "规则LIMIT_ECOLOGY按到期快照结算为CONFIRMED；实际输入：sealRate=0.7830188679245284、multiBoardCount=18、limitDownCount=3",
+      "evidenceIds": [
+        "EVD-FULL-MARKET-CLOSE"
+      ],
+      "rule": {
+        "type": "LIMIT_ECOLOGY",
+        "thresholds": {
+          "sealRateMin": 0.75,
+          "multiBoardMin": 11,
+          "limitDownMax": 6,
+          "sealRateInvalid": 0.65,
+          "multiBoardInvalid": 8,
+          "limitDownInvalid": 7
+        },
+        "baseline": {
+          "sealRate": 0.7878787878787878,
+          "multiBoardCount": 16,
+          "limitDownCount": 4
+        }
+      },
+      "generation": {
+        "engineVersion": "daily-hypothesis-v1.0.0",
+        "sourceSnapshotSha256": "14f6c7964e700ad6fce31fc66126f87dba46eaec9d0be14ca1c34b040414eb0d",
+        "mode": "DETERMINISTIC_RULE_GENERATED"
+      },
+      "settlement": {
+        "engineVersion": "daily-hypothesis-v1.0.0",
+        "actual": {
+          "sealRate": 0.7830188679245284,
+          "multiBoardCount": 18,
+          "limitDownCount": 3
+        },
+        "sourceSnapshotSha256": "68c67f231ce367c9324e70d94a74011face979fb5786c3dd7eebb6ac2a3b9a8d"
+      }
+    },
+    {
+      "id": "HYP-20260827-MARKET-PERSISTENCE",
+      "createdOn": "2026-08-27",
+      "dueOn": "2026-08-28",
+      "title": "广度、趋势存量与量能能否共同延续",
+      "scope": "market",
+      "confirmation": "上涨覆盖不低于50%，MA20上方比例不低于60.0%，且成交额不低于当日的90%。",
+      "invalidation": "上涨覆盖低于40%，或成交额收缩超过15%且MA20上方比例同步下降。",
+      "risk": "强扩散后的自然均值回归可能造成单日回落，确认规则只描述次日延续，不外推中期趋势。",
+      "counterEvidence": "生成日上涨覆盖61.2%、MA20上方58.0%，高基数提高了延续难度。",
+      "result": "INCONCLUSIVE",
+      "settledOn": "2026-08-28",
+      "resultNote": "规则MARKET_PERSISTENCE按到期快照结算为INCONCLUSIVE；实际输入：advanceShare=0.5431764917973679、aboveMa20Share=0.5859022895258699、turnoverCny=2117732336241",
+      "evidenceIds": [
+        "EVD-FULL-MARKET-CLOSE"
+      ],
+      "rule": {
+        "type": "MARKET_PERSISTENCE",
+        "thresholds": {
+          "advanceShareMin": 0.5,
+          "aboveMa20ShareMin": 0.6,
+          "turnoverCnyMin": 1926863927664.3,
+          "advanceShareInvalid": 0.4,
+          "turnoverRatioInvalid": 0.85,
+          "aboveMa20DropInvalid": 0.08
+        },
+        "baseline": {
+          "turnoverCny": 2140959919627,
+          "aboveMa20Share": 0.5801334054443843
+        }
+      },
+      "generation": {
+        "engineVersion": "daily-hypothesis-v1.0.0",
+        "sourceSnapshotSha256": "14f6c7964e700ad6fce31fc66126f87dba46eaec9d0be14ca1c34b040414eb0d",
+        "mode": "DETERMINISTIC_RULE_GENERATED"
+      },
+      "settlement": {
+        "engineVersion": "daily-hypothesis-v1.0.0",
+        "actual": {
+          "advanceShare": 0.5431764917973679,
+          "aboveMa20Share": 0.5859022895258699,
+          "turnoverCny": 2117732336241
+        },
+        "sourceSnapshotSha256": "68c67f231ce367c9324e70d94a74011face979fb5786c3dd7eebb6ac2a3b9a8d"
+      }
+    },
+    {
+      "id": "HYP-20260827-TOP-DIRECTION",
+      "createdOn": "2026-08-27",
+      "dueOn": "2026-08-28",
+      "title": "电子化学品居前能否转化为内部扩散延续",
+      "scope": "direction",
+      "confirmation": "电子化学品继续取得正相对全A收益、上涨覆盖不低于70.0%，成交占比不低于生成日的75%。",
+      "invalidation": "电子化学品相对收益转负且上涨覆盖低于45%，或方向中位收益转负。",
+      "risk": "同花顺方向成员是当前快照，不是点时历史；次日若成员发生变化，结算质量必须降级为证据不足。",
+      "counterEvidence": "生成日单日收益+5.22%、相对全A+4.03%，短期拥挤与分化风险上升。",
+      "result": "NOT_CONFIRMED",
+      "settledOn": "2026-08-28",
+      "resultNote": "规则DIRECTION_PERSISTENCE按到期快照结算为NOT_CONFIRMED；实际输入：relativeVsAllA=-0.016345239228411752、advanceShare=0.23255813953488372、medianReturn1d=-0.015854999999999998、amountShare=0.020365565134998473、membershipAsOf=2026-08-28",
+      "evidenceIds": [
+        "EVD-FULL-MARKET-CLOSE"
+      ],
+      "rule": {
+        "type": "DIRECTION_PERSISTENCE",
+        "entity": "电子化学品",
+        "thresholds": {
+          "relativeMin": 0.0,
+          "advanceShareMin": 0.7,
+          "amountShareMin": 0.015771957677011245,
+          "advanceShareInvalid": 0.45
+        },
+        "baseline": {
+          "membershipAsOf": "2026-08-27",
+          "return1d": 0.052222,
+          "advanceShare": 1.0,
+          "amountShare": 0.02102927690268166
+        }
+      },
+      "generation": {
+        "engineVersion": "daily-hypothesis-v1.0.0",
+        "sourceSnapshotSha256": "14f6c7964e700ad6fce31fc66126f87dba46eaec9d0be14ca1c34b040414eb0d",
+        "mode": "DETERMINISTIC_RULE_GENERATED"
+      },
+      "settlement": {
+        "engineVersion": "daily-hypothesis-v1.0.0",
+        "actual": {
+          "relativeVsAllA": -0.016345239228411752,
+          "advanceShare": 0.23255813953488372,
+          "medianReturn1d": -0.015854999999999998,
+          "amountShare": 0.020365565134998473,
+          "membershipAsOf": "2026-08-28"
+        },
+        "sourceSnapshotSha256": "68c67f231ce367c9324e70d94a74011face979fb5786c3dd7eebb6ac2a3b9a8d"
+      }
+    },
+    {
+      "id": "HYP-20260827-WEAK-DIRECTION",
+      "createdOn": "2026-08-27",
+      "dueOn": "2026-08-28",
+      "title": "酿酒相对弱势能否收敛",
+      "scope": "direction",
+      "confirmation": "酿酒相对全A落后幅度收窄至0.5个百分点以内，上涨覆盖回到45%以上，且方向中位收益不再为负。",
+      "invalidation": "酿酒继续取得负相对收益且上涨覆盖低于35%，弱势扩散到方向中位数。",
+      "risk": "低位方向可能仅受风格轮换扰动；单日收敛不等于中期修复。",
+      "counterEvidence": "生成日收益-0.74%、相对全A-1.93%、上涨覆盖20.0%。",
+      "result": "INCONCLUSIVE",
+      "settledOn": "2026-08-28",
+      "resultNote": "规则DIRECTION_REPAIR按到期快照结算为INCONCLUSIVE；实际输入：relativeVsAllA=-0.006627239228411755、advanceShare=0.8333333333333334、medianReturn1d=0.007891、amountShare=0.0038991926880791706、membershipAsOf=2026-08-28",
+      "evidenceIds": [
+        "EVD-FULL-MARKET-CLOSE"
+      ],
+      "rule": {
+        "type": "DIRECTION_REPAIR",
+        "entity": "酿酒",
+        "thresholds": {
+          "relativeMin": -0.005,
+          "advanceShareMin": 0.45,
+          "medianReturnMin": 0.0,
+          "relativeInvalidMax": -0.019277746890210924,
+          "advanceShareInvalid": 0.35
+        },
+        "baseline": {
+          "membershipAsOf": "2026-08-27",
+          "relativeVsAllA": -0.019277746890210924,
+          "advanceShare": 0.2
+        }
+      },
+      "generation": {
+        "engineVersion": "daily-hypothesis-v1.0.0",
+        "sourceSnapshotSha256": "14f6c7964e700ad6fce31fc66126f87dba46eaec9d0be14ca1c34b040414eb0d",
+        "mode": "DETERMINISTIC_RULE_GENERATED"
+      },
+      "settlement": {
+        "engineVersion": "daily-hypothesis-v1.0.0",
+        "actual": {
+          "relativeVsAllA": -0.006627239228411755,
+          "advanceShare": 0.8333333333333334,
+          "medianReturn1d": 0.007891,
+          "amountShare": 0.0038991926880791706,
+          "membershipAsOf": "2026-08-28"
+        },
+        "sourceSnapshotSha256": "68c67f231ce367c9324e70d94a74011face979fb5786c3dd7eebb6ac2a3b9a8d"
+      }
+    },
+    {
+      "id": "HYP-20260828-LIMIT-ECOLOGY",
+      "createdOn": "2026-08-28",
+      "dueOn": "2026-08-31",
+      "title": "封板质量、晋级梯队与负反馈能否保持协调",
+      "scope": "market",
+      "confirmation": "封板率不低于75.0%、多板梯队不少于13家、跌停不超过5家。",
+      "invalidation": "封板率低于65%，或多板梯队缩减过半且跌停家数明显增加。",
+      "risk": "不同交易板与ST状态涨跌幅制度不同，必须沿用逐股涨跌停价口径。",
+      "counterEvidence": "生成日封板率78.3%、多板18家、跌停3家；强基数可能快速回落。",
+      "result": "DATA_PENDING",
+      "settledOn": null,
+      "resultNote": "等待2026-08-31完整收盘快照按结构化规则结算。",
+      "evidenceIds": [
+        "EVD-FULL-MARKET-CLOSE"
+      ],
+      "rule": {
+        "type": "LIMIT_ECOLOGY",
+        "thresholds": {
+          "sealRateMin": 0.75,
+          "multiBoardMin": 13,
+          "limitDownMax": 5,
+          "sealRateInvalid": 0.65,
+          "multiBoardInvalid": 9,
+          "limitDownInvalid": 6
+        },
+        "baseline": {
+          "sealRate": 0.7830188679245284,
+          "multiBoardCount": 18,
+          "limitDownCount": 3
+        }
+      },
+      "generation": {
+        "engineVersion": "daily-hypothesis-v1.0.0",
+        "sourceSnapshotSha256": "68c67f231ce367c9324e70d94a74011face979fb5786c3dd7eebb6ac2a3b9a8d",
+        "mode": "DETERMINISTIC_RULE_GENERATED"
+      }
+    },
+    {
+      "id": "HYP-20260828-MARKET-PERSISTENCE",
+      "createdOn": "2026-08-28",
+      "dueOn": "2026-08-31",
+      "title": "广度、趋势存量与量能能否共同延续",
+      "scope": "market",
+      "confirmation": "上涨覆盖不低于50%，MA20上方比例不低于60.0%，且成交额不低于当日的90%。",
+      "invalidation": "上涨覆盖低于40%，或成交额收缩超过15%且MA20上方比例同步下降。",
+      "risk": "强扩散后的自然均值回归可能造成单日回落，确认规则只描述次日延续，不外推中期趋势。",
+      "counterEvidence": "生成日上涨覆盖54.3%、MA20上方58.6%，高基数提高了延续难度。",
+      "result": "DATA_PENDING",
+      "settledOn": null,
+      "resultNote": "等待2026-08-31完整收盘快照按结构化规则结算。",
+      "evidenceIds": [
+        "EVD-FULL-MARKET-CLOSE"
+      ],
+      "rule": {
+        "type": "MARKET_PERSISTENCE",
+        "thresholds": {
+          "advanceShareMin": 0.5,
+          "aboveMa20ShareMin": 0.6,
+          "turnoverCnyMin": 1905959102616.9001,
+          "advanceShareInvalid": 0.4,
+          "turnoverRatioInvalid": 0.85,
+          "aboveMa20DropInvalid": 0.08
+        },
+        "baseline": {
+          "turnoverCny": 2117732336241,
+          "aboveMa20Share": 0.5859022895258699
+        }
+      },
+      "generation": {
+        "engineVersion": "daily-hypothesis-v1.0.0",
+        "sourceSnapshotSha256": "68c67f231ce367c9324e70d94a74011face979fb5786c3dd7eebb6ac2a3b9a8d",
+        "mode": "DETERMINISTIC_RULE_GENERATED"
+      }
+    },
+    {
+      "id": "HYP-20260828-TOP-DIRECTION",
+      "createdOn": "2026-08-28",
+      "dueOn": "2026-08-31",
+      "title": "文化传媒居前能否转化为内部扩散延续",
+      "scope": "direction",
+      "confirmation": "文化传媒继续取得正相对全A收益、上涨覆盖不低于55.0%，成交占比不低于生成日的75%。",
+      "invalidation": "文化传媒相对收益转负且上涨覆盖低于45%，或方向中位收益转负。",
+      "risk": "同花顺方向成员是当前快照，不是点时历史；次日若成员发生变化，结算质量必须降级为证据不足。",
+      "counterEvidence": "生成日单日收益+0.66%、相对全A+0.39%，短期拥挤与分化风险上升。",
+      "result": "DATA_PENDING",
+      "settledOn": null,
+      "resultNote": "等待2026-08-31完整收盘快照按结构化规则结算。",
+      "evidenceIds": [
+        "EVD-FULL-MARKET-CLOSE"
+      ],
+      "rule": {
+        "type": "DIRECTION_PERSISTENCE",
+        "entity": "文化传媒",
+        "thresholds": {
+          "relativeMin": 0.0,
+          "advanceShareMin": 0.55,
+          "amountShareMin": 0.017186493054032654,
+          "advanceShareInvalid": 0.45
+        },
+        "baseline": {
+          "membershipAsOf": "2026-08-28",
+          "return1d": 0.006639000000000001,
+          "advanceShare": 0.6377551020408163,
+          "amountShare": 0.02291532407204354
+        }
+      },
+      "generation": {
+        "engineVersion": "daily-hypothesis-v1.0.0",
+        "sourceSnapshotSha256": "68c67f231ce367c9324e70d94a74011face979fb5786c3dd7eebb6ac2a3b9a8d",
+        "mode": "DETERMINISTIC_RULE_GENERATED"
+      }
+    },
+    {
+      "id": "HYP-20260828-WEAK-DIRECTION",
+      "createdOn": "2026-08-28",
+      "dueOn": "2026-08-31",
+      "title": "存储芯片相对弱势能否收敛",
+      "scope": "direction",
+      "confirmation": "存储芯片相对全A落后幅度收窄至0.5个百分点以内，上涨覆盖回到45%以上，且方向中位收益不再为负。",
+      "invalidation": "存储芯片继续取得负相对收益且上涨覆盖低于35%，弱势扩散到方向中位数。",
+      "risk": "低位方向可能仅受风格轮换扰动；单日收敛不等于中期修复。",
+      "counterEvidence": "生成日收益-1.44%、相对全A-1.72%、上涨覆盖22.2%。",
+      "result": "DATA_PENDING",
+      "settledOn": null,
+      "resultNote": "等待2026-08-31完整收盘快照按结构化规则结算。",
+      "evidenceIds": [
+        "EVD-FULL-MARKET-CLOSE"
+      ],
+      "rule": {
+        "type": "DIRECTION_REPAIR",
+        "entity": "存储芯片",
+        "thresholds": {
+          "relativeMin": -0.005,
+          "advanceShareMin": 0.45,
+          "medianReturnMin": 0.0,
+          "relativeInvalidMax": -0.017152239228411754,
+          "advanceShareInvalid": 0.35
+        },
+        "baseline": {
+          "membershipAsOf": "2026-08-28",
+          "relativeVsAllA": -0.017152239228411754,
+          "advanceShare": 0.22167487684729065
+        }
+      },
+      "generation": {
+        "engineVersion": "daily-hypothesis-v1.0.0",
+        "sourceSnapshotSha256": "68c67f231ce367c9324e70d94a74011face979fb5786c3dd7eebb6ac2a3b9a8d",
+        "mode": "DETERMINISTIC_RULE_GENERATED"
+      }
+    }
+  ],
+  "integrity": {
+    "sha256": "59b14ea9b91076b0be630f609cf2c5825c34da4a05b770221c3a939fc8a80924"
+  }
+}

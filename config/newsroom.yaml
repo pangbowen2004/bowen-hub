@@ -1,0 +1,126 @@
+# 美股新闻室 · 规则与参数（docs/02）
+# 所有阈值、时间、名单都在这里；代码里不写死。
+
+timezone: Asia/Singapore           # 发送与显示用的时区（新加坡，与北京时间相同）
+usMarket:
+  calendar: XNYS                   # exchange_calendars 的纽交所日历
+  timezone: America/New_York
+  open: "09:30"
+
+editions:
+  morning:
+    start: "07:10"                 # 新加坡时间，开始生成
+    sendBy: "07:30"
+    windowHours: 24                # 覆盖上一期早报以来（约 24 小时）
+    readingBudgetChars: 2500       # 约 6 分钟
+  premarket:
+    minutesBeforeOpen: 45
+    guardWindowEt: ["08:35", "09:15"]   # 任务只在美东这个时间段内运行（docs/09 第 8 节）
+    readingBudgetChars: 1000       # 约 3 分钟
+    maxMarketItems: 5
+  weekly:
+    weekday: sat                   # 周六
+    start: "09:10"
+    sendBy: "09:30"
+    readingBudgetChars: 4000       # 约 10 分钟
+    internationalTop: 5
+
+thresholds:
+  bigMove: 0.03                    # 自选股日涨跌幅绝对值 ≥ 3% 就入选“自选股动态”
+  sectorSyncMove: 0.02             # 对照 ETF 涨跌幅绝对值 ≥ 2% 且同向 → “与板块同步”
+  insiderSellMinUsd: 1000000       # Form 4 卖出只列 ≥ 100 万美元的
+  usRank: { candidates: 20, min: 6, max: 8 }
+  tickerSources: { min: 1, max: 3 }
+  cluster:
+    titleSimilarity: 0.85          # 标题相似度 ≥ 0.85 → 同一事件
+    sameTickerHours: 6             # 同一股票、6 小时内、标题词重合 ≥ 50% → 同一事件
+    tokenOverlap: 0.5
+  internationalBriefs: 10          # 国际与科技栏目在早报里最多放几条简短摘要；其余参数在 news_keywords.yaml 的 pipeline 段
+
+scoring:                           # 规则打分（docs/02 第 5 节）；来源权重在 news_sources.yaml 的 weight
+  recency:                         # 越新越高
+    - { withinHours: 6, score: 2 }
+    - { withinHours: 12, score: 1 }
+  watchlist: 3                     # 涉及自选股
+  megaCap: 1                       # 涉及大市值公司
+  paywall: { none: 0, metered: -1, hard: -3 }
+  keywords:                        # 标题命中：high 每个 +2，medium 每个 +1，关键词加分合计最多 +4
+    high: [earnings, guidance, outlook, forecast, downgrade, upgrade, FDA, SEC, DOJ, FTC, antitrust, probe,
+           lawsuit, tariff, export control, sanction, merger, acquisition, acquire, buyback, offering, IPO,
+           bankruptcy, layoffs, CEO, Fed, Powell, rate cut, rate hike, inflation, CPI, payrolls, jobs report,
+           recession, AI, chip, semiconductor, data center, bitcoin, crypto, stablecoin]
+    medium: [partnership, contract, deal, order, launch, record, stake, investment, delay, recall, strike]
+
+snapshot:                          # 收盘快照（可选栏目）
+  indexEtfs: [SPY, QQQ, DIA, IWM, SMH]
+  defaultSectorEtf: QQQ
+  treasury10y: true                # 美国财政部每日收益率 XML，拿不到就不显示
+  vix: true                        # CBOE VIX 历史 CSV，拿不到就不显示
+
+filings:
+  eightK: "8-K"
+  periodic: ["10-Q", "10-K"]       # 只提示“已发布”并给链接
+  offerings: ["S-1", "S-3", "424B"]  # 424B 按前缀匹配（424B1–424B8）
+  ownership: ["SC 13D", "SC 13G", "SCHEDULE 13D", "SCHEDULE 13G"]   # 2024 年底起 EDGAR 使用新表格名，两种都认（含 /A 修订）
+  insider:
+    buyCode: P                     # 买入全部列出
+    sellCode: S                    # 卖出只列 ≥ insiderSellMinUsd
+  items8k:                         # Item → 中文名；digest: true 的才调用 news.filing_digest
+    "1.01": { name: 签订重大协议, digest: true }
+    "1.02": { name: 终止重大协议, digest: true }
+    "2.01": { name: 完成收购或处置资产, digest: true }
+    "2.02": { name: 财报, digest: false }          # 由财报卡片处理
+    "2.03": { name: 新增重大债务, digest: true }
+    "2.05": { name: 重组或退出业务的成本, digest: true }
+    "2.06": { name: 重大减值, digest: true }
+    "3.01": { name: 退市或不符合上市标准通知, digest: true }
+    "4.02": { name: 已发布财报不可再依赖, digest: true }
+    "5.02": { name: 董事或高管变动, digest: true }
+    "5.07": { name: 股东大会投票结果, digest: false }
+    "7.01": { name: Reg FD 披露, digest: false }
+    "8.01": { name: 其他事件, digest: true }
+    "9.01": { name: 财务报表与附件, digest: false }
+
+macro:
+  # FRED 发布名称（适配器按名称查 release id 和发布日期）+ 美东发布时间
+  releases:
+    - { fredName: "Consumer Price Index", label: CPI, timeEt: "08:30" }
+    - { fredName: "Employment Situation", label: 非农就业报告, timeEt: "08:30" }
+    - { fredName: "Producer Price Index", label: PPI, timeEt: "08:30" }
+    - { fredName: "Advance Monthly Sales for Retail and Food Services", label: 零售销售, timeEt: "08:30" }
+    - { fredName: "Gross Domestic Product", label: GDP, timeEt: "08:30" }
+    - { fredName: "Personal Income and Outlays", label: 个人收入与支出（PCE）, timeEt: "08:30" }
+    - { fredName: "Job Openings and Labor Turnover Survey", label: JOLTS 职位空缺, timeEt: "10:00" }
+    - { fredName: "Unemployment Insurance Weekly Claims Report", label: 初请失业金, timeEt: "08:30" }
+  # FOMC 会议（第二天美东 14:00 发布声明；sep: true 表示同时发布经济预测）
+  # 来源：federalreserve.gov/monetarypolicy/fomccalendars.htm（2026-09-29 核对）。每年更新一次。
+  fomc:
+    - { dates: ["2026-10-27", "2026-10-28"], sep: false }
+    - { dates: ["2026-12-08", "2026-12-09"], sep: true }
+    - { dates: ["2027-01-26", "2027-01-27"], sep: false }
+    - { dates: ["2027-03-16", "2027-03-17"], sep: true }
+    - { dates: ["2027-04-27", "2027-04-28"], sep: false }
+    - { dates: ["2027-06-08", "2027-06-09"], sep: true }
+    - { dates: ["2027-07-27", "2027-07-28"], sep: false }
+    - { dates: ["2027-09-14", "2027-09-15"], sep: true }
+    - { dates: ["2027-10-26", "2027-10-27"], sep: false }
+    - { dates: ["2027-12-07", "2027-12-08"], sep: true }
+  fomcStatementTimeEt: "14:00"
+
+# 大市值公司：它们的财报和日程也会出现（即使不在自选股里）；涉及它们的新闻 +1 分。
+# 人工维护，每季度按市值看一眼。
+megaCaps: [AAPL, MSFT, NVDA, GOOGL, GOOG, AMZN, META, AVGO, TSLA, TSM, BRK.B, LLY, JPM, V, MA, WMT, ORCL, NFLX, COST, XOM]
+
+# no_advice 校验的词表（docs/10 第 5.2 节）：出现这些说法的句子会被删掉。
+# 只拦“给读者的建议”这类祈使说法，不拦新闻事实（“分析师上调目标价”“伯克希尔减仓苹果”都是事实，可以写）。
+adviceWords: [建议买入, 建议卖出, 建议持有, 建议加仓, 建议减仓, 建议止损, 可以买入, 可以卖出, 值得买入,
+              逢低买入, 逢高卖出, 逢低布局, 仓位建议, 我们认为目标价]
+
+email:
+  fromName: Bowen Newsroom
+  subjects:
+    morning: "📰 美股早报｜{date}"
+    premarket: "⏰ 盘前简报｜{date}"
+    weekly: "🗓 美股周报｜{date}"
+    failure: "⚠️ [{job}] 失败｜{date}"
+  retries: 3

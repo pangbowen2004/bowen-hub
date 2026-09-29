@@ -1,0 +1,158 @@
+schema_version: 1
+paper_id: "arxiv-2505.07078"
+
+orientation:
+  what_it_is: "一个检验 LLM 投资 Agent 能否经受长时间、广股票池和偏差缓解评估的基准框架。"
+  analogy: "像把只在几道熟题上高分的选手，放进二十年不断换题、保留退场选手且计入成本的统考。"
+  why_it_matters: "它说明 Agent 能力结论不仅取决于模型，还取决于评测运行时是否保存历史事实、选择强基线并记录成本。"
+  not_the_same_as:
+    - "不是证明所有 LLM 交易策略都无效。"
+    - "不是实时多资产实盘交易系统。"
+    - "不是仅用一次长回测取代滚动验证。"
+  thirty_second_story:
+    - "短窗、明星股票上看似领先。"
+    - "扩大到 2004–2024 和历史成分股后，优势明显不稳定。"
+    - "因此研究系统要把评测范围与可用信息纳入审计链。"
+
+concepts:
+  - id: "c1"
+    name: "选择性评估"
+    explanation: "只选少量热门股票或短期窗口，容易得到不可外推的正面结果。"
+    why_it_matters: "决定结论是否只是样本选择的产物。"
+    depends_on: []
+    anchor: "PDF pp.1–2, Introduction"
+  - id: "c2"
+    name: "历史成分股"
+    explanation: "每个历史时点使用当时真实的指数成分，并保留后来退市标的。"
+    why_it_matters: "缓解幸存者偏差和用今天名单重写过去的问题。"
+    depends_on: ["c1"]
+    anchor: "PDF pp.3–4, Section 3"
+  - id: "c3"
+    name: "两阶段投资流程"
+    explanation: "先由选股策略构造标的集合，再由择时策略逐标的交易。"
+    why_it_matters: "把选什么和何时买卖分开比较。"
+    depends_on: ["c2"]
+    anchor: "PDF p.3, Figure 1"
+  - id: "c4"
+    name: "滚动评估"
+    explanation: "训练窗口随时间推进，只用窗口前可获得的信息生成后续评估。"
+    why_it_matters: "比固定一次切分更接近长程部署。"
+    depends_on: ["c2", "c3"]
+    anchor: "PDF p.12, Appendix B"
+  - id: "c5"
+    name: "风险调整表现"
+    explanation: "将收益与波动、下行风险或回撤一起解释，而非只取最高年化收益。"
+    why_it_matters: "FinAgent 的部分高收益并未对应高 Sharpe。"
+    depends_on: ["c3"]
+    anchor: "PDF p.6, Table 4"
+  - id: "c6"
+    name: "评测协议敏感性"
+    explanation: "同一方法在短窗、长期、复合股票池和市场状态切片中可得出不同排序。"
+    why_it_matters: "这是把领域基准转化为可靠 Agent 运行时设计原则的关键。"
+    depends_on: ["c1", "c4", "c5"]
+    anchor: "PDF pp.4–8, Tables 2–6 and Figure 2"
+
+mechanism_steps:
+  - number: 1
+    title: "冻结历史信息"
+    explanation: "按评估时点准备价格、新闻、申报与历史指数成分。"
+    input: "多源历史数据"
+    output: "无未来名单污染的数据快照"
+    anchor: "PDF pp.3–4"
+  - number: 2
+    title: "生成标的集合"
+    explanation: "随机、动量、低波动或 FinCon 每期选择股票。"
+    input: "历史可得特征"
+    output: "当期股票池"
+    anchor: "PDF p.4, Section 3.2"
+  - number: 3
+    title: "运行择时策略"
+    explanation: "对每个标的执行规则、预测、RL 或 LLM Agent。"
+    input: "股票池与策略"
+    output: "交易与收益序列"
+    anchor: "PDF p.4, Section 3.3"
+  - number: 4
+    title: "滚动并聚合"
+    explanation: "按固定窗口/步长推进，汇总收益、风险和费用。"
+    input: "各窗口结果"
+    output: "长期比较表"
+    anchor: "PDF p.12, Appendix B"
+  - number: 5
+    title: "做统计与状态诊断"
+    explanation: "比较策略差异、CAPM alpha 与牛熊震荡状态。"
+    input: "长期收益序列"
+    output: "显著性与失败模式"
+    anchor: "PDF pp.7–8, Tables 5–6 and Figure 2"
+
+design_philosophy:
+  - title: "先扩大评测支持域，再讨论模型能力"
+    explanation: "能力声称应覆盖足够时间、对象和状态，避免从选择性切片外推。"
+    anchor: "PDF pp.1–2"
+  - title: "同时保留简单强基线"
+    explanation: "复杂 Agent 必须与 B&H、规则、统计与 RL 比较。"
+    anchor: "PDF p.4"
+  - title: "把成本和版本当作实验产物"
+    explanation: "LLM 调用成本与模型版本会影响可重复性和实际价值。"
+    anchor: "PDF pp.14–15, Appendix G"
+
+figures:
+  - title: "Figure 1：FINSABER 框架"
+    page: 3
+    explanation: "展示数据、选股、择时和滚动评估的依赖关系。"
+    takeaway: "评测系统本身是能力结论的一部分。"
+  - title: "Table 3：四股票长期扩展"
+    page: 5
+    explanation: "把短期热门股票结果拉长到 2024。"
+    takeaway: "短窗优势通常不能稳定维持。"
+  - title: "Table 4：复合评估"
+    page: 6
+    explanation: "比较四种选股设置下多类策略的收益与风险。"
+    takeaway: "不要把最高绝对收益误作最佳风险调整策略。"
+  - title: "Figure 2：市场状态分析"
+    page: 8
+    explanation: "比较牛、熊、震荡状态下策略 Sharpe。"
+    takeaway: "LLM Agent 的行为在不同状态下并不稳定。"
+
+key_quotes:
+  - original: "Can LLM-based Financial Investing Strategies Outperform the Market in Long Run?"
+    translation: "基于 LLM 的金融投资策略能否长期跑赢市场？"
+    why_it_matters: "标题准确限定为长期经验问题，而不是预设否定答案。"
+    anchor: "PDF p.1, title"
+
+expert_qa:
+  - question: "为什么包含退市股票重要？"
+    answer: "只保留今天仍在指数中的公司会系统性美化历史可投资集合，产生幸存者偏差。"
+  - question: "Table 4 能否证明 FinAgent 没有价值？"
+    answer: "不能；它只约束论文实现和设定中的平均表现，且仍有动量设置的绝对收益亮点。"
+  - question: "CAPM alpha 不显著等于 alpha 为零吗？"
+    answer: "不等于；只能说在当前样本和模型下没有足够证据拒绝零。"
+  - question: "为什么 t 检验还要 R2？"
+    answer: "金融收益具有时间相关与异方差，配对单位和多重比较若处理不当会让 p 值过于乐观。"
+  - question: "如何迁移到科学 Agent？"
+    answer: "将数据快照、环境版本、预算、强基线、失败窗口和成本设为运行时可追踪对象。"
+
+active_recall:
+  - question: "FINSABER 主要针对哪三类评测风险？"
+    answer: "短窗口/窄范围导致的选择性，幸存者与前视偏差，以及反复试验的数据窥探。"
+    concept_ids: ["c1", "c2"]
+    difficulty: "基础"
+  - question: "为什么动量下 13.950% AR 不足以宣布 FinAgent 最优？"
+    answer: "同块 Sharpe 仅 0.104，必须同时看风险与统计不确定性。"
+    concept_ids: ["c5"]
+    difficulty: "中等"
+  - question: "复合低波动设置的 B&H 与 FinAgent Sharpe 各是多少？"
+    answer: "0.703 与 0.241。"
+    concept_ids: ["c5"]
+    difficulty: "基础"
+  - question: "这篇论文的最低充分结论是什么？"
+    answer: "在所测实现与时期，扩大评估后 LLM 策略没有一致的风险调整优势。"
+    concept_ids: ["c6"]
+    difficulty: "批判"
+  - question: "哪一项结果不能被解释为有效市场假说的证明？"
+    answer: "LLM Agent 的 CAPM alpha 均不显著。"
+    concept_ids: ["c5", "c6"]
+    difficulty: "批判"
+  - question: "给 AutoResearchLab 的一个具体迁移动作是什么？"
+    answer: "让每次实验保存历史数据快照、基线、窗口、费用与版本，并自动跑跨窗口压力测试。"
+    concept_ids: ["c4", "c6"]
+    difficulty: "迁移"

@@ -1,0 +1,30 @@
+# 按六项检查审核导读草稿，给出 pass / revise / escalate 和问题清单
+# 格式说明见 docs/10 第 3 节；输入输出模型在 contracts/capabilities.tsp
+id: papers.review
+version: 1
+summary: 按六项检查审核导读草稿，给出 pass / revise / escalate 和问题清单
+owner: papers
+runtime: python
+tier: frontier
+autonomy: L1
+prompt: prompts/paper_review.md
+io:
+  input: PaperReviewInput
+  output: PaperReviewOutput
+limits:
+  maxInputTokens: 400000
+  maxOutputTokens: 8000
+  timeoutSec: 600
+checks:
+  - quotes_in_sources
+  - pages_in_range
+fallback: unreviewed        # 草稿状态保持 draft（没审过），控制台提示
+params:
+  maxPageImages: 8
+evals:
+  schedule: on-change      # 单次评测较贵，只在改动提示词、清单或模型时跑
+  dataset: evals/papers.review/
+  thresholds:
+    schema_valid: 1.0
+    labels_match: 0.8
+    must_include: 0.7

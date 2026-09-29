@@ -1,0 +1,10 @@
+# 驾驶舱展示的 6 个指数（顺序即显示顺序）
+# 温度的“指数”分项 = 当日上涨的指数个数 / 6 × 15
+# 上证指数同时用于技术位（MA、ATR、支撑压力）
+indices:
+  - { code: 000001.SH, name: 上证指数, technical: true }
+  - { code: 000688.SH, name: 科创50 }
+  - { code: 399001.SZ, name: 深证成指 }
+  - { code: 399006.SZ, name: 创业板指 }
+  - { code: 000852.SH, name: 中证1000 }
+  - { code: 399303.SZ, name: 国证2000 }

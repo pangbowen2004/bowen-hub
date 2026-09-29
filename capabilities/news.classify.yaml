@@ -1,0 +1,26 @@
+# 国际与科技栏目：给每条新闻分到 8 个主题之一
+# 格式说明见 docs/10 第 3 节；输入输出模型在 contracts/capabilities.tsp
+id: news.classify
+version: 1
+summary: 国际与科技栏目：给每条新闻分到 8 个主题之一
+owner: newsroom
+runtime: python
+tier: fast
+autonomy: L2
+prompt: prompts/news_classify.md
+io:
+  input: ClassifyInput
+  output: ClassifyOutput
+limits:
+  maxInputTokens: 30000
+  maxOutputTokens: 2000
+  timeoutSec: 60
+checks:
+  - source_ids_exist
+fallback: keyword_rules        # 按 config/news_keywords.yaml 的关键词顺序匹配
+params: {}
+evals:
+  dataset: evals/news.classify/
+  thresholds:
+    schema_valid: 1.0
+    labels_match: 0.85

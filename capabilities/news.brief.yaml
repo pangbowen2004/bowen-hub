@@ -1,0 +1,29 @@
+# 国际与科技栏目：英文条目的中文摘要（2–3 句）
+# 格式说明见 docs/10 第 3 节；输入输出模型在 contracts/capabilities.tsp
+id: news.brief
+version: 1
+summary: 国际与科技栏目：英文条目的中文摘要（2–3 句）
+owner: newsroom
+runtime: python
+tier: fast
+autonomy: L2
+prompt: prompts/news_brief.md
+io:
+  input: BriefInput
+  output: BriefOutput
+limits:
+  maxInputTokens: 40000
+  maxOutputTokens: 4000
+  timeoutSec: 90
+checks:
+  - source_ids_exist
+  - numbers_in_sources
+  - length_within
+fallback: rss_summary        # 用 RSS 自带摘要的前 120 字
+params: {}
+evals:
+  dataset: evals/news.brief/
+  thresholds:
+    schema_valid: 1.0
+    numbers_in_sources: 1.0
+    length_within: 1.0

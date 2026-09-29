@@ -1,0 +1,55 @@
+# 自选股初始清单（docs/02 第 3 节）
+# 来源：Kevin 2026 年 9 月从 moomoo 导出的自选。上线后在控制台维护（写进数据库），这个文件只作初始值。
+#
+# 字段：
+#   symbol      代码（加密资产用 BTC、XRP）
+#   name        中文名或常用名
+#   kind        stock | etf | leveraged_etf | crypto
+#   group       分组（控制台和邮件里按组显示）
+#   underlying  杠杆 ETF / 现货 ETF 并入的标的：新闻、公告都算在标的名下
+#   sectorEtf   判断“与板块同步”时对照的 ETF（不写就用 newsroom.yaml 的 defaultSectorEtf）
+#   aliases     在 RSS 标题里匹配这只股票用的名字（英文按词边界匹配，不区分大小写）
+#   verify      true = 首次运行时确认代码是否有效（T10 负责核实，结果写进进度记录）
+#
+# 公司的 SEC 编号（CIK）运行时从 SEC 的 company_tickers.json 自动对照，不在这里填。
+
+items:
+  # ── 半导体 ──
+  - { symbol: TSM,  name: 台积电, kind: stock, group: 半导体, sectorEtf: SMH, aliases: [TSMC, Taiwan Semiconductor] }
+  - { symbol: AVGO, name: 博通, kind: stock, group: 半导体, sectorEtf: SMH, aliases: [Broadcom] }
+  - { symbol: NVDA, name: 英伟达, kind: stock, group: 半导体, sectorEtf: SMH, aliases: [Nvidia] }
+  - { symbol: MU,   name: 美光科技, kind: stock, group: 半导体, sectorEtf: SMH, aliases: [Micron] }
+  - { symbol: INTC, name: 英特尔, kind: stock, group: 半导体, sectorEtf: SMH, aliases: [Intel] }
+  - { symbol: SKHY, name: SK 海力士相关（待核实）, kind: stock, group: 半导体, sectorEtf: SMH, aliases: [SK Hynix], verify: true }
+  - { symbol: SOXX, name: 安硕半导体 ETF, kind: etf, group: 半导体 }
+  - { symbol: TSMX, name: 台积电 2 倍做多 ETF, kind: leveraged_etf, group: 半导体, underlying: TSM }
+  - { symbol: AVGX, name: 博通 2 倍做多 ETF, kind: leveraged_etf, group: 半导体, underlying: AVGO }
+
+  # ── 大型科技 ──
+  - { symbol: AAPL, name: 苹果, kind: stock, group: 大型科技, aliases: [Apple, iPhone] }
+  - { symbol: MSFT, name: 微软, kind: stock, group: 大型科技, aliases: [Microsoft] }
+  - { symbol: AMZN, name: 亚马逊, kind: stock, group: 大型科技, aliases: [Amazon, AWS] }
+  - { symbol: GOOG, name: 谷歌, kind: stock, group: 大型科技, aliases: [Alphabet, Google] }
+  - { symbol: META, name: Meta, kind: stock, group: 大型科技, aliases: [Meta Platforms, Facebook, Instagram] }
+  - { symbol: TSLA, name: 特斯拉, kind: stock, group: 大型科技, aliases: [Tesla] }
+
+  # ── 加密资产与相关股票 ──
+  - { symbol: BTC,  name: 比特币, kind: crypto, group: 加密, aliases: [Bitcoin] }
+  - { symbol: XRP,  name: XRP, kind: crypto, group: 加密, aliases: [XRP, Ripple] }
+  - { symbol: IBIT, name: 贝莱德比特币 ETF, kind: etf, group: 加密, underlying: BTC }
+  - { symbol: COIN, name: Coinbase, kind: stock, group: 加密, sectorEtf: IBIT, aliases: [Coinbase] }
+  - { symbol: MSTR, name: Strategy（原 MicroStrategy）, kind: stock, group: 加密, sectorEtf: IBIT, aliases: [MicroStrategy, Strategy Inc] }
+  - { symbol: HOOD, name: Robinhood, kind: stock, group: 加密, aliases: [Robinhood] }
+  - { symbol: CRCL, name: Circle, kind: stock, group: 加密, sectorEtf: IBIT, aliases: [Circle Internet, USDC] }
+
+  # ── 软件与网络安全 ──
+  - { symbol: PANW, name: Palo Alto Networks, kind: stock, group: 软件与网安, aliases: [Palo Alto Networks] }
+  - { symbol: CRWD, name: CrowdStrike, kind: stock, group: 软件与网安, aliases: [CrowdStrike] }
+
+  # ── 其他 ──
+  - { symbol: RKLB, name: Rocket Lab, kind: stock, group: 其他, aliases: [Rocket Lab] }
+  - { symbol: SPCX, name: 待核实, kind: etf, group: 其他, verify: true }
+  - { symbol: TLN,  name: Talen Energy, kind: stock, group: 其他, sectorEtf: SPY, aliases: [Talen Energy] }
+  - { symbol: MAR,  name: 万豪国际, kind: stock, group: 其他, sectorEtf: SPY, aliases: [Marriott] }
+  - { symbol: PFE,  name: 辉瑞, kind: stock, group: 其他, sectorEtf: SPY, aliases: [Pfizer] }
+  - { symbol: WMT,  name: 沃尔玛, kind: stock, group: 其他, sectorEtf: SPY, aliases: [Walmart] }

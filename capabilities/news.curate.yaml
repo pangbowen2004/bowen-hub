@@ -1,0 +1,30 @@
+# 国际与科技栏目：选 Top 5 并写 100–150 字综述
+# 格式说明见 docs/10 第 3 节；输入输出模型在 contracts/capabilities.tsp
+id: news.curate
+version: 1
+summary: 国际与科技栏目：选 Top 5 并写 100–150 字综述
+owner: newsroom
+runtime: python
+tier: balanced
+autonomy: L2
+prompt: prompts/news_curate.md
+io:
+  input: CurateInput
+  output: CurateOutput
+limits:
+  maxInputTokens: 40000
+  maxOutputTokens: 2500
+  timeoutSec: 90
+checks:
+  - source_ids_exist
+  - numbers_in_sources
+  - no_advice
+  - length_within
+fallback: top_by_score        # 按分数取前 5（每个主题最多 2 条），综述用固定句式（docs/02 附录 A）
+params: {}
+evals:
+  dataset: evals/news.curate/
+  thresholds:
+    schema_valid: 1.0
+    source_ids_exist: 1.0
+    judge_specific: 0.8

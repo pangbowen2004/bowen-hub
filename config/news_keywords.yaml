@@ -1,0 +1,97 @@
+# 每日新闻 · 关键词与规则
+#
+# 匹配规则（全部不区分大小写）：
+#   - 单个英文词：按词边界匹配（\b），避免 "us" 命中 "Musk"、"war" 命中 "Warsh"
+#   - 含空格或点的英文短语：子串匹配
+#   - 中文：子串匹配
+
+# 分类基础分
+categoryScore:
+  world: 3
+  business: 3
+  technology: 2
+  ai: 3
+  china: 3
+  macro: 3
+
+# 付费墙扣分（同等条件下免费源优先）
+paywallPenalty:
+  none: 0
+  metered: -1
+  hard: -3
+
+# 标题关键词加分：high 每命中一个 +3，medium 每命中一个 +1
+# 英文清单沿用老系统（已在生产中用了 4 个月）
+scoreKeywords:
+  high:
+    en: [china, chinese, beijing, xi,
+         us, u.s., united states, washington, white house,
+         trump, biden,
+         tariff, trade war, sanction, export control,
+         war, ukraine, russia, gaza, israel, iran,
+         election, president, government, policy,
+         fed, federal reserve, interest rate, inflation,
+         stock, stocks, market, nasdaq, s&p, wall street,
+         ai, artificial intelligence, openai, nvidia,
+         chip, semiconductor, tsmc,
+         microsoft, google, meta, apple, amazon, tesla]
+    # 新增（中文源用），可按阅读偏好调整
+    zh: [中美, 关税, 制裁, 出口管制, 美联储, 降息, 加息, 通胀, 央行, 证监会,
+         A股, 港股, 美股, 芯片, 半导体, 大模型, 人工智能, 英伟达, 华为, 字节跳动]
+  medium:
+    en: [economy, growth, recession, bond, yield, dollar,
+         oil, gold, earnings, profit, revenue,
+         technology, startup, data, cloud, robot,
+         bytedance, tencent, alibaba]
+    zh: [融资, 上市, 财报, 营收, 利润, 机器人, 自动驾驶, 新能源, 电动车, 算力,
+         腾讯, 阿里, 小米, 比亚迪, 宁德时代]
+
+# 规则分类（LLM 失败时用）：按下面顺序，第一个命中的就是结果
+# 特殊规则写在代码里：标题同时含 trump 和 (china|xi|beijing|chinese) → us_china（优先于一切）；
+#                     全都没命中且来源分类为 china → china_business；否则 other
+topicRules:
+  - topic: markets_macro
+    en: [fed, federal reserve, interest rate, inflation, stock, stocks, market, markets, nasdaq, s&p,
+         wall street, bond, yield, economy, economic, gdp, recession, earnings, profit, revenue]
+    zh: [美联储, 利率, 通胀, 股市, A股, 港股, 美股, 债市, 国债, GDP, 财报, 营收]
+  - topic: us_china
+    en: [china, chinese, beijing, xi jinping, tariff, tariffs, trade war, sanction, sanctions,
+         export control, export controls]
+    zh: [中美, 关税, 贸易战, 制裁, 出口管制]
+  - topic: war_geopolitics
+    en: [ukraine, russia, gaza, israel, iran, war, strike, strikes, missile, military, ceasefire, conflict]
+    zh: [乌克兰, 俄罗斯, 加沙, 以色列, 伊朗, 战争, 导弹, 停火, 冲突]
+  - topic: ai_tech
+    en: [ai, artificial intelligence, openai, anthropic, claude, nvidia, chip, chips, semiconductor, tsmc,
+         llm, gpt, gemini, model, models, data sovereignty, autonomous systems]
+    zh: [人工智能, 大模型, 芯片, 半导体, 英伟达, 算力, 智能体]
+  - topic: big_tech
+    en: [apple, google, meta, microsoft, amazon, tesla, musk, waymo, waymos]
+    zh: [苹果, 谷歌, 微软, 亚马逊, 特斯拉, 马斯克]
+  - topic: us_politics
+    en: [trump, biden, harris, senate, congress, house gop, house dem, white house, supreme court,
+         republican, democrat, democrats]
+    zh: [特朗普, 拜登, 国会, 参议院, 白宫, 最高法院]
+
+# 主题显示名（邮件和数据里用）
+topicLabels:
+  us_china: 中美关系
+  war_geopolitics: 战争 / 地缘政治
+  markets_macro: 宏观 / 金融市场
+  ai_tech: AI / 科技产业
+  big_tech: 大型科技公司
+  us_politics: 美国政治
+  china_business: 中国商业 / 创业
+  other: 其他
+
+# 主题在邮件目录和分区里的显示顺序
+topicOrder: [us_china, war_geopolitics, markets_macro, ai_tech, big_tech, us_politics, china_business, other]
+
+# 流程参数
+pipeline:
+  recentHours: 36          # 时间窗
+  titleSimilarity: 0.85    # 标题相似度阈值（difflib）
+  perCategory: 5           # 每个分类最多保留几条
+  curateCandidates: 20     # 送给 LLM 选 Top 5 的候选数
+  topN: 5
+  ruleMaxPerTopic: 2       # 规则选 Top 5 时每个主题最多几条

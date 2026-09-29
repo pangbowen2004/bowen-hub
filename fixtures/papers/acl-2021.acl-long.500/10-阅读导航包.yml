@@ -1,0 +1,90 @@
+{
+  "paper_id": "acl-2021.acl-long.500",
+  "schema_version": 1,
+  "reading_route": {
+    "current_depth": "R1",
+    "next_action": "本地阅读；发布锁保持，等待用户另行授权",
+    "passes": [
+      {
+        "id": "R0",
+        "status": "complete"
+      },
+      {
+        "id": "R1",
+        "status": "complete"
+      },
+      {
+        "id": "R2",
+        "status": "not_started"
+      },
+      {
+        "id": "R3",
+        "status": "not_started"
+      }
+    ]
+  },
+  "document_map": {
+    "page_count": 14,
+    "sections": [
+      {
+        "pages": [
+          3
+        ],
+        "role": "method",
+        "key_question": "它到底在解决什么",
+        "status": "read"
+      },
+      {
+        "pages": [
+          7
+        ],
+        "role": "method",
+        "key_question": "方法怎样工作",
+        "status": "read"
+      },
+      {
+        "pages": [
+          8
+        ],
+        "role": "method",
+        "key_question": "两种扰动，方向恰好不同",
+        "status": "read"
+      },
+      {
+        "pages": [
+          3
+        ],
+        "role": "method",
+        "key_question": "实验怎样检验这个方法",
+        "status": "read"
+      },
+      {
+        "pages": [
+          13
+        ],
+        "role": "result",
+        "key_question": "主结果应该怎么读",
+        "status": "read"
+      },
+      {
+        "pages": [
+          7
+        ],
+        "role": "result",
+        "key_question": "换数据后会怎样",
+        "status": "read"
+      },
+      {
+        "pages": [
+          7
+        ],
+        "role": "limitation",
+        "key_question": "读完需要留下的边界",
+        "status": "read"
+      }
+    ]
+  },
+  "critical_appraisal": {
+    "minimum_claim": "自动构造的扰动只能覆盖部分错误，不能穷尽故事里的因果、人物与时间问题。因此，这篇论文最值得记住的不是某个指标赢了，而是评价指标也需要被测试：既要看与人的关系，也要看它对错误和无关变化的反应。"
+  }
+}

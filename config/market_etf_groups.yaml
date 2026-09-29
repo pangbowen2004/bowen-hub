@@ -1,0 +1,19 @@
+# ETF 轮动 · 8 个分组（按基金名称正则匹配，分组可以重叠）
+#
+# 候选池（全部满足）：
+#   - fund_basic(market=E, status=L) 里名称含 "ETF"
+#   - 名称不含 excludeKeywords 里的任何一个
+#   - fund_type 含 "股票"
+#   - 上市日期 ≤ 当日，且当日有 fund_daily 行情
+excludeKeywords: [联接, QDII, 港股, 香港, 沪港深, 恒生, 中韩, 海外]
+requireFundTypeContains: 股票
+
+groups:
+  - { name: AI与半导体, pattern: "人工智能|半导体|芯片|算力|通信|计算机|软件|机器人" }
+  - { name: 医药健康,   pattern: "医药|医疗|创新药|生物科技" }
+  - { name: 消费,       pattern: "消费|食品|饮料|白酒|酒|家电" }
+  - { name: 金融地产,   pattern: "银行|证券|非银|地产|房地产" }
+  - { name: 资源周期,   pattern: "有色|黄金|煤炭|钢铁|化工|石油|稀土" }
+  - { name: 红利防御,   pattern: "红利|高股息|央企|公用事业|低波" }
+  - { name: 大盘宽基,   pattern: "沪深300|上证50|A50(?!0)|中证100(?!0)" }
+  - { name: 中小盘宽基, pattern: "中证1000|中证2000|中证500|创业板|科创50" }

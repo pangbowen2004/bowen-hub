@@ -1,0 +1,22 @@
+# 论文库 · 研究空间
+# 一篇论文可以属于多个空间（paper.json 的 spaces 字段填 id）。
+# aliases：老数据或手写时可能出现的别名，迁移和校验时统一换成 id。
+spaces:
+  - id: agent-systems
+    label: Harness 与智能体
+    shortLabel: Agent
+    color: "#46d7c2"
+    description: LLM、Agent、Harness、技能、工具使用与智能体评测
+    aliases: [agent-systems, custom-agent-systems, Harness 与智能体]
+  - id: quant-finance
+    label: 量化金融
+    shortLabel: Quant
+    color: "#f4c65d"
+    description: 因子、交易、投资组合、金融预测、回测与风险
+    aliases: [量化金融, quant-finance]
+  - id: general-research
+    label: 通用研究
+    shortLabel: General
+    color: "#95a8d8"
+    description: 尚未归入特定领域的跨学科研究
+    aliases: [通用研究, general-research]

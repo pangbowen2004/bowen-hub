@@ -1,0 +1,20 @@
+# 16 个跟踪方向 → 同花顺板块指数（TuShare ths_daily / ths_member）
+# 收益用官方板块日线；宽度、MA20 等用当日成分（当前快照，不是点时成分）
+# mappingNote 会显示在页面上，说明这个方向是怎么映射的
+directions:
+  - { name: PCB,        code: 885959.TI, sourceName: PCB概念,               mappingNote: 同名概念 }
+  - { name: 物理AI,     code: 886069.TI, sourceName: 人形机器人,            mappingNote: 以人形机器人作为可复算代理 }
+  - { name: 创新药,     code: 886015.TI, sourceName: 创新药,                mappingNote: 同名概念 }
+  - { name: 商业航天,   code: 886078.TI, sourceName: 商业航天,              mappingNote: 同名概念 }
+  - { name: 减速器,     code: 886008.TI, sourceName: 减速器,                mappingNote: 同名概念 }
+  - { name: 玻璃基板,   code: 886111.TI, sourceName: 玻璃基板,              mappingNote: 同名概念 }
+  - { name: 光刻胶,     code: 885864.TI, sourceName: 光刻胶,                mappingNote: 同名概念 }
+  - { name: 先进封装,   code: 886009.TI, sourceName: 先进封装,              mappingNote: 同名概念 }
+  - { name: 金属新材料, code: 881114.TI, sourceName: 金属新材料,            mappingNote: 同花顺二级行业 }
+  - { name: 液冷服务器, code: 886044.TI, sourceName: 液冷服务器,            mappingNote: 同名概念 }
+  - { name: MLCC,       code: 886112.TI, sourceName: MLCC概念,              mappingNote: 同名概念 }
+  - { name: 电子化学品, code: 881172.TI, sourceName: 电子化学品,            mappingNote: 同花顺二级行业 }
+  - { name: 文化传媒,   code: 885418.TI, sourceName: 文化传媒概念,          mappingNote: 同名概念 }
+  - { name: CPO,        code: 886033.TI, sourceName: 共封装光学(CPO),       mappingNote: 同名概念 }
+  - { name: 酿酒,       code: 700531.TI, sourceName: 酿酒商与葡萄酒商(A股), mappingNote: 同花顺行业代理 }
+  - { name: 存储芯片,   code: 886042.TI, sourceName: 存储芯片,              mappingNote: 同名概念 }

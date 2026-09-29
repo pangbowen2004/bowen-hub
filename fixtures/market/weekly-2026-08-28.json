@@ -1,0 +1,498 @@
+{
+  "schemaVersion": "1.0.0",
+  "reportType": "FIVE_SESSION_WEEKLY_RESEARCH",
+  "asOf": "2026-08-28",
+  "sessions": [
+    "2026-08-24",
+    "2026-08-25",
+    "2026-08-26",
+    "2026-08-27",
+    "2026-08-28"
+  ],
+  "title": "广度与趋势存量同步改善",
+  "oneSentence": "五个冻结交易日内，上涨覆盖变化+27.99%、MA20上方比例变化+16.53%、成交额首尾变化+4.78%；结论只描述状态迁移。",
+  "previousJudgmentVerification": {
+    "settledCount": 23,
+    "confirmedCount": 7,
+    "researchErrorCount": 16,
+    "notConfirmedCount": 4,
+    "evidenceInsufficientCount": 12,
+    "unsettledDueCount": 0,
+    "items": [
+      {
+        "id": "HYP-20260821-DIRECTION-SPREAD",
+        "title": "方向高低剪刀差是收敛还是继续扩大",
+        "result": "CONFIRMED",
+        "resultNote": "规则DIRECTION_SPREAD按到期快照结算为CONFIRMED；实际输入：spread=0.002631999999999999、strongRelative=-0.016376298467087467、weakRelative=-0.019008298467087466、weakAdvanceShare=0.11071428571428571"
+      },
+      {
+        "id": "HYP-20260821-LIMIT-ECOLOGY",
+        "title": "封板质量、晋级梯队与负反馈能否保持协调",
+        "result": "INCONCLUSIVE",
+        "resultNote": "规则LIMIT_ECOLOGY按到期快照结算为INCONCLUSIVE；实际输入：sealRate=0.6956521739130435、multiBoardCount=10、limitDownCount=14"
+      },
+      {
+        "id": "HYP-20260821-MARKET-PERSISTENCE",
+        "title": "广度、趋势存量与量能能否共同延续",
+        "result": "NOT_CONFIRMED",
+        "resultNote": "规则MARKET_PERSISTENCE按到期快照结算为NOT_CONFIRMED；实际输入：advanceShare=0.26330027051397653、aboveMa20Share=0.4205590622182146、turnoverCny=2021215318551"
+      },
+      {
+        "id": "HYP-20260821-TOP-DIRECTION",
+        "title": "MLCC居前能否转化为内部扩散延续",
+        "result": "NOT_CONFIRMED",
+        "resultNote": "规则DIRECTION_PERSISTENCE按到期快照结算为NOT_CONFIRMED；实际输入：relativeVsAllA=-0.016376298467087467、advanceShare=0.14285714285714285、medianReturn1d=-0.032633、amountShare=0.021404822010215586、membershipAsOf=2026-08-24"
+      },
+      {
+        "id": "HYP-20260821-WEAK-DIRECTION",
+        "title": "创新药相对弱势能否收敛",
+        "result": "INCONCLUSIVE",
+        "resultNote": "规则DIRECTION_REPAIR按到期快照结算为INCONCLUSIVE；实际输入：relativeVsAllA=-0.019008298467087466、advanceShare=0.11071428571428571、medianReturn1d=-0.032076、amountShare=0.05757863033372705、membershipAsOf=2026-08-24"
+      },
+      {
+        "id": "HYP-20260824-DIRECTION-SPREAD",
+        "title": "方向高低剪刀差是收敛还是继续扩大",
+        "result": "CONFIRMED",
+        "resultNote": "规则DIRECTION_SPREAD按到期快照结算为CONFIRMED；实际输入：spread=-0.022342、strongRelative=-0.014095315182113235、weakRelative=0.008246684817886766、weakAdvanceShare=0.8214285714285714"
+      },
+      {
+        "id": "HYP-20260824-LIMIT-ECOLOGY",
+        "title": "封板质量、晋级梯队与负反馈能否保持协调",
+        "result": "INCONCLUSIVE",
+        "resultNote": "规则LIMIT_ECOLOGY按到期快照结算为INCONCLUSIVE；实际输入：sealRate=0.7142857142857143、multiBoardCount=8、limitDownCount=4"
+      },
+      {
+        "id": "HYP-20260824-MARKET-PERSISTENCE",
+        "title": "广度、趋势存量与量能能否共同延续",
+        "result": "INCONCLUSIVE",
+        "resultNote": "规则MARKET_PERSISTENCE按到期快照结算为INCONCLUSIVE；实际输入：advanceShare=0.7634331049404977、aboveMa20Share=0.5308330328164443、turnoverCny=1844278181252"
+      },
+      {
+        "id": "HYP-20260824-TOP-DIRECTION",
+        "title": "酿酒居前能否转化为内部扩散延续",
+        "result": "INCONCLUSIVE",
+        "resultNote": "规则DIRECTION_PERSISTENCE按到期快照结算为INCONCLUSIVE；实际输入：relativeVsAllA=-0.014095315182113235、advanceShare=0.7333333333333333、medianReturn1d=0.010829、amountShare=0.004427055360422296、membershipAsOf=2026-08-25"
+      },
+      {
+        "id": "HYP-20260824-WEAK-DIRECTION",
+        "title": "创新药相对弱势能否收敛",
+        "result": "CONFIRMED",
+        "resultNote": "规则DIRECTION_REPAIR按到期快照结算为CONFIRMED；实际输入：relativeVsAllA=0.008246684817886766、advanceShare=0.8214285714285714、medianReturn1d=0.020788、amountShare=0.05658793127055362、membershipAsOf=2026-08-25"
+      },
+      {
+        "id": "HYP-20260825-LIMIT-ECOLOGY",
+        "title": "封板质量、晋级梯队与负反馈能否保持协调",
+        "result": "INCONCLUSIVE",
+        "resultNote": "规则LIMIT_ECOLOGY按到期快照结算为INCONCLUSIVE；实际输入：sealRate=0.6666666666666666、multiBoardCount=13、limitDownCount=2"
+      },
+      {
+        "id": "HYP-20260825-MARKET-PERSISTENCE",
+        "title": "广度、趋势存量与量能能否共同延续",
+        "result": "INCONCLUSIVE",
+        "resultNote": "规则MARKET_PERSISTENCE按到期快照结算为INCONCLUSIVE；实际输入：advanceShare=0.5310978907517577、aboveMa20Share=0.5379484405985218、turnoverCny=1821814999754"
+      },
+      {
+        "id": "HYP-20260825-TOP-DIRECTION",
+        "title": "创新药居前能否转化为内部扩散延续",
+        "result": "INCONCLUSIVE",
+        "resultNote": "规则DIRECTION_PERSISTENCE按到期快照结算为INCONCLUSIVE；实际输入：relativeVsAllA=-0.0008584333874166216、advanceShare=0.55、medianReturn1d=0.0021869999999999997、amountShare=0.05585188319835688、membershipAsOf=2026-08-26"
+      },
+      {
+        "id": "HYP-20260825-WEAK-DIRECTION",
+        "title": "电子化学品相对弱势能否收敛",
+        "result": "INCONCLUSIVE",
+        "resultNote": "规则DIRECTION_REPAIR按到期快照结算为INCONCLUSIVE；实际输入：relativeVsAllA=-0.003985433387416621、advanceShare=0.37209302325581395、medianReturn1d=-0.0028510000000000002、amountShare=0.016997860028916185、membershipAsOf=2026-08-26"
+      },
+      {
+        "id": "HYP-20260826-LIMIT-ECOLOGY",
+        "title": "封板质量、晋级梯队与负反馈能否保持协调",
+        "result": "CONFIRMED",
+        "resultNote": "规则LIMIT_ECOLOGY按到期快照结算为CONFIRMED；实际输入：sealRate=0.7878787878787878、multiBoardCount=16、limitDownCount=4"
+      },
+      {
+        "id": "HYP-20260826-MARKET-PERSISTENCE",
+        "title": "广度、趋势存量与量能能否共同延续",
+        "result": "INCONCLUSIVE",
+        "resultNote": "规则MARKET_PERSISTENCE按到期快照结算为INCONCLUSIVE；实际输入：advanceShare=0.6118622678925545、aboveMa20Share=0.5801334054443843、turnoverCny=2140959919627"
+      },
+      {
+        "id": "HYP-20260826-TOP-DIRECTION",
+        "title": "酿酒居前能否转化为内部扩散延续",
+        "result": "NOT_CONFIRMED",
+        "resultNote": "规则DIRECTION_PERSISTENCE按到期快照结算为NOT_CONFIRMED；实际输入：relativeVsAllA=-0.019277746890210924、advanceShare=0.2、medianReturn1d=-0.007555、amountShare=0.004579271276909324、membershipAsOf=2026-08-27"
+      },
+      {
+        "id": "HYP-20260826-WEAK-DIRECTION",
+        "title": "MLCC相对弱势能否收敛",
+        "result": "CONFIRMED",
+        "resultNote": "规则DIRECTION_REPAIR按到期快照结算为CONFIRMED；实际输入：relativeVsAllA=0.029086253109789073、advanceShare=0.9714285714285714、medianReturn1d=0.037315999999999995、amountShare=0.02169417905920512、membershipAsOf=2026-08-27"
+      },
+      {
+        "id": "HYP-20260827-DIRECTION-SPREAD",
+        "title": "方向高低剪刀差是收敛还是继续扩大",
+        "result": "CONFIRMED",
+        "resultNote": "规则DIRECTION_SPREAD按到期快照结算为CONFIRMED；实际输入：spread=-0.009717999999999997、strongRelative=-0.016345239228411752、weakRelative=-0.006627239228411755、weakAdvanceShare=0.8333333333333334"
+      },
+      {
+        "id": "HYP-20260827-LIMIT-ECOLOGY",
+        "title": "封板质量、晋级梯队与负反馈能否保持协调",
+        "result": "CONFIRMED",
+        "resultNote": "规则LIMIT_ECOLOGY按到期快照结算为CONFIRMED；实际输入：sealRate=0.7830188679245284、multiBoardCount=18、limitDownCount=3"
+      },
+      {
+        "id": "HYP-20260827-MARKET-PERSISTENCE",
+        "title": "广度、趋势存量与量能能否共同延续",
+        "result": "INCONCLUSIVE",
+        "resultNote": "规则MARKET_PERSISTENCE按到期快照结算为INCONCLUSIVE；实际输入：advanceShare=0.5431764917973679、aboveMa20Share=0.5859022895258699、turnoverCny=2117732336241"
+      },
+      {
+        "id": "HYP-20260827-TOP-DIRECTION",
+        "title": "电子化学品居前能否转化为内部扩散延续",
+        "result": "NOT_CONFIRMED",
+        "resultNote": "规则DIRECTION_PERSISTENCE按到期快照结算为NOT_CONFIRMED；实际输入：relativeVsAllA=-0.016345239228411752、advanceShare=0.23255813953488372、medianReturn1d=-0.015854999999999998、amountShare=0.020365565134998473、membershipAsOf=2026-08-28"
+      },
+      {
+        "id": "HYP-20260827-WEAK-DIRECTION",
+        "title": "酿酒相对弱势能否收敛",
+        "result": "INCONCLUSIVE",
+        "resultNote": "规则DIRECTION_REPAIR按到期快照结算为INCONCLUSIVE；实际输入：relativeVsAllA=-0.006627239228411755、advanceShare=0.8333333333333334、medianReturn1d=0.007891、amountShare=0.0038991926880791706、membershipAsOf=2026-08-28"
+      }
+    ]
+  },
+  "marketTransition": {
+    "from": {
+      "sessionDate": "2026-08-24",
+      "advanceShare": 0.26330027051397653,
+      "medianReturn1d": -0.012177,
+      "aboveMa20Share": 0.4205590622182146,
+      "turnoverCny": 2021215318551,
+      "limitUpCount": 48,
+      "limitDownCount": 14,
+      "sealRate": 0.6956521739130435,
+      "maxBoardHeight": 4,
+      "topDirections": [
+        "酿酒",
+        "金属新材料",
+        "文化传媒"
+      ],
+      "bottomDirections": [
+        "CPO",
+        "MLCC",
+        "创新药"
+      ],
+      "directionReturns": {
+        "酿酒": 0.022856701532912534,
+        "金属新材料": 0.00013670153291253304,
+        "文化传媒": -0.000545298467087469,
+        "液冷服务器": -0.0017702984670874694,
+        "减速器": -0.0018942984670874685,
+        "物理AI": -0.004210298467087467,
+        "光刻胶": -0.004883298467087467,
+        "存储芯片": -0.00672829846708747,
+        "商业航天": -0.007705298467087469,
+        "先进封装": -0.009509298467087465,
+        "玻璃基板": -0.009667298467087467,
+        "电子化学品": -0.010662298467087467,
+        "PCB": -0.011977298467087467,
+        "CPO": -0.014510298467087467,
+        "MLCC": -0.016376298467087467,
+        "创新药": -0.019008298467087466
+      },
+      "topIndustries": [
+        "煤炭",
+        "银行",
+        "钢铁"
+      ],
+      "snapshotSha256": "0ecb861835586d8870aab65170837a452dbd639e9836cee5ece82f1cc9f53ad0"
+    },
+    "to": {
+      "sessionDate": "2026-08-28",
+      "advanceShare": 0.5431764917973679,
+      "medianReturn1d": 0.002241,
+      "aboveMa20Share": 0.5859022895258699,
+      "turnoverCny": 2117732336241,
+      "limitUpCount": 83,
+      "limitDownCount": 3,
+      "sealRate": 0.7830188679245284,
+      "maxBoardHeight": 7,
+      "topDirections": [
+        "文化传媒",
+        "商业航天",
+        "酿酒"
+      ],
+      "bottomDirections": [
+        "先进封装",
+        "电子化学品",
+        "存储芯片"
+      ],
+      "directionReturns": {
+        "文化传媒": 0.003907760771588246,
+        "商业航天": -0.003960239228411754,
+        "酿酒": -0.006627239228411755,
+        "MLCC": -0.007105239228411754,
+        "减速器": -0.007687239228411753,
+        "金属新材料": -0.008692239228411754,
+        "PCB": -0.008816239228411755,
+        "物理AI": -0.008920239228411755,
+        "玻璃基板": -0.009176239228411754,
+        "光刻胶": -0.012267239228411754,
+        "液冷服务器": -0.012449239228411754,
+        "创新药": -0.013668239228411753,
+        "CPO": -0.014156239228411756,
+        "先进封装": -0.015106239228411755,
+        "电子化学品": -0.016345239228411752,
+        "存储芯片": -0.017152239228411754
+      },
+      "topIndustries": [
+        "农林牧渔",
+        "石油石化",
+        "基础化工"
+      ],
+      "snapshotSha256": "716df51264ba2c2c885cf850a678ab3adea93757fc8d408f5defd5cb62d07918"
+    },
+    "turnoverMedianCny": 2021215318551,
+    "breadthRange": [
+      0.26330027051397653,
+      0.7634331049404977
+    ],
+    "aboveMa20Range": [
+      0.4205590622182146,
+      0.5859022895258699
+    ]
+  },
+  "threeStructuralChanges": [
+    {
+      "name": "市场广度",
+      "change": 0.2798762212833914,
+      "judgment": "扩张",
+      "counter": "首尾变化不能代替日内路径，需同时查看五日区间。"
+    },
+    {
+      "name": "趋势存量",
+      "change": 0.16534322730765527,
+      "judgment": "改善",
+      "counter": "MA20状态具有滞后性，不等于次日方向。"
+    },
+    {
+      "name": "市场量能",
+      "change": 0.04775197219423055,
+      "judgment": "扩张",
+      "counter": "量能需与上涨覆盖、封板质量共同判断。"
+    }
+  ],
+  "lifecycle": {
+    "persistentDirections": [
+      {
+        "name": "文化传媒",
+        "top3Appearances": 4
+      },
+      {
+        "name": "酿酒",
+        "top3Appearances": 3
+      },
+      {
+        "name": "创新药",
+        "top3Appearances": 2
+      }
+    ],
+    "persistentIndustries": [
+      {
+        "name": "煤炭",
+        "top3Appearances": 2
+      },
+      {
+        "name": "钢铁",
+        "top3Appearances": 2
+      },
+      {
+        "name": "农林牧渔",
+        "top3Appearances": 2
+      }
+    ],
+    "oscillatingDirections": [
+      {
+        "name": "减速器",
+        "signChanges": 4,
+        "latestRelative": -0.007687239228411753
+      },
+      {
+        "name": "液冷服务器",
+        "signChanges": 4,
+        "latestRelative": -0.012449239228411754
+      },
+      {
+        "name": "文化传媒",
+        "signChanges": 3,
+        "latestRelative": 0.003907760771588246
+      },
+      {
+        "name": "酿酒",
+        "signChanges": 3,
+        "latestRelative": -0.006627239228411755
+      },
+      {
+        "name": "金属新材料",
+        "signChanges": 3,
+        "latestRelative": -0.008692239228411754
+      },
+      {
+        "name": "CPO",
+        "signChanges": 2,
+        "latestRelative": -0.014156239228411756
+      },
+      {
+        "name": "MLCC",
+        "signChanges": 2,
+        "latestRelative": -0.007105239228411754
+      },
+      {
+        "name": "PCB",
+        "signChanges": 2,
+        "latestRelative": -0.008816239228411755
+      }
+    ],
+    "latestWeakDirections": [
+      "先进封装",
+      "电子化学品",
+      "存储芯片"
+    ]
+  },
+  "researchErrors": {
+    "highConfidenceErrors": [
+      {
+        "id": "HYP-20260821-MARKET-PERSISTENCE",
+        "title": "广度、趋势存量与量能能否共同延续",
+        "result": "NOT_CONFIRMED",
+        "reason": "规则MARKET_PERSISTENCE按到期快照结算为NOT_CONFIRMED；实际输入：advanceShare=0.26330027051397653、aboveMa20Share=0.4205590622182146、turnoverCny=2021215318551"
+      },
+      {
+        "id": "HYP-20260821-TOP-DIRECTION",
+        "title": "MLCC居前能否转化为内部扩散延续",
+        "result": "NOT_CONFIRMED",
+        "reason": "规则DIRECTION_PERSISTENCE按到期快照结算为NOT_CONFIRMED；实际输入：relativeVsAllA=-0.016376298467087467、advanceShare=0.14285714285714285、medianReturn1d=-0.032633、amountShare=0.021404822010215586、membershipAsOf=2026-08-24"
+      },
+      {
+        "id": "HYP-20260826-TOP-DIRECTION",
+        "title": "酿酒居前能否转化为内部扩散延续",
+        "result": "NOT_CONFIRMED",
+        "reason": "规则DIRECTION_PERSISTENCE按到期快照结算为NOT_CONFIRMED；实际输入：relativeVsAllA=-0.019277746890210924、advanceShare=0.2、medianReturn1d=-0.007555、amountShare=0.004579271276909324、membershipAsOf=2026-08-27"
+      },
+      {
+        "id": "HYP-20260827-TOP-DIRECTION",
+        "title": "电子化学品居前能否转化为内部扩散延续",
+        "result": "NOT_CONFIRMED",
+        "reason": "规则DIRECTION_PERSISTENCE按到期快照结算为NOT_CONFIRMED；实际输入：relativeVsAllA=-0.016345239228411752、advanceShare=0.23255813953488372、medianReturn1d=-0.015854999999999998、amountShare=0.020365565134998473、membershipAsOf=2026-08-28"
+      },
+      {
+        "id": "HYP-20260821-LIMIT-ECOLOGY",
+        "title": "封板质量、晋级梯队与负反馈能否保持协调",
+        "result": "INCONCLUSIVE",
+        "reason": "规则LIMIT_ECOLOGY按到期快照结算为INCONCLUSIVE；实际输入：sealRate=0.6956521739130435、multiBoardCount=10、limitDownCount=14"
+      },
+      {
+        "id": "HYP-20260821-WEAK-DIRECTION",
+        "title": "创新药相对弱势能否收敛",
+        "result": "INCONCLUSIVE",
+        "reason": "规则DIRECTION_REPAIR按到期快照结算为INCONCLUSIVE；实际输入：relativeVsAllA=-0.019008298467087466、advanceShare=0.11071428571428571、medianReturn1d=-0.032076、amountShare=0.05757863033372705、membershipAsOf=2026-08-24"
+      },
+      {
+        "id": "HYP-20260824-LIMIT-ECOLOGY",
+        "title": "封板质量、晋级梯队与负反馈能否保持协调",
+        "result": "INCONCLUSIVE",
+        "reason": "规则LIMIT_ECOLOGY按到期快照结算为INCONCLUSIVE；实际输入：sealRate=0.7142857142857143、multiBoardCount=8、limitDownCount=4"
+      },
+      {
+        "id": "HYP-20260824-MARKET-PERSISTENCE",
+        "title": "广度、趋势存量与量能能否共同延续",
+        "result": "INCONCLUSIVE",
+        "reason": "规则MARKET_PERSISTENCE按到期快照结算为INCONCLUSIVE；实际输入：advanceShare=0.7634331049404977、aboveMa20Share=0.5308330328164443、turnoverCny=1844278181252"
+      },
+      {
+        "id": "HYP-20260824-TOP-DIRECTION",
+        "title": "酿酒居前能否转化为内部扩散延续",
+        "result": "INCONCLUSIVE",
+        "reason": "规则DIRECTION_PERSISTENCE按到期快照结算为INCONCLUSIVE；实际输入：relativeVsAllA=-0.014095315182113235、advanceShare=0.7333333333333333、medianReturn1d=0.010829、amountShare=0.004427055360422296、membershipAsOf=2026-08-25"
+      },
+      {
+        "id": "HYP-20260825-LIMIT-ECOLOGY",
+        "title": "封板质量、晋级梯队与负反馈能否保持协调",
+        "result": "INCONCLUSIVE",
+        "reason": "规则LIMIT_ECOLOGY按到期快照结算为INCONCLUSIVE；实际输入：sealRate=0.6666666666666666、multiBoardCount=13、limitDownCount=2"
+      },
+      {
+        "id": "HYP-20260825-MARKET-PERSISTENCE",
+        "title": "广度、趋势存量与量能能否共同延续",
+        "result": "INCONCLUSIVE",
+        "reason": "规则MARKET_PERSISTENCE按到期快照结算为INCONCLUSIVE；实际输入：advanceShare=0.5310978907517577、aboveMa20Share=0.5379484405985218、turnoverCny=1821814999754"
+      },
+      {
+        "id": "HYP-20260825-TOP-DIRECTION",
+        "title": "创新药居前能否转化为内部扩散延续",
+        "result": "INCONCLUSIVE",
+        "reason": "规则DIRECTION_PERSISTENCE按到期快照结算为INCONCLUSIVE；实际输入：relativeVsAllA=-0.0008584333874166216、advanceShare=0.55、medianReturn1d=0.0021869999999999997、amountShare=0.05585188319835688、membershipAsOf=2026-08-26"
+      },
+      {
+        "id": "HYP-20260825-WEAK-DIRECTION",
+        "title": "电子化学品相对弱势能否收敛",
+        "result": "INCONCLUSIVE",
+        "reason": "规则DIRECTION_REPAIR按到期快照结算为INCONCLUSIVE；实际输入：relativeVsAllA=-0.003985433387416621、advanceShare=0.37209302325581395、medianReturn1d=-0.0028510000000000002、amountShare=0.016997860028916185、membershipAsOf=2026-08-26"
+      },
+      {
+        "id": "HYP-20260826-MARKET-PERSISTENCE",
+        "title": "广度、趋势存量与量能能否共同延续",
+        "result": "INCONCLUSIVE",
+        "reason": "规则MARKET_PERSISTENCE按到期快照结算为INCONCLUSIVE；实际输入：advanceShare=0.6118622678925545、aboveMa20Share=0.5801334054443843、turnoverCny=2140959919627"
+      },
+      {
+        "id": "HYP-20260827-MARKET-PERSISTENCE",
+        "title": "广度、趋势存量与量能能否共同延续",
+        "result": "INCONCLUSIVE",
+        "reason": "规则MARKET_PERSISTENCE按到期快照结算为INCONCLUSIVE；实际输入：advanceShare=0.5431764917973679、aboveMa20Share=0.5859022895258699、turnoverCny=2117732336241"
+      },
+      {
+        "id": "HYP-20260827-WEAK-DIRECTION",
+        "title": "酿酒相对弱势能否收敛",
+        "result": "INCONCLUSIVE",
+        "reason": "规则DIRECTION_REPAIR按到期快照结算为INCONCLUSIVE；实际输入：relativeVsAllA=-0.006627239228411755、advanceShare=0.8333333333333334、medianReturn1d=0.007891、amountShare=0.0038991926880791706、membershipAsOf=2026-08-28"
+      }
+    ],
+    "unsettledDue": [],
+    "boundary": "未确认、证据不足与漏结算分开统计，不把未确认自动记为预测亏损。"
+  },
+  "nextWeekQuestions": [
+    {
+      "question": "文化传媒能否连续保持相对收益与内部扩散",
+      "confirm": "相对全A收益为正且上涨覆盖不收窄",
+      "invalidate": "相对收益转负且内部中位同步转弱"
+    },
+    {
+      "question": "广度改善能否获得量能与MA20趋势存量共同支持",
+      "confirm": "上涨覆盖、成交与MA20上方比例至少两项改善",
+      "invalidate": "指数维持但中位数和上涨覆盖同步回落"
+    },
+    {
+      "question": "封板生态是否出现高位压缩与负反馈扩散",
+      "confirm": "封板率、晋级梯队和跌停数量保持协调",
+      "invalidate": "高度压缩、晋级率下降与跌停增加同时出现"
+    }
+  ],
+  "dataAndMethodHealth": {
+    "snapshotCount": 5,
+    "sourceHashes": [
+      "0ecb861835586d8870aab65170837a452dbd639e9836cee5ece82f1cc9f53ad0",
+      "a64b866d252b35ee35bf583415647276ec4c532411610f29a6e283e041833d02",
+      "10caabbb13bb6152da15096a3b6a136629e023e28dfbcaa3e9d638f31484bd14",
+      "bee18570dbfd02eac21ed8021f451d57ed2622d92461ea1650b269dee4b6f32b",
+      "716df51264ba2c2c885cf850a678ab3adea93757fc8d408f5defd5cb62d07918"
+    ],
+    "unavailable": [
+      "全市场分钟路径",
+      "席位主体资金",
+      "未登记新闻因果"
+    ],
+    "boundary": "周报只使用五个不可变收盘快照和假设账本；不产生仓位、买卖或确定性预测。"
+  },
+  "integrity": {
+    "sha256": "283c013e4e363fa7f83ca25f57ca217ef20225cdbd6ca58e17990a81b9757c84"
+  }
+}

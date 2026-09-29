@@ -1,0 +1,30 @@
+# 读整篇论文原文，写导读草稿（Paper 草稿：导读、证据、结构、学习卡）
+# 格式说明见 docs/10 第 3 节；输入输出模型在 contracts/capabilities.tsp
+id: papers.author
+version: 1
+summary: 读整篇论文原文，写导读草稿（Paper 草稿：导读、证据、结构、学习卡）
+owner: papers
+runtime: python
+tier: frontier
+autonomy: L1
+prompt: prompts/paper_author.md
+io:
+  input: PaperAuthorInput
+  output: PaperDraft
+limits:
+  maxInputTokens: 400000
+  maxOutputTokens: 64000
+  timeoutSec: 900
+checks:
+  - paper_draft
+fallback: fail        # 入库失败，控制台显示原因，可重试或用本机 Agent 代写（docs/04 第 5.3 节）
+params:
+  repairRounds: 2
+  reviewRounds: 1
+evals:
+  schedule: on-change      # 单次评测较贵，只在改动提示词、清单或模型时跑
+  dataset: evals/papers.author/
+  thresholds:
+    schema_valid: 1.0
+    paper_draft: 0.9
+    judge_explains: 0.8

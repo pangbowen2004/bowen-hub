@@ -1,0 +1,30 @@
+# 写每期开头：早报导语（3 句）、盘前“今晚三件事”（3 行）、周报“本周主线”（250–350 字）
+# 格式说明见 docs/10 第 3 节；输入输出模型在 contracts/capabilities.tsp
+id: news.edition_lede
+version: 1
+summary: 写每期开头：早报导语（3 句）、盘前“今晚三件事”（3 行）、周报“本周主线”（250–350 字）
+owner: newsroom
+runtime: python
+tier: frontier
+autonomy: L2
+prompt: prompts/news_edition_lede.md
+io:
+  input: EditionLedeInput
+  output: EditionLedeOutput
+limits:
+  maxInputTokens: 30000
+  maxOutputTokens: 1200
+  timeoutSec: 90
+checks:
+  - numbers_in_sources
+  - no_advice
+  - length_within
+fallback: omit        # 不放导语
+params: {}
+evals:
+  dataset: evals/news.edition_lede/
+  thresholds:
+    schema_valid: 1.0
+    numbers_in_sources: 1.0
+    no_advice: 1.0
+    judge_faithful: 0.9

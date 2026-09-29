@@ -1,0 +1,32 @@
+# 为一只自选股写“发生了什么 / 为什么重要”（日报）或 1–3 条要点（周记）
+# 格式说明见 docs/10 第 3 节；输入输出模型在 contracts/capabilities.tsp
+id: news.ticker_digest
+version: 1
+summary: 为一只自选股写“发生了什么 / 为什么重要”（日报）或 1–3 条要点（周记）
+owner: newsroom
+runtime: python
+tier: balanced
+autonomy: L2
+prompt: prompts/news_ticker_digest.md
+io:
+  input: TickerDigestInput
+  output: TickerDigestOutput
+limits:
+  maxInputTokens: 20000
+  maxOutputTokens: 800
+  timeoutSec: 60
+checks:
+  - numbers_in_sources
+  - source_ids_exist
+  - no_advice
+  - length_within
+fallback: headlines        # 列出相关新闻的标题和链接
+params: {}
+evals:
+  dataset: evals/news.ticker_digest/
+  thresholds:
+    schema_valid: 1.0
+    numbers_in_sources: 1.0
+    source_ids_exist: 1.0
+    judge_faithful: 0.9
+    judge_specific: 0.8

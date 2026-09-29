@@ -1,0 +1,94 @@
+# 市场观测台 · 事件日历的官方来源清单（从老系统 data/events/sources.json 原样整理）
+# 目前只作为人工/Agent 维护 events.yaml 时的参考；自动扫描属于“以后可做”。
+policy: "只把官方主办方、监管机构、统计机构、央行和公司IR作为日期确认来源；媒体与图片只能进入待确认队列。发现质量按来源覆盖、日期证据、重复率和后续结算衡量，不按事件条数衡量。"
+sources:
+  - id: SRC-EVENT-NBS
+    name: "国家统计局发布日程"
+    category: domestic_macro
+    active: true
+    allowedDomains: ["stats.gov.cn"]
+    entryUrls: ["https://www.stats.gov.cn/xw/tjxw/tzgg/202512/t20251224_1962137.html", "https://www.stats.gov.cn/fbyg/"]
+  - id: SRC-EVENT-PBOC
+    name: "中国人民银行"
+    category: domestic_macro
+    active: true
+    allowedDomains: ["pbc.gov.cn"]
+    entryUrls: ["https://www.pbc.gov.cn/"]
+  - id: SRC-EVENT-CSRC
+    name: "中国证监会"
+    category: regulation_policy
+    active: true
+    allowedDomains: ["csrc.gov.cn"]
+    entryUrls: ["https://www.csrc.gov.cn/"]
+  - id: SRC-EVENT-EXCHANGES
+    name: "沪深北交易所"
+    category: a_share_calendar
+    active: true
+    allowedDomains: ["sse.com.cn", "szse.cn", "bse.cn"]
+    entryUrls: ["https://www.sse.com.cn/", "https://www.szse.cn/", "https://www.bse.cn/"]
+  - id: SRC-EVENT-MIIT
+    name: "工业和信息化部"
+    category: industry_policy
+    active: true
+    allowedDomains: ["miit.gov.cn"]
+    entryUrls: ["https://www.miit.gov.cn/"]
+  - id: SRC-EVENT-FED
+    name: "Federal Reserve"
+    category: global_macro
+    active: true
+    allowedDomains: ["federalreserve.gov"]
+    entryUrls: ["https://www.federalreserve.gov/monetarypolicy/fomccalendars.htm"]
+  - id: SRC-EVENT-KCFED
+    name: "Kansas City Fed"
+    category: global_macro
+    active: true
+    allowedDomains: ["kansascityfed.org"]
+    entryUrls: ["https://www.kansascityfed.org/research/jackson-hole-economic-symposium/"]
+  - id: SRC-EVENT-ECB
+    name: "European Central Bank"
+    category: global_macro
+    active: true
+    allowedDomains: ["ecb.europa.eu"]
+    entryUrls: ["https://www.ecb.europa.eu/press/calendars/mgcgc/html/index.en.html", "https://www.ecb.europa.eu/press/govcdec/mopo/html/index.en.html"]
+  - id: SRC-EVENT-BOJ
+    name: "Bank of Japan"
+    category: global_macro
+    active: true
+    allowedDomains: ["boj.or.jp"]
+    entryUrls: ["https://www.boj.or.jp/en/mopo/mpmsche_minu/", "https://www.boj.or.jp/en/about/calendar/index.htm"]
+  - id: SRC-EVENT-WRC
+    name: "世界机器人大会"
+    category: industry_conference
+    active: true
+    allowedDomains: ["worldrobotconference.com"]
+    entryUrls: ["https://www.worldrobotconference.com/"]
+  - id: SRC-EVENT-SEMI
+    name: "SEMI / SEMICON"
+    category: industry_conference
+    active: true
+    allowedDomains: ["semi.org", "semicontaiwan.org"]
+    entryUrls: ["https://www.semicontaiwan.org/en"]
+  - id: SRC-EVENT-CSEAC
+    name: "CSEAC"
+    category: industry_conference
+    active: true
+    allowedDomains: ["cseac.org.cn"]
+    entryUrls: ["https://www.cseac.org.cn/cn"]
+  - id: SRC-EVENT-GDICA
+    name: "广东省集成电路行业协会"
+    category: industry_conference
+    active: true
+    allowedDomains: ["gdica.net.cn"]
+    entryUrls: ["https://www.gdica.net.cn/"]
+  - id: SRC-EVENT-BIGDATA
+    name: "中国国际大数据产业博览会"
+    category: industry_conference
+    active: true
+    allowedDomains: ["bigdata-expo.cn"]
+    entryUrls: ["https://www.bigdata-expo.cn/"]
+  - id: SRC-EVENT-COMPANY-IR
+    name: "重点全球公司IR"
+    category: company_ir
+    active: true
+    allowedDomains: ["nvidia.com"]
+    entryUrls: ["https://investor.nvidia.com/"]

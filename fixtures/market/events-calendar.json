@@ -1,0 +1,2191 @@
+{
+  "schemaVersion": "2.0.0",
+  "updatedAt": "2026-08-29",
+  "boundary": "只登记事件时间、官方来源、需要观察的变量与A股关联方向。事件不自动构成行业事实、个股结论或行动建议；图片中尚未获官方确认的日期明确标为待确认。",
+  "events": [
+    {
+      "id": "EVT-MIIT-AI-ETHICS-20260601-1130",
+      "startDate": "2026-06-01",
+      "endDate": "2026-11-30",
+      "title": "工信部人工智能科技伦理审查与服务先导计划实施期",
+      "status": "OFFICIAL_CONFIRMED",
+      "sourceLabel": "工业和信息化部人工智能科技伦理审查与服务先导计划通知",
+      "sourceUrl": "https://www.miit.gov.cn/zwgk/zcwj/wjfb/tz/art/2026/art_353d0d2a06ab4cebbfd53f97aec4ae24.html",
+      "watchItems": [
+        "数据、算法、模型和垂直应用的伦理审查流程是否形成可复用制度",
+        "制造、金融、医疗等场景的试点参与、风险案例和服务工具进展",
+        "人工智能标准、合规服务与企业应用落地之间的时间差"
+      ],
+      "aShareMappings": [
+        "AI治理与合规实施观察",
+        "工业AI、具身智能应用验证观察",
+        "数据、算法、模型服务生态观察"
+      ],
+      "confirmation": "工信部官方通知明确先导计划实施周期为2026年6月1日至11月30日；本轮在未来窗口内观察官方试点、标准、风险案例和工具进展，不从政策名称直接推导产业或市场结论。",
+      "invalidation": "官方通知被修订、取消或调整实施期；截至实施期结束仍无官方试点、标准、案例或服务结果；或相关应用信息无法由官方文件、企业披露和场景数据交叉验证。",
+      "discovery": {
+        "runId": "official-sweep-20260827-0830",
+        "discoveredAt": "2026-08-27T08:36:39+08:00",
+        "method": "REGISTERED_OFFICIAL_SOURCE_SWEEP",
+        "sourceId": "SRC-EVENT-MIIT"
+      }
+    },
+    {
+      "id": "EVT-WRC-20260819",
+      "startDate": "2026-08-19",
+      "endDate": "2026-08-23",
+      "title": "2026世界机器人大会",
+      "status": "OFFICIAL_CONFIRMED",
+      "sourceLabel": "世界机器人大会官方新闻发布会",
+      "sourceUrl": "https://www.worldrobotconference.com/news/latestnews/3218.html",
+      "watchItems": [
+        "人形机器人与具身智能",
+        "灵巧手、丝杠、减速器和传感器",
+        "新品、订单与场景落地证据"
+      ],
+      "aShareMappings": [
+        "机器人整机观察",
+        "核心零部件观察",
+        "传感器与电机观察"
+      ],
+      "confirmation": "官方新闻发布会明确大会于8月19—23日举行；核对新品、订单、交付、采购对接或可复核场景进展。",
+      "invalidation": "官方日期或议程变更；或只有概念展示和主题叙事，没有产品、客户、订单或交付证据。",
+      "discovery": {
+        "runId": "official-sweep-20260818-0830",
+        "discoveredAt": "2026-08-18T08:30:00+08:00",
+        "method": "REGISTERED_OFFICIAL_SOURCE_SWEEP",
+        "sourceId": "SRC-EVENT-WRC"
+      }
+    },
+    {
+      "id": "EVT-FOMC-MINUTES-20260819",
+      "startDate": "2026-08-19",
+      "endDate": "2026-08-19",
+      "title": "Federal Reserve公布7月FOMC会议纪要",
+      "status": "OFFICIAL_CONFIRMED",
+      "sourceLabel": "Federal Reserve Monetary Policy upcoming dates",
+      "sourceUrl": "https://www.federalreserve.gov/monetarypolicy.htm",
+      "watchItems": [
+        "委员对通胀和就业的分歧",
+        "政策路径线索",
+        "美元、美债与风险偏好反应"
+      ],
+      "aShareMappings": [
+        "科技估值观察",
+        "黄金与有色观察",
+        "人民币资产风险偏好观察"
+      ],
+      "confirmation": "Federal Reserve官方货币政策页列明8月19日公布7月28—29日会议纪要；核对纪要措辞和跨资产同步反应。",
+      "invalidation": "官方页面改期或未发布；或纪要信息未改变政策预期且跨资产反应彼此背离。",
+      "discovery": {
+        "runId": "official-sweep-20260818-0830",
+        "discoveredAt": "2026-08-18T08:30:00+08:00",
+        "method": "REGISTERED_OFFICIAL_SOURCE_SWEEP",
+        "sourceId": "SRC-EVENT-FED"
+      }
+    },
+    {
+      "id": "EVT-ZQ3-20260819",
+      "startDate": "2026-08-19",
+      "endDate": "2026-08-19",
+      "title": "朱雀三号窗口（来源图片日期）",
+      "status": "PENDING_OFFICIAL_CONFIRMATION",
+      "sourceLabel": "用户提供图片，尚未找到官方任务日期公告",
+      "sourceUrl": null,
+      "watchItems": [
+        "一级回收预期",
+        "商业航天情绪修复",
+        "窗口临近后的预期抢跑风险"
+      ],
+      "aShareMappings": [
+        "商业航天链",
+        "火箭结构与动力",
+        "卫星与地面设备"
+      ],
+      "confirmation": "官方任务公告确认日期、任务目标与窗口。",
+      "invalidation": "官方日期改变、窗口延期或任务信息与图片不符。"
+    },
+    {
+      "id": "EVT-ICDIA-20260820",
+      "startDate": "2026-08-20",
+      "endDate": "2026-08-21",
+      "title": "ICDIA 2026中国集成电路创芯大会与AI芯片创新峰会",
+      "status": "OFFICIAL_CONFIRMED",
+      "sourceLabel": "广东省集成电路行业协会官方报道",
+      "sourceUrl": "https://www.gdica.net.cn/newsinfo/9105842.html",
+      "watchItems": [
+        "AI芯片架构与应用",
+        "Chiplet、3D-IC与先进封装",
+        "AI+EDA、汽车芯片和具身智能应用"
+      ],
+      "aShareMappings": [
+        "国产芯片观察",
+        "EDA与先进封装观察",
+        "汽车芯片与机器人芯片观察"
+      ],
+      "confirmation": "协会官方报道明确8月20—21日及议程；核对新品项目、合作、客户应用和技术指标等可验证信息。",
+      "invalidation": "官方日程变更；或活动只有主题和演讲，没有产品、合作、客户或应用层证据。",
+      "discovery": {
+        "runId": "official-sweep-20260818-0830",
+        "discoveredAt": "2026-08-18T08:30:00+08:00",
+        "method": "REGISTERED_OFFICIAL_SOURCE_SWEEP",
+        "sourceId": "SRC-EVENT-GDICA"
+      }
+    },
+    {
+      "id": "EVT-NBS-MOMENTUM-202608",
+      "startDate": "2026-08-24",
+      "endDate": "2026-08-31",
+      "title": "国家统计局2025年中国经济发展新动能指数（预计8月）",
+      "status": "PENDING_OFFICIAL_CONFIRMATION",
+      "sourceLabel": "国家统计局2026年主要统计信息发布日程表",
+      "sourceUrl": "https://www.stats.gov.cn/xw/tjxw/tzgg/202512/t20251224_1962137.html",
+      "watchItems": [
+        "新产业、新业态、新商业模式指标变化",
+        "数字经济与技术进步相关分项",
+        "统计公报分项与工业、投资和企业数据的一致性"
+      ],
+      "aShareMappings": [
+        "新动能与产业升级观察",
+        "数字经济和先进制造观察",
+        "宏观结构变化观察"
+      ],
+      "confirmation": "国家统计局官方年度发布日程仍只明确2025年中国经济发展新动能指数预计于2026年8月发布，尚未给出具体日期；本轮仅保留8月剩余窗口，若出现正式公告，核对分项、口径和与工业/投资数据的交叉关系。",
+      "invalidation": "国家统计局发布具体日期并延期、取消或调整统计口径；或正式数据与工业、投资、企业经营等相关分项无法形成可复核的结构变化。",
+      "discovery": {
+        "runId": "official-sweep-20260827-0830",
+        "discoveredAt": "2026-08-27T08:36:39+08:00",
+        "method": "REGISTERED_OFFICIAL_SOURCE_SWEEP",
+        "sourceId": "SRC-EVENT-NBS"
+      }
+    },
+    {
+      "id": "EVT-NBS-MATERIAL-PRICE-20260824",
+      "startDate": "2026-08-24",
+      "endDate": "2026-08-24",
+      "title": "国家统计局8月中旬流通领域重要生产资料市场价格变动情况",
+      "status": "OFFICIAL_CONFIRMED",
+      "sourceLabel": "国家统计局发布预告",
+      "sourceUrl": "https://www.stats.gov.cn/fbyg/202401/t20240110_1946412.html",
+      "watchItems": [
+        "黑色、有色、能源和化工等生产资料价格",
+        "上中下游成本传导",
+        "价格变化与工业利润、PPI的交叉验证"
+      ],
+      "aShareMappings": [
+        "资源品与制造成本观察",
+        "工业利润传导观察",
+        "大宗商品价格观察"
+      ],
+      "confirmation": "国家统计局官方发布预告明确8月24日9:30发布流通领域重要生产资料市场价格变动情况；只观察分品类价格、环比变化及其与PPI和工业利润的关系。",
+      "invalidation": "官方预告更正或延期；或数据只出现单一品类波动，无法由分项、PPI、工业利润或后续价格数据交叉验证。",
+      "discovery": {
+        "runId": "official-sweep-20260824-0847",
+        "discoveredAt": "2026-08-24T08:47:27+08:00",
+        "method": "REGISTERED_OFFICIAL_SOURCE_SWEEP",
+        "sourceId": "SRC-EVENT-NBS"
+      }
+    },
+    {
+      "id": "EVT-NVDA-Q2-20260826",
+      "startDate": "2026-08-26",
+      "endDate": "2026-08-26",
+      "title": "NVIDIA 2027财年第二季度业绩与电话会",
+      "status": "OFFICIAL_CONFIRMED",
+      "sourceLabel": "NVIDIA Investor Relations",
+      "sourceUrl": "https://investor.nvidia.com/events-and-presentations/events-and-presentations/event-details/2026/NVIDIA-2nd-Quarter-FY27-Financial-Results/default.aspx",
+      "watchItems": [
+        "数据中心收入与毛利",
+        "AI资本开支和客户采购",
+        "下一季度指引与产品供给"
+      ],
+      "aShareMappings": [
+        "CPO与PCB观察",
+        "服务器、液冷与电源观察",
+        "AI硬件供应链观察"
+      ],
+      "confirmation": "NVIDIA IR官方事件页明确8月26日业绩与电话会；发布后核对财报、指引、客户采购与A股供应链证据。",
+      "invalidation": "IR官方事件页改期或取消；或指引、采购、产品供给与A股映射无法由公司公告和财报共同验证。",
+      "discovery": {
+        "runId": "official-sweep-20260826-0830",
+        "discoveredAt": "2026-08-26T08:35:47+08:00",
+        "method": "REGISTERED_OFFICIAL_SOURCE_SWEEP",
+        "sourceId": "SRC-EVENT-COMPANY-IR"
+      }
+    },
+    {
+      "id": "EVT-EXCHANGES-ETF-OPTION-20260826",
+      "startDate": "2026-08-26",
+      "endDate": "2026-08-26",
+      "title": "上交所ETF期权2026年8月合约最后交易、行权与到期",
+      "status": "OFFICIAL_CONFIRMED",
+      "sourceLabel": "上海证券交易所ETF期权公告",
+      "sourceUrl": "https://www.sse.com.cn/assortment/options/disclo/update/c/c_20260818_10829246.shtml",
+      "watchItems": [
+        "50ETF、300ETF、500ETF和科创50ETF期权到期",
+        "最后交易日与行权交收",
+        "标的ETF成交、波动和宽基结构"
+      ],
+      "aShareMappings": [
+        "宽基ETF结构观察",
+        "期权到期附近流动性观察",
+        "核心资产与科技板块波动观察"
+      ],
+      "confirmation": "上海证券交易所2026年8月21日官方公告明确8月26日为相关ETF期权最后交易日、行权日和到期日；观察实际行权、标的ETF成交与次日流动性。",
+      "invalidation": "交易所修改或取消日期；或实际成交、波动和宽度数据不支持任何可复核的到期窗口观察。",
+      "discovery": {
+        "runId": "official-sweep-20260826-0830",
+        "discoveredAt": "2026-08-26T08:35:47+08:00",
+        "method": "REGISTERED_OFFICIAL_SOURCE_SWEEP",
+        "sourceId": "SRC-EVENT-EXCHANGES"
+      }
+    },
+    {
+      "id": "EVT-JACKSON-HOLE-20260827",
+      "startDate": "2026-08-27",
+      "endDate": "2026-08-29",
+      "title": "Jackson Hole经济政策研讨会",
+      "status": "OFFICIAL_CONFIRMED",
+      "sourceLabel": "Federal Reserve Bank of Kansas City",
+      "sourceUrl": "https://www.kansascityfed.org/research/jackson-hole-economic-symposium/",
+      "watchItems": [
+        "金融创新与支付政策议题",
+        "央行官员讲话与论文",
+        "美元、美债利率和全球风险偏好"
+      ],
+      "aShareMappings": [
+        "黄金与有色观察",
+        "科技估值观察",
+        "人民币资产风险偏好观察"
+      ],
+      "confirmation": "Kansas City Fed官方页面明确2026年8月27—29日及主题Financial Innovation: Implications for Payments and Policy；核对议程、讲话、论文和跨资产同步反应。",
+      "invalidation": "官方页面改期或议程取消；或只有主题叙事而没有讲话、论文或利率曲线的可复核变化。",
+      "discovery": {
+        "runId": "official-sweep-20260827-0830",
+        "discoveredAt": "2026-08-27T08:36:39+08:00",
+        "method": "REGISTERED_OFFICIAL_SOURCE_SWEEP",
+        "sourceId": "SRC-EVENT-KCFED"
+      }
+    },
+    {
+      "id": "EVT-NBS-INDUSTRIAL-EFFICIENCY-20260827",
+      "startDate": "2026-08-27",
+      "endDate": "2026-08-27",
+      "title": "国家统计局7月工业经济效益月度报告",
+      "status": "OFFICIAL_CONFIRMED",
+      "sourceLabel": "国家统计局发布预告",
+      "sourceUrl": "https://www.stats.gov.cn/fbyg/202502/t20250225_1958793.html",
+      "watchItems": [
+        "营业收入、利润和利润率",
+        "成本费用与应收账款",
+        "上中下游工业盈利分化"
+      ],
+      "aShareMappings": [
+        "制造业盈利观察",
+        "资源与中游利润观察",
+        "工业链条景气观察"
+      ],
+      "confirmation": "国家统计局官方发布预告明确8月27日9:30发布工业经济效益月度报告；核对利润、营收、成本和行业分项，并与价格、产量和行业宽度交叉验证。",
+      "invalidation": "官方预告更正或延期；或利润变化仅由基数、单一行业或会计口径解释，缺少成本、价格和行业分项支持。",
+      "discovery": {
+        "runId": "official-sweep-20260827-0830",
+        "discoveredAt": "2026-08-27T08:36:39+08:00",
+        "method": "REGISTERED_OFFICIAL_SOURCE_SWEEP",
+        "sourceId": "SRC-EVENT-NBS"
+      }
+    },
+    {
+      "id": "EVT-ECB-MONETARY-DEVELOPMENTS-20260827",
+      "startDate": "2026-08-27",
+      "endDate": "2026-08-27",
+      "title": "欧洲央行公布2026年7月欧元区货币发展数据",
+      "status": "OFFICIAL_CONFIRMED",
+      "sourceLabel": "ECB欧元区货币发展数据发布日历",
+      "sourceUrl": "https://www.ecb.europa.eu/press/calendars/statscal/mfm/html/stprmp.cs.html",
+      "watchItems": [
+        "欧元区货币与信贷增长及其结构变化",
+        "银行信贷、利率传导和金融条件变化",
+        "欧元、欧洲利率与全球风险偏好同步变化"
+      ],
+      "aShareMappings": [
+        "全球流动性与汇率观察",
+        "A股估值对外部利率敏感度观察",
+        "跨市场风险偏好观察"
+      ],
+      "confirmation": "ECB官方统计日历明确2026年8月27日10:00 CET发布参考期为2026年7月的欧元区货币发展数据（BSI）；需核对货币、信贷和金融条件分项，再与欧元区利率、欧元和A股外部流动性观察交叉验证。",
+      "invalidation": "ECB官方日历改期、取消或更换数据集；或数据分项没有形成可复核的金融条件变化，且欧元、欧洲利率与A股相关观察之间不存在可解释的同步关系。",
+      "discovery": {
+        "runId": "official-sweep-20260827-0830",
+        "discoveredAt": "2026-08-27T08:36:39+08:00",
+        "method": "REGISTERED_OFFICIAL_SOURCE_SWEEP",
+        "sourceId": "SRC-EVENT-ECB"
+      }
+    },
+    {
+      "id": "EVT-ECB-ACCOUNT-20260827",
+      "startDate": "2026-08-27",
+      "endDate": "2026-08-27",
+      "title": "欧洲央行公布7月22—23日管理委员会货币政策会议账户",
+      "status": "OFFICIAL_CONFIRMED",
+      "sourceLabel": "European Central Bank monetary policy accounts",
+      "sourceUrl": "https://www.ecb.europa.eu/press/accounts/html/index.en.html",
+      "watchItems": [
+        "欧元区通胀、增长和金融条件讨论",
+        "政策选项与委员讨论分歧",
+        "欧元、欧债收益率和全球风险偏好"
+      ],
+      "aShareMappings": [
+        "全球利率与科技估值观察",
+        "人民币资产风险偏好观察",
+        "黄金与有色观察"
+      ],
+      "confirmation": "ECB官方账户页和周历明确8月27日发布2026年7月22—23日管理委员会货币政策会议账户；观察其中对通胀、增长、金融条件和政策选项的记录，并与欧元、欧债收益率及A股风险偏好数据交叉核对。",
+      "invalidation": "ECB官方账户页改期、取消或更正会议日期；或账户只有重复性措辞，且欧元、欧债收益率与A股风险偏好数据无法形成可复核的同步或背离关系。",
+      "discovery": {
+        "runId": "official-sweep-20260827-0830",
+        "discoveredAt": "2026-08-27T08:36:39+08:00",
+        "method": "REGISTERED_OFFICIAL_SOURCE_SWEEP",
+        "sourceId": "SRC-EVENT-ECB"
+      }
+    },
+    {
+      "id": "EVT-BIGDATA-20260828",
+      "startDate": "2026-08-28",
+      "endDate": "2026-08-30",
+      "title": "2026中国国际大数据产业博览会",
+      "status": "OFFICIAL_CONFIRMED",
+      "sourceLabel": "中国国际大数据产业博览会官网新闻",
+      "sourceUrl": "https://www.bigdata-expo.cn/news/1487916322",
+      "watchItems": [
+        "数据要素与数据基础设施",
+        "算力、数据库与AI应用",
+        "官方议程、展商和商贸对接"
+      ],
+      "aShareMappings": [
+        "数据要素观察",
+        "算力与数据库观察",
+        "数据安全与AI应用观察"
+      ],
+      "confirmation": "数博会官网新闻明确8月28—30日在贵阳举办；核对议程、展商、发布成果与真实场景/采购证据。",
+      "invalidation": "官方日期、地点或举办状态变化；或只有主题叙事，没有产品、客户、订单、采购或落地证据。",
+      "discovery": {
+        "runId": "official-sweep-20260827-0830",
+        "discoveredAt": "2026-08-27T08:36:39+08:00",
+        "method": "REGISTERED_OFFICIAL_SOURCE_SWEEP",
+        "sourceId": "SRC-EVENT-BIGDATA"
+      }
+    },
+    {
+      "id": "EVT-CSEAC-20260831",
+      "startDate": "2026-08-31",
+      "endDate": "2026-09-02",
+      "title": "CSEAC 2026半导体设备、核心部件及材料展",
+      "status": "OFFICIAL_CONFIRMED",
+      "sourceLabel": "CSEAC官方网站",
+      "sourceUrl": "https://www.cseac.org.cn/cn/",
+      "watchItems": [
+        "晶圆制造和封测设备",
+        "核心部件与材料",
+        "产品发布、客户对接与产业验证"
+      ],
+      "aShareMappings": [
+        "半导体设备观察",
+        "关键材料与核心部件观察",
+        "先进封装与测试观察"
+      ],
+      "confirmation": "CSEAC官方页面及新闻明确8月31日至9月2日在无锡举办；核对展商、产品、客户、技术发布和产业对接证据。",
+      "invalidation": "官方日期或地点变更；或只有展会主题和参展名单，没有产品、客户、订单或技术验证。",
+      "discovery": {
+        "runId": "official-sweep-20260827-0830",
+        "discoveredAt": "2026-08-27T08:36:39+08:00",
+        "method": "REGISTERED_OFFICIAL_SOURCE_SWEEP",
+        "sourceId": "SRC-EVENT-CSEAC"
+      }
+    },
+    {
+      "id": "EVT-SEMICON-TAIWAN-20260831",
+      "startDate": "2026-08-31",
+      "endDate": "2026-09-04",
+      "title": "SEMICON Taiwan 2026论坛与展览",
+      "status": "OFFICIAL_CONFIRMED",
+      "sourceLabel": "SEMICON Taiwan 2026官方日程",
+      "sourceUrl": "https://www.semicontaiwan.org/en/special-features/schedule-at-a-glance",
+      "watchItems": [
+        "先进芯片制造",
+        "硅光、先进封装与测试",
+        "AI驱动制造投资和供应链韧性"
+      ],
+      "aShareMappings": [
+        "半导体设备与材料观察",
+        "先进封装观察",
+        "硅光与光通信观察"
+      ],
+      "confirmation": "SEMICON Taiwan官方FAQ明确论坛8月31日至9月4日、展览9月2日至4日；核对议程、参展公司、产品和客户/资本开支证据。",
+      "invalidation": "官方日程变更；或只有论坛主题、展商数量和市场叙事，没有产品、客户、订单或资本开支验证。",
+      "discovery": {
+        "runId": "official-sweep-20260827-0830",
+        "discoveredAt": "2026-08-27T08:36:39+08:00",
+        "method": "REGISTERED_OFFICIAL_SOURCE_SWEEP",
+        "sourceId": "SRC-EVENT-SEMI"
+      }
+    },
+    {
+      "id": "EVT-NBS-PMI-20260831",
+      "startDate": "2026-08-31",
+      "endDate": "2026-08-31",
+      "title": "国家统计局8月采购经理指数月度报告",
+      "status": "OFFICIAL_CONFIRMED",
+      "sourceLabel": "国家统计局2026年主要统计信息发布日程",
+      "sourceUrl": "https://www.stats.gov.cn/xw/tjxw/tzgg/202512/t20251224_1962137.html",
+      "watchItems": [
+        "制造业景气与新订单",
+        "原材料购进价格",
+        "大中小企业景气分化"
+      ],
+      "aShareMappings": [
+        "顺周期与工业制造观察",
+        "原材料与中游成本观察",
+        "宏观风险偏好观察"
+      ],
+      "confirmation": "国家统计局官方日程列明8月31日；发布后核对PMI总量、生产、新订单、价格和企业规模分项，并与行业宽度交叉验证。",
+      "invalidation": "官方日程更正或发布延期；或关键分项彼此背离、无法形成可复核的宏观与行业传导证据。",
+      "discovery": {
+        "runId": "official-sweep-20260827-0830",
+        "discoveredAt": "2026-08-27T08:36:39+08:00",
+        "method": "REGISTERED_OFFICIAL_SOURCE_SWEEP",
+        "sourceId": "SRC-EVENT-NBS"
+      }
+    },
+    {
+      "id": "EVT-MIIT-SMART-FACTORY-20260901",
+      "startDate": "2026-09-01",
+      "endDate": "2026-09-01",
+      "title": "2026年度智能工厂梯度培育行动省级推荐审核截止",
+      "status": "OFFICIAL_CONFIRMED",
+      "sourceLabel": "工业和信息化部等六部门智能工厂梯度培育通知",
+      "sourceUrl": "https://www.miit.gov.cn/zwgk/zcwj/wjfb/tz/art/2026/art_bbccc17a650749c2a76569679350fa5d.html",
+      "watchItems": [
+        "省级推荐与线上审核完成情况",
+        "卓越级/领航级智能工厂后续评审和名单",
+        "工业AI、数字孪生与自动化场景"
+      ],
+      "aShareMappings": [
+        "工业软件与智能制造观察",
+        "工业机器人与自动化设备观察",
+        "边缘计算与工业AI观察"
+      ],
+      "confirmation": "工信部等六部门官方通知明确省级推荐单位应于9月1日前完成线上审核；后续只核对官方评审、名单和场景落地证据。",
+      "invalidation": "官方通知改变截止日或取消行动；或后续没有官方评审/名单及可复核的项目、订单、设备或软件落地证据。",
+      "discovery": {
+        "runId": "official-sweep-20260827-0830",
+        "discoveredAt": "2026-08-27T08:36:39+08:00",
+        "method": "REGISTERED_OFFICIAL_SOURCE_SWEEP",
+        "sourceId": "SRC-EVENT-MIIT"
+      }
+    },
+    {
+      "id": "EVT-NBS-SCIENCE-INDEX-202609",
+      "startDate": "2026-09-01",
+      "endDate": "2026-10-31",
+      "title": "国家统计局2025年科技经费投入统计公报与中国创新指数（预计9—10月）",
+      "status": "PENDING_OFFICIAL_CONFIRMATION",
+      "sourceLabel": "国家统计局2026年主要统计信息发布日程",
+      "sourceUrl": "https://www.stats.gov.cn/xw/tjxw/tzgg/202512/t20251224_1962137.html",
+      "watchItems": [
+        "研发投入与创新产出",
+        "高技术产业和区域创新结构",
+        "正式发布日期与数据口径"
+      ],
+      "aShareMappings": [
+        "科技政策与创新投入观察",
+        "AI、半导体和先进制造观察",
+        "成长风格与产业数据验证观察"
+      ],
+      "confirmation": "国家统计局日程注记仅给出2026年9—10月预计发布时间，当前没有具体日期；待官方发布页出现日期和数据后核对研发投入、创新产出及产业分项。",
+      "invalidation": "官方日程取消或改期；或截至10月31日没有正式发布，或数据口径不能与产业和研发指标复核。",
+      "discovery": {
+        "runId": "official-sweep-20260827-0830",
+        "discoveredAt": "2026-08-27T08:36:39+08:00",
+        "method": "REGISTERED_OFFICIAL_SOURCE_SWEEP",
+        "sourceId": "SRC-EVENT-NBS"
+      }
+    },
+    {
+      "id": "EVT-MIIT-AI-TERMINALS-202609",
+      "startDate": "2026-09-01",
+      "endDate": "2026-09-30",
+      "title": "工信部人工智能终端重点行业专场对接活动（官方计划于2026年9月）",
+      "status": "PENDING_OFFICIAL_CONFIRMATION",
+      "sourceLabel": "工业和信息化部重点行业专场对接活动表",
+      "sourceUrl": "https://www.miit.gov.cn/cms_files/filemanager/1226211233/attach/20265/1dbc41d926d04da492eb6ed7ed83f4fc.pdf",
+      "watchItems": [
+        "人工智能终端应用场景",
+        "终端、模型与芯片协同",
+        "企业对接和产品验证信息"
+      ],
+      "aShareMappings": [
+        "AI终端观察",
+        "端侧芯片与模组观察",
+        "软件与应用落地观察"
+      ],
+      "confirmation": "工信部官方计划给出2026年9月和广东省，但没有具体日期；待官方通知、议程或结果文件，并核对产品、客户和应用证据。",
+      "invalidation": "工信部通知取消、改期、改为其他月份，或活动只有方向性表述而没有可验证的对接、产品或场景信息。",
+      "discovery": {
+        "runId": "official-sweep-20260827-0830",
+        "discoveredAt": "2026-08-27T08:36:39+08:00",
+        "method": "REGISTERED_OFFICIAL_SOURCE_SWEEP",
+        "sourceId": "SRC-EVENT-MIIT"
+      }
+    },
+    {
+      "id": "EVT-FED-BEIGE-BOOK-20260902",
+      "startDate": "2026-09-02",
+      "endDate": "2026-09-02",
+      "title": "Federal Reserve公布2026年9月Beige Book",
+      "status": "OFFICIAL_CONFIRMED",
+      "sourceLabel": "Federal Reserve Board 2026年9月官方日历",
+      "sourceUrl": "https://www.federalreserve.gov/newsevents/2026-september.htm",
+      "watchItems": [
+        "12个联储地区的需求、就业、价格和信贷条件",
+        "制造业、资本开支与科技相关企业的区域反馈",
+        "定性调查与后续FOMC数据及市场条件的差异"
+      ],
+      "aShareMappings": [
+        "全球需求与海外制造景气观察",
+        "海外利率与风险偏好观察",
+        "A股外部宏观传导观察"
+      ],
+      "confirmation": "Federal Reserve官方2026年9月日历明确9月2日14:00发布Beige Book；发布后核对区域活动、价格、信贷和企业反馈，不把定性描述直接转换为A股方向结论。",
+      "invalidation": "Federal Reserve官方日历改期或撤回；或正式报告缺少可复核的区域活动、价格和信贷信息，无法与后续宏观数据和跨市场条件交叉验证。",
+      "discovery": {
+        "runId": "official-sweep-20260827-0830",
+        "discoveredAt": "2026-08-27T08:36:39+08:00",
+        "method": "REGISTERED_OFFICIAL_SOURCE_SWEEP",
+        "sourceId": "SRC-EVENT-FED"
+      }
+    },
+    {
+      "id": "EVT-GDICA-IC-SRDI-20260903",
+      "startDate": "2026-09-03",
+      "endDate": "2026-09-06",
+      "title": "中国集成电路专精特新展览会 IC-SRDI 2026",
+      "status": "OFFICIAL_CONFIRMED",
+      "sourceLabel": "广东省集成电路行业协会官方活动信息",
+      "sourceUrl": "https://www.gdica.net.cn/newsinfo/9035560.html",
+      "watchItems": [
+        "设计、制造、封装测试与设备材料",
+        "专精特新企业供需对接",
+        "AI芯片、机器人和智能汽车应用"
+      ],
+      "aShareMappings": [
+        "半导体设备与材料观察",
+        "先进封装与测试观察",
+        "AI芯片和机器人算力链观察"
+      ],
+      "confirmation": "广东省集成电路行业协会官方文章明确9月3—6日在广州举办，并给出主办/承办信息；核对展商、产品、采购对接和技术发布。",
+      "invalidation": "官方活动日期或主办信息变化；或只有展商名单和主题叙事，没有产品、客户、采购、订单或技术验证。",
+      "discovery": {
+        "runId": "official-sweep-20260827-0830",
+        "discoveredAt": "2026-08-27T08:36:39+08:00",
+        "method": "REGISTERED_OFFICIAL_SOURCE_SWEEP",
+        "sourceId": "SRC-EVENT-GDICA"
+      }
+    },
+    {
+      "id": "EVT-MIIT-SME-EXPO-20260903",
+      "startDate": "2026-09-03",
+      "endDate": "2026-09-06",
+      "title": "第二十一届中国国际中小企业博览会",
+      "status": "OFFICIAL_CONFIRMED",
+      "sourceLabel": "工业和信息化部关于第二十一届中国国际中小企业博览会官方报道",
+      "sourceUrl": "https://www.miit.gov.cn/jgsj/qyj/gzdt/art/2026/art_d8ae70cd9e7d4996b1b6cef9b67bcc1d.html",
+      "watchItems": [
+        "人工智能赋能中小企业的产品、服务和真实应用场景",
+        "专精特新企业在产业链协同、技术创新和市场拓展中的可验证进展",
+        "展会供需对接、项目合作与后续企业披露之间是否一致"
+      ],
+      "aShareMappings": [
+        "AI+制造与中小企业数字化转型观察",
+        "专精特新与产业链协同观察",
+        "工业软件、智能装备和应用服务生态观察"
+      ],
+      "confirmation": "工信部官方报道明确第二十一届中国国际中小企业博览会将于2026年9月3日至6日在广州广交会展馆D区举办，主题为人工智能赋能中小企业；研究只核对展品、应用案例、签约/对接和后续企业披露等可复核信息，不从展会名称直接推导行情。",
+      "invalidation": "官方报道或日程被改期、取消或替换；现场仅有宣传口径而无产品、客户、项目或企业公告等可复核证据；或展会信息与后续企业披露、应用数据无法相互印证。",
+      "discovery": {
+        "runId": "official-sweep-20260828-0830",
+        "discoveredAt": "2026-08-28T08:34:41+08:00",
+        "method": "REGISTERED_OFFICIAL_SOURCE_SWEEP",
+        "sourceId": "SRC-EVENT-MIIT"
+      }
+    },
+    {
+      "id": "EVT-NBS-MATERIAL-PRICE-20260904",
+      "startDate": "2026-09-04",
+      "endDate": "2026-09-04",
+      "title": "国家统计局9月上旬流通领域重要生产资料市场价格变动情况",
+      "status": "OFFICIAL_CONFIRMED",
+      "sourceLabel": "国家统计局发布预告",
+      "sourceUrl": "https://www.stats.gov.cn/fbyg/202302/t20230220_1913676.html",
+      "watchItems": [
+        "生产资料价格环比与品类扩散",
+        "资源品与制造成本变化",
+        "价格信号和工业利润的时序关系"
+      ],
+      "aShareMappings": [
+        "资源品观察",
+        "制造成本观察",
+        "工业链利润观察"
+      ],
+      "confirmation": "国家统计局官方发布预告明确9月4日9:30发布流通领域重要生产资料市场价格变动情况；核对分品类价格和环比，并与PPI、工业利润和行业表现对照。",
+      "invalidation": "官方预告更正或延期；或价格变化没有跨品类扩散，也不能在PPI、利润或后续数据中得到复核。",
+      "discovery": {
+        "runId": "official-sweep-20260827-0830",
+        "discoveredAt": "2026-08-27T08:36:39+08:00",
+        "method": "REGISTERED_OFFICIAL_SOURCE_SWEEP",
+        "sourceId": "SRC-EVENT-NBS"
+      }
+    },
+    {
+      "id": "EVT-APEC-SME-MINISTER-20260904",
+      "startDate": "2026-09-04",
+      "endDate": "2026-09-04",
+      "title": "第32次APEC中小企业部长会议",
+      "status": "OFFICIAL_CONFIRMED",
+      "sourceLabel": "工业和信息化部第32次APEC中小企业部长会议新闻通气会",
+      "sourceUrl": "https://www.miit.gov.cn/xwfb/bldhd/art/2026/art_0c0a3ae10f1b41d88813ab3ad5f6df54.html",
+      "watchItems": [
+        "各经济体围绕科技创新、人工智能与数智赋能的政策交流内容",
+        "部长会议公报、合作共识或后续工作安排是否形成正式文本",
+        "亚太中小企业、跨境投资与产业链供应链合作的后续落地线索"
+      ],
+      "aShareMappings": [
+        "AI+制造与中小企业数字化转型观察",
+        "专精特新与产业链协同观察",
+        "外贸制造与跨境供应链韧性观察"
+      ],
+      "confirmation": "工信部官方新闻通气会明确第32次APEC中小企业部长会议于2026年9月4日在广州举行，系列活动为8月31日至9月6日；研究只核对正式议题、公报、合作安排和后续政策/企业数据，会议主题本身不等于A股方向。",
+      "invalidation": "官方日期、地点或议程被改期、取消或实质调整；会议未形成可核验的正式文本或后续安排；或后续政策、产业数据和企业披露无法支持原观察问题。",
+      "discovery": {
+        "runId": "official-sweep-20260828-0830",
+        "discoveredAt": "2026-08-28T08:34:41+08:00",
+        "method": "REGISTERED_OFFICIAL_SOURCE_SWEEP",
+        "sourceId": "SRC-EVENT-MIIT"
+      }
+    },
+    {
+      "id": "EVT-MIIT-INNOVATION-BIDDING-20260907",
+      "startDate": "2026-09-07",
+      "endDate": "2026-09-07",
+      "title": "2026年工业和信息化领域创新任务揭榜单位推荐汇总报送截止",
+      "status": "OFFICIAL_CONFIRMED",
+      "sourceLabel": "工信部等七部门2026年工业和信息化领域创新任务揭榜挂帅通知",
+      "sourceUrl": "https://wap.miit.gov.cn/zwgk/zcwj/wjfb/tz/art/2026/art_286751ceaf944364b5c282cacd71cb09.html",
+      "watchItems": [
+        "未来产业、人工智能、人形机器人与具身智能、算力和工业软件等专题的推荐范围",
+        "入围名单、任务指南、资金/场景支持和后续测评安排是否形成官方文本",
+        "联合体项目是否出现可复核的技术验证、客户场景、订单或产业化进展"
+      ],
+      "aShareMappings": [
+        "未来产业与具身智能观察",
+        "工业AI、算力和工业软件观察",
+        "技术攻关到场景落地的产业链观察"
+      ],
+      "confirmation": "工信部等七部门官方通知明确本批揭榜挂帅覆盖未来产业、装备制造、信息技术、通信、人工智能和消费品等24个专题，并要求推荐单位于2026年9月7日前报送推荐汇总表。政策方向可能通过项目名单、场景开放和企业研发/订单传导至A股观察结构；只用官方入围名单、项目进度、企业公告和应用数据确认，不从政策名称直接推导行情。",
+      "invalidation": "官方通知改变截止日、取消行动或收回相关专题；后续未发布可核验的入围/优胜名单、项目进度或场景成果；或企业披露与项目数据无法相互印证。",
+      "discovery": {
+        "runId": "official-sweep-20260829-0830",
+        "discoveredAt": "2026-08-29T08:35:05+08:00",
+        "method": "REGISTERED_OFFICIAL_SOURCE_SWEEP",
+        "sourceId": "SRC-EVENT-MIIT"
+      }
+    },
+    {
+      "id": "EVT-GDICA-IICIE-20260909",
+      "startDate": "2026-09-09",
+      "endDate": "2026-09-11",
+      "title": "IICIE国际集成电路创新博览会2026",
+      "status": "OFFICIAL_CONFIRMED",
+      "sourceLabel": "广东省集成电路行业协会",
+      "sourceUrl": "https://www.gdica.net.cn/newsinfo/9035508.html",
+      "watchItems": [
+        "芯片设计、晶圆制造、封装测试、设备材料与零部件的展示内容",
+        "企业产品发布、客户对接和应用场景证据",
+        "展会信息与上市公司公告、订单、产能和客户验证的交叉一致性"
+      ],
+      "aShareMappings": [
+        "集成电路设备、材料与零部件观察",
+        "先进封装与芯片应用观察",
+        "产业链订单和客户验证观察"
+      ],
+      "confirmation": "广东省集成电路行业协会官方新闻明确IICIE国际集成电路创新博览会于2026年9月9—11日在深圳举行；观察范围限于公开展示、产品、客户和产业协同证据，不能由参展或会议名称直接推导上市公司结论。",
+      "invalidation": "主办方或协会官方页面改期、取消或变更展会名称；或活动没有可公开核验的产品、客户、订单、产能或应用信息。",
+      "discovery": {
+        "runId": "official-sweep-20260827-0830",
+        "discoveredAt": "2026-08-27T08:36:39+08:00",
+        "method": "REGISTERED_OFFICIAL_SOURCE_SWEEP",
+        "sourceId": "SRC-EVENT-GDICA"
+      }
+    },
+    {
+      "id": "EVT-SEMI-FUTURE-COMPUTING-20260909",
+      "startDate": "2026-09-09",
+      "endDate": "2026-09-09",
+      "title": "SEMI Future of Computing 2026",
+      "status": "OFFICIAL_CONFIRMED",
+      "sourceLabel": "SEMI官方活动页面",
+      "sourceUrl": "https://www.semi.org/en/event/future-computing-2026",
+      "watchItems": [
+        "AI能效与数据中心电力约束",
+        "光子、先进封装和系统协同",
+        "硬件软件协同与推理效率"
+      ],
+      "aShareMappings": [
+        "AI算力基础设施观察",
+        "光模块与光子器件观察",
+        "先进封装与端侧算力观察"
+      ],
+      "confirmation": "SEMI官方活动页明确9月9日举办，并给出AI能效、光子、芯片到电网和硬件软件协同议程；只核对公开议程、产品技术、资本开支、客户或部署证据。",
+      "invalidation": "官方活动日期或议程变更；或活动只有主题和演讲叙事，没有公开技术、产品、订单、客户或部署证据。",
+      "discovery": {
+        "runId": "official-sweep-20260827-0830",
+        "discoveredAt": "2026-08-27T08:36:39+08:00",
+        "method": "REGISTERED_OFFICIAL_SOURCE_SWEEP",
+        "sourceId": "SRC-EVENT-SEMI"
+      }
+    },
+    {
+      "id": "EVT-NBS-CPI-PPI-20260909",
+      "startDate": "2026-09-09",
+      "endDate": "2026-09-09",
+      "title": "国家统计局8月CPI与PPI月度报告",
+      "status": "OFFICIAL_CONFIRMED",
+      "sourceLabel": "国家统计局2026年主要统计信息发布日程",
+      "sourceUrl": "https://www.stats.gov.cn/xw/tjxw/tzgg/202512/t20251224_1962137.html",
+      "watchItems": [
+        "居民消费价格",
+        "工业品出厂价格",
+        "价格传导与名义增长线索"
+      ],
+      "aShareMappings": [
+        "消费与服务价格观察",
+        "资源与制造成本观察",
+        "利率与风险偏好观察"
+      ],
+      "confirmation": "官方日程列明9月9日；同时检查CPI、核心CPI、PPI及环比/同比结构，确认价格变化是否与工业和消费数据方向一致。",
+      "invalidation": "官方日程更正或延期；或单一价格总量变化无法被分项、工业数据和市场结构共同复核。",
+      "discovery": {
+        "runId": "official-sweep-20260827-0830",
+        "discoveredAt": "2026-08-27T08:36:39+08:00",
+        "method": "REGISTERED_OFFICIAL_SOURCE_SWEEP",
+        "sourceId": "SRC-EVENT-NBS"
+      }
+    },
+    {
+      "id": "EVT-ECB-20260909",
+      "startDate": "2026-09-09",
+      "endDate": "2026-09-10",
+      "title": "欧洲央行9月管理委员会货币政策会议",
+      "status": "OFFICIAL_CONFIRMED",
+      "sourceLabel": "European Central Bank Governing Council calendar",
+      "sourceUrl": "https://www.ecb.europa.eu/press/calendars/mgcgc/html/index.en.html",
+      "watchItems": [
+        "利率决定与政策指引",
+        "新闻发布会措辞",
+        "欧元区增长与通胀判断"
+      ],
+      "aShareMappings": [
+        "全球利率与估值观察",
+        "欧元与美元联动观察",
+        "外需与风险偏好观察"
+      ],
+      "confirmation": "ECB官方日历列明9月9—10日货币政策会议及发布会；核对正式决定、记者会和欧元/利率市场反应。",
+      "invalidation": "官方日历改期；或政策决定和跨资产反应无法支持对全球利率、汇率与风险偏好的观察问题。",
+      "discovery": {
+        "runId": "official-sweep-20260827-0830",
+        "discoveredAt": "2026-08-27T08:36:39+08:00",
+        "method": "REGISTERED_OFFICIAL_SOURCE_SWEEP",
+        "sourceId": "SRC-EVENT-ECB"
+      }
+    },
+    {
+      "id": "EVT-NVIDIA-GS-COMMUNACOPIA-20260910",
+      "startDate": "2026-09-10",
+      "endDate": "2026-09-10",
+      "title": "NVIDIA参加Goldman Sachs Communacopia & Technology Conference主题炉边谈话",
+      "status": "OFFICIAL_CONFIRMED",
+      "sourceLabel": "NVIDIA 2027财年第二季度业绩会官方文字记录",
+      "sourceUrl": "https://investor.nvidia.com/files/content_files/TRANSCRIPT_-NVIDIA-Corp-NVDA-US-Q2-2027-Earnings-Call-26-August-2026-5_00-PM-ET.pdf",
+      "watchItems": [
+        "管理层对AI需求、数据中心资本开支和客户部署节奏的可核验表述",
+        "加速计算、网络、先进封装和下一代产品路线的公开信息",
+        "会议观点能否与后续公司披露、客户资本开支、订单交付和产业数据相互验证"
+      ],
+      "aShareMappings": [
+        "AI算力、服务器和数据中心基础设施观察",
+        "半导体设备、材料与先进封装观察",
+        "全球AI供应链和物理AI应用观察"
+      ],
+      "confirmation": "NVIDIA官方业绩会文字记录明确Jensen Huang将于2026年9月10日参加Goldman Sachs Communacopia & Technology Conference的keynote fireside chat。公司管理层信息可能通过客户资本开支、订单、交付和供应链数据传导至A股观察结构；只等待公开会议内容及后续公司/产业数据确认，不把发言直接转成市场结论。",
+      "invalidation": "官方活动被取消、改期或没有可归因的公开内容；发言仅为叙事而无客户、订单、资本开支或交付数据支持；或后续披露与原观察传导链相互证伪。",
+      "discovery": {
+        "runId": "official-sweep-20260829-0830",
+        "discoveredAt": "2026-08-29T08:35:05+08:00",
+        "method": "REGISTERED_OFFICIAL_SOURCE_SWEEP",
+        "sourceId": "SRC-EVENT-COMPANY-IR"
+      }
+    },
+    {
+      "id": "EVT-MIIT-VEHICLE-CLOUD-STANDARD-20260910",
+      "startDate": "2026-09-10",
+      "endDate": "2026-09-10",
+      "title": "车路协同车云通信安全等50项通信行业标准报批意见征求截止",
+      "status": "OFFICIAL_CONFIRMED",
+      "sourceLabel": "工信部关于50项通信行业标准报批意见征求公示",
+      "sourceUrl": "https://www.miit.gov.cn/jgsj/kjs/jscx/bzgf/art/2026/art_56f2261a5280491ba61b4d3551073602.html",
+      "watchItems": [
+        "车路协同车云通信安全技术要求及相关通信标准的正式文本变化",
+        "标准采纳后对车联网、云控平台、网络安全和测试认证环节的影响",
+        "企业公告、招投标、测试认证和实际部署是否与标准方向一致"
+      ],
+      "aShareMappings": [
+        "智能网联汽车与车云通信安全观察",
+        "工业通信、网络安全和测试认证观察",
+        "车路协同基础设施与软件服务观察"
+      ],
+      "confirmation": "工信部科技司官方公示明确《面向车路协同的车云通信安全技术要求》等50项通信行业标准的公示期为2026年8月12日至9月10日。标准若进入正式发布和测试认证，可能通过合规要求、设备改造和项目采购传导至相关观察方向；只核对最终标准、认证/招投标和企业披露。",
+      "invalidation": "公示被撤回、标准项目未获批准或日期改变；最终文本不含关键车云安全要求；或没有可复核的认证、采购、部署或企业披露证据。",
+      "discovery": {
+        "runId": "official-sweep-20260829-0830",
+        "discoveredAt": "2026-08-29T08:35:05+08:00",
+        "method": "REGISTERED_OFFICIAL_SOURCE_SWEEP",
+        "sourceId": "SRC-EVENT-MIIT"
+      }
+    },
+    {
+      "id": "EVT-MIIT-DIGITAL-TWIN-STANDARD-20260912",
+      "startDate": "2026-09-12",
+      "endDate": "2026-09-12",
+      "title": "有色金属采选智能工厂数字孪生等247项行业标准计划意见征求截止",
+      "status": "OFFICIAL_CONFIRMED",
+      "sourceLabel": "工信部247项行业标准计划项目意见征求公示",
+      "sourceUrl": "https://wap.miit.gov.cn/gzcy/yjzj/art/2026/art_2e3051420eaf47d99f992813db514c5e.html",
+      "watchItems": [
+        "智能工厂数字孪生、工业数据和有色金属采选等拟立项标准的范围",
+        "标准立项、后续发布与工业软件、自动化和工厂改造项目之间的时间差",
+        "试点工厂、项目招标、设备/软件采购和企业披露是否出现可验证进展"
+      ],
+      "aShareMappings": [
+        "工业软件、数字孪生和智能工厂观察",
+        "有色金属智能采选与自动化设备观察",
+        "工业数据标准与制造业数字化改造观察"
+      ],
+      "confirmation": "工信部科技司官方公示明确《有色金属采选 智能工厂数字孪生技术要求》等247项行业标准计划项目公示期为2026年8月14日至9月12日。标准立项可能通过项目规范、测试采购和工厂改造形成传导；只用后续正式立项/发布、试点项目、招投标和企业数据确认。",
+      "invalidation": "公示被撤回、立项未获批准或截止日改变；最终标准范围明显不支持智能工厂/数字孪生观察；或后续没有官方项目、采购、部署和企业披露证据。",
+      "discovery": {
+        "runId": "official-sweep-20260829-0830",
+        "discoveredAt": "2026-08-29T08:35:05+08:00",
+        "method": "REGISTERED_OFFICIAL_SOURCE_SWEEP",
+        "sourceId": "SRC-EVENT-MIIT"
+      }
+    },
+    {
+      "id": "EVT-NBS-MATERIAL-PRICE-20260914",
+      "startDate": "2026-09-14",
+      "endDate": "2026-09-14",
+      "title": "国家统计局9月中旬流通领域重要生产资料市场价格变动情况",
+      "status": "OFFICIAL_CONFIRMED",
+      "sourceLabel": "国家统计局发布预告",
+      "sourceUrl": "https://www.stats.gov.cn/fbyg/",
+      "watchItems": [
+        "50种重要生产资料价格涨跌分布",
+        "能源、黑色金属、有色金属、化工和电子材料价格变化",
+        "价格变化与PPI、工业利润和行业宽度的交叉关系"
+      ],
+      "aShareMappings": [
+        "工业成本与利润传导观察",
+        "资源、材料与中游制造观察",
+        "价格信号与行业景气观察"
+      ],
+      "confirmation": "国家统计局当前官方发布预告明确9月14日9:30发布流通领域重要生产资料市场价格变动情况；仅在正式发布后核对产品分项、环比方向及其与PPI、工业利润和行业数据的一致性。",
+      "invalidation": "官方发布预告改期、取消或调整统计口径；或价格变化无法由产品分项、PPI、工业利润与行业数据交叉复核。",
+      "discovery": {
+        "runId": "official-sweep-20260827-0830",
+        "discoveredAt": "2026-08-27T08:36:39+08:00",
+        "method": "REGISTERED_OFFICIAL_SOURCE_SWEEP",
+        "sourceId": "SRC-EVENT-NBS"
+      }
+    },
+    {
+      "id": "EVT-FOMC-20260915",
+      "startDate": "2026-09-15",
+      "endDate": "2026-09-16",
+      "title": "2026年9月FOMC会议与经济预测摘要",
+      "status": "OFFICIAL_CONFIRMED",
+      "sourceLabel": "Federal Reserve FOMC calendar",
+      "sourceUrl": "https://www.federalreserve.gov/monetarypolicy/fomccalendars.htm",
+      "watchItems": [
+        "政策利率路径",
+        "经济预测与点阵图",
+        "美元、美债与风险偏好联动"
+      ],
+      "aShareMappings": [
+        "科技估值观察",
+        "黄金与有色观察",
+        "人民币资产风险偏好观察"
+      ],
+      "confirmation": "Federal Reserve官方会议日历列明9月15—16日且标注经济预测摘要；核对声明、预测、记者会和跨资产价格反应。",
+      "invalidation": "官方日历改期；或政策措辞未改变预期、美元利率与风险资产反应明显背离。",
+      "discovery": {
+        "runId": "official-sweep-20260827-0830",
+        "discoveredAt": "2026-08-27T08:36:39+08:00",
+        "method": "REGISTERED_OFFICIAL_SOURCE_SWEEP",
+        "sourceId": "SRC-EVENT-FED"
+      }
+    },
+    {
+      "id": "EVT-NBS-ECON-20260915",
+      "startDate": "2026-09-15",
+      "endDate": "2026-09-15",
+      "title": "国家统计局9月月度国民经济运行与工业、投资、消费数据发布",
+      "status": "OFFICIAL_CONFIRMED",
+      "sourceLabel": "国家统计局2026年主要统计信息发布日程",
+      "sourceUrl": "https://www.stats.gov.cn/xw/tjxw/tzgg/202512/t20251224_1962137.html",
+      "watchItems": [
+        "工业增加值与能源生产",
+        "固定资产投资与房地产开发",
+        "社会消费品零售与内需线索"
+      ],
+      "aShareMappings": [
+        "工业周期观察",
+        "地产链与投资观察",
+        "可选消费与内需观察"
+      ],
+      "confirmation": "官方日程列明9月15日；按工业、投资、地产、零售分项核对，并检查行业宽度、成交和价格是否提供同方向证据。",
+      "invalidation": "官方日程更正或延期；或总量与分项、行业结构、价格信号之间出现无法解释的明显背离。",
+      "discovery": {
+        "runId": "official-sweep-20260827-0830",
+        "discoveredAt": "2026-08-27T08:36:39+08:00",
+        "method": "REGISTERED_OFFICIAL_SOURCE_SWEEP",
+        "sourceId": "SRC-EVENT-NBS"
+      }
+    },
+    {
+      "id": "EVT-SEMI-MSTC-20260916",
+      "startDate": "2026-09-16",
+      "endDate": "2026-09-17",
+      "title": "SEMI MEMS & Sensors Technical Congress—MSTC 2026",
+      "status": "OFFICIAL_CONFIRMED",
+      "sourceLabel": "SEMI官方活动页面",
+      "sourceUrl": "https://www.semi.org/en/connect/events/mems-and-sensors-technical-congress-mstc",
+      "watchItems": [
+        "MEMS与传感器技术路线",
+        "边缘AI、机器人和可穿戴应用",
+        "传感器从器件到商业化的验证"
+      ],
+      "aShareMappings": [
+        "传感器与MEMS观察",
+        "机器人感知链观察",
+        "边缘AI与可穿戴器件观察"
+      ],
+      "confirmation": "SEMI官方活动页明确9月16—17日举办，议程覆盖传感器智能、边缘AI、自动化与机器人；只核对公开技术方案、客户应用、量产、出货或商业化证据。",
+      "invalidation": "官方活动日期或议程变更；或只有技术演示和市场叙事，没有客户、量产、出货或应用落地证据。",
+      "discovery": {
+        "runId": "official-sweep-20260827-0830",
+        "discoveredAt": "2026-08-27T08:36:39+08:00",
+        "method": "REGISTERED_OFFICIAL_SOURCE_SWEEP",
+        "sourceId": "SRC-EVENT-SEMI"
+      }
+    },
+    {
+      "id": "EVT-SEMICON-INDIA-20260917",
+      "startDate": "2026-09-17",
+      "endDate": "2026-09-19",
+      "title": "SEMICON India 2026半导体展与论坛",
+      "status": "OFFICIAL_CONFIRMED",
+      "sourceLabel": "SEMI全球半导体活动日历",
+      "sourceUrl": "https://www.semi.org/en/expositions-events/calendar",
+      "watchItems": [
+        "半导体制造投资与设备",
+        "先进封装、材料和供应链",
+        "AI算力需求与客户采购信号"
+      ],
+      "aShareMappings": [
+        "半导体设备材料观察",
+        "先进封装与测试观察",
+        "海外需求与供应链观察"
+      ],
+      "confirmation": "SEMI官方活动日历列明SEMICON India为9月17—19日；核对参展商、投资、设备订单、客户与工艺验证。",
+      "invalidation": "官方日历改期或取消；或只有展会规模和主题叙事，没有产品、资本开支、客户或订单证据。",
+      "discovery": {
+        "runId": "official-sweep-20260827-0830",
+        "discoveredAt": "2026-08-27T08:36:39+08:00",
+        "method": "REGISTERED_OFFICIAL_SOURCE_SWEEP",
+        "sourceId": "SRC-EVENT-SEMI"
+      }
+    },
+    {
+      "id": "EVT-BOJ-MPM-20260917",
+      "startDate": "2026-09-17",
+      "endDate": "2026-09-18",
+      "title": "日本银行9月金融政策决定会合",
+      "status": "OFFICIAL_CONFIRMED",
+      "sourceLabel": "Bank of Japan Monetary Policy Meetings",
+      "sourceUrl": "https://www.boj.or.jp/en/mopo/mpmsche_minu/",
+      "watchItems": [
+        "政策利率与市场操作指引",
+        "日元与日本国债",
+        "日本通胀和增长判断"
+      ],
+      "aShareMappings": [
+        "全球利率观察",
+        "日元与亚洲汇率观察",
+        "外需与风险偏好观察"
+      ],
+      "confirmation": "日本银行官方2026年会合表列明9月17—18日；核对政策声明、相关意见发布时间和日元/利率市场反应。",
+      "invalidation": "官方会合表改期；或政策信息无法在汇率、利率和亚洲风险偏好数据中得到交叉验证。",
+      "discovery": {
+        "runId": "official-sweep-20260827-0830",
+        "discoveredAt": "2026-08-27T08:36:39+08:00",
+        "method": "REGISTERED_OFFICIAL_SOURCE_SWEEP",
+        "sourceId": "SRC-EVENT-BOJ"
+      }
+    },
+    {
+      "id": "EVT-ECB-ECONOMIC-BULLETIN-20260924",
+      "startDate": "2026-09-24",
+      "endDate": "2026-09-24",
+      "title": "欧洲央行经济公报第6期（2026年）",
+      "status": "OFFICIAL_CONFIRMED",
+      "sourceLabel": "European Central Bank Economic Bulletin",
+      "sourceUrl": "https://www.ecb.europa.eu/press/economic-bulletin/html/index.en.html",
+      "watchItems": [
+        "欧元区通胀、增长和金融条件判断",
+        "货币政策传导与银行信贷条件",
+        "欧元区数据与全球利率、商品价格的联动"
+      ],
+      "aShareMappings": [
+        "全球利率与成长资产估值观察",
+        "有色、能源与外需观察",
+        "人民币资产风险偏好观察"
+      ],
+      "confirmation": "ECB官方经济公报页面明确第6期2026年公报下一次发布为9月24日；核对通胀、增长、信贷和金融条件章节，并用欧元区利率、美元和A股跨资产数据验证传导。",
+      "invalidation": "官方页面更改发布日期；或公报内容没有新增宏观信息，且利率、汇率、商品和A股观察变量无法共同支持或证伪传导假设。",
+      "discovery": {
+        "runId": "official-sweep-20260827-0830",
+        "discoveredAt": "2026-08-27T08:36:39+08:00",
+        "method": "REGISTERED_OFFICIAL_SOURCE_SWEEP",
+        "sourceId": "SRC-EVENT-ECB"
+      }
+    },
+    {
+      "id": "EVT-ECB-MONETARY-DEVELOPMENTS-20260925",
+      "startDate": "2026-09-25",
+      "endDate": "2026-09-25",
+      "title": "欧洲央行公布2026年8月欧元区货币发展数据",
+      "status": "OFFICIAL_CONFIRMED",
+      "sourceLabel": "ECB欧元区货币发展数据发布日历",
+      "sourceUrl": "https://www.ecb.europa.eu/press/calendars/statscal/mfm/html/stprmp.cs.html",
+      "watchItems": [
+        "欧元区货币与信贷增长及其结构",
+        "银行贷款、融资成本和金融条件变化",
+        "数据与9月货币政策会议、欧元和欧洲利率的前后关系"
+      ],
+      "aShareMappings": [
+        "全球流动性与汇率观察",
+        "A股估值对外部利率敏感度观察",
+        "跨市场金融条件观察"
+      ],
+      "confirmation": "ECB官方统计日历明确2026年9月25日10:00 CET发布参考期为2026年8月的欧元区货币发展数据（BSI）；需核对货币、信贷和金融条件分项，再与欧元、欧洲利率和A股外部流动性观察交叉验证。",
+      "invalidation": "ECB官方日历改期、取消或更换数据集；或数据分项无法形成可复核的金融条件变化，且与欧元、欧洲利率和A股相关观察不存在可解释的同步关系。",
+      "discovery": {
+        "runId": "official-sweep-20260827-0830",
+        "discoveredAt": "2026-08-27T08:36:39+08:00",
+        "method": "REGISTERED_OFFICIAL_SOURCE_SWEEP",
+        "sourceId": "SRC-EVENT-ECB"
+      }
+    },
+    {
+      "id": "EVT-EXCHANGES-MID-AUTUMN-20260925",
+      "startDate": "2026-09-25",
+      "endDate": "2026-09-27",
+      "title": "沪深北交易所2026年中秋节休市安排",
+      "status": "OFFICIAL_CONFIRMED",
+      "sourceLabel": "沪深北交易所2026年休市安排",
+      "sourceUrl": "https://www.bse.cn/important_news/200027428.html",
+      "watchItems": [
+        "交易日与休市窗口",
+        "假期前后成交与流动性",
+        "跨市场信息在途与开盘反应"
+      ],
+      "aShareMappings": [
+        "交易节奏观察",
+        "流动性窗口观察",
+        "假期风险信息观察"
+      ],
+      "confirmation": "北交所官方公告明确9月25—27日休市、9月28日起开市，沪深安排交叉一致；按真实交易日复核数据可用性。",
+      "invalidation": "交易所官方通知被修订，或沪深北交易所安排出现未纳入的差异。",
+      "discovery": {
+        "runId": "official-sweep-20260827-0830",
+        "discoveredAt": "2026-08-27T08:36:39+08:00",
+        "method": "REGISTERED_OFFICIAL_SOURCE_SWEEP",
+        "sourceId": "SRC-EVENT-EXCHANGES"
+      }
+    },
+    {
+      "id": "EVT-NBS-INDUSTRIAL-PROFIT-20260928",
+      "startDate": "2026-09-28",
+      "endDate": "2026-09-28",
+      "title": "国家统计局1—8月规模以上工业企业利润数据发布",
+      "status": "OFFICIAL_CONFIRMED",
+      "sourceLabel": "国家统计局2026年主要统计信息发布日程",
+      "sourceUrl": "https://www.stats.gov.cn/xw/tjxw/tzgg/202512/t20251224_1962137.html",
+      "watchItems": [
+        "工业利润增速",
+        "利润率与成本压力",
+        "上中下游盈利分化"
+      ],
+      "aShareMappings": [
+        "制造业盈利观察",
+        "资源品与中游利润观察",
+        "周期行业内部扩散观察"
+      ],
+      "confirmation": "官方日程列明9月28日；检查利润、营收、成本和行业分项，确认盈利变化是否能在价格、产量和行业宽度中找到对应证据。",
+      "invalidation": "官方日程更正或延期；或利润变化仅由单一基数效应解释，且缺少成本、价格和行业分项支持。",
+      "discovery": {
+        "runId": "official-sweep-20260827-0830",
+        "discoveredAt": "2026-08-27T08:36:39+08:00",
+        "method": "REGISTERED_OFFICIAL_SOURCE_SWEEP",
+        "sourceId": "SRC-EVENT-NBS"
+      }
+    },
+    {
+      "id": "EVT-BOJ-MINUTES-20260928",
+      "startDate": "2026-09-28",
+      "endDate": "2026-09-28",
+      "title": "日本银行公布7月金融政策决定会合议事要旨",
+      "status": "OFFICIAL_CONFIRMED",
+      "sourceLabel": "Bank of Japan Monetary Policy Meetings",
+      "sourceUrl": "https://www.boj.or.jp/en/mopo/mpmsche_minu/",
+      "watchItems": [
+        "政策委员会讨论重点",
+        "通胀和增长风险",
+        "日元与日本利率反应"
+      ],
+      "aShareMappings": [
+        "亚洲利率观察",
+        "汇率与外需观察",
+        "全球风险偏好观察"
+      ],
+      "confirmation": "日本银行官方表列明7月会合议事要旨于9月28日公布；核对议事要旨与7月决定及市场反应的增量信息。",
+      "invalidation": "官方发布时间改期或未发布；或议事要旨没有可复核的政策判断增量。",
+      "discovery": {
+        "runId": "official-sweep-20260827-0830",
+        "discoveredAt": "2026-08-27T08:36:39+08:00",
+        "method": "REGISTERED_OFFICIAL_SOURCE_SWEEP",
+        "sourceId": "SRC-EVENT-BOJ"
+      }
+    },
+    {
+      "id": "EVT-NBS-PMI-20260930",
+      "startDate": "2026-09-30",
+      "endDate": "2026-09-30",
+      "title": "国家统计局9月采购经理指数月度报告",
+      "status": "OFFICIAL_CONFIRMED",
+      "sourceLabel": "国家统计局2026年主要统计信息发布日程",
+      "sourceUrl": "https://www.stats.gov.cn/xw/tjxw/tzgg/202512/t20251224_1962137.html",
+      "watchItems": [
+        "制造业生产与新订单",
+        "出口订单与供应商配送",
+        "价格与库存变化"
+      ],
+      "aShareMappings": [
+        "工业制造观察",
+        "出口链与供应链观察",
+        "原材料价格观察"
+      ],
+      "confirmation": "官方日程列明9月30日；同时检查PMI分项、商品价格、行业宽度和成交结构。",
+      "invalidation": "官方日程更正或延期；或PMI信号只体现在总指数，关键分项和市场结构不支持同一观察问题。",
+      "discovery": {
+        "runId": "official-sweep-20260827-0830",
+        "discoveredAt": "2026-08-27T08:36:39+08:00",
+        "method": "REGISTERED_OFFICIAL_SOURCE_SWEEP",
+        "sourceId": "SRC-EVENT-NBS"
+      }
+    },
+    {
+      "id": "EVT-ECB-NON-MONETARY-20260930",
+      "startDate": "2026-09-30",
+      "endDate": "2026-09-30",
+      "title": "欧洲央行9月非货币政策会议",
+      "status": "OFFICIAL_CONFIRMED",
+      "sourceLabel": "European Central Bank Governing Council calendar",
+      "sourceUrl": "https://www.ecb.europa.eu/press/calendars/mgcgc/html/index.en.html",
+      "watchItems": [
+        "官方会议公告与操作信息",
+        "欧元区流动性和金融条件线索",
+        "与货币政策会议的增量信息区分"
+      ],
+      "aShareMappings": [
+        "全球流动性观察",
+        "外需与汇率观察",
+        "风险偏好观察"
+      ],
+      "confirmation": "ECB官方日历明确9月30日为非货币政策会议；不把它当作利率决议，只有出现官方公告及跨资产可复核变化时才记录研究线索。",
+      "invalidation": "官方日历改期；或没有公开信息，且欧元、利率、流动性和风险偏好数据不能形成独立验证。",
+      "discovery": {
+        "runId": "official-sweep-20260827-0830",
+        "discoveredAt": "2026-08-27T08:36:39+08:00",
+        "method": "REGISTERED_OFFICIAL_SOURCE_SWEEP",
+        "sourceId": "SRC-EVENT-ECB"
+      }
+    },
+    {
+      "id": "EVT-MIIT-FINANCIAL-MARKETING-20260930",
+      "startDate": "2026-09-30",
+      "endDate": "2026-09-30",
+      "title": "金融产品网络营销管理办法施行",
+      "status": "OFFICIAL_CONFIRMED",
+      "sourceLabel": "八部门金融产品网络营销管理办法公告",
+      "sourceUrl": "https://www.miit.gov.cn/jgsj/xgj/wjfb/art/2026/art_5d2d34e50a5f42bcabc8e861d181d723.html",
+      "watchItems": [
+        "金融产品网络营销主体、平台责任、信息披露和风控要求的执行口径",
+        "金融机构、互联网平台和技术服务商的系统改造、合规投入与业务调整",
+        "实施后的监管问答、执法案例、企业公告和业务数据是否形成连续证据"
+      ],
+      "aShareMappings": [
+        "金融信息服务与网络营销合规观察",
+        "金融机构数字化、数据治理和风控系统观察",
+        "互联网平台金融业务边界与技术服务观察"
+      ],
+      "confirmation": "八部门官方公告明确《金融产品网络营销管理办法》自2026年9月30日起施行。规则可能通过平台责任、营销流程、信息披露和系统合规改造影响金融信息服务观察；只核对正式实施口径、监管问答/案例、企业公告与业务数据，不从施行日直接推导个股或行情结论。",
+      "invalidation": "办法被延期、修订、废止或适用范围发生实质改变；实施后没有可核验的执行口径、监管案例或企业系统/业务变化；或这些证据与原观察传导链相互冲突。",
+      "discovery": {
+        "runId": "official-sweep-20260829-0830",
+        "discoveredAt": "2026-08-29T08:35:05+08:00",
+        "method": "REGISTERED_OFFICIAL_SOURCE_SWEEP",
+        "sourceId": "SRC-EVENT-MIIT"
+      }
+    },
+    {
+      "id": "EVT-MIIT-XR-202610",
+      "startDate": "2026-10-01",
+      "endDate": "2026-10-31",
+      "title": "工信部XR智能眼镜重点行业专场对接活动（官方计划于2026年10月）",
+      "status": "PENDING_OFFICIAL_CONFIRMATION",
+      "sourceLabel": "工业和信息化部重点行业专场对接活动表",
+      "sourceUrl": "https://www.miit.gov.cn/cms_files/filemanager/1226211233/attach/20265/1dbc41d926d04da492eb6ed7ed83f4fc.pdf",
+      "watchItems": [
+        "XR眼镜产品与交互形态",
+        "光学、显示、传感与算力配套",
+        "终端企业对接和出货验证"
+      ],
+      "aShareMappings": [
+        "智能眼镜观察",
+        "显示与光学器件观察",
+        "端侧算力与传感器观察"
+      ],
+      "confirmation": "工信部官方计划给出2026年10月及杭州、北京地点，但没有具体日期；待官方通知、议程或结果文件并检查企业层证据。",
+      "invalidation": "工信部通知取消、改期、改为其他月份，或活动没有可核验的产品、客户、出货或应用信息。",
+      "discovery": {
+        "runId": "official-sweep-20260827-0830",
+        "discoveredAt": "2026-08-27T08:36:39+08:00",
+        "method": "REGISTERED_OFFICIAL_SOURCE_SWEEP",
+        "sourceId": "SRC-EVENT-MIIT"
+      }
+    },
+    {
+      "id": "EVT-BOJ-OPINIONS-20261001",
+      "startDate": "2026-10-01",
+      "endDate": "2026-10-01",
+      "title": "日本银行公布9月金融政策决定会合主要意见",
+      "status": "OFFICIAL_CONFIRMED",
+      "sourceLabel": "Bank of Japan Monetary Policy Meetings",
+      "sourceUrl": "https://www.boj.or.jp/en/mopo/mpmsche_minu/",
+      "watchItems": [
+        "政策委员会主要意见",
+        "通胀预期与政策正常化线索",
+        "日元与亚洲资产反应"
+      ],
+      "aShareMappings": [
+        "亚洲利率观察",
+        "汇率与外需观察",
+        "风险偏好观察"
+      ],
+      "confirmation": "日本银行官方表列明9月会合主要意见于10月1日公布；核对文本与9月会合声明及汇率/利率变化。",
+      "invalidation": "官方发布时间改期或未发布；或主要意见与会合声明、市场数据之间没有可复核关系。",
+      "discovery": {
+        "runId": "official-sweep-20260827-0830",
+        "discoveredAt": "2026-08-27T08:36:39+08:00",
+        "method": "REGISTERED_OFFICIAL_SOURCE_SWEEP",
+        "sourceId": "SRC-EVENT-BOJ"
+      }
+    },
+    {
+      "id": "EVT-EXCHANGES-NATIONAL-DAY-20261001",
+      "startDate": "2026-10-01",
+      "endDate": "2026-10-07",
+      "title": "沪深北交易所2026年国庆节休市安排",
+      "status": "OFFICIAL_CONFIRMED",
+      "sourceLabel": "沪深北交易所2026年休市安排",
+      "sourceUrl": "https://www.bse.cn/important_news/200027428.html",
+      "watchItems": [
+        "国庆休市区间",
+        "节前节后成交和行业宽度",
+        "假期期间海外市场信息累积"
+      ],
+      "aShareMappings": [
+        "交易节奏观察",
+        "流动性与跳空风险观察",
+        "跨市场信息传导观察"
+      ],
+      "confirmation": "北交所官方公告明确10月1—7日休市、10月8日起开市，沪深安排交叉一致；按真实交易日复核假期前后指标。",
+      "invalidation": "交易所官方通知被修订，或沪深北交易所的休市/清算安排出现差异。",
+      "discovery": {
+        "runId": "official-sweep-20260827-0830",
+        "discoveredAt": "2026-08-27T08:36:39+08:00",
+        "method": "REGISTERED_OFFICIAL_SOURCE_SWEEP",
+        "sourceId": "SRC-EVENT-EXCHANGES"
+      }
+    },
+    {
+      "id": "EVT-FOMC-MINUTES-20261007",
+      "startDate": "2026-10-07",
+      "endDate": "2026-10-07",
+      "title": "Federal Reserve公布9月FOMC会议纪要",
+      "status": "OFFICIAL_CONFIRMED",
+      "sourceLabel": "Federal Reserve Monetary Policy",
+      "sourceUrl": "https://www.federalreserve.gov/monetarypolicy.htm",
+      "watchItems": [
+        "会议内部政策分歧",
+        "通胀与就业判断",
+        "利率预期与美元利率反应"
+      ],
+      "aShareMappings": [
+        "科技估值观察",
+        "黄金与有色观察",
+        "人民币资产风险偏好观察"
+      ],
+      "confirmation": "Federal Reserve官方货币政策页明确10月7日发布9月15—16日FOMC会议纪要；核对纪要对通胀、就业、资产负债表和政策路径的措辞，并与美元、美债和风险偏好数据交叉验证。",
+      "invalidation": "官方页面改期或未发布；或纪要信息未改变政策预期，且美元、美债、黄金与A股相关观察之间没有可复核的同步变化。",
+      "discovery": {
+        "runId": "official-sweep-20260827-0830",
+        "discoveredAt": "2026-08-27T08:36:39+08:00",
+        "method": "REGISTERED_OFFICIAL_SOURCE_SWEEP",
+        "sourceId": "SRC-EVENT-FED"
+      }
+    },
+    {
+      "id": "EVT-SEMICON-WEST-STANDARDS-20261012",
+      "startDate": "2026-10-12",
+      "endDate": "2026-10-15",
+      "title": "SEMICON West Standards Meetings 2026",
+      "status": "OFFICIAL_CONFIRMED",
+      "sourceLabel": "SEMI全球半导体活动日历",
+      "sourceUrl": "https://www.semi.org/en/expositions-events/calendar",
+      "watchItems": [
+        "半导体标准与接口议题",
+        "制造、设备和材料协同",
+        "标准讨论是否形成公开技术或供应链信号"
+      ],
+      "aShareMappings": [
+        "半导体设备材料观察",
+        "先进制造标准观察",
+        "供应链兼容性观察"
+      ],
+      "confirmation": "SEMI官方活动日历列明会议为10月12—15日；只核对公开议程、技术文件和企业验证，不从会议名称推导行情。",
+      "invalidation": "官方日历改期或取消；或没有公开技术文件、议程或企业可验证信息。",
+      "discovery": {
+        "runId": "official-sweep-20260827-0830",
+        "discoveredAt": "2026-08-27T08:36:39+08:00",
+        "method": "REGISTERED_OFFICIAL_SOURCE_SWEEP",
+        "sourceId": "SRC-EVENT-SEMI"
+      }
+    },
+    {
+      "id": "EVT-SEMICON-WEST-20261013",
+      "startDate": "2026-10-13",
+      "endDate": "2026-10-15",
+      "title": "SEMICON West 2026",
+      "status": "OFFICIAL_CONFIRMED",
+      "sourceLabel": "SEMI全球半导体活动日历",
+      "sourceUrl": "https://www.semi.org/en/expositions-events/calendar",
+      "watchItems": [
+        "设备、材料与制造技术",
+        "AI算力相关资本开支",
+        "客户、产品和供应链公开信号"
+      ],
+      "aShareMappings": [
+        "半导体设备观察",
+        "先进封装与测试观察",
+        "硅光与AI算力链观察"
+      ],
+      "confirmation": "SEMI官方活动日历明确SEMICON West 2026为10月13—15日；核对展商、产品、资本开支、客户和订单证据。",
+      "invalidation": "官方日历改期或取消；或只有展会规模和叙事，没有产品、客户、资本开支或订单证据。",
+      "discovery": {
+        "runId": "official-sweep-20260827-0830",
+        "discoveredAt": "2026-08-27T08:36:39+08:00",
+        "method": "REGISTERED_OFFICIAL_SOURCE_SWEEP",
+        "sourceId": "SRC-EVENT-SEMI"
+      }
+    },
+    {
+      "id": "EVT-FED-BEIGE-BOOK-20261014",
+      "startDate": "2026-10-14",
+      "endDate": "2026-10-14",
+      "title": "Federal Reserve公布2026年10月Beige Book",
+      "status": "OFFICIAL_CONFIRMED",
+      "sourceLabel": "Federal Reserve Board 2026年10月官方日历",
+      "sourceUrl": "https://www.federalreserve.gov/newsevents/2026-october.htm",
+      "watchItems": [
+        "各地区企业活动、价格、就业与信贷变化",
+        "制造业和投资活动的区域差异",
+        "Beige Book定性反馈与10月FOMC前后的数据验证"
+      ],
+      "aShareMappings": [
+        "全球需求与制造业景气观察",
+        "海外金融条件观察",
+        "A股外部宏观传导观察"
+      ],
+      "confirmation": "Federal Reserve官方2026年10月日历明确10月14日14:00发布Beige Book；发布后核对区域调查与工业、就业、通胀和信贷数据的一致性，不把定性反馈直接转成A股结论。",
+      "invalidation": "Federal Reserve官方日历改期或撤回；或报告与可用宏观数据无法交叉验证，未形成可重复的区域活动、价格或信贷信号。",
+      "discovery": {
+        "runId": "official-sweep-20260827-0830",
+        "discoveredAt": "2026-08-27T08:36:39+08:00",
+        "method": "REGISTERED_OFFICIAL_SOURCE_SWEEP",
+        "sourceId": "SRC-EVENT-FED"
+      }
+    },
+    {
+      "id": "EVT-SEMI-TEST-VISION-20261014",
+      "startDate": "2026-10-14",
+      "endDate": "2026-10-15",
+      "title": "SEMI Test Vision Symposium 2026",
+      "status": "OFFICIAL_CONFIRMED",
+      "sourceLabel": "SEMI Events Calendar",
+      "sourceUrl": "https://www.semi.org/en/expositions-events/calendar",
+      "watchItems": [
+        "晶圆、封装测试与机器视觉检测技术",
+        "AI在半导体检测、计量和可靠性中的应用",
+        "设备厂商议程与客户、验证和产品证据"
+      ],
+      "aShareMappings": [
+        "半导体测试设备观察",
+        "机器视觉与检测观察",
+        "先进封装与可靠性验证观察"
+      ],
+      "confirmation": "SEMI官方活动日历明确Test Vision Symposium 2026于2026年10月14—15日在旧金山举行；只观察测试、计量、机器视觉和可靠性议程，以及可由厂商资料、客户验证、产品发布或后续公司披露交叉核对的证据。",
+      "invalidation": "SEMI官方日历改期或取消；或活动只有泛化主题，没有可复核的技术议程、产品演示、客户验证、订单或后续公司披露。",
+      "discovery": {
+        "runId": "official-sweep-20260827-0830",
+        "discoveredAt": "2026-08-27T08:36:39+08:00",
+        "method": "REGISTERED_OFFICIAL_SOURCE_SWEEP",
+        "sourceId": "SRC-EVENT-SEMI"
+      }
+    },
+    {
+      "id": "EVT-NBS-CPI-PPI-20261014",
+      "startDate": "2026-10-14",
+      "endDate": "2026-10-14",
+      "title": "国家统计局9月CPI与PPI月度报告",
+      "status": "OFFICIAL_CONFIRMED",
+      "sourceLabel": "国家统计局2026年主要统计信息发布日程",
+      "sourceUrl": "https://www.stats.gov.cn/xw/tjxw/tzgg/202512/t20251224_1962137.html",
+      "watchItems": [
+        "核心通胀与服务价格",
+        "工业品价格与成本",
+        "价格信号的持续性"
+      ],
+      "aShareMappings": [
+        "消费价格观察",
+        "资源与制造成本观察",
+        "名义增长观察"
+      ],
+      "confirmation": "官方日程列明10月14日；核对CPI、核心CPI、PPI分项与前月变化，并检查行业传导证据。",
+      "invalidation": "官方日程更正或延期；或价格变化仅为单月噪声，无法由分项、工业数据或后续观察验证。",
+      "discovery": {
+        "runId": "official-sweep-20260827-0830",
+        "discoveredAt": "2026-08-27T08:36:39+08:00",
+        "method": "REGISTERED_OFFICIAL_SOURCE_SWEEP",
+        "sourceId": "SRC-EVENT-NBS"
+      }
+    },
+    {
+      "id": "EVT-NBS-ECON-20261019",
+      "startDate": "2026-10-19",
+      "endDate": "2026-10-19",
+      "title": "国家统计局三季度国民经济运行与工业、投资、消费数据发布",
+      "status": "OFFICIAL_CONFIRMED",
+      "sourceLabel": "国家统计局2026年主要统计信息发布日程",
+      "sourceUrl": "https://www.stats.gov.cn/xw/tjxw/tzgg/202512/t20251224_1962137.html",
+      "watchItems": [
+        "季度经济增长与结构",
+        "工业、投资、地产、零售分项",
+        "居民收入与消费倾向"
+      ],
+      "aShareMappings": [
+        "顺周期观察",
+        "地产与投资链观察",
+        "内需与消费观察"
+      ],
+      "confirmation": "官方日程列明10月19日；按季度总量和分项核对，并观察行业宽度、成交与价格是否出现可复核的结构变化。",
+      "invalidation": "官方日程更正或延期；或季度总量、分项与行业结构之间缺少一致证据。",
+      "discovery": {
+        "runId": "official-sweep-20260827-0830",
+        "discoveredAt": "2026-08-27T08:36:39+08:00",
+        "method": "REGISTERED_OFFICIAL_SOURCE_SWEEP",
+        "sourceId": "SRC-EVENT-NBS"
+      }
+    },
+    {
+      "id": "EVT-NBS-QUARTERLY-20261020",
+      "startDate": "2026-10-20",
+      "endDate": "2026-10-20",
+      "title": "国家统计局三季度主要行业增加值初步核算报告",
+      "status": "OFFICIAL_CONFIRMED",
+      "sourceLabel": "国家统计局2026年主要统计信息发布日程",
+      "sourceUrl": "https://www.stats.gov.cn/xw/tjxw/tzgg/202512/t20251224_1962137.html",
+      "watchItems": [
+        "主要行业增加值",
+        "产业结构变化",
+        "季度数据与月度数据衔接"
+      ],
+      "aShareMappings": [
+        "行业景气结构观察",
+        "制造业与服务业分化观察",
+        "周期位置观察"
+      ],
+      "confirmation": "官方日程列明10月20日；核对行业增加值与前一日国民经济数据的口径衔接，并检查行业宽度是否提供独立支持。",
+      "invalidation": "官方日程更正或延期；或数据口径、行业分组变化使跨期比较不可复核。",
+      "discovery": {
+        "runId": "official-sweep-20260827-0830",
+        "discoveredAt": "2026-08-27T08:36:39+08:00",
+        "method": "REGISTERED_OFFICIAL_SOURCE_SWEEP",
+        "sourceId": "SRC-EVENT-NBS"
+      }
+    },
+    {
+      "id": "EVT-NVIDIA-GTC-BERLIN-20261021",
+      "startDate": "2026-10-21",
+      "endDate": "2026-10-21",
+      "title": "NVIDIA在GTC Berlin发表主题演讲",
+      "status": "OFFICIAL_CONFIRMED",
+      "sourceLabel": "NVIDIA 2027财年第二季度业绩会官方文字记录",
+      "sourceUrl": "https://investor.nvidia.com/files/content_files/TRANSCRIPT_-NVIDIA-Corp-NVDA-US-Q2-2027-Earnings-Call-26-August-2026-5_00-PM-ET.pdf",
+      "watchItems": [
+        "AI基础设施、机器人/物理AI和企业部署的产品与开发者信息",
+        "欧洲客户、云服务商、工业软件和机器人生态的合作或应用证据",
+        "主题演讲后的产品发布、客户公告、订单/收入和供应链数据是否一致"
+      ],
+      "aShareMappings": [
+        "AI算力与软件生态观察",
+        "机器人、工业AI和物理AI应用观察",
+        "半导体、服务器网络和先进封装供应链观察"
+      ],
+      "confirmation": "NVIDIA官方业绩会文字记录明确其将于2026年10月21日在GTC Berlin发表主题演讲。产品或生态信息可能通过开发者采用、客户部署、订单交付和供应链数据传导至A股观察结构；只核对官方议程/演讲、客户公告和后续经营数据，不从会议名称直接推导行情。",
+      "invalidation": "官方活动被取消、改期或没有可归因的公开信息；只有产品叙事而缺少客户部署、订单、收入或交付证据；或后续数据无法支持原观察传导链。",
+      "discovery": {
+        "runId": "official-sweep-20260829-0830",
+        "discoveredAt": "2026-08-29T08:35:05+08:00",
+        "method": "REGISTERED_OFFICIAL_SOURCE_SWEEP",
+        "sourceId": "SRC-EVENT-COMPANY-IR"
+      }
+    },
+    {
+      "id": "EVT-FOMC-20261027",
+      "startDate": "2026-10-27",
+      "endDate": "2026-10-28",
+      "title": "2026年10月FOMC会议",
+      "status": "OFFICIAL_CONFIRMED",
+      "sourceLabel": "Federal Reserve FOMC calendar",
+      "sourceUrl": "https://www.federalreserve.gov/monetarypolicy/fomccalendars.htm",
+      "watchItems": [
+        "政策利率与再投资安排",
+        "通胀、就业和增长判断",
+        "美元、美债与全球风险偏好"
+      ],
+      "aShareMappings": [
+        "科技估值观察",
+        "黄金与有色观察",
+        "人民币资产风险偏好观察"
+      ],
+      "confirmation": "Federal Reserve官方会议日历列明10月27—28日；核对声明、记者会和跨资产反应，不从会议名称直接推导行业结论。",
+      "invalidation": "官方日历改期；或政策信息没有改变利率预期且跨资产反应不一致。",
+      "discovery": {
+        "runId": "official-sweep-20260827-0830",
+        "discoveredAt": "2026-08-27T08:36:39+08:00",
+        "method": "REGISTERED_OFFICIAL_SOURCE_SWEEP",
+        "sourceId": "SRC-EVENT-FED"
+      }
+    },
+    {
+      "id": "EVT-NBS-INDUSTRIAL-PROFIT-20261027",
+      "startDate": "2026-10-27",
+      "endDate": "2026-10-27",
+      "title": "国家统计局1—9月规模以上工业企业利润数据发布",
+      "status": "OFFICIAL_CONFIRMED",
+      "sourceLabel": "国家统计局2026年主要统计信息发布日程",
+      "sourceUrl": "https://www.stats.gov.cn/xw/tjxw/tzgg/202512/t20251224_1962137.html",
+      "watchItems": [
+        "工业利润与营收",
+        "成本和利润率",
+        "行业盈利扩散"
+      ],
+      "aShareMappings": [
+        "工业盈利观察",
+        "中游制造观察",
+        "资源品与设备链观察"
+      ],
+      "confirmation": "官方日程列明10月27日；检查利润、营收、成本及行业分项，并与价格和产量数据交叉验证。",
+      "invalidation": "官方日程更正或延期；或利润变化无法在成本、价格、产量和行业分项中得到支持。",
+      "discovery": {
+        "runId": "official-sweep-20260827-0830",
+        "discoveredAt": "2026-08-27T08:36:39+08:00",
+        "method": "REGISTERED_OFFICIAL_SOURCE_SWEEP",
+        "sourceId": "SRC-EVENT-NBS"
+      }
+    },
+    {
+      "id": "EVT-ECB-MONETARY-DEVELOPMENTS-20261027",
+      "startDate": "2026-10-27",
+      "endDate": "2026-10-27",
+      "title": "欧洲央行公布2026年9月欧元区货币发展数据",
+      "status": "OFFICIAL_CONFIRMED",
+      "sourceLabel": "ECB欧元区货币发展数据发布日历",
+      "sourceUrl": "https://www.ecb.europa.eu/press/calendars/statscal/mfm/html/stprmp.cs.html",
+      "watchItems": [
+        "欧元区货币与信贷增速及信贷投向",
+        "银行融资条件与利率传导",
+        "数据与10月ECB政策会议和全球风险偏好的交叉变化"
+      ],
+      "aShareMappings": [
+        "全球流动性与汇率观察",
+        "外部利率敏感资产观察",
+        "跨市场金融条件观察"
+      ],
+      "confirmation": "ECB官方统计日历明确2026年10月27日10:00 CET发布参考期为2026年9月的欧元区货币发展数据（BSI）；需以正式分项、欧洲利率、欧元和A股可观测数据进行交叉验证。",
+      "invalidation": "ECB官方日历改期、取消或更换数据集；或正式分项、欧洲利率、欧元与A股观察之间没有可复核的金融条件传导证据。",
+      "discovery": {
+        "runId": "official-sweep-20260827-0830",
+        "discoveredAt": "2026-08-27T08:36:39+08:00",
+        "method": "REGISTERED_OFFICIAL_SOURCE_SWEEP",
+        "sourceId": "SRC-EVENT-ECB"
+      }
+    },
+    {
+      "id": "EVT-ECB-20261028",
+      "startDate": "2026-10-28",
+      "endDate": "2026-10-29",
+      "title": "欧洲央行10月管理委员会货币政策会议",
+      "status": "OFFICIAL_CONFIRMED",
+      "sourceLabel": "European Central Bank Governing Council calendar",
+      "sourceUrl": "https://www.ecb.europa.eu/press/calendars/mgcgc/html/index.en.html",
+      "watchItems": [
+        "利率与再投资政策",
+        "通胀与增长评估",
+        "欧元区金融条件"
+      ],
+      "aShareMappings": [
+        "全球利率与估值观察",
+        "外需与汇率观察",
+        "风险偏好观察"
+      ],
+      "confirmation": "ECB官方日历列明10月28—29日货币政策会议及发布会；核对政策声明与跨资产价格反应。",
+      "invalidation": "官方日历改期；或政策结果和跨资产反应明显背离，无法形成可验证的全球金融条件线索。",
+      "discovery": {
+        "runId": "official-sweep-20260827-0830",
+        "discoveredAt": "2026-08-27T08:36:39+08:00",
+        "method": "REGISTERED_OFFICIAL_SOURCE_SWEEP",
+        "sourceId": "SRC-EVENT-ECB"
+      }
+    },
+    {
+      "id": "EVT-BOJ-MPM-20261029",
+      "startDate": "2026-10-29",
+      "endDate": "2026-10-30",
+      "title": "日本银行10月金融政策决定会合",
+      "status": "OFFICIAL_CONFIRMED",
+      "sourceLabel": "Bank of Japan Monetary Policy Meetings",
+      "sourceUrl": "https://www.boj.or.jp/en/mopo/mpmsche_minu/",
+      "watchItems": [
+        "利率与收益率曲线政策",
+        "经济与物价展望",
+        "日元、日债与亚洲流动性"
+      ],
+      "aShareMappings": [
+        "全球利率观察",
+        "汇率与外需观察",
+        "风险偏好观察"
+      ],
+      "confirmation": "日本银行官方2026年会合表列明10月29—30日；核对政策声明、展望报告和市场反应。",
+      "invalidation": "官方会合表改期；或政策结果、汇率、利率和风险偏好数据无法互相验证。",
+      "discovery": {
+        "runId": "official-sweep-20260827-0830",
+        "discoveredAt": "2026-08-27T08:36:39+08:00",
+        "method": "REGISTERED_OFFICIAL_SOURCE_SWEEP",
+        "sourceId": "SRC-EVENT-BOJ"
+      }
+    },
+    {
+      "id": "EVT-NBS-PMI-20261031",
+      "startDate": "2026-10-31",
+      "endDate": "2026-10-31",
+      "title": "国家统计局10月采购经理指数月度报告",
+      "status": "OFFICIAL_CONFIRMED",
+      "sourceLabel": "国家统计局2026年主要统计信息发布日程",
+      "sourceUrl": "https://www.stats.gov.cn/xw/tjxw/tzgg/202512/t20251224_1962137.html",
+      "watchItems": [
+        "制造业景气与订单",
+        "生产、库存与价格",
+        "企业规模分化"
+      ],
+      "aShareMappings": [
+        "制造业景气观察",
+        "工业品价格观察",
+        "周期行业扩散观察"
+      ],
+      "confirmation": "官方日程列明10月31日；核对PMI关键分项与行业宽度、成交和价格的同步性。",
+      "invalidation": "官方日程更正或延期；或总指数变化没有分项和行业数据支持。",
+      "discovery": {
+        "runId": "official-sweep-20260827-0830",
+        "discoveredAt": "2026-08-27T08:36:39+08:00",
+        "method": "REGISTERED_OFFICIAL_SOURCE_SWEEP",
+        "sourceId": "SRC-EVENT-NBS"
+      }
+    },
+    {
+      "id": "EVT-SEMI-ITPC-20261101",
+      "startDate": "2026-11-01",
+      "endDate": "2026-11-04",
+      "title": "SEMI International Trade Partners Conference（ITPC）2026",
+      "status": "OFFICIAL_CONFIRMED",
+      "sourceLabel": "SEMI ITPC 2026官方活动页",
+      "sourceUrl": "https://www.semi.org/en/event/international-trade-partners-conference-itpc",
+      "watchItems": [
+        "全球半导体供应链高管对AI需求、产能投资和关键基础设施的判断",
+        "贸易、地缘政治、供应链韧性与跨区域合作议题",
+        "会议观点能否与晶圆厂、设备材料商的资本开支、订单和交付披露相互验证"
+      ],
+      "aShareMappings": [
+        "AI算力与半导体设备材料观察",
+        "先进封装、测试与关键零部件观察",
+        "全球供应链与国产替代验证观察"
+      ],
+      "confirmation": "SEMI官方活动页明确ITPC 2026于2026年11月1日至4日在夏威夷举行，并列出Markets & Applications、Technology、Trade & Politics等议题；研究只核对正式议程、公司披露、订单/产能/交付和产业数据，不把高管发言直接转成市场结论。",
+      "invalidation": "SEMI官方活动页改期、取消或议程实质变更；活动只有主题叙事而没有可复核的公司披露、产业数据或后续落地；或跨来源信息彼此冲突且无法解释。",
+      "discovery": {
+        "runId": "official-sweep-20260828-0830",
+        "discoveredAt": "2026-08-28T08:34:41+08:00",
+        "method": "REGISTERED_OFFICIAL_SOURCE_SWEEP",
+        "sourceId": "SRC-EVENT-SEMI"
+      }
+    },
+    {
+      "id": "EVT-BOJ-MINUTES-20261105",
+      "startDate": "2026-11-05",
+      "endDate": "2026-11-05",
+      "title": "日本银行公布9月金融政策决定会合议事要旨",
+      "status": "OFFICIAL_CONFIRMED",
+      "sourceLabel": "Bank of Japan Monetary Policy Meetings",
+      "sourceUrl": "https://www.boj.or.jp/en/mopo/mpmsche_minu/",
+      "watchItems": [
+        "委员会讨论细节",
+        "风险平衡与政策条件",
+        "日元和亚洲利率反应"
+      ],
+      "aShareMappings": [
+        "亚洲利率观察",
+        "汇率与外需观察",
+        "全球风险偏好观察"
+      ],
+      "confirmation": "日本银行官方表列明9月会合议事要旨于11月5日公布；核对其相对主要意见和政策声明的新增信息。",
+      "invalidation": "官方发布时间改期或未发布；或文本无法提供可复核的政策条件变化。",
+      "discovery": {
+        "runId": "official-sweep-20260827-0830",
+        "discoveredAt": "2026-08-27T08:36:39+08:00",
+        "method": "REGISTERED_OFFICIAL_SOURCE_SWEEP",
+        "sourceId": "SRC-EVENT-BOJ"
+      }
+    },
+    {
+      "id": "EVT-NBS-CPI-PPI-20261109",
+      "startDate": "2026-11-09",
+      "endDate": "2026-11-09",
+      "title": "国家统计局10月CPI与PPI月度报告",
+      "status": "OFFICIAL_CONFIRMED",
+      "sourceLabel": "国家统计局2026年主要统计信息发布日程",
+      "sourceUrl": "https://www.stats.gov.cn/xw/tjxw/tzgg/202512/t20251224_1962137.html",
+      "watchItems": [
+        "居民消费价格",
+        "工业品价格",
+        "价格与需求的相互验证"
+      ],
+      "aShareMappings": [
+        "消费价格观察",
+        "资源与制造成本观察",
+        "名义增长观察"
+      ],
+      "confirmation": "官方日程列明11月9日；核对价格分项、工业数据和消费数据是否形成可复核的方向线索。",
+      "invalidation": "官方日程更正或延期；或单一价格指标变化不能被分项和需求数据验证。",
+      "discovery": {
+        "runId": "official-sweep-20260827-0830",
+        "discoveredAt": "2026-08-27T08:36:39+08:00",
+        "method": "REGISTERED_OFFICIAL_SOURCE_SWEEP",
+        "sourceId": "SRC-EVENT-NBS"
+      }
+    },
+    {
+      "id": "EVT-SEMI-ESGS-20261110",
+      "startDate": "2026-11-10",
+      "endDate": "2026-11-12",
+      "title": "SEMI ESGS电子特气及系统会议2026",
+      "status": "OFFICIAL_CONFIRMED",
+      "sourceLabel": "SEMI ESGS 2026官方活动页",
+      "sourceUrl": "https://www.semi.org/en/event/electronic-specialty-gases-and-systems-conference-esgs",
+      "watchItems": [
+        "电子特气、稀有气体和特种气体的需求、技术趋势与供应链约束",
+        "纯度、污染控制、气体输送、净化与晶圆制造良率之间的验证关系",
+        "产能扩建、客户导入、环保合规和设备材料企业披露"
+      ],
+      "aShareMappings": [
+        "半导体高纯气体与关键材料观察",
+        "晶圆厂配套系统、净化和工艺设备观察",
+        "先进制程资本开支与供应链验证观察"
+      ],
+      "confirmation": "SEMI官方活动页明确ESGS 2026于2026年11月10日至12日在凤凰城举行，并说明会议覆盖电子气体市场、技术趋势、供应链及关键系统；研究只核对议程、企业披露、产能/价格/交付与客户验证数据，不从会议名称直接推导行业或个股结论。",
+      "invalidation": "官方活动页改期、取消或主题实质变化；讨论内容无法与电子特气供需、产能、价格、交付或客户验证数据交叉核对；或只有单一企业叙述而缺乏独立证据。",
+      "discovery": {
+        "runId": "official-sweep-20260828-0830",
+        "discoveredAt": "2026-08-28T08:34:41+08:00",
+        "method": "REGISTERED_OFFICIAL_SOURCE_SWEEP",
+        "sourceId": "SRC-EVENT-SEMI"
+      }
+    },
+    {
+      "id": "EVT-SEMICON-EUROPA-20261110",
+      "startDate": "2026-11-10",
+      "endDate": "2026-11-13",
+      "title": "SEMICON Europa 2026",
+      "status": "OFFICIAL_CONFIRMED",
+      "sourceLabel": "SEMI全球半导体活动日历",
+      "sourceUrl": "https://www.semi.org/en/expositions-events/calendar",
+      "watchItems": [
+        "欧洲半导体制造与设备材料",
+        "AI与汽车电子需求",
+        "供应链、资本开支和客户验证"
+      ],
+      "aShareMappings": [
+        "半导体设备材料观察",
+        "汽车芯片与先进制造观察",
+        "外需与供应链观察"
+      ],
+      "confirmation": "SEMI官方活动日历列明SEMICON Europa 2026为11月10—13日；核对展商、技术发布、资本开支与客户信息。",
+      "invalidation": "官方日历改期或取消；或没有产品、客户、订单、资本开支或供应链证据。",
+      "discovery": {
+        "runId": "official-sweep-20260827-0830",
+        "discoveredAt": "2026-08-27T08:36:39+08:00",
+        "method": "REGISTERED_OFFICIAL_SOURCE_SWEEP",
+        "sourceId": "SRC-EVENT-SEMI"
+      }
+    },
+    {
+      "id": "EVT-BOJ-OPINIONS-20261110",
+      "startDate": "2026-11-10",
+      "endDate": "2026-11-10",
+      "title": "日本银行公布10月金融政策决定会合主要意见",
+      "status": "OFFICIAL_CONFIRMED",
+      "sourceLabel": "Bank of Japan Monetary Policy Meetings",
+      "sourceUrl": "https://www.boj.or.jp/en/mopo/mpmsche_minu/",
+      "watchItems": [
+        "政策委员会主要意见",
+        "经济物价展望变化",
+        "日元与全球利率联动"
+      ],
+      "aShareMappings": [
+        "亚洲利率观察",
+        "汇率与外需观察",
+        "风险偏好观察"
+      ],
+      "confirmation": "日本银行官方表列明10月会合主要意见于11月10日公布；核对文本与10月决定及跨资产反应。",
+      "invalidation": "官方发布时间改期或未发布；或主要意见与政策声明及市场数据缺少可复核的对应关系。",
+      "discovery": {
+        "runId": "official-sweep-20260827-0830",
+        "discoveredAt": "2026-08-27T08:36:39+08:00",
+        "method": "REGISTERED_OFFICIAL_SOURCE_SWEEP",
+        "sourceId": "SRC-EVENT-BOJ"
+      }
+    },
+    {
+      "id": "EVT-MIIT-MILLISECOND-COMPUTE-20261115",
+      "startDate": "2026-11-15",
+      "endDate": "2026-11-15",
+      "title": "城域‘毫秒用算’专项行动中期网络监测数据报送截止",
+      "status": "OFFICIAL_CONFIRMED",
+      "sourceLabel": "工信部城域‘毫秒用算’专项行动通知",
+      "sourceUrl": "https://cqca.miit.gov.cn/zwgk/zcwj/wjfb/art/2025/art_7c01b8e16f654a8093e9725927b658e7.html",
+      "watchItems": [
+        "各地区城域算力1毫秒时延圈、算力接入网络和算网融合服务的监测数据",
+        "光网络、确定性网络、全光交换和算力中心网络性能的中期评估口径",
+        "地方试点、运营商投入、算力服务套餐及工业/金融/交通应用的实际部署"
+      ],
+      "aShareMappings": [
+        "算力网络、光通信和数据中心基础设施观察",
+        "工业AI网络与算网融合服务观察",
+        "低时延计算、网络设备和应用落地观察"
+      ],
+      "confirmation": "工信部官方通知明确各省级通信管理局会同工信部门组织相关企业，于2026年11月15日前报送专项行动实施1年后的网络监测数据和中期总结；低时延指标可能通过网络设备采购、算力服务和应用部署传导至A股观察结构，需由官方评估数据、项目和企业披露确认。",
+      "invalidation": "中期报送截止日或行动范围被调整、取消；官方未形成可核验的监测数据/评估材料；或设备投入、服务和应用数据无法支持低时延算力的传导关系。",
+      "discovery": {
+        "runId": "official-sweep-20260829-0830",
+        "discoveredAt": "2026-08-29T08:35:05+08:00",
+        "method": "REGISTERED_OFFICIAL_SOURCE_SWEEP",
+        "sourceId": "SRC-EVENT-MIIT"
+      }
+    },
+    {
+      "id": "EVT-NBS-ECON-20261116",
+      "startDate": "2026-11-16",
+      "endDate": "2026-11-16",
+      "title": "国家统计局10月月度国民经济运行与工业、投资、消费数据发布",
+      "status": "OFFICIAL_CONFIRMED",
+      "sourceLabel": "国家统计局2026年主要统计信息发布日程",
+      "sourceUrl": "https://www.stats.gov.cn/xw/tjxw/tzgg/202512/t20251224_1962137.html",
+      "watchItems": [
+        "工业与能源生产",
+        "固定资产投资与房地产开发",
+        "零售、收入与内需"
+      ],
+      "aShareMappings": [
+        "工业周期观察",
+        "投资与地产链观察",
+        "消费与内需观察"
+      ],
+      "confirmation": "官方日程列明11月16日；按总量、分项和行业结构检查，观察传导线索能否被后续交易日数据验证。",
+      "invalidation": "官方日程更正或延期；或总量与分项、行业宽度和价格数据明显背离。",
+      "discovery": {
+        "runId": "official-sweep-20260827-0830",
+        "discoveredAt": "2026-08-27T08:36:39+08:00",
+        "method": "REGISTERED_OFFICIAL_SOURCE_SWEEP",
+        "sourceId": "SRC-EVENT-NBS"
+      }
+    },
+    {
+      "id": "EVT-NVDA-Q3-20261117",
+      "startDate": "2026-11-17",
+      "endDate": "2026-11-17",
+      "title": "NVIDIA 2027财年第三季度业绩与电话会",
+      "status": "OFFICIAL_CONFIRMED",
+      "sourceLabel": "NVIDIA 2027财年第二季度业绩会官方文字记录",
+      "sourceUrl": "https://investor.nvidia.com/files/content_files/TRANSCRIPT_-NVIDIA-Corp-NVDA-US-Q2-2027-Earnings-Call-26-August-2026-5_00-PM-ET.pdf",
+      "watchItems": [
+        "数据中心、游戏、汽车和专业可视化等业务的收入、毛利和现金流变化",
+        "AI加速计算、网络、供应链产能、交付节奏和客户资本开支验证",
+        "公司披露与A股相关设备、材料、封装、服务器和应用链数据的同步/背离"
+      ],
+      "aShareMappings": [
+        "全球AI算力需求与半导体供应链观察",
+        "服务器、网络、先进封装和设备材料观察",
+        "公司财报与A股产业链经营数据交叉验证观察"
+      ],
+      "confirmation": "NVIDIA官方业绩会文字记录明确其FY2027第三季度业绩电话会安排在2026年11月17日。业绩、指引、订单/交付和资本开支信息可能通过全球供应链和客户需求传导至A股观察结构；只使用正式IR业绩材料、电话会记录、公司公告和产业数据确认。",
+      "invalidation": "NVIDIA IR改期、取消或未按期发布正式业绩材料；业绩与指引缺少可复核的订单、交付、客户资本开支或供应链证据；或相关A股观察方向在时间和机制上无法与该信息对应。",
+      "discovery": {
+        "runId": "official-sweep-20260829-0830",
+        "discoveredAt": "2026-08-29T08:35:05+08:00",
+        "method": "REGISTERED_OFFICIAL_SOURCE_SWEEP",
+        "sourceId": "SRC-EVENT-COMPANY-IR"
+      }
+    },
+    {
+      "id": "EVT-FOMC-MINUTES-20261118",
+      "startDate": "2026-11-18",
+      "endDate": "2026-11-18",
+      "title": "Federal Reserve公布10月FOMC会议纪要",
+      "status": "OFFICIAL_CONFIRMED",
+      "sourceLabel": "Federal Reserve Monetary Policy",
+      "sourceUrl": "https://www.federalreserve.gov/monetarypolicy.htm",
+      "watchItems": [
+        "委员对通胀、就业和资产负债表操作的分歧",
+        "政策路径与流动性线索",
+        "美元、美债与全球风险偏好"
+      ],
+      "aShareMappings": [
+        "科技估值观察",
+        "黄金与有色观察",
+        "人民币资产风险偏好观察"
+      ],
+      "confirmation": "Federal Reserve官方货币政策页明确11月18日发布10月27—28日FOMC会议纪要；核对纪要对通胀、就业、资产负债表及政策路径的措辞，并与美元、美债和A股相关观察交叉验证。",
+      "invalidation": "官方页面改期或未发布；或纪要信息未改变政策预期，且美元、美债、黄金与A股相关观察之间没有可复核的同步变化。",
+      "discovery": {
+        "runId": "official-sweep-20260827-0830",
+        "discoveredAt": "2026-08-27T08:36:39+08:00",
+        "method": "REGISTERED_OFFICIAL_SOURCE_SWEEP",
+        "sourceId": "SRC-EVENT-FED"
+      }
+    },
+    {
+      "id": "EVT-FED-BEIGE-BOOK-20261125",
+      "startDate": "2026-11-25",
+      "endDate": "2026-11-25",
+      "title": "Federal Reserve公布2026年11月Beige Book",
+      "status": "OFFICIAL_CONFIRMED",
+      "sourceLabel": "Federal Reserve Board 2026年11月官方日历",
+      "sourceUrl": "https://www.federalreserve.gov/newsevents/2026-november.htm",
+      "watchItems": [
+        "各地区经济活动、价格、就业与信贷条件",
+        "企业对需求、资本开支和融资环境的前瞻反馈",
+        "报告与12月FOMC前可见数据及市场条件的差异"
+      ],
+      "aShareMappings": [
+        "全球需求与制造景气观察",
+        "海外金融条件与风险偏好观察",
+        "A股外部宏观传导观察"
+      ],
+      "confirmation": "Federal Reserve官方2026年11月日历明确11月25日14:00发布Beige Book；发布后核对区域活动、价格、资本开支和信贷反馈，并以可观测宏观和跨市场数据验证其是否具有持续性。",
+      "invalidation": "Federal Reserve官方日历改期或撤回；或正式报告缺少可交叉验证的区域活动、价格、资本开支或信贷信息。",
+      "discovery": {
+        "runId": "official-sweep-20260827-0830",
+        "discoveredAt": "2026-08-27T08:36:39+08:00",
+        "method": "REGISTERED_OFFICIAL_SOURCE_SWEEP",
+        "sourceId": "SRC-EVENT-FED"
+      }
+    },
+    {
+      "id": "EVT-ECB-NON-MONETARY-20261125",
+      "startDate": "2026-11-25",
+      "endDate": "2026-11-25",
+      "title": "欧洲央行11月非货币政策会议",
+      "status": "OFFICIAL_CONFIRMED",
+      "sourceLabel": "ECB管理委员会与总理事会会议日历",
+      "sourceUrl": "https://www.ecb.europa.eu/press/calendars/mgcgc/html/index.en.html",
+      "watchItems": [
+        "官方议程、会后信息和相关金融稳定/支付/监管沟通",
+        "非货币政策会议与欧洲金融条件、银行和支付基础设施观察的关系",
+        "官方沟通是否形成可验证的跨市场变化"
+      ],
+      "aShareMappings": [
+        "欧洲金融制度与支付基础设施观察",
+        "全球金融条件观察",
+        "跨市场风险偏好观察"
+      ],
+      "confirmation": "ECB官方会议日历明确2026年11月25日召开非货币政策会议；该事件不预设利率或政策结果，只有在官方会后信息、金融条件和跨市场数据形成证据链时才更新观察。",
+      "invalidation": "ECB官方日历改期、取消或改列为其他会议类型；或会后无公开信息，无法形成对金融条件、支付或监管议题的可复核影响。",
+      "discovery": {
+        "runId": "official-sweep-20260827-0830",
+        "discoveredAt": "2026-08-27T08:36:39+08:00",
+        "method": "REGISTERED_OFFICIAL_SOURCE_SWEEP",
+        "sourceId": "SRC-EVENT-ECB"
+      }
+    },
+    {
+      "id": "EVT-ECB-GENERAL-COUNCIL-20261126",
+      "startDate": "2026-11-26",
+      "endDate": "2026-11-26",
+      "title": "欧洲央行11月总理事会会议",
+      "status": "OFFICIAL_CONFIRMED",
+      "sourceLabel": "ECB管理委员会与总理事会官方会议日历",
+      "sourceUrl": "https://www.ecb.europa.eu/press/calendars/mgcgc/html/index.en.html",
+      "watchItems": [
+        "总理事会讨论涉及欧元体系、汇率与支付/金融基础设施的正式信息",
+        "会议后是否有官方决定、文件或政策沟通",
+        "欧元、利率和全球风险偏好变化与A股观察方向之间的时间顺序"
+      ],
+      "aShareMappings": [
+        "全球流动性与人民币资产风险偏好观察",
+        "跨境支付、金融基础设施与科技应用观察",
+        "欧元区需求和出口链观察"
+      ],
+      "confirmation": "ECB官方会议日历明确2026年11月26日举行General Council meeting in Frankfurt；研究只等待正式文件或官方沟通，并将其与欧元、利率、跨境资金和宏观数据交叉核对。",
+      "invalidation": "官方会议日历改期、取消或无正式可核验信息；市场变化无法与会议文件在时间和机制上对应；或后续数据与原观察传导链相互证伪。",
+      "discovery": {
+        "runId": "official-sweep-20260828-0830",
+        "discoveredAt": "2026-08-28T08:34:41+08:00",
+        "method": "REGISTERED_OFFICIAL_SOURCE_SWEEP",
+        "sourceId": "SRC-EVENT-ECB"
+      }
+    },
+    {
+      "id": "EVT-ECB-MONETARY-DEVELOPMENTS-20261126",
+      "startDate": "2026-11-26",
+      "endDate": "2026-11-26",
+      "title": "欧洲央行公布2026年10月欧元区货币发展数据",
+      "status": "OFFICIAL_CONFIRMED",
+      "sourceLabel": "ECB欧元区货币发展数据发布日历",
+      "sourceUrl": "https://www.ecb.europa.eu/press/calendars/statscal/mfm/html/stprmp.cs.html",
+      "watchItems": [
+        "欧元区货币供应、信贷与金融中介活动变化",
+        "企业和居民信贷、利率环境与经济活动的交叉关系",
+        "欧元区金融条件变化是否通过汇率、利率或外需传导至A股观察方向"
+      ],
+      "aShareMappings": [
+        "全球流动性与出口需求观察",
+        "金融条件、汇率和人民币资产风险偏好观察",
+        "外需制造与科技估值观察"
+      ],
+      "confirmation": "ECB官方统计日历明确2026年11月26日发布参考期为2026年10月的Monetary developments in the euro area数据并含新闻稿；研究只核对数据分项、历史修订、利率/汇率和外需数据的同步关系。",
+      "invalidation": "官方日历改期、数据未发布或口径修订使比较失效；货币、信贷变化与利率/汇率/外需数据无法形成可复核传导；或观察到的A股方向变化在时间上先于该数据且缺少其他机制解释。",
+      "discovery": {
+        "runId": "official-sweep-20260828-0830",
+        "discoveredAt": "2026-08-28T08:34:41+08:00",
+        "method": "REGISTERED_OFFICIAL_SOURCE_SWEEP",
+        "sourceId": "SRC-EVENT-ECB"
+      }
+    }
+  ],
+  "discovery": {
+    "latestRun": {
+      "runId": "official-sweep-20260829-0830",
+      "startedAt": "2026-08-29T08:35:05+08:00",
+      "completedAt": "2026-08-29T08:47:00+08:00",
+      "activeSourceCount": 15,
+      "checkedSourceCount": 15,
+      "checkedSourceIds": [
+        "SRC-EVENT-BIGDATA",
+        "SRC-EVENT-BOJ",
+        "SRC-EVENT-COMPANY-IR",
+        "SRC-EVENT-CSEAC",
+        "SRC-EVENT-CSRC",
+        "SRC-EVENT-ECB",
+        "SRC-EVENT-EXCHANGES",
+        "SRC-EVENT-FED",
+        "SRC-EVENT-GDICA",
+        "SRC-EVENT-KCFED",
+        "SRC-EVENT-MIIT",
+        "SRC-EVENT-NBS",
+        "SRC-EVENT-PBOC",
+        "SRC-EVENT-SEMI",
+        "SRC-EVENT-WRC"
+      ],
+      "uncheckedSourceIds": [],
+      "sourceCoverage": 1.0,
+      "checkedCategories": [
+        "a_share_calendar",
+        "company_ir",
+        "domestic_macro",
+        "global_macro",
+        "industry_conference",
+        "industry_policy",
+        "regulation_policy"
+      ],
+      "candidateCount": 8,
+      "acceptedCount": 8,
+      "updatedCount": 0,
+      "duplicateCount": 0,
+      "rejectedCount": 9,
+      "coverageGaps": [],
+      "acceptedIds": [
+        "EVT-MIIT-INNOVATION-BIDDING-20260907",
+        "EVT-MIIT-VEHICLE-CLOUD-STANDARD-20260910",
+        "EVT-NVIDIA-GS-COMMUNACOPIA-20260910",
+        "EVT-MIIT-DIGITAL-TWIN-STANDARD-20260912",
+        "EVT-MIIT-FINANCIAL-MARKETING-20260930",
+        "EVT-NVIDIA-GTC-BERLIN-20261021",
+        "EVT-MIIT-MILLISECOND-COMPUTE-20261115",
+        "EVT-NVDA-Q3-20261117"
+      ],
+      "duplicateIds": [],
+      "runSha256": "bfedcd41ccac0ed6b55b37ec96f477741d6b784ed9d38d14de119df46b5e6e44"
+    },
+    "coverageMetric": "registered official sources checked; no target event count",
+    "eventCountIsNotAGate": true
+  }
+}

@@ -1,0 +1,28 @@
+# 基于这篇论文的导读、证据和整篇原文回答问题，标注页码（流式）
+# 格式说明见 docs/10 第 3 节；输入输出模型在 contracts/capabilities.tsp
+id: papers.qa
+version: 1
+summary: 基于这篇论文的导读、证据和整篇原文回答问题，标注页码（流式）
+owner: papers
+runtime: typescript
+tier: balanced
+autonomy: L2
+prompt: prompts/paper_qa.md
+io:
+  input: PaperQaInput
+  output: PaperQaOutput
+limits:
+  maxInputTokens: 200000
+  maxOutputTokens: 3000
+  timeoutSec: 120
+checks:
+  - pages_in_range
+fallback: error_message        # 提示“这次没答上来”，可以重试
+params: {}
+evals:
+  dataset: evals/papers.qa/
+  thresholds:
+    schema_valid: 1.0
+    pages_in_range: 1.0
+    must_include: 0.8
+    judge_faithful: 0.9

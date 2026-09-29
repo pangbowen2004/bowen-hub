@@ -1,0 +1,10 @@
+{
+  "paper": {
+    "landing_page": "https://aclanthology.org/2021.acl-long.500/"
+  },
+  "code": {
+    "url": "https://github.com/thu-coai/OpenMEVA",
+    "status": "source_located",
+    "explanation": "从指标实现与扰动测试入手；先理解分数方向，再复跑测试，不要把数据集的人评误称专家独立分维度标注。"
+  }
+}

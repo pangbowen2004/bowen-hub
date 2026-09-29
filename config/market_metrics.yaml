@@ -1,0 +1,238 @@
+# 市场观测台 · 指标说明表
+# 用途：“方法与口径”页的表格，以及页面上指标名旁的 FormulaTip 提示。
+# 计算口径以 docs/03-市场观测台.md 第 4 节为准；这里是给读者看的简明说明。
+# 字段：id / label / group / definition / formula / unit / source / boundary（可选）
+
+metrics:
+  # —— 全市场 ——
+  - id: market.turnover
+    label: 两市成交额
+    group: 全市场
+    definition: 当日全部有效样本的成交额合计
+    formula: Σ amount × 1000
+    unit: 元
+    source: TuShare daily
+  - id: market.turnoverChange
+    label: 成交额环比
+    group: 全市场
+    definition: 当日成交额相对上一交易日的变化
+    formula: 当日成交额 ÷ 上一交易日成交额 − 1
+    unit: 比例
+    source: TuShare daily
+  - id: market.advanceShare
+    label: 上涨覆盖
+    group: 全市场
+    definition: 上涨家数占有效样本的比例
+    formula: 上涨家数 ÷ 有效样本数
+    unit: 比例
+    source: TuShare daily
+    boundary: 只看涨跌方向，不等同于赚钱效应
+  - id: market.medianReturn1d
+    label: 中位涨幅
+    group: 全市场
+    definition: 全部有效样本当日涨跌幅的中位数
+    formula: median(pct_chg ÷ 100)
+    unit: 收益率
+    source: TuShare daily
+  - id: market.aboveMa20Share
+    label: MA20 上方比例
+    group: 全市场
+    definition: 收盘价高于自身 20 日均线的股票占比
+    formula: 收盘 > MA20 的家数 ÷ 有 MA20 的家数
+    unit: 比例
+    source: TuShare daily
+    boundary: 均线状态有滞后性，不代表次日方向
+  - id: market.newHigh20
+    label: 20 日新高 / 新低
+    group: 全市场
+    definition: 收盘价达到最近 20 个交易日最高（最低）收盘价的家数
+    formula: 收盘 ≥ 20 日最高收盘（≤ 20 日最低收盘）
+    unit: 家
+    source: TuShare daily
+  - id: market.valuation
+    label: 估值与换手中位数
+    group: 全市场
+    definition: 全市场市盈率（TTM）、市净率、换手率的中位数；估值只统计大于 0 的值
+    formula: median(pe_ttm > 0)、median(pb > 0)、median(turnover_rate)
+    unit: 倍 / %
+    source: TuShare daily_basic
+
+  # —— 涨停生态 ——
+  - id: limit.counts
+    label: 涨停 / 跌停 / 触板
+    group: 涨停生态
+    definition: 收盘价等于涨停价（跌停价）的家数；最高价触及涨停价的家数
+    formula: "|收盘 − 涨停价| < 0.001；最高 ≥ 涨停价 − 0.001"
+    unit: 家
+    source: TuShare daily + stk_limit
+    boundary: 按逐股涨跌停价判断，自动适配主板、创业板、科创板、北交所和 ST 的不同幅度
+  - id: limit.sealRate
+    label: 封板率
+    group: 涨停生态
+    definition: 触板的股票里，收盘封住涨停的比例
+    formula: 涨停家数 ÷ 触板家数
+    unit: 比例
+    source: TuShare daily + stk_limit
+  - id: limit.boardHeight
+    label: 连板高度
+    group: 涨停生态
+    definition: 截至当日连续收盘涨停的天数（最多回看 30 个交易日）
+    formula: 从当日往前数连续“收盘 = 涨停价”的天数
+    unit: 板
+    source: TuShare daily + stk_limit
+  - id: limit.advancementRate
+    label: 前日晋级率
+    group: 涨停生态
+    definition: 上一交易日涨停的股票中，今天继续涨停的比例
+    formula: 今日仍涨停的昨日涨停股 ÷ 昨日涨停股
+    unit: 比例
+    source: TuShare daily + stk_limit
+  - id: limit.previousLimitPremium
+    label: 前日涨停溢价
+    group: 涨停生态
+    definition: 上一交易日涨停的股票今天的平均涨跌幅
+    formula: mean(昨日涨停股今日 pct_chg ÷ 100)
+    unit: 收益率
+    source: TuShare daily + stk_limit
+
+  # —— 合成分 ——
+  - id: score.temperature
+    label: 收盘温度
+    group: 合成分
+    definition: 广度、趋势、涨跌停生态、量能、指数五项的透明加总，满分 100
+    formula: 上涨覆盖×35 + MA20上方比例×20 + 涨停/(涨停+跌停)×15 + clip((成交额环比+0.10)/0.20,0,1)×15 + 上涨指数数/6×15
+    unit: 分
+    source: 本站计算
+    boundary: 状态合成，不是概率、仓位或交易信号
+  - id: score.sentiment
+    label: 情绪九维
+    group: 合成分
+    definition: 连板高度、涨停家数、封板率、晋级率、涨停溢价、亏钱效应、上涨广度、涨跌停对比、市场量能九项加总，满分 100；每项公式在页面上可展开
+    formula: 见各分项
+    unit: 分
+    source: 本站计算
+    boundary: 状态合成，不是概率、仓位或交易信号
+
+  # —— 风格与分层 ——
+  - id: style.groups
+    label: 市场风格四分组
+    group: 风格与分层
+    definition: 高位加速（涨≥3%、5日涨≥5%、站上MA20）；趋势延续（上涨、5日涨≥3%、站上MA20）；低位修复（上涨但未站上MA20）；中间状态（其余）
+    formula: 按顺序判断，先命中先归类
+    unit: 家 / 比例
+    source: 本站计算
+    boundary: 公开阈值的研究切片，不是供应商的官方风格指数
+  - id: segment.marketCap
+    label: 市值分层
+    group: 风格与分层
+    definition: 按当日总市值排序：前 50% 以内为小盘，50%–80% 中盘，80%–95% 大盘，95% 以上超大盘
+    formula: 以排序后第 50/80/95 百分位的市值为切分点
+    unit: —
+    source: TuShare daily_basic
+
+  # —— 行业、主题、方向 ——
+  - id: industry.aggregate
+    label: 行业收益与宽度
+    group: 行业与方向
+    definition: 申万 2021 一级行业，按当日点时成员等权聚合；样本少于 10 的行业不统计
+    formula: mean(成员 pct_chg ÷ 100) 等
+    unit: 收益率 / 比例
+    source: TuShare daily + index_member_all
+    boundary: 等权聚合，不是行业指数收益
+  - id: industry.lifecycle
+    label: 行业阶段
+    group: 行业与方向
+    definition: 趋势扩散 / 高位分歧 / 修复延续 / 退潮观察 / 低位修复 / 方向待明，按 5 日收益、当日收益、上涨覆盖和 MA20 上方比例的公开阈值判断
+    formula: 见方法说明
+    unit: —
+    source: 本站计算
+  - id: theme.basket
+    label: 主题篮子
+    group: 行业与方向
+    definition: 8 个由申万一级行业组成的宽口径篮子，按成员行业样本数加权
+    formula: Σ(行业指标 × 行业样本数) ÷ Σ 行业样本数
+    unit: 收益率 / 比例
+    source: 本站计算
+    boundary: 自定义篮子，不是官方主题指数
+  - id: direction.return
+    label: 方向收益（官方）
+    group: 行业与方向
+    definition: 16 个方向各自映射的同花顺板块指数的 1 / 5 / 20 日收益
+    formula: 官方收盘 ÷ N 个交易日前官方收盘 − 1
+    unit: 收益率
+    source: TuShare ths_daily
+  - id: direction.breadth
+    label: 方向宽度
+    group: 行业与方向
+    definition: 用板块当日成分计算的上涨覆盖、MA20 上方比例、成交占比等
+    formula: 同全市场口径，范围限定为成分股
+    unit: 比例
+    source: TuShare ths_member + daily
+    boundary: 成分是当前快照，不是历史点时成分
+  - id: direction.relativeVsAllA
+    label: 相对全 A
+    group: 行业与方向
+    definition: 方向官方收益减去全 A 等权平均收益
+    formula: 方向 return1d − mean(全 A return1d)
+    unit: 收益率
+    source: 本站计算
+  - id: direction.amountPercentile
+    label: 成交额 20 日分位
+    group: 行业与方向
+    definition: 今天成分股成交额合计在最近 20 个交易日里的位置
+    formula: 近 20 日中 ≤ 今日值的天数 ÷ 20
+    unit: 比例
+    source: TuShare ths_member + daily
+
+  # —— ETF 与资金 ——
+  - id: etf.groupReturn
+    label: ETF 组收益
+    group: ETF 与资金
+    definition: 按名称关键词归组的境内股票型 ETF，按成交额加权的当日收益
+    formula: Σ(收益 × 成交额) ÷ Σ 成交额
+    unit: 收益率
+    source: TuShare fund_basic + fund_daily
+    boundary: 分组按名称规则，可重叠
+  - id: etf.share
+    label: ETF 份额变化
+    group: ETF 与资金
+    definition: 当日和上一交易日都有份额记录的 ETF，份额增加和减少的只数
+    formula: 当日份额 ÷ 上一记录份额 − 1
+    unit: 只 / 比例
+    source: TuShare fund_share
+    boundary: 份额数据是变动记录，没有记录表示不可用，不代表份额不变
+  - id: moneyflow.market
+    label: 资金流分类代理
+    group: ETF 与资金
+    definition: 数据供应商按订单大小划分的全市场净额（超大单、大单、中单、小单）
+    formula: 供应商原值
+    unit: 元
+    source: TuShare moneyflow_mkt_dc
+    boundary: 订单分类代理，不等于机构、游资或真实主体资金
+
+  # —— 技术位 ——
+  - id: technical.levels
+    label: 上证支撑与压力
+    group: 技术位
+    definition: 支撑：MA20、近 10 日最低、近 20 日最低；压力：近 10 日最高、近 20 日最高；另给 ATR20
+    formula: 均线为收盘均值；ATR20 = 近 20 日真实波幅均值
+    unit: 点
+    source: TuShare index_daily
+  - id: technical.confirmation
+    label: 突破确认规则
+    group: 技术位
+    definition: 收盘高于前 20 日区间高点，且全 A 上涨覆盖不低于 50%，且全市场成交额不低于近 20 日中位数
+    formula: 三个条件同时满足
+    unit: 是 / 否
+    source: 本站计算
+    boundary: 规则没有经过历史样本检验，不输出突破概率
+
+  # —— 验证 ——
+  - id: hypothesis.result
+    label: 假设结算结果
+    group: 验证
+    definition: 确认（满足全部确认条件）、未确认（满足失效条件）、证据不足（两者都不满足或数据缺失）
+    formula: 按生成时保存的规则和阈值，在到期交易日收盘后自动判定
+    unit: —
+    source: 本站计算
+    boundary: 描述次日状态是否延续，不是收益预测

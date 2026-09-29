@@ -1,0 +1,31 @@
+# 从财报新闻稿原文里摘出关键数字（带原文片段）、指引和一句话要点
+# 格式说明见 docs/10 第 3 节；输入输出模型在 contracts/capabilities.tsp
+id: news.earnings_card
+version: 1
+summary: 从财报新闻稿原文里摘出关键数字（带原文片段）、指引和一句话要点
+owner: newsroom
+runtime: python
+tier: balanced
+autonomy: L2
+prompt: prompts/news_earnings_card.md
+io:
+  input: EarningsCardInput
+  output: EarningsCardOutput
+limits:
+  maxInputTokens: 60000
+  maxOutputTokens: 1500
+  timeoutSec: 90
+checks:
+  - quotes_in_sources
+  - numbers_in_sources
+  - no_advice
+  - length_within
+fallback: link_only        # 只放“已发布财报”和原文链接
+params: {}
+evals:
+  dataset: evals/news.earnings_card/
+  thresholds:
+    schema_valid: 1.0
+    quotes_in_sources: 1.0
+    numbers_in_sources: 1.0
+    must_include: 0.9

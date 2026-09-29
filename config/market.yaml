@@ -1,0 +1,35 @@
+# 市场观测台 · 运行参数
+timezone: Asia/Shanghai
+exchangeCalendar: SSE
+
+run:
+  deadline: "22:00"            # 北京时间；过了还没拿到核心数据就报错并发失败通知
+  concurrency: 4               # TuShare 并发
+  retries: 3
+
+lookback:
+  dailySessions: 65            # 全 A 日线回看
+  limitSessions: 30            # 涨跌停价回看（连板高度用；老系统是 10，修正为 30）
+  indexSessions: 250           # 指数 K 线
+  fundSessions: 21             # ETF 日线
+  thsSessions: 30              # 方向官方板块日线
+  evolutionSeries: 60          # 演化页趋势图的天数
+
+minimumRows:                   # 核心表当日行数下限，低于它视为“未就绪”
+  daily: 5000
+  daily_basic: 5000
+  stk_limit: 5000
+
+industries:
+  standard: SW2021
+  level: L1
+  minSamples: 10               # 样本少于 10 的行业不统计
+
+hypotheses:
+  startDate: "2026-08-31"      # 从这天起由新系统生成；更早的以老账本为准
+  pendingMaxSessions: 3        # 到期后数据缺失超过 3 个交易日 → 证据不足
+
+backfill:
+  defaultStart: "2026-07-01"
+
+cacheDir: .cache/tushare

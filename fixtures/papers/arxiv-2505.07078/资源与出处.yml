@@ -1,0 +1,12 @@
+paper:
+  landing_page: https://arxiv.org/abs/2505.07078
+  pdf: https://arxiv.org/pdf/2505.07078
+  doi: 10.1145/3770854.3785702
+code: https://github.com/waylonli/FINSABER
+quantml_articles:
+- title: KDD 2026：LLM 交易的 alpha 是评估方法的假象
+  archive_source: /Users/pangbowen/Documents/ChatGPT/知识星球/quantml_archive/articles/55522452514858584_21df0aac28e41076.html
+  packaged_markdown: quantml/01-55522452514858584_21df0aac28e41076.md
+  packaged_html: quantml/01-55522452514858584_21df0aac28e41076.html
+retrieved_at: '2026-08-18'
+notes: QuantML 文章是导读；论文最新为 v6，与早期版本结果细节可能不同。

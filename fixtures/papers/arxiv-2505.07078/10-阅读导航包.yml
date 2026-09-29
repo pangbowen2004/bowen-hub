@@ -1,0 +1,83 @@
+schema_version: 1
+paper_id: "arxiv-2505.07078"
+
+reading_route:
+  current_depth: "R1"
+  route_decision: "完成 R1；若作为课题核心案例则进入 R2"
+  decision_reason: "与可靠评测治理高度相关，但统计和实现口径尚未独立审计。"
+  next_action: "R2 回算 Tables 4–6，并核查滚动划分、配对单位与代码版本。"
+  passes:
+    - id: R0
+      name: "扫描与价值判断"
+      typical_time: "5–10 分钟"
+      objective: "判断是否纳入、战略角色和下一阅读深度"
+      status: "complete"
+      output: "01-R0初筛卡.md"
+    - id: R1
+      name: "结构阅读与理解"
+      typical_time: "30–60 分钟"
+      objective: "讲清问题、设计、证据、边界和研究用途"
+      status: "complete"
+      output: "02-R1结构阅读卡.md + 08-理解学习包.yml"
+    - id: R2
+      name: "批判精读与验证"
+      typical_time: "1–3 小时"
+      objective: "独立审计主张、证据强度、替代解释和最小充分结论"
+      status: "recommended"
+      output: "03-R2批判精读卡.md + 04-主张-证据账本.csv"
+    - id: R3
+      name: "复现可行性与最小复现"
+      typical_time: "数小时至数天"
+      objective: "复现一个足以改变决策的关键结果"
+      status: "not_started"
+      output: "06-R3复现记录.md"
+
+document_map:
+  page_count: 15
+  mapping_method: "按正文标题、图表和附录语义边界"
+  sections:
+    - {pages: "1–2", role: "问题与既有评测偏差", status: "read", key_question: "为何短窗结果不可外推"}
+    - {pages: "3–4", role: "FINSABER 方法与策略库", status: "read", key_question: "历史信息如何隔离"}
+    - {pages: "4–8", role: "主要实验、统计和市场状态", status: "read", key_question: "哪些结论有直接数值支持"}
+    - {pages: "8–9", role: "讨论、限制与结论", status: "read", key_question: "作者承认哪些边界"}
+    - {pages: "10–15", role: "附录：窗口、细节与成本", status: "read", key_question: "复现需要哪些隐藏口径"}
+
+coverage:
+  dimensions:
+    - {id: "orientation", name: "问题与贡献", status: "complete", evidence: "R1 §1；PDF pp.1–3"}
+    - {id: "mechanism", name: "方法与机制", status: "complete", evidence: "R1 §2；PDF pp.3–4, p.12"}
+    - {id: "results", name: "关键结果与数字", status: "complete", evidence: "R1 §3；Tables 3–6, Figure 2"}
+    - {id: "uncertainty", name: "不确定性与负结果", status: "complete", evidence: "R1 §§3,5；不显著 alpha 与状态负结果"}
+    - {id: "critique", name: "批判审计", status: "partial", evidence: "R1 预审完成；尚未回算统计与代码"}
+    - {id: "reproducibility", name: "复现准备", status: "partial", evidence: "代码地址和窗口已定位；环境未运行"}
+    - {id: "citation_lineage", name: "引文谱系", status: "missing", evidence: "尚未做前向/后向系统追踪"}
+
+critical_appraisal:
+  current_level: "R1 预审"
+  minimum_claim: "在论文实现和评估期内，扩大窗口与股票范围后，所测 LLM 投资策略没有呈现一致的风险调整优势。"
+  overclaim_to_avoid: "所有 LLM 交易 alpha 都是评估假象，或不显著 alpha 证明市场有效。"
+  dimensions:
+    - {name: "内部效度", status: "待 R2", note: "统计依赖和调参公平性未独立核查"}
+    - {name: "外部效度", status: "有限", note: "仅公开数据、长多头与所选 Agent 实现"}
+    - {name: "测量效度", status: "部分", note: "风险指标丰富，但逐股票聚合不等于可交易组合"}
+
+negative_and_null:
+  - "LLM Agent 的 CAPM alpha 在 Table 6 中均不显著。"
+  - "FinMem/FinAgent 在熊市 Sharpe 为负，且牛市明显落后 B&H。"
+  - "动量设置的高绝对收益没有转化为高 Sharpe。"
+
+citation_navigation:
+  seed_status: "provisional"
+  backward:
+    - "FinMem 与 FinAgent 原始论文：核对复实现和原始评估窗口。"
+    - "历史成分股与回测偏差文献：核对 FINSABER 的偏差控制充分性。"
+  forward:
+    - "后续使用 FINSABER 的研究：观察是否出现独立复现或反例。"
+  mapping_status: "single_paper"
+  next_actions:
+    - "R2 后再决定是否把它设为课题的评测治理种子文献。"
+
+export:
+  canonical_format: "markdown"
+  preserve_anchors: true
+  reference_manager_adapter: "optional"

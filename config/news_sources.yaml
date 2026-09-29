@@ -1,0 +1,130 @@
+# 美股新闻室 · 数据来源清单（docs/02 第 4 节、附录 A）
+#
+# 字段：
+#   id          唯一标识（英文、小写、短横线）
+#   name        显示名称
+#   section     us（美股部分）| international（国际与科技栏目）
+#   type        rss | alpaca_news | alpaca_bars | tiingo | sec | fred | finnhub | treasury | cboe
+#   category    国际与科技栏目的分类：world | business | technology | ai | china | macro（美股来源不填）
+#   url         RSS / 数据地址（适配器自带地址的可以不填）
+#   lang        en | zh
+#   paywall     none | metered（计量付费墙，部分文章要订阅） | hard（基本都要订阅）
+#   weight      来源权重，进入规则打分（docs/02 第 5 节；默认 1）
+#   enabled     是否使用（hard 付费墙默认 false）
+#   maxItems    RSS 每次最多取前几条（默认 8）
+#   timeoutSec  超时秒数（默认 20）
+#
+# 去重时保留来源权重（weight）最高的一条；权重相同时保留在这里排在前面的源。
+# 维护方法：uv run hub news sources --check（逐个检查可用性，结果写进控制台“运维”页）
+
+defaults:
+  maxItems: 8
+  timeoutSec: 20
+  weight: 1
+
+sources:
+  # ════════════ 美股（section: us） ════════════
+
+  # ── 新闻 ──
+  # Kevin 已有的 Alpaca key；每条新闻自带股票代码。首次运行确认免费账号可调用
+  - { id: alpaca-news, name: Alpaca 新闻（Benzinga）, section: us, type: alpaca_news, lang: en, paywall: none, weight: 2, enabled: true }
+  # 老 Daily News 里一直正常
+  - { id: cnbc-top, name: CNBC Top News, section: us, type: rss, lang: en, paywall: metered, weight: 2, enabled: true,
+      url: "https://www.cnbc.com/id/100003114/device/rss/rss.html" }
+  - { id: marketwatch-top, name: MarketWatch Top Stories, section: us, type: rss, lang: en, paywall: metered, weight: 2, enabled: true,
+      url: "https://feeds.marketwatch.com/marketwatch/topstories/" }
+  # 2026-09-29 验证可用（15 条）；含较多投资评论类文章，权重低
+  - { id: nasdaq-markets, name: Nasdaq Markets, section: us, type: rss, lang: en, paywall: none, weight: 1, enabled: true, maxItems: 15,
+      url: "https://www.nasdaq.com/feed/rssoutbound?category=Markets" }
+  # 2026-09-29 验证可用：FOMC 声明、经济预测、会议纪要
+  - { id: fed-monetary, name: 美联储货币政策新闻稿, section: us, type: rss, lang: en, paywall: none, weight: 3, enabled: true,
+      url: "https://www.federalreserve.gov/feeds/press_monetary.xml" }
+  # 2026-09-29 验证可用，但大多是银行审批、处罚等例行公告，默认不用
+  - { id: fed-all, name: 美联储全部新闻稿, section: us, type: rss, lang: en, paywall: none, weight: 1, enabled: false,
+      url: "https://www.federalreserve.gov/feeds/press_all.xml" }
+
+  # ── 公告（官方、免费；请求头带 SEC_USER_AGENT，每秒不超过 10 次）──
+  - { id: sec-edgar, name: SEC EDGAR, section: us, type: sec, lang: en, paywall: none, weight: 3, enabled: true }
+
+  # ── 日程 ──
+  - { id: fred-calendar, name: FRED 发布日历, section: us, type: fred, lang: en, paywall: none, enabled: true }
+  # 首次运行确认免费档包含财报日历
+  - { id: finnhub-earnings, name: Finnhub 财报日历, section: us, type: finnhub, lang: en, paywall: none, enabled: true }
+
+  # ── 收盘快照（只取涨跌幅）──
+  # Basic 档：历史数据不含最近 15 分钟，每分钟 200 次
+  - { id: alpaca-bars, name: Alpaca 行情, section: us, type: alpaca_bars, lang: en, paywall: none, enabled: true }
+  # 兜底：免费档每小时 50 次、每天 1,000 次、每月 500 个代码
+  - { id: tiingo-eod, name: Tiingo 行情（兜底）, section: us, type: tiingo, lang: en, paywall: none, enabled: true }
+  # 以下两个是可选项，拿不到就不显示。地址未在 2026-09-29 验证，T10 首次运行时核对
+  - { id: treasury-yield, name: 美国财政部每日收益率, section: us, type: treasury, lang: en, paywall: none, enabled: true,
+      url: "https://home.treasury.gov/resource-center/data-chart-center/interest-rates/pages/xml?data=daily_treasury_yield_curve" }
+  - { id: cboe-vix, name: CBOE VIX 历史, section: us, type: cboe, lang: en, paywall: none, enabled: true,
+      url: "https://cdn.cboe.com/api/global/us_indices/daily_prices/VIX_History.csv" }
+
+  # 不使用：Yahoo Finance 与 Seeking Alpha 的个股 RSS（robots.txt 不允许抓取）
+
+  # ════════════ 国际与科技（section: international，沿用老 Daily News） ════════════
+
+  # ===== 国际新闻 / 世界大事 =====
+  - { id: bbc-world, name: BBC World, section: international, type: rss, category: world, lang: en, paywall: none, enabled: true,
+      url: "https://feeds.bbci.co.uk/news/world/rss.xml" }
+  - { id: npr-world, name: NPR World, section: international, type: rss, category: world, lang: en, paywall: none, enabled: true,
+      url: "https://feeds.npr.org/1004/rss.xml" }
+  - { id: scmp-china, name: SCMP China, section: international, type: rss, category: world, lang: en, paywall: metered, enabled: true,
+      url: "https://www.scmp.com/rss/91/feed" }
+
+  # ===== 商业 / 金融市场 =====
+  - { id: bbc-business, name: BBC Business, section: international, type: rss, category: business, lang: en, paywall: none, enabled: true,
+      url: "https://feeds.bbci.co.uk/news/business/rss.xml" }
+  - { id: npr-business, name: NPR Business, section: international, type: rss, category: business, lang: en, paywall: none, enabled: true,
+      url: "https://feeds.npr.org/1006/rss.xml" }
+  # 老系统每次都返回 HTTP 403，且基本全是付费文章
+  - { id: ft-us, name: FT Home (US), section: international, type: rss, category: business, lang: en, paywall: hard, enabled: false,
+      url: "https://www.ft.com/rss/home/us" }
+
+  # ===== 科技 =====
+  - { id: bbc-tech, name: BBC Technology, section: international, type: rss, category: technology, lang: en, paywall: none, enabled: true,
+      url: "https://feeds.bbci.co.uk/news/technology/rss.xml" }
+  - { id: techcrunch, name: TechCrunch, section: international, type: rss, category: technology, lang: en, paywall: none, enabled: true,
+      url: "https://techcrunch.com/feed/" }
+  - { id: the-verge, name: The Verge, section: international, type: rss, category: technology, lang: en, paywall: metered, enabled: true,
+      url: "https://www.theverge.com/rss/index.xml" }
+  - { id: hacker-news, name: Hacker News, section: international, type: rss, category: technology, lang: en, paywall: none, enabled: true,
+      url: "https://news.ycombinator.com/rss" }
+  - { id: ars-technica, name: Ars Technica, section: international, type: rss, category: technology, lang: en, paywall: none, enabled: true,
+      url: "https://feeds.arstechnica.com/arstechnica/index" }
+
+  # ===== AI / 人工智能 =====
+  - { id: mit-tech-review, name: MIT Technology Review, section: international, type: rss, category: ai, lang: en, paywall: metered, enabled: true,
+      url: "https://www.technologyreview.com/feed/" }
+  # 这个源会一次返回 800 多条历史文章，靠 maxItems 只取最新几条
+  - { id: huggingface-blog, name: Hugging Face Blog, section: international, type: rss, category: ai, lang: en, paywall: none, enabled: true,
+      url: "https://huggingface.co/blog/feed.xml" }
+  - { id: venturebeat-ai, name: VentureBeat AI, section: international, type: rss, category: ai, lang: en, paywall: none, enabled: true,
+      url: "https://venturebeat.com/category/ai/feed/" }
+  - { id: the-verge-ai, name: The Verge AI, section: international, type: rss, category: ai, lang: en, paywall: metered, enabled: true,
+      url: "https://www.theverge.com/rss/ai-artificial-intelligence/index.xml" }
+
+  # ===== 中国互联网 / 商业 =====
+  # 2026-09-29 能抓到条目；在 Mac 上时有时无，超时放宽
+  - { id: 36kr, name: 36氪, section: international, type: rss, category: china, lang: zh, paywall: none, enabled: true, timeoutSec: 30,
+      url: "https://36kr.com/feed" }
+  # 2026-09-29 验证可用（20 条，带摘要）
+  - { id: ithome, name: IT之家, section: international, type: rss, category: china, lang: zh, paywall: none, enabled: true,
+      url: "https://www.ithome.com/rss/" }
+  # 2026-09-29 验证可用（英文，专写中国科技公司）
+  - { id: technode, name: TechNode, section: international, type: rss, category: china, lang: en, paywall: none, enabled: true,
+      url: "https://technode.com/feed/" }
+  # 老日志里经常超时，停用
+  - { id: huxiu, name: 虎嗅, section: international, type: rss, category: china, lang: zh, paywall: none, enabled: false,
+      url: "https://www.huxiu.com/rss/0.xml" }
+
+  # ===== 候选：未验证，首次运行 sources --check 后能用再启用 =====
+  - { id: bbc-zhongwen, name: BBC 中文, section: international, type: rss, category: world, lang: zh, paywall: none, enabled: false,
+      url: "https://feeds.bbci.co.uk/zhongwen/simp/rss.xml" }
+  - { id: ftchinese, name: FT中文网, section: international, type: rss, category: business, lang: zh, paywall: metered, enabled: false,
+      url: "https://www.ftchinese.com/rss/news" }
+  # 2026-09-29 验证可用，但内容偏消费科技和效率工具
+  - { id: sspai, name: 少数派, section: international, type: rss, category: technology, lang: zh, paywall: none, enabled: false,
+      url: "https://sspai.com/feed" }
