@@ -1,0 +1,16 @@
+{
+  "name": "@bowen-hub/tools-arch",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "typecheck": "tsc -p .",
+    "test": "vitest run"
+  },
+  "devDependencies": {
+    "@bowen-hub/config": "workspace:*",
+    "@types/node": "catalog:",
+    "dependency-cruiser": "18.4.0",
+    "typescript": "catalog:",
+    "vitest": "catalog:"
+  }
+}

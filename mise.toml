@@ -1,0 +1,194 @@
+# bowen-hub 的统一入口：所有人和 Agent 只用 `mise run <任务>`（docs/11 第 10 节）。
+#
+# 本文件、turbo.json、.github/workflows/ci.yml 归 T00，后续任务不改。后续任务只要在自己的目录里
+# 按下面的约定放好入口，就会被自动接上；入口还不存在时，命令打印“尚未接入（由 Txx 提供）”并按成功返回。
+#
+#   mise 任务                     约定的入口（谁提供）
+#   gen                          tools/gen/package.json 的 "gen" script（T01）
+#   contracts:check              tools/gen/package.json 的 "contracts:check" script（T01）
+#   new:capability <id>          tools/new-capability/package.json 的 "new:capability" script（T04），参数原样传入
+#   db:migrate:local / :remote   services/api/package.json 的 "db:migrate:local" / "db:migrate:remote" script（T02）
+#   test:contract                services/api/package.json 的 "test:contract" script（T02/T14：Schemathesis 对本地 wrangler dev）
+#   dev                          services/api、apps/console 的 "dev" script（T02、T05），经 turbo 同时启动
+#   dev:markets / dev:papers     apps/markets / apps/papers 的 "dev" script（T05）
+#   storybook                    packages/ui 的 "storybook" script（T05）
+#   lighthouse                   apps/markets、apps/papers 的 "lighthouse" script（T05），阈值统一在 lighthouserc.json
+#   evals                        py/apps/hub-cli 建好后运行 uv run hub evals run（hub 由 T03 建，evals 由 T04 实现）
+#   check:types / test:ts / e2e  每个工作区包自己的 "typecheck" / "test" / "e2e" script，经 turbo 自动接上
+#   test:py                      py/packages/*/tests、py/apps/*/tests 下的 pytest 测试自动发现
+#
+# 改了依赖（package.json / pyproject.toml）之后先跑一次 `mise run setup`。
+
+min_version = "2026.9.15"
+
+[tools]
+node = "24.21.0"  # 当前 Active LTS
+pnpm = "12.8.1"
+python = "3.14.7"
+uv = "0.12.21"
+
+[env]
+_.path = ["{{config_root}}/node_modules/.bin"]  # turbo、biome 等直接可用
+TURBO_TELEMETRY_DISABLED = "1"
+UV_PYTHON_PREFERENCE = "only-system"  # uv 只用上面锁定的 Python，不自己下载
+UV_PYTHON_DOWNLOADS = "never"
+
+# ───────────── 安装与生成 ─────────────
+
+[tasks.setup]
+description = "安装全部依赖（pnpm、uv）；CI 里锁文件必须和清单一致"
+run = [
+  "pnpm install ${CI:+--frozen-lockfile}",
+  "uv sync --project py --all-packages ${CI:+--locked}",
+]
+
+[tasks.gen]
+description = "契约 → 两种语言的代码（T01 实现）"
+run = "node tools/tasks/bin/delegate.ts script tools/gen gen T01"
+
+[tasks."contracts:check"]
+description = "与 main 比较，检查契约的破坏性变更（T01 实现）"
+run = "node tools/tasks/bin/delegate.ts script tools/gen contracts:check T01"
+
+# ───────────── 静态检查 ─────────────
+
+[tasks.check]
+description = "全部静态检查：Biome、tsc、ruff、pyright、依赖规则、路径所有权"
+depends = [
+  "check:biome",
+  "check:types",
+  "check:ruff",
+  "check:pyright",
+  "check:arch",
+  "check:ownership",
+]
+
+[tasks."check:biome"]
+description = "Biome：TS/JS/JSON/CSS 的 lint 与格式"
+run = "biome ci ."
+
+[tasks."check:types"]
+description = "tsc --strict：各工作区包的 typecheck script"
+run = "turbo run typecheck"
+
+[tasks."check:ruff"]
+description = "ruff：Python 的 lint 与格式"
+dir = "{{config_root}}/py"
+run = ["uv run --no-sync ruff check .", "uv run --no-sync ruff format --check ."]
+
+[tasks."check:pyright"]
+description = "pyright（strict）"
+dir = "{{config_root}}/py"
+run = """
+if [ ! -d packages ] && [ ! -d apps ]; then
+  echo "pyright：跳过（py/packages、py/apps 还不存在）"
+  exit 0
+fi
+uv run --no-sync pyright
+"""
+
+[tasks."check:arch"]
+description = "依赖规则（docs/01 第 7 节）：dependency-cruiser 与 import-linter"
+run = "node tools/arch/bin/check.ts"
+
+[tasks."check:ownership"]
+description = "路径所有权（docs/11 第 4 节）：CI 里读环境变量 PR_TITLE，本地读分支名 task/<ID>-*"
+run = "node tools/tasks/bin/check-ownership.ts"
+
+# ───────────── 测试 ─────────────
+
+[tasks.test]
+description = "全部单元与集成测试（离线）"
+depends = ["test:ts", "test:py"]
+
+[tasks."test:ts"]
+description = "各工作区包的 test script（Vitest、Workers 测试环境）"
+run = "turbo run test"
+
+[tasks."test:py"]
+description = "pytest；还没有测试时不算失败"
+dir = "{{config_root}}/py"
+usage = 'arg "[args]" var=#true help="传给 pytest 的参数"'
+run = """
+if [ ! -d packages ] && [ ! -d apps ]; then
+  echo "pytest：跳过（py/packages、py/apps 还不存在）"
+  exit 0
+fi
+status=0
+uv run --no-sync pytest ${usage_args:-} || status=$?
+if [ "$status" -eq 5 ]; then
+  echo "pytest：没有可运行的测试（还没写，或都被参数筛掉了），跳过"
+  exit 0
+fi
+exit "$status"
+"""
+
+[tasks."test:contract"]
+description = "基于契约的随机测试（Schemathesis 对本地 wrangler dev，docs/08 第 6 节）"
+run = "node tools/tasks/bin/delegate.ts script services/api test:contract T02/T14"
+
+[tasks.e2e]
+description = "Playwright 端到端（三个前端都用样例数据构建）"
+run = """
+export DATA_SOURCE="${DATA_SOURCE:-fixtures}" VITE_USE_MOCKS="${VITE_USE_MOCKS:-1}"
+turbo run e2e
+"""
+
+[tasks.lighthouse]
+description = "Lighthouse CI：两个公开站用样例数据构建后跑（阈值见 lighthouserc.json）"
+run = """
+export DATA_SOURCE="${DATA_SOURCE:-fixtures}"
+node tools/tasks/bin/delegate.ts turbo lighthouse apps/markets=T05 apps/papers=T05
+"""
+
+[tasks.evals]
+description = "等同 uv run hub evals run（参数原样传入，如 mise run evals -- --changed）"
+dir = "{{config_root}}/py"
+usage = 'arg "[args]" var=#true help="传给 hub evals run 的参数"'
+run = """
+if [ ! -f apps/hub-cli/pyproject.toml ]; then
+  echo "evals：尚未接入（hub 命令由 T03 在 py/apps/hub-cli 建，evals 子命令由 T04 实现），跳过。"
+  exit 0
+fi
+uv run hub evals run ${usage_args:-}
+"""
+
+# ───────────── 本地开发 ─────────────
+
+[tasks.dev]
+description = "本地 API（8787）+ 控制台（5173，默认 MSW 模拟）"
+run = "node tools/tasks/bin/delegate.ts turbo dev services/api=T02 apps/console=T05"
+
+[tasks."dev:markets"]
+description = "A 股观测台开发服务器（4321；DATA_SOURCE=fixtures 或 api）"
+run = "node tools/tasks/bin/delegate.ts turbo dev apps/markets=T05"
+
+[tasks."dev:papers"]
+description = "论文阅读馆开发服务器（4322；DATA_SOURCE=fixtures 或 api）"
+run = "node tools/tasks/bin/delegate.ts turbo dev apps/papers=T05"
+
+[tasks.storybook]
+description = "组件开发（6006）"
+run = "node tools/tasks/bin/delegate.ts turbo storybook packages/ui=T05"
+
+[tasks."db:migrate:local"]
+description = "D1 迁移（本地）"
+run = "node tools/tasks/bin/delegate.ts script services/api db:migrate:local T02"
+
+[tasks."db:migrate:remote"]
+description = "D1 迁移（线上）"
+run = "node tools/tasks/bin/delegate.ts script services/api db:migrate:remote T02"
+
+[tasks."new:capability"]
+description = "新能力的骨架（docs/10 第 8 节）：mise run new:capability -- <id>"
+run = "node tools/tasks/bin/delegate.ts script tools/new-capability new:capability T04"
+
+# ───────────── 编排 ─────────────
+
+[tasks."tasks:ready"]
+description = "列出可以开工的任务（要最新状态请先 git fetch --prune）"
+run = "node tools/tasks/bin/ready.ts"
+
+[tasks."ci:changes"]
+description = "CI 用：这次改动是否碰到智能平面（ai）和两个公开站（sites）"
+run = "node tools/tasks/bin/ci-changes.ts"

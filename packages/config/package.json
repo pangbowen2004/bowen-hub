@@ -1,0 +1,15 @@
+{
+  "name": "@bowen-hub/config",
+  "private": true,
+  "type": "module",
+  "exports": {
+    "./tsconfig/*.json": "./tsconfig/*.json"
+  },
+  "scripts": {
+    "typecheck": "tsc -p test/node && tsc -p test/dom && tsc -p test/library"
+  },
+  "devDependencies": {
+    "@types/node": "catalog:",
+    "typescript": "catalog:"
+  }
+}

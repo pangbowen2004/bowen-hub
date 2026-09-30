@@ -1,0 +1,10 @@
+{
+  "name": "bowen-hub",
+  "private": true,
+  "type": "module",
+  "packageManager": "pnpm@12.8.1",
+  "devDependencies": {
+    "@biomejs/biome": "2.5.14",
+    "turbo": "2.11.5"
+  }
+}

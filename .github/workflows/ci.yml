@@ -1,0 +1,101 @@
+# CI：每个 PR 和推到 main 时运行（docs/11 第 8 节、docs/12 第 3 节）。
+# 这里只调用 `mise run <任务>`；还没有内容的步骤由 mise 任务自己跳过（打印“尚未接入”并按成功返回）。
+# 注意：CI 用触发时的 PR 标题检查路径所有权；改了标题要推一个新提交（或关闭再打开 PR）才会用新标题重跑。
+name: ci
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
+jobs:
+  ci:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    env:
+      # pnpm 的包缓存放在工作区外的固定位置，方便下面缓存
+      pnpm_config_store_dir: /home/runner/.pnpm-store
+    steps:
+      - name: 检出（完整历史：路径所有权、契约兼容都要和 main 比较）
+        uses: actions/checkout@v7
+        with:
+          fetch-depth: 0
+
+      - name: 准备 mise（按 mise.toml 安装锁定的 Node、pnpm、Python、uv）
+        uses: jdx/mise-action@v5
+        with:
+          version: 2026.9.15
+
+      - name: uv 的缓存
+        uses: astral-sh/setup-uv@v10
+        with:
+          version: 0.12.21
+          enable-cache: true
+          cache-dependency-glob: py/uv.lock
+
+      - name: pnpm 的缓存
+        uses: actions/cache@v6
+        with:
+          path: /home/runner/.pnpm-store
+          key: pnpm-${{ runner.os }}-${{ hashFiles('pnpm-lock.yaml') }}
+          restore-keys: pnpm-${{ runner.os }}-
+
+      - name: 安装
+        run: mise install && mise run setup
+
+      - name: 生成物一致
+        run: |
+          mise run gen
+          git diff --exit-code
+          if [ -n "$(git status --porcelain)" ]; then
+            git status --porcelain
+            echo "生成物没有提交全：请在本地运行 mise run gen 并提交结果"
+            exit 1
+          fi
+
+      - name: 契约兼容
+        run: mise run contracts:check
+
+      - name: 静态检查
+        env:
+          PR_TITLE: ${{ github.event.pull_request.title }}
+        run: mise run --continue-on-error check
+
+      - name: 测试
+        run: mise run --continue-on-error test
+
+      - name: 契约随机测试（Schemathesis）
+        run: mise run test:contract
+
+      - name: Playwright 浏览器的缓存
+        if: hashFiles('apps/*/playwright.config.ts', 'e2e/playwright.config.ts') != ''
+        uses: actions/cache@v6
+        with:
+          path: ~/.cache/ms-playwright
+          key: playwright-${{ runner.os }}-${{ hashFiles('pnpm-lock.yaml') }}
+
+      - name: 端到端
+        run: mise run e2e
+
+      - name: 这次改到了哪些区域
+        id: changes
+        run: mise run ci:changes
+
+      - name: 评测（改到智能平面时）
+        if: steps.changes.outputs.ai == 'true'
+        env:
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          AI_GATEWAY_ID: ${{ secrets.AI_GATEWAY_ID }}
+        run: mise run evals -- --changed
+
+      - name: 性能（改到两个公开站时，Lighthouse CI）
+        if: steps.changes.outputs.sites == 'true'
+        run: mise run lighthouse

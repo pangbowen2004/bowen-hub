@@ -1,0 +1,99 @@
+# Python 依赖规则：逐条对应 docs/01 第 7 节的表（外加编排者裁定：compare、pdf 算编排模块，ids 算纯逻辑模块）。
+# 由 mise run check:arch 执行（tools/arch/src/import-rules.ts）：还不存在的包和模块会被跳过，出现后规则自动生效。
+#
+# 没有单独写成规则的几行：
+#   - hub-cli 可以依赖全部 py/packages/*，没有要禁止的内部依赖；
+#   - 编排模块（eod、editions、render、ingest、revise、localtask、migrate、compare、pdf 和各 commands.py）
+#     可以用 hub-contracts、hub-ai、hub-core、hub-providers，由下面“领域包”两条规则约束；
+#   - “只能依赖 hub-core 的协议”要等 T03 定下 hub-core 的模块布局才能写成规则（见 docs/progress/T00.md）；
+#   - “不许手改生成目录”不是导入关系，由 CI 的“生成物一致”一步检查。
+
+[importlinter]
+root_packages =
+    hub_contracts
+    hub_core
+    hub_ai
+    hub_providers
+    hub_market
+    hub_newsroom
+    hub_papers
+    hub_cli
+include_external_packages = True
+
+[importlinter:contract:hub-core]
+name = hub-core 只能依赖 hub-contracts
+type = forbidden
+source_modules =
+    hub_core
+forbidden_modules =
+    hub_ai
+    hub_providers
+    hub_market
+    hub_newsroom
+    hub_papers
+    hub_cli
+
+[importlinter:contract:hub-ai]
+name = hub-ai 只能依赖 hub-contracts、hub-core
+type = forbidden
+source_modules =
+    hub_ai
+forbidden_modules =
+    hub_providers
+    hub_market
+    hub_newsroom
+    hub_papers
+    hub_cli
+
+[importlinter:contract:hub-providers]
+name = hub-providers 只能依赖 hub-contracts、hub-core
+type = forbidden
+source_modules =
+    hub_providers
+forbidden_modules =
+    hub_ai
+    hub_market
+    hub_newsroom
+    hub_papers
+    hub_cli
+
+[importlinter:contract:domain-independence]
+name = 领域包之间互不依赖（只能依赖 hub-contracts、hub-ai、hub-core、hub-providers）
+type = independence
+modules =
+    hub_market
+    hub_newsroom
+    hub_papers
+
+[importlinter:contract:domain-not-cli]
+name = 领域包不依赖 hub-cli
+type = forbidden
+source_modules =
+    hub_market
+    hub_newsroom
+    hub_papers
+forbidden_modules =
+    hub_cli
+
+# 只查直接导入：纯逻辑模块可以调用 hub-ai，而 hub-ai 调模型本来就要联网，间接链路会误报。
+[importlinter:contract:pure-modules]
+name = 领域包的纯逻辑模块不许引用 hub-providers、httpx、smtplib
+type = forbidden
+source_modules =
+    hub_market.compute
+    hub_market.summary
+    hub_market.hypotheses
+    hub_market.evolution
+    hub_market.weekly
+    hub_newsroom.pipeline
+    hub_newsroom.ai
+    hub_papers.check
+    hub_papers.derive
+    hub_papers.excerpt
+    hub_papers.ai
+    hub_papers.ids
+forbidden_modules =
+    hub_providers
+    httpx
+    smtplib
+allow_indirect_imports = True

@@ -1,0 +1,101 @@
+# 测试夹具：按真实 tasks/graph.yaml 的结构写的一小份任务图。
+# 测试只对这里的条目做断言，真实任务图以后怎么改都不影响这些测试。
+tasks:
+  - id: T00
+    title: 仓库骨架与工具链
+    wave: 0
+    dependsOn: []
+    difficulty: medium
+    owns: [mise.toml, package.json, turbo.json, .github/workflows/ci.yml, packages/config/**, py/pyproject.toml,
+           py/.importlinter, tools/arch/**, tools/tasks/**]
+
+  - id: T01
+    title: 契约与代码生成
+    wave: 1
+    dependsOn: [T00]
+    difficulty: high
+    owns: [contracts/**, packages/contracts/**, py/packages/hub-contracts/**, tools/gen/**, fixtures/samples/**]
+
+  - id: T02
+    title: API 骨架与预接线
+    wave: 2
+    dependsOn: [T01]
+    difficulty: high
+    owns: [services/api/package.json, services/api/wrangler.jsonc, services/api/src/app.ts, services/api/src/db/**,
+           services/api/src/lib/**, services/api/src/modules/platform/**, services/api/migrations/**]
+    scaffolds: [services/api/src/modules/news/**]
+
+  - id: T03
+    title: Python 底座与命令行预接线
+    wave: 2
+    dependsOn: [T01]
+    difficulty: medium
+    owns: [py/packages/hub-core/**, py/apps/hub-cli/**]
+    scaffolds: [py/packages/hub-market/**, py/packages/hub-providers/**, py/packages/hub-core/src/hub_core/export/**]
+
+  - id: T04
+    title: AI 能力层
+    wave: 3
+    dependsOn: [T01, T03]
+    difficulty: high
+    owns: [py/packages/hub-ai/**, packages/ai/**]
+
+  - id: T05
+    title: 设计系统与三个前端外壳
+    wave: 2
+    dependsOn: [T01]
+    difficulty: medium
+    owns: [packages/ui/**, apps/markets/package.json, apps/markets/src/layouts/**]
+    scaffolds: [apps/markets/src/pages/**]
+
+  - id: T06
+    title: 云资源与部署流水线
+    wave: 3
+    dependsOn: [T02, T05]
+    difficulty: medium
+    owns: [infra/**]
+    sharedEdits: ["services/api/wrangler.jsonc：只改资源 ID 和 vars"]
+
+  - id: T14
+    title: API：新闻与自选股模块
+    wave: 3
+    dependsOn: [T02]
+    difficulty: medium
+    owns: [services/api/src/modules/news/**]
+
+  - id: T20
+    title: TuShare 适配器与缓存
+    wave: 3
+    dependsOn: [T03]
+    difficulty: medium
+    owns: [py/packages/hub-providers/src/hub_providers/tushare/**, fixtures/tushare/**]
+
+  - id: T21
+    title: A 股指标计算与对照
+    wave: 4
+    dependsOn: [T20]
+    difficulty: high
+    owns: [py/packages/hub-market/src/hub_market/compute/**, config/market*.yaml]
+
+  - id: T24
+    title: A 股观测台网站
+    wave: 3
+    dependsOn: [T05]
+    difficulty: medium
+    owns: [apps/markets/src/pages/**]
+
+  - id: T40
+    title: 鉴权与登录
+    wave: 4
+    dependsOn: [T02, T05, T06]
+    difficulty: high
+    owns: [services/api/src/lib/auth/**]
+    sharedEdits: ["services/api/migrations/**：只新增 auth 相关迁移文件", "services/api/src/db/schema/auth.*：只改鉴权表定义"]
+
+  - id: T42
+    title: 数据导出与每周评测
+    wave: 5
+    dependsOn: [T02, T03]
+    difficulty: low
+    owns: [services/api/src/modules/platform/export.ts, py/packages/hub-core/src/hub_core/export/**,
+           py/packages/hub-core/tests/export/**]

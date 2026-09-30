@@ -17,6 +17,9 @@ __pycache__/
 .pytest_cache/
 .ruff_cache/
 .pyright/
+.import_linter_cache/
+.coverage
+htmlcov/
 
 # TypeScript / 前端
 node_modules/
@@ -29,6 +32,11 @@ playwright-report/
 test-results/
 .lighthouseci/
 *.tsbuildinfo
+coverage/
+
+# 本机的 mise 覆盖配置
+mise.local.toml
+.mise.local.toml
 
 # 系统
 .DS_Store

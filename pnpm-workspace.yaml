@@ -1,0 +1,32 @@
+# pnpm 工作区。docs/01 第 7 节的目录一次列全：目录里有 package.json 才算一个包，
+# 没有就自动忽略，所以后续任务新建包时不需要改这个文件。
+packages:
+  - apps/*
+  - services/*
+  - packages/*
+  - tools/*
+  - contracts
+  - infra
+  - e2e
+
+# 共享的工具版本：包的 package.json 里写 "typescript": "catalog:" 就用这里的版本。
+catalog:
+  "@types/node": 24.19.0
+  typescript: 7.0.2
+  vitest: 5.0.2
+
+# 依赖包的安装脚本默认不运行。下面列出允许运行的；
+# 没列出的只打印警告、不让安装失败（strictDepBuilds: false），需要时由编排者补进来。
+allowBuilds:
+  esbuild: true
+  msw: true
+  sharp: true
+  workerd: true
+strictDepBuilds: false
+
+# dependency-cruiser 18 解析 .ts 需要 TypeScript 6 的编程接口（TypeScript 7 不再提供），
+# 这里只给它单独装 TypeScript 6；仓库里的 tsc 仍用上面 catalog 的版本。
+packageExtensions:
+  dependency-cruiser:
+    dependencies:
+      typescript: 6.0.3

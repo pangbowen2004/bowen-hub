@@ -1,0 +1,55 @@
+# uv 工作区根（虚拟根：本身不是一个包）。
+# 成员：py/packages/* 与 py/apps/*，目录里放 pyproject.toml 就自动加入，不需要改这个文件。
+# 开发工具统一放在下面的 dev 依赖组；各包自己的依赖写在各包的 pyproject.toml。
+
+[tool.uv.workspace]
+members = ["packages/*", "apps/*"]
+
+[dependency-groups]
+dev = [
+  "import-linter==2.15",
+  "pyright==1.1.414",
+  "pytest==9.1.1",
+  "ruff==0.16.9",
+]
+
+[tool.ruff]
+target-version = "py314"
+line-length = 100
+# 生成目录（T01 的 Pydantic 模型）只能由 mise run gen 改，不做检查
+extend-exclude = ["packages/hub-contracts"]
+
+[tool.ruff.lint]
+select = ["E", "W", "F", "I", "B", "UP", "SIM", "C4", "PIE", "PT", "RUF"]
+ignore = [
+  "E501",   # 行宽交给格式化；中文注释和字符串不强行折行
+  "RUF001", # 下面三条会把中文全角标点（，：（））当成“易混淆字符”
+  "RUF002",
+  "RUF003",
+]
+
+[tool.ruff.lint.isort]
+known-first-party = [
+  "hub_ai",
+  "hub_cli",
+  "hub_contracts",
+  "hub_core",
+  "hub_market",
+  "hub_newsroom",
+  "hub_papers",
+  "hub_providers",
+]
+
+[tool.pyright]
+typeCheckingMode = "strict"
+pythonVersion = "3.14"
+include = ["packages", "apps"]
+exclude = ["packages/hub-contracts", "**/.venv", "**/__pycache__", "**/node_modules"]
+venvPath = "."
+venv = ".venv"
+
+[tool.pytest.ini_options]
+testpaths = ["packages", "apps"]
+# importlib 模式：不同包里同名的测试文件互不冲突
+addopts = ["--import-mode=importlib", "-ra"]
+xfail_strict = true
