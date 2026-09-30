@@ -71,7 +71,8 @@ tasks:
     difficulty: high
     owns: [services/api/package.json, services/api/wrangler.jsonc, services/api/tsconfig.json, services/api/vitest.config.ts,
            services/api/src/index.ts, services/api/src/app.ts, services/api/src/db/**, services/api/src/lib/**,
-           services/api/src/modules/platform/**, services/api/migrations/**, services/api/test/setup/**, services/api/test/platform/**]
+           services/api/src/modules/platform/**, services/api/migrations/**, services/api/test/setup/**, services/api/test/platform/**,
+           services/api/scripts/**]
     scaffolds: [services/api/src/modules/news/**, services/api/src/modules/watchlist/**, services/api/src/modules/markets/**,
                 services/api/src/modules/papers/**, services/api/src/modules/mcp/**, services/api/src/lib/auth/**,
                 services/api/src/modules/platform/capabilities.ts, services/api/src/modules/platform/export.ts]
@@ -532,6 +533,7 @@ tasks:
     deliver:
       - GET /v1/internal/export/{table}；`hub export` 写进 bowen-hub-data 并提交；导出成功后调用 prune
       - data-export.yml、evals-weekly.yml（跳过 schedule 为 on-change 的能力）
+      - 导出结束时检查本月 AI 费用，超过 config/llm.yaml 的月度预算就发一封提醒邮件，并在 runs 表记一条 budget-alert；同一个月只发一次（docs/09 第 5 节）
     accept:
       - 手动触发 data-export：bowen-hub-data 出现一次提交，含除鉴权表外的全部表
       - 手动触发 evals-weekly：已有评测集的能力（至少 papers.qa）结果写进 eval_results
