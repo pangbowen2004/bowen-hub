@@ -56,7 +56,7 @@
 - **生成物**：`mise run gen` 和 TanStack Router 生成的文件（`contracts/generated/`、`packages/contracts/src/generated/`、`py/packages/hub-contracts/`、`services/api/src/routes.gen.ts`、`apps/console/src/routeTree.gen.ts`）不受所有权限制，任何 PR 都可以包含，但只能由生成命令改动，不能手改。
 - **样例数据**：`fixtures/samples/` 的基础样例归 T01；之后任务需要新样例时放在 `fixtures/samples/<任务ID>/`，归该任务。
 - **Python 包内的共享位置**：`hub_market`、`hub_newsroom`、`hub_papers` 三个领域包和 `hub_providers` 里，包内共享的小工具放在该包的 `common/`，连同包的 `__init__.py`、`tests/conftest.py`，归该包第一个开工的任务（见 `tasks/graph.yaml`）；其余任务只读，需要改时按本节最后一条处理。
-- CI 的 `mise run check:ownership` 读 PR 标题里的任务号，检查改动的文件是否都在允许范围内；越界就失败。
+- CI 的 `mise run check:ownership` 读 PR 标题里的任务号，检查改动的文件是否都在允许范围内；越界就失败。编排者修订文档、任务图或配置的 PR 标题以 `[编排]` 开头，不按任务 `owns` 限制路径。
 - 需要改别人的地方（比如发现 API 某个模块有 bug），不要顺手改：在自己的进度记录里写明，由编排者开一个小任务或转给该模块的任务。
 
 ## 5. 预接线：让并行开发不打架
@@ -73,7 +73,7 @@
 | API 各模块目录与空文件（`routes.ts` `service.ts` `repo.ts` `mcp.ts`）；`mcp.ts` 的导出形状（工具名、说明、Zod 入参、处理函数） | T02 | 填实现 |
 | 会话鉴权的占位中间件（本地放行、线上一律 401）；固定入口：`lib/auth/index.ts` 导出 `authRoutes` 和 `sessionMiddleware`，`modules/mcp/server.ts` 导出 `mcpHandler`，`index.ts` / `app.ts` 只从这些入口导入 | T02 | T40、T41 在入口文件里换成真正的实现（通行密钥登录、MCP 服务） |
 | Python 各包目录；7 个命令组；全部 `commands.py` 占位与 entry point 登记（`09` 第 7 节），未实现的命令退出码 2 并提示任务号 | T03 | 只改自己目录里的 `commands.py` |
-| 外部数据源与交易日历的协议（在 `hub-core`） | T03 | 各适配器实现协议；领域逻辑只依赖协议 |
+| 外部数据源与交易日历的协议（固定在 `hub_core.protocols`） | T03 | 各适配器实现协议；领域逻辑只依赖协议 |
 | 能力运行时、校验注册和评测框架；全部能力清单的 JSON Schema 校验（清单和提示词在文档阶段已写好） | T04 | 写评测用例，接入调用方 |
 | 设计系统（领域组件只建空壳和故事，`05` 第 7 节）、三个前端应用的外壳、路由目录、导航；控制台的 Playwright 配置与 MSW 基础设置、登录守卫占位（`features/auth`） | T05 | 在自己的路由目录里做页面，在 `e2e/<领域>/`、`src/mocks/<领域>/` 里加测试和模拟；领域组件由使用它的任务实现；T40 替换登录守卫 |
 
@@ -158,12 +158,12 @@
 | `dev:markets` / `dev:papers` | 公开站开发服务器（4321 / 4322；`DATA_SOURCE=fixtures` 或 `api`） |
 | `storybook` | 组件开发（6006） |
 | `db:migrate:local` / `db:migrate:remote` | D1 迁移（本地 / 线上） |
-| `evals` | 等同 `uv run hub evals run` |
+| `evals` | 等同 `uv run hub evals run`；T04 的实际入口 `py/packages/hub-ai/src/hub_ai/evals/runner.py` 未接入时跳过，接入后失败码原样传出 |
 | `new:capability <id>` | 新能力的骨架（`10` 第 8 节） |
 | `tasks:ready` | 列出可以开工的任务 |
 
 ## 11. 决策记录（ADR）
 
-- 位置：`docs/adr/ADR-NNNN-<短标题>.md`，编号递增，只增不改；推翻旧决定时写新 ADR，并在旧的里注明“已被 ADR-NNNN 取代”。
+- 位置：`docs/adr/ADR-NNNN-<短标题>.md`，编号递增。任务 PR 只新增 ADR；推翻旧决定时写新 ADR，旧 ADR 的“已被 ADR-NNNN 取代”注记由编排者在 `[编排]` PR 中修改。
 - 什么时候写：选了文档里没写的技术或服务；改了文档里的规则；做了以后可能被问“为什么”的取舍。
 - 格式：背景 / 决定 / 理由 / 后果（各 2–5 行）。

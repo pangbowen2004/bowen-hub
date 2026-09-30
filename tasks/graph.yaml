@@ -108,7 +108,7 @@ tasks:
       - HTTP 客户端（超时、有限重试、指数退避、记录来源健康）
       - API 客户端（生成模型 + 服务令牌）、运行记录（PUT /v1/internal/runs/{runId}）、AI 用量写入（POST /v1/internal/ai-calls/batch）
       - 邮件（SMTP，HTML + 纯文本，失败重试 3 次）；失败通知邮件；日志
-      - 协议：新闻、公告、内部人、日程、行情、TuShare 各一个数据源 Protocol；交易日历 Protocol 与纽交所（XNYS）实现（A 股日历由 T20 在 hub-providers/tushare 实现）
+      - 新闻、公告、内部人、日程、行情、TuShare 的六类数据源 Protocol 和交易日历 Protocol 固定放在 hub_core.protocols；纽交所（XNYS）实现在 hub-core 的其他模块（A 股日历由 T20 在 hub-providers/tushare 实现）
       - hub 命令行：建好 7 个命令组；用 hub.commands entry point 加载各目录的 commands.py（docs/09 第 7 节）
       - 预接线：各领域包与 hub-providers 的包目录、pyproject、全部 entry point 登记和 commands.py 占位（docs/09 第 7 节列出的每条命令都已注册，未实现的退出码 2 并提示任务号）
     accept:
@@ -130,7 +130,7 @@ tasks:
       - 提示词渲染（docs/10 第 5.1 节），Python 与 TS 各一份，用 T01 的共享测试向量
       - 档位解析、经 AI Gateway 调模型、结构化输出、重试、generatedBy、用量写入（两端）；流式能力的规则（docs/10 第 5 节）
       - 校验注册；docs/10 第 5.2 节的通用校验（paper_draft 由 T31 注册）
-      - 评测：用例格式、docs/10 第 7.2 节的评分器、`hub evals run|compare|harvest`（hub_ai 的 commands.py）
+      - 评测：用例格式、docs/10 第 7.2 节的评分器、`hub evals run|compare|harvest`（hub_ai 的 commands.py）；实际运行入口固定为 py/packages/hub-ai/src/hub_ai/evals/runner.py（mise 在 T03 仅有占位时跳过，T04 接入后正常传出失败码）
       - 由 hub_ai 的 commands.py 往 providers 组注册 `hub providers check-models`
       - packages/ai 的构建步骤：把清单、提示词、llm.yaml 编进注册表模块
       - "`mise run new:capability`"
@@ -181,14 +181,14 @@ tasks:
     read: [docs/12, docs/01 第 5 节, docs/07 第 2 节]
     deliver:
       - infra/bootstrap.ts：建 D1、R2、Pages 项目 bowen-console，确认 AI Gateway 存在（已存在的跳过），ID 写进 infra/cloudflare.json 和 services/api/wrangler.jsonc
-      - 设置 Worker 密钥与 vars（docs/12 第 4 节）；infra/check-secrets.ts：列出缺少的 GitHub 与 Worker 密钥（只列名字，不输出值）
+      - 设置 Worker 密钥与 vars（docs/12 第 4 节）；infra/check-secrets.ts：列出缺少的 GitHub 与 Worker 密钥（只列名字，不输出值）；HUB_BOOTSTRAP_TOKEN 在 G2 前标“待 Kevin 设置”，不阻塞 T06；注册后已作废的口令不视为缺配置
       - 四个部署工作流（docs/12 第 3 节）：控制台正式版 + 模拟版预览；公开站的 data_source（api / fixtures）与 target 输入；SITES_LIVE 逻辑
       - 控制台的 Pages Function 代理（/v1、/auth、/mcp、/.well-known → Service Binding）
     accept:
       - "`wrangler d1 list`、`wrangler r2 bucket list` 能看到资源"
       - "`curl $HUB_API_URL/v1/health` 返回 200；`curl https://bowen-console.pages.dev/v1/health` 经代理返回 200"
       - 三个预览地址可以打开：控制台模拟版、两个公开站的样例数据版（关卡 G1）
-      - check-secrets 显示全部就绪
+      - check-secrets 显示 T06 所需配置全部就绪；HUB_BOOTSTRAP_TOKEN 的“待 Kevin 设置”状态留到 G2，不算缺配置
 
   # ───────────── 美股新闻室 ─────────────
 
@@ -472,7 +472,7 @@ tasks:
   - id: T34
     title: 控制台：论文页面
     wave: 5
-    dependsOn: [T05, T32]
+    dependsOn: [T05, T32, T33]
     difficulty: medium
     owns: [apps/console/src/routes/papers/**, apps/console/src/features/papers/**, apps/console/src/mocks/papers/**,
            apps/console/e2e/papers/**, packages/ui/src/**/AskDrawer/**, packages/ui/src/**/PageImage/**]
