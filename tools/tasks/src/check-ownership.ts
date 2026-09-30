@@ -21,7 +21,7 @@ export function runOwnershipCheck(root: string, prTitle: string | undefined): Ru
     if (subject === undefined) {
       return fail(`PR 标题“${title}”里没有可识别的任务号：应以 [Txx] 或 [C] 开头`);
     }
-    source = `PR 标题“${title}”`;
+    source = `取自 PR 标题“${title}”`;
   } else {
     const branch = currentBranch(root);
     subject = branch === undefined ? undefined : subjectFromBranch(branch);
@@ -30,7 +30,7 @@ export function runOwnershipCheck(root: string, prTitle: string | undefined): Ru
         branch === undefined ? "当前不在任何分支上" : `分支 ${branch} 不是 task/<任务号>-*`;
       return { code: 0, output: [`check:ownership：跳过（${where}，也没有 PR 标题）`] };
     }
-    source = `分支 ${branch}`;
+    source = `取自分支 ${branch}`;
   }
 
   const task =
@@ -59,7 +59,7 @@ export function runOwnershipCheck(root: string, prTitle: string | undefined): Ru
   });
 
   const who = subject.kind === "contract" ? "契约 PR [C]" : subject.id;
-  const header = `check:ownership：${who}（取自${source}），相对 ${ref} 的合并基点有 ${changes.length} 个改动文件`;
+  const header = `check:ownership：${who}（${source}），相对 ${ref} 的合并基点有 ${changes.length} 个改动文件`;
   const bad = verdicts.filter((verdict) => !verdict.ok);
   if (bad.length === 0) return { code: 0, output: [`${header}，全部在允许范围内。`] };
   return {
