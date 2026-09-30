@@ -9,7 +9,7 @@
 #   underlying  杠杆 ETF / 现货 ETF 并入的标的：新闻、公告都算在标的名下
 #   sectorEtf   判断“与板块同步”时对照的 ETF（不写就用 newsroom.yaml 的 defaultSectorEtf）
 #   aliases     在 RSS 标题里匹配这只股票用的名字（英文按词边界匹配，不区分大小写）
-#   verify      true = 首次运行时确认代码是否有效（T10 负责核实，结果写进进度记录）
+#   verify      true = 待核实：T10 确认代码有效、且在数据源里对应这里写的公司；通过的去掉 verify，无效的从这里删掉，结果写进进度记录
 #
 # 公司的 SEC 编号（CIK）运行时从 SEC 的 company_tickers.json 自动对照，不在这里填。
 
@@ -20,7 +20,7 @@ items:
   - { symbol: NVDA, name: 英伟达, kind: stock, group: 半导体, sectorEtf: SMH, aliases: [Nvidia] }
   - { symbol: MU,   name: 美光科技, kind: stock, group: 半导体, sectorEtf: SMH, aliases: [Micron] }
   - { symbol: INTC, name: 英特尔, kind: stock, group: 半导体, sectorEtf: SMH, aliases: [Intel] }
-  - { symbol: SKHY, name: SK 海力士相关（待核实）, kind: stock, group: 半导体, sectorEtf: SMH, aliases: [SK Hynix], verify: true }
+  - { symbol: SKHY, name: SK 海力士, kind: stock, group: 半导体, sectorEtf: SMH, aliases: [SK Hynix], verify: true }
   - { symbol: SOXX, name: 安硕半导体 ETF, kind: etf, group: 半导体 }
   - { symbol: TSMX, name: 台积电 2 倍做多 ETF, kind: leveraged_etf, group: 半导体, underlying: TSM }
   - { symbol: AVGX, name: 博通 2 倍做多 ETF, kind: leveraged_etf, group: 半导体, underlying: AVGO }
@@ -48,7 +48,7 @@ items:
 
   # ── 其他 ──
   - { symbol: RKLB, name: Rocket Lab, kind: stock, group: 其他, aliases: [Rocket Lab] }
-  - { symbol: SPCX, name: 待核实, kind: etf, group: 其他, verify: true }
+  - { symbol: SPCX, name: SpaceX, kind: etf, group: 其他, verify: true }
   - { symbol: TLN,  name: Talen Energy, kind: stock, group: 其他, sectorEtf: SPY, aliases: [Talen Energy] }
   - { symbol: MAR,  name: 万豪国际, kind: stock, group: 其他, sectorEtf: SPY, aliases: [Marriott] }
   - { symbol: PFE,  name: 辉瑞, kind: stock, group: 其他, sectorEtf: SPY, aliases: [Pfizer] }

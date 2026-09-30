@@ -11,7 +11,7 @@ editions:
   morning:
     start: "07:10"                 # 新加坡时间，开始生成
     sendBy: "07:30"
-    windowHours: 24                # 覆盖上一期早报以来（约 24 小时）
+    maxWindowHours: 72             # 覆盖上一期成功发送的早报以来（通常约 24 小时），最长 72 小时
     readingBudgetChars: 2500       # 约 6 分钟
   premarket:
     minutesBeforeOpen: 45
@@ -30,7 +30,7 @@ thresholds:
   sectorSyncMove: 0.02             # 对照 ETF 涨跌幅绝对值 ≥ 2% 且同向 → “与板块同步”
   insiderSellMinUsd: 1000000       # Form 4 卖出只列 ≥ 100 万美元的
   usRank: { candidates: 20, min: 6, max: 8 }
-  tickerSources: { min: 1, max: 3 }
+  tickerSources: { min: 0, max: 3 }   # 没有直接消息时为 0 个
   cluster:
     titleSimilarity: 0.85          # 标题相似度 ≥ 0.85 → 同一事件
     sameTickerHours: 6             # 同一股票、6 小时内、标题词重合 ≥ 50% → 同一事件
@@ -59,7 +59,8 @@ snapshot:                          # 收盘快照（可选栏目）
 
 filings:
   eightK: "8-K"
-  periodic: ["10-Q", "10-K"]       # 只提示“已发布”并给链接
+  sixK: "6-K"                      # 外国发行人（如台积电）的临时报告：列出并附链接；附件 EX-99.x 作为财报原文候选
+  periodic: ["10-Q", "10-K", "20-F"]   # 只提示“已发布”并给链接（20-F 是外国发行人的年报）
   offerings: ["S-1", "S-3", "424B"]  # 424B 按前缀匹配（424B1–424B8）
   ownership: ["SC 13D", "SC 13G", "SCHEDULE 13D", "SCHEDULE 13G"]   # 2024 年底起 EDGAR 使用新表格名，两种都认（含 /A 修订）
   insider:

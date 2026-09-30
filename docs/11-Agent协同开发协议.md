@@ -55,6 +55,7 @@
 - **骨架**：`scaffolds` 里的路径由该任务一次性建成空骨架（占位文件、目录、入口登记），创建它们的 PR 可以越过所有权检查；合并之后，这些文件归 `owns` 覆盖它们的任务。
 - **生成物**：`mise run gen` 和 TanStack Router 生成的文件（`contracts/generated/`、`packages/contracts/src/generated/`、`py/packages/hub-contracts/`、`services/api/src/routes.gen.ts`、`apps/console/src/routeTree.gen.ts`）不受所有权限制，任何 PR 都可以包含，但只能由生成命令改动，不能手改。
 - **样例数据**：`fixtures/samples/` 的基础样例归 T01；之后任务需要新样例时放在 `fixtures/samples/<任务ID>/`，归该任务。
+- **Python 包内的共享位置**：`hub_market`、`hub_newsroom`、`hub_papers` 三个领域包和 `hub_providers` 里，包内共享的小工具放在该包的 `common/`，连同包的 `__init__.py`、`tests/conftest.py`，归该包第一个开工的任务（见 `tasks/graph.yaml`）；其余任务只读，需要改时按本节最后一条处理。
 - CI 的 `mise run check:ownership` 读 PR 标题里的任务号，检查改动的文件是否都在允许范围内；越界就失败。
 - 需要改别人的地方（比如发现 API 某个模块有 bug），不要顺手改：在自己的进度记录里写明，由编排者开一个小任务或转给该模块的任务。
 
@@ -68,13 +69,13 @@
 | 生成的 TS / Python 类型、Zod 校验、fetch 客户端、TanStack Query hooks、MSW 模拟 | T01 | 直接 import |
 | 新格式样例数据 `fixtures/samples/`：每个 GET 接口的返回模型至少一份（由老数据转换，并通过 JSON Schema 校验） | T01 | 测试、MSW 模拟、公开站样例构建都用 |
 | API 路由骨架 `routes.gen.ts`：**全部接口都已挂上，未实现的返回 501**（正文写“未实现（任务 T14）”） | T02 | 在自己模块里实现后，路由自动接上 |
-| D1 的**全部表**一次建好（`09` 第 3 节，表定义集中在 `services/api/src/db/schema/`） | T02 | 一般不需要再加迁移 |
-| API 各模块目录与空文件（`routes.ts` `service.ts` `repo.ts` `mcp.ts`） | T02 | 填实现 |
-| 会话鉴权的占位中间件（本地放行、线上一律 401） | T02 | T40 替换成真正的通行密钥登录 |
+| D1 的**全部表**一次建好（`09` 第 3 节，表定义集中在 `services/api/src/db/schema/`；鉴权表按 Better Auth 的通行密钥 + MCP 插件生成） | T02 | 一般不需要再加迁移；T40 只可改 `db/schema/auth.*`、新增鉴权迁移 |
+| API 各模块目录与空文件（`routes.ts` `service.ts` `repo.ts` `mcp.ts`）；`mcp.ts` 的导出形状（工具名、说明、Zod 入参、处理函数） | T02 | 填实现 |
+| 会话鉴权的占位中间件（本地放行、线上一律 401）；固定入口：`lib/auth/index.ts` 导出 `authRoutes` 和 `sessionMiddleware`，`modules/mcp/server.ts` 导出 `mcpHandler`，`index.ts` / `app.ts` 只从这些入口导入 | T02 | T40、T41 在入口文件里换成真正的实现（通行密钥登录、MCP 服务） |
 | Python 各包目录；7 个命令组；全部 `commands.py` 占位与 entry point 登记（`09` 第 7 节），未实现的命令退出码 2 并提示任务号 | T03 | 只改自己目录里的 `commands.py` |
 | 外部数据源与交易日历的协议（在 `hub-core`） | T03 | 各适配器实现协议；领域逻辑只依赖协议 |
 | 能力运行时、校验注册和评测框架；全部能力清单的 JSON Schema 校验（清单和提示词在文档阶段已写好） | T04 | 写评测用例，接入调用方 |
-| 设计系统、三个前端应用的外壳、路由目录、导航；控制台的 Playwright 配置与 MSW 基础设置 | T05 | 在自己的路由目录里做页面，在 `e2e/<领域>/`、`src/mocks/<领域>/` 里加测试和模拟 |
+| 设计系统（领域组件只建空壳和故事，`05` 第 7 节）、三个前端应用的外壳、路由目录、导航；控制台的 Playwright 配置与 MSW 基础设置、登录守卫占位（`features/auth`） | T05 | 在自己的路由目录里做页面，在 `e2e/<领域>/`、`src/mocks/<领域>/` 里加测试和模拟；领域组件由使用它的任务实现；T40 替换登录守卫 |
 
 ### 5.1 契约变更
 
@@ -122,8 +123,9 @@
 | 契约兼容 | `mise run contracts:check` |
 | 静态检查 | `mise run check`（Biome、tsc、ruff、pyright、依赖规则、路径所有权） |
 | 测试 | `mise run test`（Vitest、Workers 测试环境、pytest；全部离线） |
+| 契约随机测试 | Schemathesis 对本地 `wrangler dev` 跑基于契约的随机测试（`08` 第 6 节）；还没有 `services/api` 时跳过 |
 | 端到端 | `mise run e2e`（Playwright；三个前端都用样例数据构建） |
-| 评测 | 改到智能平面文件时：`hub evals run --changed`（需要 `OPENAI_API_KEY`） |
+| 评测 | 改到智能平面文件时：`hub evals run --changed`（需要 `OPENAI_API_KEY`、`CLOUDFLARE_ACCOUNT_ID`、`AI_GATEWAY_ID`；只出报告，不写 API） |
 | 性能 | 改到 `apps/markets` 或 `apps/papers` 时：Lighthouse CI（样例数据构建） |
 
 测试全部离线：外部 HTTP 用录制的响应（`fixtures/http/`），模型用假模型。

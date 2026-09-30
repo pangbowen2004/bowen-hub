@@ -15,7 +15,7 @@
 #   timeoutSec  超时秒数（默认 20）
 #
 # 去重时保留来源权重（weight）最高的一条；权重相同时保留在这里排在前面的源。
-# 维护方法：uv run hub news sources --check（逐个检查可用性，结果写进控制台“运维”页）
+# 维护方法：uv run hub news sources --check（逐个检查可用性，只输出结果，不写 API；控制台“运维”页的来源健康由三个版次运行时写入）
 
 defaults:
   maxItems: 8

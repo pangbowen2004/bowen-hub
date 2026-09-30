@@ -73,13 +73,15 @@ tasks:
            services/api/src/index.ts, services/api/src/app.ts, services/api/src/db/**, services/api/src/lib/**,
            services/api/src/modules/platform/**, services/api/migrations/**, services/api/test/setup/**, services/api/test/platform/**]
     scaffolds: [services/api/src/modules/news/**, services/api/src/modules/watchlist/**, services/api/src/modules/markets/**,
-                services/api/src/modules/papers/**, services/api/src/modules/mcp/**]
+                services/api/src/modules/papers/**, services/api/src/modules/mcp/**, services/api/src/lib/auth/**,
+                services/api/src/modules/platform/capabilities.ts, services/api/src/modules/platform/export.ts]
     read: [docs/08, docs/09 第 1–5 节, docs/12 第 4 节]
     deliver:
       - Hono 应用：请求 ID、日志、problem+json 错误、三类鉴权分流、服务令牌校验（可写内部接口、可读 GET）
       - 会话鉴权的占位中间件：本地 wrangler dev 放行，线上一律 401（T40 替换）
+      - 固定入口：lib/auth/index.ts 导出 authRoutes 与 sessionMiddleware，modules/mcp/server.ts 导出 mcpHandler，index.ts/app.ts 只从这些入口导入；定好各模块 mcp.ts 的导出形状（工具名、说明、Zod 入参、处理函数）
       - 由契约生成 routes.gen.ts：全部接口挂上，未实现的返回 501（正文“未实现（任务 Txx）”）
-      - services/api/src/db/schema：docs/09 第 3 节的全部表（含 FTS5 虚拟表）与迁移；D1、R2 绑定
+      - services/api/src/db/schema：docs/09 第 3 节的全部表（含 FTS5 虚拟表）与迁移；鉴权表按 Better Auth 的通行密钥 + MCP 插件生成；D1、R2 绑定
       - platform 模块：documents、runs、ai-calls、eval results 的读写；运维页需要的查询（SQL 聚合）
       - lib：R2 流式读写、GitHub repository_dispatch
       - 各业务模块的空骨架（routes.ts、service.ts、repo.ts、mcp.ts）
@@ -120,13 +122,15 @@ tasks:
     dependsOn: [T01, T03]
     difficulty: high
     owns: [py/packages/hub-ai/**, packages/ai/**, capabilities/_schema.json, config/llm.yaml, evals/README.md, tools/new-capability/**]
-    read: [docs/10, config/llm.yaml, capabilities/*.yaml, prompts/news_brief.md]
+    read: [docs/10, docs/08 第 5.1 节（ai-calls、evals、feedback 接口）, config/llm.yaml, config/newsroom.yaml（adviceWords）,
+           capabilities/*.yaml, prompts/news_brief.md]
     deliver:
       - 能力清单的 JSON Schema，capabilities/*.yaml 全部通过校验
       - 提示词渲染（docs/10 第 5.1 节），Python 与 TS 各一份，用 T01 的共享测试向量
       - 档位解析、经 AI Gateway 调模型、结构化输出、重试、generatedBy、用量写入（两端）；流式能力的规则（docs/10 第 5 节）
-      - 校验注册；docs/10 第 5.2 节的通用校验（paper_draft 由 T30 注册）
+      - 校验注册；docs/10 第 5.2 节的通用校验（paper_draft 由 T31 注册）
       - 评测：用例格式、docs/10 第 7.2 节的评分器、`hub evals run|compare|harvest`（hub_ai 的 commands.py）
+      - 由 hub_ai 的 commands.py 往 providers 组注册 `hub providers check-models`
       - packages/ai 的构建步骤：把清单、提示词、llm.yaml 编进注册表模块
       - "`mise run new:capability`"
     accept:
@@ -144,13 +148,22 @@ tasks:
            apps/papers/package.json, apps/papers/astro.config.mjs, apps/papers/src/layouts/**, apps/papers/src/lib/**,
            apps/console/package.json, apps/console/vite.config.ts, apps/console/index.html, apps/console/src/main.tsx,
            apps/console/src/router.tsx, apps/console/src/routes/__root.tsx, apps/console/src/lib/**, apps/console/src/mocks/**,
-           apps/console/playwright.config.ts, apps/console/e2e/_setup/**]
-    scaffolds: [apps/markets/src/pages/**, apps/papers/src/pages/**, apps/console/src/routes/**]
+           apps/console/playwright.config.ts, apps/console/e2e/_setup/**,
+           apps/markets/tsconfig.json, apps/papers/tsconfig.json, apps/console/tsconfig.json,
+           apps/markets/public/**, apps/papers/public/**, apps/console/public/**,
+           apps/markets/playwright.config.ts, apps/papers/playwright.config.ts,
+           apps/markets/src/env.d.ts, apps/papers/src/env.d.ts, apps/console/src/env.d.ts,
+           apps/markets/src/styles/**, apps/papers/src/styles/**, apps/console/src/styles/**]
+    scaffolds: [apps/markets/src/pages/**, apps/papers/src/pages/**, apps/console/src/routes/**, apps/console/src/features/auth/**,
+                packages/ui/src/**/EditionView/**, packages/ui/src/**/PaperReader/**, packages/ui/src/**/EvidenceMark/**,
+                packages/ui/src/**/GraphView/**, packages/ui/src/**/Universe3D/**, packages/ui/src/**/AskDrawer/**,
+                packages/ui/src/**/PageImage/**]
     read: [docs/05, docs/03 第 8 节, docs/04 第 3–4 节]
     deliver:
-      - 设计令牌、基础样式、docs/05 第 7 节的全部组件（Storybook 故事齐全）、格式化函数（带单元测试）
+      - 设计令牌、基础样式、格式化函数（带单元测试）
+      - docs/05 第 7 节的组件：通用组件做完整实现（Storybook 故事齐全）；领域组件（EditionView、PaperReader、EvidenceMark、GraphView、Universe3D、AskDrawer、PageImage）只做空壳和 Storybook 故事，放在以组件名命名的目录里
       - 两个 Astro 站：布局、导航、DATA_SOURCE 数据加载（fixtures | api）、全部页面的占位
-      - 控制台：路由、根布局（桌面侧栏 / 手机底部标签栏）、MSW 基础设置、登录守卫占位、docs/05 第 6 节全部路由的占位、Playwright 配置
+      - 控制台：路由、根布局（桌面侧栏 / 手机底部标签栏）、MSW 基础设置、登录守卫占位（放在 features/auth）、docs/05 第 6 节全部路由的占位、Playwright 配置
     accept:
       - 组件与格式化函数测试通过；Storybook 能构建
       - 三个应用用样例数据构建成功
@@ -188,6 +201,8 @@ tasks:
            py/packages/hub-providers/src/hub_providers/fred/**, py/packages/hub-providers/src/hub_providers/finnhub/**,
            py/packages/hub-providers/src/hub_providers/treasury/**, py/packages/hub-providers/src/hub_providers/cboe/**,
            py/packages/hub-providers/src/hub_providers/commands.py, py/packages/hub-providers/tests/news/**,
+           py/packages/hub-providers/src/hub_providers/common/**, py/packages/hub-providers/src/hub_providers/__init__.py,
+           py/packages/hub-providers/tests/conftest.py,
            fixtures/http/news/**, config/news_sources.yaml, config/us_watchlist.yaml]
     read: [docs/02 第 3–4 节, config/news_sources.yaml, config/us_watchlist.yaml, config/newsroom.yaml]
     deliver:
@@ -195,7 +210,7 @@ tasks:
       - SEC：company_tickers 对照 CIK、submissions、公告目录、8-K 的 Item 与 EX-99.1 正文（selectolax）、Form 4 XML
       - FRED：按发布名称查 release id 与发布日期；Finnhub：财报日历
       - 每个来源返回健康状态；外部请求录制成 fixtures/http/news/ 下的回放数据（覆盖一个完整交易日，供 T13 做 N-1）
-      - "`hub providers check`（含 T04 提供的模型检查）、`hub news sources --check`（只输出结果，不写 API）"
+      - "`hub providers check`、`hub news sources --check`（只输出结果，不写 API）"
     accept:
       - pytest 离线通过（全部用回放数据）
       - "`uv run hub providers check` 真实运行结果贴进进度记录：Alpaca 免费账号能否取新闻、Finnhub 免费档是否含财报日历、每个 RSS 是否可用"
@@ -207,6 +222,8 @@ tasks:
     dependsOn: [T03]
     difficulty: high
     owns: [py/packages/hub-newsroom/src/hub_newsroom/pipeline/**, py/packages/hub-newsroom/tests/pipeline/**,
+           py/packages/hub-newsroom/src/hub_newsroom/common/**, py/packages/hub-newsroom/src/hub_newsroom/__init__.py,
+           py/packages/hub-newsroom/tests/conftest.py,
            config/newsroom.yaml, config/news_keywords.yaml]
     read: [docs/02 第 1–6 节与附录 A, config/newsroom.yaml, config/news_keywords.yaml, fixtures/news/]
     deliver:
@@ -274,8 +291,8 @@ tasks:
     difficulty: medium
     owns: [apps/console/src/routes/index.tsx, apps/console/src/routes/news/**, apps/console/src/routes/watchlist/**,
            apps/console/src/features/today/**, apps/console/src/features/news/**, apps/console/src/features/watchlist/**,
-           apps/console/src/mocks/news/**, apps/console/e2e/news/**]
-    read: [docs/05 第 5–7 节, docs/02 第 6、8 节]
+           apps/console/src/mocks/news/**, apps/console/e2e/news/**, packages/ui/src/**/EditionView/**]
+    read: [docs/05 第 5–7 节, docs/02 第 6、8、9 节]
     deliver: [docs/05 第 6 节中负责任务为 T15 的页面]
     accept:
       - Playwright（MSW）：各页面能打开；打分与“没用 / 有错”能提交；390px 无横向滚动
@@ -331,8 +348,11 @@ tasks:
     difficulty: high
     owns: [py/packages/hub-market/src/hub_market/hypotheses/**, py/packages/hub-market/src/hub_market/evolution/**,
            py/packages/hub-market/src/hub_market/weekly/**, py/packages/hub-market/tests/hypotheses/**,
-           py/packages/hub-market/tests/evolution/**, py/packages/hub-market/tests/weekly/**]
-    read: [docs/03 第 5–7 节, fixtures/market/hypotheses-ledger.json, fixtures/market/weekly-2026-08-28.json, fixtures/samples/]
+           py/packages/hub-market/tests/evolution/**, py/packages/hub-market/tests/weekly/**,
+           py/packages/hub-market/src/hub_market/common/**, py/packages/hub-market/src/hub_market/__init__.py,
+           py/packages/hub-market/tests/conftest.py]
+    read: [docs/03 第 5–7 节, config/market.yaml, fixtures/market/hypotheses-ledger.json, fixtures/market/weekly-2026-08-28.json,
+           fixtures/samples/]
     deliver:
       - 假设生成与结算（第 5 节，含 rule = null 的处理）、验证统计（MarketDay.validation）
       - 近五日演化（第 6.1 节）；周报、WeeklySummary 与 Markdown 版（第 6.2 节）
@@ -348,7 +368,7 @@ tasks:
     difficulty: medium
     owns: [services/api/src/modules/markets/**, services/api/test/markets/**, py/packages/hub-market/src/hub_market/eod/**,
            py/packages/hub-market/tests/eod/**, .github/workflows/market-eod.yml]
-    read: [docs/03 第 2、7 节, docs/08 第 5.1 节（x-task T23）, docs/09 第 8 节]
+    read: [docs/03 第 2、6.3、7 节, docs/08 第 5.1 节（x-task T23）, docs/09 第 6、8 节]
     deliver:
       - x-task 为 T23 的全部接口；MCP 工具 markets_day、markets_hypotheses
       - "`hub market eod`（docs/03 第 2 节的完整顺序，含 --dry-run）与 `hub market backfill`（放在 hub_market/eod/）"
@@ -366,7 +386,7 @@ tasks:
     owns: [apps/markets/src/pages/**, apps/markets/src/components/**, apps/markets/e2e/**,
            apps/console/src/routes/markets/**, apps/console/src/features/markets/**, apps/console/src/mocks/markets/**,
            apps/console/e2e/markets/**]
-    read: [docs/03 第 7–8 节, docs/05]
+    read: [docs/03 第 4–8 节, docs/05]
     deliver:
       - docs/03 第 8 节全部页面，含 /archive/[date].md、/weekly/[date].md、/llms.txt
       - 控制台 /markets/events（事件日历增删改）
@@ -383,11 +403,13 @@ tasks:
     difficulty: high
     owns: [py/packages/hub-papers/src/hub_papers/pdf/**, py/packages/hub-papers/src/hub_papers/check/**,
            py/packages/hub-papers/src/hub_papers/excerpt/**, py/packages/hub-papers/src/hub_papers/derive/**,
-           py/packages/hub-papers/src/hub_papers/ids/**, py/packages/hub-papers/tests/core/**, config/paper_*.yaml]
-    read: [docs/04 第 2、5.2、6、7 节, fixtures/papers/, fixtures/samples/]
+           py/packages/hub-papers/src/hub_papers/ids/**, py/packages/hub-papers/tests/core/**, config/paper_*.yaml,
+           py/packages/hub-papers/src/hub_papers/common/**, py/packages/hub-papers/src/hub_papers/__init__.py,
+           py/packages/hub-papers/tests/conftest.py]
+    read: [docs/04 第 2、5.1、5.2、6、7 节, docs/09 第 4 节, fixtures/papers/, fixtures/samples/]
     deliver:
       - PyMuPDF 抽页文本（pages.jsonl、pages.txt）与页图；论文 id 识别与 custom 短名规则（docs/04 第 5.1 节）
-      - 草稿校验（docs/04 第 5.2 节，中文错误清单），并注册为运行时的 paper_draft 校验；按行号填 sourceExcerpt
+      - 草稿校验（docs/04 第 5.2 节，中文错误清单）；按行号填 sourceExcerpt
       - "`hub papers derive`（docs/04 第 6 节）；`hub papers check`"
     accept:
       - 故意改坏的草稿：每一类错误都能被 check 发现并给出中文说明
@@ -407,6 +429,7 @@ tasks:
     deliver:
       - "`hub papers ingest`（uploadId / --file / --arxiv，docs/04 第 5.1 节的全部步骤与状态）、`hub papers revise`、`hub papers task`、`hub papers submit`"
       - papers.author（含校验修订循环与审核修订循环）、papers.review（附表格页图）
+      - 把 T30 的草稿校验注册为运行时的 paper_draft 校验（docs/10 第 5 节）
       - 评测用例：author 至少 10 条（以校验通过率和 judge 为主）、review 至少 10 条（含已知问题的草稿）
       - papers-ingest.yml
     accept:
@@ -418,10 +441,10 @@ tasks:
   - id: T32
     title: API 论文模块（含问答）
     wave: 4
-    dependsOn: [T02, T04]
+    dependsOn: [T02, T04, T06]
     difficulty: high
     owns: [services/api/src/modules/papers/**, services/api/test/papers/**, capabilities/papers.qa.yaml, prompts/paper_qa.md, evals/papers.qa/**]
-    read: [docs/04 第 2、4、5.5、6 节, docs/08 第 5.1 节（x-task T32）, docs/09 第 1–4 节, docs/10 第 5 节]
+    read: [docs/04 第 2、4、5.1、5.4、5.5、6 节, docs/08 第 5.1 节（x-task T32）, docs/09 第 1–4、6 节, docs/10 第 5 节]
     deliver:
       - x-task 为 T32 的全部接口；上传 PDF 流式写 R2；json_set 局部更新；papers-ingest / papers-revise / papers-changed 三种 dispatch；失败重试
       - 问答：papers.qa 在 Worker 里流式运行（整篇原文放进上下文，超长时按 docs/04 第 4 节取页）
@@ -437,8 +460,10 @@ tasks:
     wave: 3
     dependsOn: [T05]
     difficulty: medium
-    owns: [apps/papers/src/pages/**, apps/papers/src/components/**, apps/papers/e2e/**]
-    read: [docs/04 第 3 节, docs/05]
+    owns: [apps/papers/src/pages/**, apps/papers/src/components/**, apps/papers/e2e/**,
+           packages/ui/src/**/PaperReader/**, packages/ui/src/**/EvidenceMark/**, packages/ui/src/**/GraphView/**,
+           packages/ui/src/**/Universe3D/**]
+    read: [docs/04 第 2、3、6 节, docs/05]
     deliver: ["docs/04 第 3 节全部页面，含 /papers/[id].md 与 /llms.txt"]
     accept:
       - P-3、P-5、P-9（用样例数据构建）
@@ -449,8 +474,8 @@ tasks:
     dependsOn: [T05, T32]
     difficulty: medium
     owns: [apps/console/src/routes/papers/**, apps/console/src/features/papers/**, apps/console/src/mocks/papers/**,
-           apps/console/e2e/papers/**]
-    read: [docs/04 第 4–5 节, docs/05]
+           apps/console/e2e/papers/**, packages/ui/src/**/AskDrawer/**, packages/ui/src/**/PageImage/**]
+    read: [docs/04 第 2、4–5 节, docs/05]
     deliver: ["docs/04 第 4 节全部功能（/papers、/papers/$id、/papers/inbox、/papers/graph），含上传与失败重试"]
     accept:
       - P-6 用 MSW 走通（含模拟的流式回答）；接本地 API 再走通一次
@@ -465,6 +490,7 @@ tasks:
     owns: [services/api/src/lib/auth/**, services/api/test/auth/**, apps/console/src/routes/login/**,
            apps/console/src/routes/settings/**, apps/console/src/features/auth/**, apps/console/src/mocks/auth/**,
            apps/console/e2e/auth/**]
+    sharedEdits: ["services/api/src/db/schema/auth.*：只改鉴权表定义", "services/api/migrations/**：只新增鉴权相关的迁移文件"]
     read: [docs/09 第 2 节, docs/12 第 4、6 节, docs/01 第 5 节]
     deliver:
       - Better Auth：通行密钥插件、一次性口令首次注册、会话 Cookie；替换 T02 的会话占位中间件
@@ -480,8 +506,9 @@ tasks:
     wave: 6
     dependsOn: [T14, T23, T32, T40]
     difficulty: medium
-    owns: [services/api/src/modules/mcp/server.ts, services/api/src/modules/mcp/registry.ts, services/api/test/mcp/**,
-           services/api/src/modules/platform/capabilities.ts, apps/console/src/routes/ops/**, apps/console/src/features/ops/**,
+    owns: [services/api/src/modules/mcp/**, services/api/test/mcp/**,
+           services/api/src/modules/platform/capabilities.ts, services/api/test/platform/capabilities*,
+           apps/console/src/routes/ops/**, apps/console/src/features/ops/**,
            apps/console/src/mocks/ops/**, apps/console/e2e/ops/**]
     read: [docs/09 第 6 节, docs/10 第 7 节, docs/12 第 7 节]
     deliver:
@@ -499,7 +526,8 @@ tasks:
     dependsOn: [T02, T03, T04, T06, T14, T32]
     difficulty: low
     owns: [py/packages/hub-core/src/hub_core/export/**, py/packages/hub-core/tests/export/**,
-           services/api/src/modules/platform/export.ts, .github/workflows/data-export.yml, .github/workflows/evals-weekly.yml]
+           services/api/src/modules/platform/export.ts, services/api/test/platform/export*,
+           .github/workflows/data-export.yml, .github/workflows/evals-weekly.yml]
     read: [docs/09 第 5、8 节, docs/10 第 7.3 节]
     deliver:
       - GET /v1/internal/export/{table}；`hub export` 写进 bowen-hub-data 并提交；导出成功后调用 prune
