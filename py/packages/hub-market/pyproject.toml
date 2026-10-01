@@ -3,7 +3,12 @@ name = "hub-market"
 version = "0.1.0"
 description = "领域预接线，业务由后续任务实现"
 requires-python = ">=3.14"
-dependencies = ["hub-core", "hub-contracts", "typer>=0.24,<1"]
+dependencies = [
+    "hub-core",
+    "hub-contracts",
+    "typer>=0.24,<1",
+    "polars>=1,<2",
+]
 [project.entry-points."hub.commands"]
 eod = "hub_market.eod.commands:register"
 compare = "hub_market.compare.commands:register"
