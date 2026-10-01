@@ -1988,6 +1988,16 @@ class GraphData(BaseModel):
     cooccurrence: list[PaperConceptCooccurrence]
 
 
+class InsiderTimelineItem(BaseModel):
+    """
+    docs/05 的个股时间线包含内部人交易，保留每笔交易的自然键与事实。
+    """
+
+    kind: Literal["insider"]
+    at: AwareDatetime
+    insiderTrade: InsiderTrade
+
+
 class LimitEcologyRule(BaseModel):
     """
     LimitEcologyRule：市场观测台数据。
@@ -2282,6 +2292,15 @@ class NewsFilingDigest(BaseModel):
     filing: Filing
     digest: str | None
     generatedBy: GeneratedBy | None
+
+
+class NewsFullTimelineItem(
+    RootModel[ArticleTimelineItem | FilingTimelineItem | EarningsTimelineItem | InsiderTimelineItem]
+):
+    root: ArticleTimelineItem | FilingTimelineItem | EarningsTimelineItem | InsiderTimelineItem
+    """
+    新接口使用完整时间线，保留旧接口的返回类型，避免破坏已生成的客户端。
+    """
 
 
 class NewsNewsArticleDigestItem(BaseModel):

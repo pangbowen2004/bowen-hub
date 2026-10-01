@@ -1267,6 +1267,44 @@ paths:
         - SessionCookie: []
         - ServiceToken: []
       x-task: T14
+  /v1/news/tickers/{symbol}/timeline/full:
+    get:
+      operationId: PrivateNews_getFullTimeline
+      description: 完整个股时间线：新闻、公告、内部人交易、财报卡片。旧timeline接口保留。
+      parameters:
+        - name: symbol
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: days
+          in: query
+          required: false
+          schema:
+            type: integer
+            format: int32
+            minimum: 1
+            default: 30
+          explode: false
+      responses:
+        '200':
+          description: The request has succeeded.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/NewsFullTimelineItem'
+        default:
+          description: 错误（application/problem+json，RFC 9457）
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+      security:
+        - SessionCookie: []
+        - ServiceToken: []
+      x-task: T14
   /v1/papers:
     get:
       operationId: PrivatePapers_listPapers
@@ -3842,6 +3880,23 @@ components:
           type: number
           format: double
       description: IndexBar：市场观测台数据。
+    InsiderTimelineItem:
+      type: object
+      required:
+        - kind
+        - at
+        - insiderTrade
+      properties:
+        kind:
+          type: string
+          enum:
+            - insider
+        at:
+          type: string
+          format: date-time
+        insiderTrade:
+          $ref: '#/components/schemas/InsiderTrade'
+      description: docs/05 的个股时间线包含内部人交易，保留每笔交易的自然键与事实。
     InsiderTrade:
       type: object
       required:
@@ -6238,6 +6293,13 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/NewsNewsFilingDigestItem'
+    NewsFullTimelineItem:
+      anyOf:
+        - $ref: '#/components/schemas/ArticleTimelineItem'
+        - $ref: '#/components/schemas/FilingTimelineItem'
+        - $ref: '#/components/schemas/EarningsTimelineItem'
+        - $ref: '#/components/schemas/InsiderTimelineItem'
+      description: 新接口使用完整时间线，保留旧接口的返回类型，避免破坏已生成的客户端。
     NewsInsiderTradeItem:
       type: object
       required:

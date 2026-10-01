@@ -358,6 +358,12 @@ export const ROUTES = [
   },
   {
     "method": "GET",
+    "path": "/v1/news/tickers/:symbol/timeline/full",
+    "operationId": "PrivateNews_getFullTimeline",
+    "task": "T14"
+  },
+  {
+    "method": "GET",
     "path": "/v1/papers/:id",
     "operationId": "PrivatePapers_getPaper",
     "task": "T32"

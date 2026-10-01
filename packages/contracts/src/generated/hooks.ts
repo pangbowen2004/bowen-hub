@@ -55,6 +55,7 @@ import type {
   MarketDayWrite,
   MarketEvent,
   MarketReference,
+  NewsFullTimelineItem,
   NewsSourceHealth,
   NewsTimelineItem,
   Paper,
@@ -71,6 +72,7 @@ import type {
   PaperUploadPatch,
   PaperWrite,
   PapersCatalog,
+  PrivateNewsGetFullTimelineParams,
   PrivateNewsGetTimelineParams,
   PrivateNewsListEditionsParams,
   PrivateNewsListFeedbackParams,
@@ -4730,6 +4732,133 @@ export function usePrivateNewsGetTimeline<TData = Awaited<ReturnType<typeof priv
  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
 
   const queryOptions = getPrivateNewsGetTimelineQueryOptions(symbol,params,options)
+
+  const query = useQuery(queryOptions, queryClient) as  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
+
+  return withQueryKey(query, queryOptions.queryKey);
+}
+
+
+
+
+
+
+
+export const getPrivateNewsGetFullTimelineUrl = (symbol: string,
+    params?: PrivateNewsGetFullTimelineParams,) => {
+  const normalizedParams = new URLSearchParams();
+
+  Object.entries(params || {}).forEach(([key, value]) => {
+
+    if (value !== undefined) {
+      normalizedParams.append(key, value === null ? 'null' : String(value))
+    }
+  });
+
+  const stringifiedParams = normalizedParams.toString();
+
+  return stringifiedParams.length > 0 ? `${getBaseUrl()}/v1/news/tickers/${encodeURIComponent(String(symbol))}/timeline/full?${stringifiedParams}` : `${getBaseUrl()}/v1/news/tickers/${encodeURIComponent(String(symbol))}/timeline/full`
+}
+
+/**
+ * 完整个股时间线：新闻、公告、内部人交易、财报卡片。旧timeline接口保留。
+ */
+export const privateNewsGetFullTimeline = async (symbol: string,
+    params?: PrivateNewsGetFullTimelineParams, options?: RequestInit): Promise<NewsFullTimelineItem[]> => {
+
+  const res = await fetch(getPrivateNewsGetFullTimelineUrl(symbol,params),
+  {
+    ...options,
+    method: 'GET'
+
+
+  }
+)
+
+
+  const body = [204, 205, 304].includes(res.status) ? null : await res.text();
+  if (!res.ok) {
+
+    const err: globalThis.Error & {info?: NewsFullTimelineItem[], status?: number} = new globalThis.Error();
+    const data : NewsFullTimelineItem[] = body ? JSON.parse(body) : {}
+    err.info = data;
+    err.status = res.status;
+    throw err;
+  }
+  const data: NewsFullTimelineItem[] = body ? JSON.parse(body) : {}
+  return data
+}
+
+
+
+
+
+export const getPrivateNewsGetFullTimelineQueryKey = (symbol: string,
+    params?: PrivateNewsGetFullTimelineParams,) => {
+    return [
+    `${getBaseUrl()}/v1/news/tickers/${symbol}/timeline/full`, ...(params ? [params] : [])
+    ] as const;
+    }
+
+
+export const getPrivateNewsGetFullTimelineQueryOptions = <TData = Awaited<ReturnType<typeof privateNewsGetFullTimeline>>, TError = globalThis.Error & { info?: Problem; status?: number }>(symbol: string,
+    params?: PrivateNewsGetFullTimelineParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof privateNewsGetFullTimeline>>, TError, TData>>, fetch?: RequestInit}
+) => {
+
+const {query: queryOptions, fetch: fetchOptions} = options ?? {};
+
+  const queryKey =  queryOptions?.queryKey ?? getPrivateNewsGetFullTimelineQueryKey(symbol,params);
+
+
+
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof privateNewsGetFullTimeline>>> = ({ signal }) => privateNewsGetFullTimeline(symbol,params, { signal, ...fetchOptions });
+
+
+
+
+
+   return  { queryKey, queryFn, enabled: symbol !== null && symbol !== undefined, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof privateNewsGetFullTimeline>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
+}
+
+export type PrivateNewsGetFullTimelineQueryResult = NonNullable<Awaited<ReturnType<typeof privateNewsGetFullTimeline>>>
+export type PrivateNewsGetFullTimelineQueryError = globalThis.Error & { info?: Problem; status?: number }
+
+
+export function usePrivateNewsGetFullTimeline<TData = Awaited<ReturnType<typeof privateNewsGetFullTimeline>>, TError = globalThis.Error & { info?: Problem; status?: number }>(
+ symbol: string,
+    params: undefined |  PrivateNewsGetFullTimelineParams, options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof privateNewsGetFullTimeline>>, TError, TData>> & Pick<
+        DefinedInitialDataOptions<
+          Awaited<ReturnType<typeof privateNewsGetFullTimeline>>,
+          TError,
+          Awaited<ReturnType<typeof privateNewsGetFullTimeline>>
+        > , 'initialData'
+      >, fetch?: RequestInit}
+ , queryClient?: QueryClient
+  ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function usePrivateNewsGetFullTimeline<TData = Awaited<ReturnType<typeof privateNewsGetFullTimeline>>, TError = globalThis.Error & { info?: Problem; status?: number }>(
+ symbol: string,
+    params?: PrivateNewsGetFullTimelineParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof privateNewsGetFullTimeline>>, TError, TData>> & Pick<
+        UndefinedInitialDataOptions<
+          Awaited<ReturnType<typeof privateNewsGetFullTimeline>>,
+          TError,
+          Awaited<ReturnType<typeof privateNewsGetFullTimeline>>
+        > , 'initialData'
+      >, fetch?: RequestInit}
+ , queryClient?: QueryClient
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function usePrivateNewsGetFullTimeline<TData = Awaited<ReturnType<typeof privateNewsGetFullTimeline>>, TError = globalThis.Error & { info?: Problem; status?: number }>(
+ symbol: string,
+    params?: PrivateNewsGetFullTimelineParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof privateNewsGetFullTimeline>>, TError, TData>>, fetch?: RequestInit}
+ , queryClient?: QueryClient
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+
+export function usePrivateNewsGetFullTimeline<TData = Awaited<ReturnType<typeof privateNewsGetFullTimeline>>, TError = globalThis.Error & { info?: Problem; status?: number }>(
+ symbol: string,
+    params?: PrivateNewsGetFullTimelineParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof privateNewsGetFullTimeline>>, TError, TData>>, fetch?: RequestInit}
+ , queryClient?: QueryClient
+ ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
+
+  const queryOptions = getPrivateNewsGetFullTimelineQueryOptions(symbol,params,options)
 
   const query = useQuery(queryOptions, queryClient) as  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
 
