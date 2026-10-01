@@ -1,0 +1,54 @@
+name: deploy-papers
+on:
+  push:
+    branches: [main]
+    paths: ["apps/papers/**", "packages/ui/**", "infra/**", ".github/workflows/deploy-papers.yml"]
+  repository_dispatch:
+    types: [papers-changed]
+  workflow_dispatch:
+    inputs:
+      data_source:
+        type: choice
+        options: [fixtures, api]
+        default: fixtures
+      target:
+        type: choice
+        options: [preview, production]
+        default: preview
+permissions:
+  contents: read
+concurrency:
+  group: deploy-papers
+  cancel-in-progress: true
+jobs:
+  deploy:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    env:
+      CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+      CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+      HUB_API_URL: ${{ secrets.HUB_API_URL }}
+      SITES_LIVE: ${{ vars.SITES_LIVE }}
+      DATA_SOURCE: ${{ github.event_name == 'repository_dispatch' && 'api' || inputs.data_source || 'fixtures' }}
+      TARGET: ${{ github.event_name == 'repository_dispatch' && (vars.SITES_LIVE == 'true' && 'production' || 'preview') || inputs.target || 'preview' }}
+      CLOUDFLARE_LOAD_DEV_VARS_FROM_DOT_ENV: "false"
+    steps:
+      - name: 检出已合并代码
+        uses: actions/checkout@v7
+        with:
+          ref: main
+      - name: 准备工具
+        uses: jdx/mise-action@v5
+        with:
+          version: 2026.9.15
+      - name: 安装冻结依赖
+        run: mise install && mise run setup
+      - name: 派生公开论文
+        if: env.DATA_SOURCE == 'api'
+        env:
+          HUB_SERVICE_TOKEN: ${{ secrets.HUB_SERVICE_TOKEN }}
+        run: mise exec -- uv run --project py hub papers derive
+      - name: 构建公开站
+        run: mise exec -- pnpm --filter @bowen-hub/papers build
+      - name: 发布所选环境
+        run: mise exec -- pnpm --filter @bowen-hub/infra deploy-pages papers "$TARGET"
