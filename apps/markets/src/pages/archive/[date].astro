@@ -1,9 +1,22 @@
 ---
-import Placeholder from "../../layouts/Placeholder.astro";
-import { listDays } from "../../lib/data";
+import DayOverview from "../../components/DayOverview.astro";
+import DirectionsView from "../../components/DirectionsView.astro";
+import { events, hypotheses, hypothesesAsOf, indexBars } from "../../components/data";
+import EvolutionView from "../../components/EvolutionView.astro";
+import IndexChart from "../../components/IndexChart.astro";
+import IndustriesView from "../../components/IndustriesView.astro";
+import MarketPage from "../../components/MarketPage.astro";
+import ValidationView from "../../components/ValidationView.astro";
+import { getDay, listDays } from "../../lib/data";
 export async function getStaticPaths() {
   return (await listDays()).map((row) => ({ params: { date: row.date } }));
 }
-const { date } = Astro.params;
+const day = await getDay(Astro.params.date!);
+const bars = await indexBars(day.date);
+const history = await listDays();
+const calendar = await events();
+const rows = hypothesesAsOf(await hypotheses(), day.date);
 ---
-<Placeholder title="历史详情" lead="历史内容准备中" date={date}/>
+<MarketPage title="历史详情" lead="完整日度状态与当时的证据边界。" day={day}><a href={`/archive/${day.date}.md`}>下载摘要 Markdown →</a><DayOverview day={day}/><div class="archive-block"><IndexChart day={day} bars={bars}/></div><div class="archive-block"><IndustriesView day={day}/></div><div class="archive-block"><DirectionsView day={day}/></div><div class="archive-block"><EvolutionView day={day} history={history} events={calendar}/></div><p class="muted">假设按归档日投影，隐藏之后结算的结果；事件日历为当前维护资料。</p><div class="archive-block"><ValidationView day={day} hypotheses={rows}/></div></MarketPage>
+<style>.archive-block{content-visibility:auto;contain-intrinsic-size:auto 900px}@media print{.archive-block{content-visibility:visible;contain-intrinsic-size:none}}</style>
+<style is:global>@media print{header nav,button,canvas,[data-hypothesis-filter]{display:none!important}main{max-width:none!important;font-size:10pt}section,article,table{break-inside:avoid}.table-wrap{overflow:visible!important}table{font-size:7pt;table-layout:fixed;width:100%!important;min-width:0!important}main table th,main table td{position:static!important;white-space:normal!important;overflow-wrap:anywhere;min-width:0!important;padding:2pt!important}main table th button{display:inline!important;font:inherit;min-height:0;padding:0}main table th button span{display:none!important}details> *{display:block}details::details-content{content-visibility:visible!important;display:block!important;height:auto!important}main details{min-width:0}main details p,main details code,pre{white-space:pre-wrap!important;overflow-wrap:anywhere;overflow:visible!important;max-width:100%}a{color:inherit;text-decoration:none}}</style>

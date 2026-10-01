@@ -1,0 +1,27 @@
+---
+import type { MarketDay } from "@bowen-hub/contracts";
+import { EChart } from "@bowen-hub/ui/charts";
+
+interface Props {
+  day: MarketDay;
+}
+const { day } = Astro.props;
+const option = {
+  tooltip: { trigger: "item" },
+  series: [
+    {
+      type: "treemap",
+      roam: false,
+      nodeClick: false,
+      breadcrumb: { show: false },
+      label: { show: true },
+      data: day.industries.map((x) => ({
+        name: x.name,
+        value: x.amountCny,
+        itemStyle: { color: x.return1d > 0 ? "#bd424a" : x.return1d < 0 ? "#26745b" : "#68706c" },
+      })),
+    },
+  ],
+};
+---
+<section><h2>成交与方向</h2><EChart option={option} types={['treemap']} label="行业成交额热力图" source="面积为成交额；红涨绿跌，精确涨幅与成交额见行业表。" client:visible/></section>

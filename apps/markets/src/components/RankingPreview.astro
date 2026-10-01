@@ -1,0 +1,15 @@
+---
+import type { MarketDay } from "@bowen-hub/contracts";
+import { pct } from "@bowen-hub/ui/format";
+import MarketTable from "./MarketTable.astro";
+
+interface Props {
+  day: MarketDay;
+}
+const { day } = Astro.props;
+const industries = [...day.industries].sort((a, b) => b.return1d - a.return1d);
+const directions = day.directions
+  ? [...day.directions.items].sort((a, b) => b.return1d - a.return1d)
+  : null;
+---
+<section><h2>结构的两端</h2><div class="editorial-grid"><MarketTable caption="行业前五" columns={[{label:'行业'},{label:'等权收益',numeric:true}]} rows={industries.slice(0,5).map(x=>({cells:[x.name,pct(x.return1d)],sort:[x.name,x.return1d]}))}/><MarketTable caption="行业后五" columns={[{label:'行业'},{label:'等权收益',numeric:true}]} rows={industries.slice(-5).reverse().map(x=>({cells:[x.name,pct(x.return1d)],sort:[x.name,x.return1d]}))}/></div>{directions?<div class="editorial-grid"><MarketTable caption="方向前三" columns={[{label:'方向'},{label:'官方收益',numeric:true}]} rows={directions.slice(0,3).map(x=>({cells:[x.name,pct(x.return1d)],sort:[x.name,x.return1d]}))}/><MarketTable caption="方向后三" columns={[{label:'方向'},{label:'官方收益',numeric:true}]} rows={directions.slice(-3).reverse().map(x=>({cells:[x.name,pct(x.return1d)],sort:[x.name,x.return1d]}))}/></div>:<p>方向数据未就绪。</p>}</section>

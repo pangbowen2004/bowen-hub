@@ -1,0 +1,48 @@
+---
+import type { IndexBar, MarketDay } from "@bowen-hub/contracts";
+import { EChart } from "@bowen-hub/ui/charts";
+import { num, pct } from "@bowen-hub/ui/format";
+import MarketTable from "./MarketTable.astro";
+
+interface Props {
+  day: MarketDay;
+  bars: IndexBar[];
+}
+const { day, bars } = Astro.props;
+const shown = bars.slice(-120);
+const ma = (n: number) =>
+  bars
+    .map((_, i) =>
+      i + 1 < n ? null : bars.slice(i + 1 - n, i + 1).reduce((sum, row) => sum + row.close, 0) / n,
+    )
+    .slice(-120);
+const lines = [...(day.technical?.support ?? []), ...(day.technical?.resistance ?? [])];
+const option = {
+  tooltip: { trigger: "axis" },
+  legend: { data: ["上证", "MA5", "MA10", "MA20"] },
+  grid: { left: 56, right: 20, bottom: 64 },
+  xAxis: { type: "category", data: shown.map((x) => x.date) },
+  yAxis: { type: "value", scale: true },
+  dataZoom: [{ type: "inside" }, { type: "slider", bottom: 8 }],
+  series: [
+    {
+      name: "上证",
+      type: "candlestick",
+      data: shown.map((x) => [x.open, x.close, x.low, x.high]),
+      markLine: {
+        symbol: ["none", "none"],
+        lineStyle: { type: "dashed" },
+        data: lines.map((x) => ({ name: x.label, yAxis: x.value, label: { formatter: x.label } })),
+      },
+    },
+    ...[5, 10, 20].map((n) => ({
+      name: `MA${n}`,
+      type: "line",
+      data: ma(n),
+      showSymbol: false,
+      smooth: false,
+    })),
+  ],
+};
+---
+<section><h2>上证 K 线</h2>{bars.length<139 && <p class="muted">该日期仅取得 {bars.length} 根历史日线，未覆盖120个交易日及全部均线预热区间；不足的均线留空。当前接口只提供最近250根，较早档案不补造日线。</p>}<EChart option={option} label="上证指数最近120个交易日K线与均线" source="TuShare指数日线；红涨绿跌。均线需要足够历史，不足则不显示。" types={['candlestick','line']} client:visible/><details><summary>查看原始日线表</summary><MarketTable caption="指数日线" columns={['日期','开盘','最高','最低','收盘','日收益'].map((label,i)=>({label,numeric:i>0}))} rows={shown.map(x=>({cells:[x.date,num(x.open,2),num(x.high,2),num(x.low,2),num(x.close,2),pct(x.return1d)],sort:[x.date,x.open,x.high,x.low,x.close,x.return1d]}))}/></details></section>

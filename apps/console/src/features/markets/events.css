@@ -1,0 +1,27 @@
+.events-editor {
+  display: grid;
+  gap: 1.2rem;
+  max-width: 720px;
+  padding-block: 1.5rem;
+  border-block: 1px solid var(--border);
+}
+.events-editor label {
+  display: grid;
+  gap: 0.5rem;
+}
+.events-editor textarea,
+.events-editor select {
+  width: 100%;
+  font: inherit;
+  color: var(--text);
+  background: var(--bg);
+  border: 1px solid var(--border);
+  padding: 0.65rem;
+  min-height: 44px;
+}
+.events-editor textarea {
+  resize: vertical;
+}
+.events-editor .row {
+  flex-wrap: wrap;
+}

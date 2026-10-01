@@ -1,7 +1,10 @@
 ---
-import Placeholder from "../../layouts/Placeholder.astro";
-import { listDays } from "../../lib/data";
+import { cny, pct } from "@bowen-hub/ui/format";
+import MarketPage from "../../components/MarketPage.astro";
+import { getDay, listDays } from "../../lib/data";
 
+const day = await getDay();
 const rows = await listDays();
 ---
-<Placeholder title="历史" lead="历史列表"><ul>{rows.map(row=><li><a href={`/archive/${row.date}/`}>{row.date} · {row.headline}</a></li>)}</ul></Placeholder>
+<MarketPage title="历史" lead="保留每一天，也保留当时的证据边界。" day={day}><ol class="history">{rows.map(row=><li><p class="eyebrow">{row.date} · 温度 {row.temperature}</p><h2><a href={`/archive/${row.date}/`}>{row.headline}</a></h2><p>{row.advanceCount} 家上涨 · {row.declineCount} 家下跌 · 覆盖 {pct(row.advanceShare)} · 成交 {cny(row.turnoverCny)}</p><a href={`/archive/${row.date}.md`}>Markdown →</a></li>)}</ol></MarketPage>
+<style>.history{list-style:none;padding:0}.history li{padding-block:1.5rem;border-top:1px solid var(--border)}</style>

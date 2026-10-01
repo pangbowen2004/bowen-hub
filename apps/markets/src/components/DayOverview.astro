@@ -1,0 +1,42 @@
+---
+import type { MarketDay } from "@bowen-hub/contracts";
+import ScoreBreakdown from "@bowen-hub/ui/astro/ScoreBreakdown";
+import { cny, num, pct } from "@bowen-hub/ui/format";
+import { getReference } from "../lib/data";
+import MarketTable from "./MarketTable.astro";
+
+interface Props {
+  day: MarketDay;
+}
+const { day } = Astro.props;
+const reference = await getReference();
+const temperatureMetric = reference.metrics.find((metric) => metric.id === "score.temperature");
+const m = day.market,
+  e = day.limitEcology;
+const names: Record<string, string> = {
+  breadth: "广度",
+  trend: "趋势",
+  limitEcology: "涨跌停生态",
+  liquidity: "量能",
+  positiveIndices: "指数",
+};
+const max: Record<string, number> = {
+  breadth: 35,
+  trend: 20,
+  limitEcology: 15,
+  liquidity: 15,
+  positiveIndices: 15,
+};
+const formats = (x: unknown) => (typeof x === "number" ? num(x, 2) : JSON.stringify(x));
+---
+<section class="editorial-lead"><p class="eyebrow">收盘观察 · {day.date}</p><h2 class="editorial-title">{day.summary.headline}</h2><p>{day.summary.text}</p><p class="muted">{day.summary.tags.join(' · ')}</p><div class="editorial-grid"><div><h3>支持证据</h3><p>{day.summary.support}</p></div><div><h3>反证与边界</h3><p>{day.summary.counterEvidence}</p></div></div></section>
+<section aria-labelledby="key-numbers"><h2 id="key-numbers">把市场拆成可核对的数字</h2><dl class="numbers">{[
+['成交额',cny(m.turnoverCny)],['成交环比',m.turnoverChange==null?'—':pct(m.turnoverChange)],['上涨 / 下跌 / 平盘',`${m.advanceCount} / ${m.declineCount} / ${m.flatCount}`],['上涨覆盖',pct(m.advanceShare,{sign:false})],['中位涨幅',pct(m.medianReturn1d)],['MA20上方',pct(m.aboveMa20Share,{sign:false})],['20日新高 / 新低',`${m.newHigh20Count} / ${m.newLow20Count}`],['涨停 / 跌停',`${e.limitUpCount} / ${e.limitDownCount}`],['触板 / 未封',`${e.touchedCount} / ${e.failedCount}`],['封板率',e.sealRate==null?'—':pct(e.sealRate,{sign:false})],['最高连板',`${e.maxBoardHeight} 板`]
+].map(([label,value])=><div><dt>{label}</dt><dd>{value}</dd></div>)}</dl></section>
+<div class="editorial-grid"><ScoreBreakdown title="收盘温度" score={day.temperature.value} items={Object.entries(day.temperature.parts).map(([key,value])=>({label:names[key]??key,value,max:max[key],formula:temperatureMetric?.formula,input:JSON.stringify({market:day.market,limitEcology:day.limitEcology,indices:day.indices.map(x=>({name:x.name,return1d:x.return1d}))})}))}/><ScoreBreakdown title="情绪九维" score={day.sentiment.value} items={day.sentiment.dimensions.map(row=>({label:row.label,value:row.score,max:row.weight,input:formats(row.input)+' '+row.unit,formula:row.formula}))}/></div>
+<p class="muted">{day.temperature.boundary} {day.sentiment.boundary}</p>
+<MarketTable caption="六个指数" columns={[{label:'指数'},{label:'收盘',numeric:true},{label:'当日收益',numeric:true},{label:'成交额',numeric:true}]} rows={day.indices.map(row=>({cells:[row.name,num(row.close,2),pct(row.return1d),cny(row.amountCny)],sort:[row.name,row.close,row.return1d,row.amountCny]}))}/>
+<MarketTable caption="市场风格分布" columns={[{label:'状态'},{label:'家数',numeric:true},{label:'占比',numeric:true},{label:'平均收益',numeric:true},{label:'中位收益',numeric:true}]} rows={day.style.groups.map(row=>({cells:[row.name,row.count,pct(row.share,{sign:false}),pct(row.meanReturn1d),pct(row.medianReturn1d)],sort:[row.name,row.count,row.share,row.meanReturn1d,row.medianReturn1d]}))}/>
+<section><h2>三项风险</h2><div class="editorial-grid">{day.summary.risks.map(row=><article><h3>{row.title}</h3><p>{row.text}</p></article>)}</div><h2>下一交易日，验证什么</h2>{day.summary.nextValidations.map(row=><details><summary>{row.title}</summary><p>{row.text}</p></details>)}</section>
+{day.technical && <section><h2>上证技术位</h2><p>收盘 {num(day.technical.close,2)} · MA5 {num(day.technical.ma5,2)} · MA10 {num(day.technical.ma10,2)} · MA20 {num(day.technical.ma20,2)}</p><p>{day.technical.confirmationRule}</p><p>当前条件：{day.technical.confirmationNow?'已满足':'尚未满足'}</p><p>支撑：{day.technical.support.map(x=>`${x.label} ${num(x.value,2)}`).join(' · ')}；压力：{day.technical.resistance.map(x=>`${x.label} ${num(x.value,2)}`).join(' · ')}</p></section>}
+<style>.numbers{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:1.5rem;border-block:1px solid var(--border);padding-block:1.5rem}.numbers dt{color:var(--muted);font-size:.85rem}.numbers dd{margin:0;font-size:1.3rem;font-variant-numeric:tabular-nums}.editorial-lead{padding-block:1rem 2rem}details{border-bottom:1px solid var(--border);padding:1rem 0}summary{cursor:pointer;font-weight:600}</style>

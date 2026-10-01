@@ -1,7 +1,14 @@
 ---
-import Placeholder from "../layouts/Placeholder.astro";
-import { getReference } from "../lib/data";
+import MarketPage from "../components/MarketPage.astro";
+import MarketTable from "../components/MarketTable.astro";
+import { getDay, getReference } from "../lib/data";
 
+const day = await getDay();
 const reference = await getReference();
 ---
-<Placeholder title="方法与口径" lead="每一个数字，都要能回到定义和来源。"><p>样例已加载 {reference.metrics.length} 项指标说明。</p></Placeholder>
+<MarketPage title="方法与口径" lead="每个数字，都能回到定义、公式和来源。" day={day}>
+<section><h2>指标说明</h2>{reference.metrics.map(metric=><details id={metric.id}><summary>{metric.label} · {metric.group}</summary><p>{metric.definition}</p><pre>{metric.formula}</pre><p>单位：{metric.unit} · 来源：{metric.source}</p></details>)}</section>
+<MarketTable caption="数据源与接口" columns={[{label:'来源'},{label:'接口'},{label:'用途'},{label:'要求'}]} rows={reference.sources.map(row=>({cells:[row.source,row.api,row.usage,row.optional?'可选':'核心']}))}/>
+<section><h2>做不到的事</h2><ul>{reference.limitations.map(text=><li>{text}</li>)}</ul><h2>边界</h2><p>{reference.disclaimer}</p></section>
+</MarketPage>
+<style>details{padding:1rem 0;border-bottom:1px solid var(--border)}summary{cursor:pointer;min-height:44px}pre{white-space:pre-wrap;overflow-wrap:anywhere}</style>
