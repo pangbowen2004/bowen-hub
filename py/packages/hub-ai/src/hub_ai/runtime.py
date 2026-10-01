@@ -285,7 +285,7 @@ class Runtime:
             prompt,
             output_model,
             cap["limits"]["maxInputTokens"],
-            512,
+            self.registry.llm["defaults"].get("judgeMaxOutputTokens", 4096),
             cap["limits"]["timeoutSec"],
         )
         start = time.monotonic()
