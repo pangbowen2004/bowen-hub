@@ -1,8 +1,35 @@
-// 内部接口 /v1/internal 下的市场接口（docs/08 第 5.1 节，x-task T23）。
-// 由 T01 的对应分段填写（约定见 contracts/README.md）：只写操作，不声明具名模型；每个操作标 @task("T23")。
+// 市场接口：docs/08 第 5.1 节。
 import "@typespec/http";
 import "../../http.tsp";
-
 using Http;
-
 namespace BowenHub.Routes.Internal.InternalMarkets;
+
+/** putDay：市场数据接口。 */
+@task("T23")
+@put
+@route("/markets/days/{date}")
+op putDay(@path date: Date, @body body: MarketDayWrite): NoContentResponse | HubHttp.ErrorResponse;
+
+/** putHypotheses：市场数据接口。 */
+@task("T23")
+@post
+@route("/markets/hypotheses/batch")
+op putHypotheses(@body body: Hypothesis[]): NoContentResponse | HubHttp.ErrorResponse;
+
+/** putWeekly：市场数据接口。 */
+@task("T23")
+@put
+@route("/markets/weeklies/{date}")
+op putWeekly(@path date: Date, @body body: WeeklyReport): NoContentResponse | HubHttp.ErrorResponse;
+
+/** putEvents：市场数据接口。 */
+@task("T23")
+@post
+@route("/markets/events/batch")
+op putEvents(@body body: MarketEvent[]): NoContentResponse | HubHttp.ErrorResponse;
+
+/** putIndexBars：市场数据接口。 */
+@task("T23")
+@put
+@route("/markets/indices/{code}/bars")
+op putIndexBars(@path code: string, @body body: IndexBar[]): NoContentResponse | HubHttp.ErrorResponse;

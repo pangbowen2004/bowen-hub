@@ -1,0 +1,4584 @@
+{
+  "schemaVersion": 1,
+  "date": "2026-08-27",
+  "previousDate": "2026-08-26",
+  "generatedAt": "2026-08-27T23:02:47+08:00",
+  "dataStatus": {
+    "complete": false,
+    "missing": [
+      "moneyflow"
+    ]
+  },
+  "indices": [
+    {
+      "code": "000001.SH",
+      "name": "上证指数",
+      "close": 3956.571,
+      "return1d": 0.011257999999999999,
+      "amountCny": 1010226573954.6
+    },
+    {
+      "code": "000688.SH",
+      "name": "科创50",
+      "close": 1693.4796,
+      "return1d": 0.037659,
+      "amountCny": 101783285788.0
+    },
+    {
+      "code": "399001.SZ",
+      "name": "深证成指",
+      "close": 14048.8758,
+      "return1d": 0.014995000000000001,
+      "amountCny": 606028215964.77
+    },
+    {
+      "code": "399006.SZ",
+      "name": "创业板指",
+      "close": 3473.3547,
+      "return1d": 0.017123,
+      "amountCny": 236064367842.06
+    },
+    {
+      "code": "000852.SH",
+      "name": "中证1000",
+      "close": 7732.9452,
+      "return1d": 0.024954999999999998,
+      "amountCny": 460126867803.0
+    },
+    {
+      "code": "399303.SZ",
+      "name": "国证2000",
+      "close": 10073.1039,
+      "return1d": 0.023968,
+      "amountCny": 647604982372.92
+    }
+  ],
+  "market": {
+    "sampleCount": 5547,
+    "advanceCount": 3394,
+    "declineCount": 1944,
+    "flatCount": 209,
+    "advanceShare": 0.6118622678925545,
+    "medianReturn1d": 0.0052910000000000006,
+    "aboveMa20Share": 0.5801334054443843,
+    "newHigh20Count": 640,
+    "newLow20Count": 144,
+    "turnoverCny": 2140959919627,
+    "medianTurnoverRate": 0.018813,
+    "medianPeTtm": 40.8783,
+    "medianPb": 2.6818,
+    "totalMarketCapCny": 130982342398181,
+    "turnoverPrevCny": 1900000000000,
+    "turnoverChange": 0.12682101033000004,
+    "turnoverMedian20Cny": 2282017121527.392
+  },
+  "temperature": {
+    "value": 77.3,
+    "version": "transparent-close-v1",
+    "boundary": "透明收盘状态合成，不是概率、仓位或交易信号。",
+    "parts": {
+      "breadth": 21.42,
+      "trend": 11.6,
+      "limitEcology": 14.27,
+      "liquidity": 15.0,
+      "positiveIndices": 15.0
+    }
+  },
+  "sentiment": {
+    "value": 82.6,
+    "version": "transparent-ecology-v2",
+    "dimensions": [
+      {
+        "key": "limitHeight",
+        "label": "连板高度",
+        "weight": 15,
+        "input": 6,
+        "unit": "板",
+        "score": 12.86,
+        "formula": "min(最高连板/7, 1) × 15"
+      },
+      {
+        "key": "limitUpCount",
+        "label": "涨停家数",
+        "weight": 12,
+        "input": 78,
+        "unit": "家",
+        "score": 9.36,
+        "formula": "min(涨停家数/100, 1) × 12"
+      },
+      {
+        "key": "sealRate",
+        "label": "封板成功率",
+        "weight": 12,
+        "input": 0.7878787878787878,
+        "unit": "比例",
+        "score": 11.12,
+        "formula": "min(封板率/85%, 1) × 12"
+      },
+      {
+        "key": "advancementRate",
+        "label": "前日晋级率",
+        "weight": 12,
+        "input": 0.2857142857142857,
+        "unit": "比例",
+        "score": 11.43,
+        "formula": "min(前日涨停今日继续封板率/30%, 1) × 12"
+      },
+      {
+        "key": "previousLimitPremium",
+        "label": "前日涨停溢价",
+        "weight": 12,
+        "input": 0.030168839285714285,
+        "unit": "收益率",
+        "score": 12.0,
+        "formula": "clip((前日涨停组今日均值+2%)/5%, 0, 1) × 12"
+      },
+      {
+        "key": "lossEffect",
+        "label": "亏钱效应",
+        "weight": 9,
+        "input": {
+          "limitDown": 4,
+          "largeLoss": 12
+        },
+        "unit": "家",
+        "score": 5.4,
+        "formula": "(1-min(跌停/10,1))×4.5 + (1-min(跌逾7%/30,1))×4.5"
+      },
+      {
+        "key": "breadth",
+        "label": "上涨广度",
+        "weight": 9,
+        "input": 0.6118622678925545,
+        "unit": "比例",
+        "score": 9.0,
+        "formula": "min(上涨覆盖/60%, 1) × 9"
+      },
+      {
+        "key": "upDownBalance",
+        "label": "涨跌停对比",
+        "weight": 9,
+        "input": {
+          "limitUp": 78,
+          "limitDown": 4
+        },
+        "unit": "家",
+        "score": 6.64,
+        "formula": "min(涨停/80,1)×4.5 + (1-min(跌停/8,1))×4.5"
+      },
+      {
+        "key": "turnover",
+        "label": "市场量能",
+        "weight": 10,
+        "input": 0.9381874918598418,
+        "unit": "近20日中位倍数",
+        "score": 4.76,
+        "formula": "clip((成交额/近20日中位-0.7)/0.5, 0, 1) × 10"
+      }
+    ],
+    "boundary": "九维收盘生态的透明状态合成；权重、输入与公式全部公开，不是概率、仓位或交易信号。"
+  },
+  "style": {
+    "version": "transparent-style-v1",
+    "groups": [
+      {
+        "name": "高位加速",
+        "count": 413,
+        "share": 0.07445466017667207,
+        "meanReturn1d": 0.07080133898305085,
+        "medianReturn1d": 0.062050999999999995
+      },
+      {
+        "name": "趋势延续",
+        "count": 785,
+        "share": 0.14151793762394088,
+        "meanReturn1d": 0.021639929936305733,
+        "medianReturn1d": 0.016336
+      },
+      {
+        "name": "低位修复",
+        "count": 1251,
+        "share": 0.22552731206057328,
+        "meanReturn1d": 0.015874857713828936,
+        "medianReturn1d": 0.011663
+      },
+      {
+        "name": "中间状态",
+        "count": 3098,
+        "share": 0.5585000901388137,
+        "meanReturn1d": -6.874661071659131e-05,
+        "medianReturn1d": -0.0031325
+      }
+    ],
+    "trendStrongShare": 0.21597259780061295
+  },
+  "limitEcology": {
+    "limitUpCount": 78,
+    "limitDownCount": 4,
+    "sealRate": 0.7878787878787878,
+    "maxBoardHeight": 6,
+    "firstBoardCount": 62,
+    "multiBoardCount": 16,
+    "previousLimitUpCount": 56,
+    "advancementCount": 16,
+    "advancementRate": 0.2857142857142857,
+    "previousLimitPremium": 0.030168839285714285,
+    "largeLoss7Count": 12,
+    "heightDistribution": [
+      {
+        "height": 6,
+        "count": 1,
+        "names": [
+          "深中华A"
+        ]
+      },
+      {
+        "height": 5,
+        "count": 1,
+        "names": [
+          "楚天龙"
+        ]
+      },
+      {
+        "height": 4,
+        "count": 1,
+        "names": [
+          "海鸥住工"
+        ]
+      },
+      {
+        "height": 3,
+        "count": 5,
+        "names": [
+          "康盛股份",
+          "青山纸业",
+          "万向德农",
+          "冀衡医药",
+          "捷荣技术"
+        ]
+      },
+      {
+        "height": 2,
+        "count": 8,
+        "names": [
+          "杭电股份",
+          "湘财股份",
+          "千金药业",
+          "郴电国际",
+          "凯瑞德",
+          "锦龙股份",
+          "法尔胜",
+          "新农股份"
+        ]
+      },
+      {
+        "height": 1,
+        "count": 62,
+        "names": [
+          "德明利",
+          "长飞光纤",
+          "东材科技",
+          "联瑞新材",
+          "天通股份",
+          "金安国纪",
+          "飞龙股份",
+          "星网锐捷"
+        ]
+      }
+    ],
+    "industryClusters": [
+      {
+        "industry": "电子",
+        "count": 12,
+        "maxBoardHeight": 3,
+        "names": [
+          "捷荣技术",
+          "德明利",
+          "天通股份",
+          "金安国纪",
+          "赛微电子",
+          "先导基电"
+        ]
+      },
+      {
+        "industry": "基础化工",
+        "count": 10,
+        "maxBoardHeight": 2,
+        "names": [
+          "新农股份",
+          "东材科技",
+          "联瑞新材",
+          "昊华科技",
+          "石英股份",
+          "肯特股份"
+        ]
+      },
+      {
+        "industry": "农林牧渔",
+        "count": 7,
+        "maxBoardHeight": 3,
+        "names": [
+          "万向德农",
+          "平潭发展",
+          "金健米业",
+          "亚盛集团",
+          "新农开发",
+          "道道全"
+        ]
+      },
+      {
+        "industry": "机械设备",
+        "count": 6,
+        "maxBoardHeight": 1,
+        "names": [
+          "江钨装备",
+          "合锻智能",
+          "海鸥股份",
+          "英特科技",
+          "凯迪股份",
+          "花溪科技"
+        ]
+      },
+      {
+        "industry": "通信",
+        "count": 5,
+        "maxBoardHeight": 5,
+        "names": [
+          "楚天龙",
+          "长飞光纤",
+          "星网锐捷",
+          "长江通信",
+          "汇源通信"
+        ]
+      },
+      {
+        "industry": "医药生物",
+        "count": 4,
+        "maxBoardHeight": 3,
+        "names": [
+          "冀衡医药",
+          "千金药业",
+          "百花医药",
+          "神奇制药"
+        ]
+      },
+      {
+        "industry": "汽车",
+        "count": 4,
+        "maxBoardHeight": 1,
+        "names": [
+          "飞龙股份",
+          "中国重汽",
+          "美湖股份",
+          "成飞集成"
+        ]
+      },
+      {
+        "industry": "有色金属",
+        "count": 3,
+        "maxBoardHeight": 1,
+        "names": [
+          "东方钽业",
+          "和胜股份",
+          "湖南黄金"
+        ]
+      },
+      {
+        "industry": "电力设备",
+        "count": 3,
+        "maxBoardHeight": 2,
+        "names": [
+          "杭电股份",
+          "华盛昌",
+          "日丰股份"
+        ]
+      },
+      {
+        "industry": "非银金融",
+        "count": 3,
+        "maxBoardHeight": 2,
+        "names": [
+          "湘财股份",
+          "锦龙股份",
+          "南华期货"
+        ]
+      },
+      {
+        "industry": "国防军工",
+        "count": 2,
+        "maxBoardHeight": 1,
+        "names": [
+          "甘化科工",
+          "立航科技"
+        ]
+      },
+      {
+        "industry": "建筑装饰",
+        "count": 2,
+        "maxBoardHeight": 1,
+        "names": [
+          "恒尚节能",
+          "成都路桥"
+        ]
+      },
+      {
+        "industry": "房地产",
+        "count": 2,
+        "maxBoardHeight": 1,
+        "names": [
+          "香江控股",
+          "京投发展"
+        ]
+      },
+      {
+        "industry": "纺织服饰",
+        "count": 2,
+        "maxBoardHeight": 6,
+        "names": [
+          "深中华A",
+          "莱绅通灵"
+        ]
+      },
+      {
+        "industry": "计算机",
+        "count": 2,
+        "maxBoardHeight": 1,
+        "names": [
+          "汇金股份",
+          "中安科"
+        ]
+      },
+      {
+        "industry": "轻工制造",
+        "count": 2,
+        "maxBoardHeight": 4,
+        "names": [
+          "海鸥住工",
+          "青山纸业"
+        ]
+      },
+      {
+        "industry": "食品饮料",
+        "count": 2,
+        "maxBoardHeight": 1,
+        "names": [
+          "金字火腿",
+          "五芳斋"
+        ]
+      },
+      {
+        "industry": "元器件",
+        "count": 1,
+        "maxBoardHeight": 1,
+        "names": [
+          "嘉立创"
+        ]
+      },
+      {
+        "industry": "公用事业",
+        "count": 1,
+        "maxBoardHeight": 2,
+        "names": [
+          "郴电国际"
+        ]
+      },
+      {
+        "industry": "商贸零售",
+        "count": 1,
+        "maxBoardHeight": 2,
+        "names": [
+          "凯瑞德"
+        ]
+      },
+      {
+        "industry": "家用电器",
+        "count": 1,
+        "maxBoardHeight": 3,
+        "names": [
+          "康盛股份"
+        ]
+      },
+      {
+        "industry": "环保",
+        "count": 1,
+        "maxBoardHeight": 2,
+        "names": [
+          "法尔胜"
+        ]
+      },
+      {
+        "industry": "石油石化",
+        "count": 1,
+        "maxBoardHeight": 1,
+        "names": [
+          "桐昆股份"
+        ]
+      },
+      {
+        "industry": "社会服务",
+        "count": 1,
+        "maxBoardHeight": 1,
+        "names": [
+          "*ST高科"
+        ]
+      }
+    ],
+    "progression": [
+      {
+        "code": "000017.SZ",
+        "name": "深中华A",
+        "industry": "纺织服饰",
+        "return1d": 0.10042299999999998,
+        "boardHeight": 6,
+        "amountCny": 605589528,
+        "board": "主板",
+        "limitDetail": {
+          "type": "U",
+          "firstTime": "93224",
+          "lastTime": "93536",
+          "openTimes": 2,
+          "upStat": "6/6",
+          "limitTimes": 6,
+          "sealedAmountCny": 45440691.0
+        },
+        "previousBoardHeight": 5,
+        "progressionState": "连续晋级"
+      },
+      {
+        "code": "003040.SZ",
+        "name": "楚天龙",
+        "industry": "通信",
+        "return1d": 0.099824,
+        "boardHeight": 5,
+        "amountCny": 1759884206,
+        "board": "主板",
+        "limitDetail": {
+          "type": "U",
+          "firstTime": "93048",
+          "lastTime": "131809",
+          "openTimes": 19,
+          "upStat": "5/5",
+          "limitTimes": 5,
+          "sealedAmountCny": 38151137.0
+        },
+        "previousBoardHeight": 4,
+        "progressionState": "连续晋级"
+      },
+      {
+        "code": "002084.SZ",
+        "name": "海鸥住工",
+        "industry": "轻工制造",
+        "return1d": 0.10020899999999999,
+        "boardHeight": 4,
+        "amountCny": 27643695,
+        "board": "主板",
+        "limitDetail": {
+          "type": "U",
+          "firstTime": "92500",
+          "lastTime": "92500",
+          "openTimes": 0,
+          "upStat": "4/4",
+          "limitTimes": 4,
+          "sealedAmountCny": 329225563.0
+        },
+        "previousBoardHeight": 3,
+        "progressionState": "连续晋级"
+      },
+      {
+        "code": "002418.SZ",
+        "name": "康盛股份",
+        "industry": "家用电器",
+        "return1d": 0.100897,
+        "boardHeight": 3,
+        "amountCny": 1227785884,
+        "board": "主板",
+        "limitDetail": {
+          "type": "U",
+          "firstTime": "93415",
+          "lastTime": "94642",
+          "openTimes": 2,
+          "upStat": "3/3",
+          "limitTimes": 3,
+          "sealedAmountCny": 86280007.0
+        },
+        "previousBoardHeight": 2,
+        "progressionState": "连续晋级"
+      },
+      {
+        "code": "600103.SH",
+        "name": "青山纸业",
+        "industry": "轻工制造",
+        "return1d": 0.100865,
+        "boardHeight": 3,
+        "amountCny": 507382958,
+        "board": "主板",
+        "limitDetail": {
+          "type": "U",
+          "firstTime": "93033",
+          "lastTime": "93033",
+          "openTimes": 0,
+          "upStat": "3/3",
+          "limitTimes": 3,
+          "sealedAmountCny": 307811504.0
+        },
+        "previousBoardHeight": 2,
+        "progressionState": "连续晋级"
+      },
+      {
+        "code": "600371.SH",
+        "name": "万向德农",
+        "industry": "农林牧渔",
+        "return1d": 0.099581,
+        "boardHeight": 3,
+        "amountCny": 169885569,
+        "board": "主板",
+        "limitDetail": {
+          "type": "U",
+          "firstTime": "93006",
+          "lastTime": "93006",
+          "openTimes": 0,
+          "upStat": "5/8",
+          "limitTimes": 3,
+          "sealedAmountCny": 204232474.0
+        },
+        "previousBoardHeight": 2,
+        "progressionState": "连续晋级"
+      },
+      {
+        "code": "002742.SZ",
+        "name": "冀衡医药",
+        "industry": "医药生物",
+        "return1d": 0.10097099999999999,
+        "boardHeight": 3,
+        "amountCny": 56422737,
+        "board": "主板",
+        "limitDetail": {
+          "type": "U",
+          "firstTime": "92500",
+          "lastTime": "92500",
+          "openTimes": 0,
+          "upStat": "3/3",
+          "limitTimes": 3,
+          "sealedAmountCny": 168347970.0
+        },
+        "previousBoardHeight": 2,
+        "progressionState": "连续晋级"
+      },
+      {
+        "code": "002855.SZ",
+        "name": "捷荣技术",
+        "industry": "电子",
+        "return1d": 0.1,
+        "boardHeight": 3,
+        "amountCny": 18861601,
+        "board": "主板",
+        "limitDetail": {
+          "type": "U",
+          "firstTime": "92500",
+          "lastTime": "92500",
+          "openTimes": 0,
+          "upStat": "3/3",
+          "limitTimes": 3,
+          "sealedAmountCny": 92996970.0
+        },
+        "previousBoardHeight": 2,
+        "progressionState": "连续晋级"
+      },
+      {
+        "code": "603618.SH",
+        "name": "杭电股份",
+        "industry": "电力设备",
+        "return1d": 0.099937,
+        "boardHeight": 2,
+        "amountCny": 2296869925,
+        "board": "主板",
+        "limitDetail": {
+          "type": "U",
+          "firstTime": "93513",
+          "lastTime": "93528",
+          "openTimes": 1,
+          "upStat": "2/2",
+          "limitTimes": 2,
+          "sealedAmountCny": 347233967.0
+        },
+        "previousBoardHeight": 1,
+        "progressionState": "连续晋级"
+      },
+      {
+        "code": "600095.SH",
+        "name": "湘财股份",
+        "industry": "非银金融",
+        "return1d": 0.10034599999999999,
+        "boardHeight": 2,
+        "amountCny": 1916435926,
+        "board": "主板",
+        "limitDetail": {
+          "type": "U",
+          "firstTime": "93941",
+          "lastTime": "130241",
+          "openTimes": 10,
+          "upStat": "2/2",
+          "limitTimes": 2,
+          "sealedAmountCny": 65334690.0
+        },
+        "previousBoardHeight": 1,
+        "progressionState": "连续晋级"
+      },
+      {
+        "code": "600479.SH",
+        "name": "千金药业",
+        "industry": "医药生物",
+        "return1d": 0.09981899999999999,
+        "boardHeight": 2,
+        "amountCny": 1300882233,
+        "board": "主板",
+        "limitDetail": {
+          "type": "U",
+          "firstTime": "93130",
+          "lastTime": "132045",
+          "openTimes": 7,
+          "upStat": "2/2",
+          "limitTimes": 2,
+          "sealedAmountCny": 36494459.0
+        },
+        "previousBoardHeight": 1,
+        "progressionState": "连续晋级"
+      },
+      {
+        "code": "600969.SH",
+        "name": "郴电国际",
+        "industry": "公用事业",
+        "return1d": 0.1,
+        "boardHeight": 2,
+        "amountCny": 367645166,
+        "board": "主板",
+        "limitDetail": {
+          "type": "U",
+          "firstTime": "100924",
+          "lastTime": "100954",
+          "openTimes": 1,
+          "upStat": "2/2",
+          "limitTimes": 2,
+          "sealedAmountCny": 18546242.0
+        },
+        "previousBoardHeight": 1,
+        "progressionState": "连续晋级"
+      },
+      {
+        "code": "002072.SZ",
+        "name": "凯瑞德",
+        "industry": "商贸零售",
+        "return1d": 0.10012399999999999,
+        "boardHeight": 2,
+        "amountCny": 361420293,
+        "board": "主板",
+        "limitDetail": {
+          "type": "U",
+          "firstTime": "93427",
+          "lastTime": "100648",
+          "openTimes": 4,
+          "upStat": "2/2",
+          "limitTimes": 2,
+          "sealedAmountCny": 38225491.0
+        },
+        "previousBoardHeight": 1,
+        "progressionState": "连续晋级"
+      },
+      {
+        "code": "000712.SZ",
+        "name": "锦龙股份",
+        "industry": "非银金融",
+        "return1d": 0.10051299999999999,
+        "boardHeight": 2,
+        "amountCny": 158057696,
+        "board": "主板",
+        "limitDetail": {
+          "type": "U",
+          "firstTime": "92500",
+          "lastTime": "92500",
+          "openTimes": 0,
+          "upStat": "2/2",
+          "limitTimes": 2,
+          "sealedAmountCny": 220685551.0
+        },
+        "previousBoardHeight": 1,
+        "progressionState": "连续晋级"
+      },
+      {
+        "code": "000890.SZ",
+        "name": "法尔胜",
+        "industry": "环保",
+        "return1d": 0.100251,
+        "boardHeight": 2,
+        "amountCny": 132042068,
+        "board": "主板",
+        "limitDetail": {
+          "type": "U",
+          "firstTime": "93009",
+          "lastTime": "93009",
+          "openTimes": 0,
+          "upStat": "2/2",
+          "limitTimes": 2,
+          "sealedAmountCny": 98898798.0
+        },
+        "previousBoardHeight": 1,
+        "progressionState": "连续晋级"
+      },
+      {
+        "code": "002942.SZ",
+        "name": "新农股份",
+        "industry": "基础化工",
+        "return1d": 0.100116,
+        "boardHeight": 2,
+        "amountCny": 42953665,
+        "board": "主板",
+        "limitDetail": {
+          "type": "U",
+          "firstTime": "92500",
+          "lastTime": "92500",
+          "openTimes": 0,
+          "upStat": "2/2",
+          "limitTimes": 2,
+          "sealedAmountCny": 356469246.0
+        },
+        "previousBoardHeight": 1,
+        "progressionState": "连续晋级"
+      },
+      {
+        "code": "001309.SZ",
+        "name": "德明利",
+        "industry": "电子",
+        "return1d": 0.100003,
+        "boardHeight": 1,
+        "amountCny": 8762050141,
+        "board": "主板",
+        "limitDetail": {
+          "type": "U",
+          "firstTime": "143024",
+          "lastTime": "143433",
+          "openTimes": 1,
+          "upStat": "1/1",
+          "limitTimes": 1,
+          "sealedAmountCny": 172055705.0
+        },
+        "previousBoardHeight": 0,
+        "progressionState": "首板建立"
+      },
+      {
+        "code": "601869.SH",
+        "name": "长飞光纤",
+        "industry": "通信",
+        "return1d": 0.099995,
+        "boardHeight": 1,
+        "amountCny": 6145393362,
+        "board": "主板",
+        "limitDetail": {
+          "type": "U",
+          "firstTime": "94919",
+          "lastTime": "102555",
+          "openTimes": 1,
+          "upStat": "1/1",
+          "limitTimes": 1,
+          "sealedAmountCny": 339458482.0
+        },
+        "previousBoardHeight": 0,
+        "progressionState": "首板建立"
+      },
+      {
+        "code": "601208.SH",
+        "name": "东材科技",
+        "industry": "基础化工",
+        "return1d": 0.09991,
+        "boardHeight": 1,
+        "amountCny": 3775172934,
+        "board": "主板",
+        "limitDetail": {
+          "type": "U",
+          "firstTime": "130016",
+          "lastTime": "133034",
+          "openTimes": 2,
+          "upStat": "1/1",
+          "limitTimes": 1,
+          "sealedAmountCny": 106395330.0
+        },
+        "previousBoardHeight": 0,
+        "progressionState": "首板建立"
+      },
+      {
+        "code": "688300.SH",
+        "name": "联瑞新材",
+        "industry": "基础化工",
+        "return1d": 0.2,
+        "boardHeight": 1,
+        "amountCny": 3769790833,
+        "board": "科创板",
+        "limitDetail": {
+          "type": "U",
+          "firstTime": "104920",
+          "lastTime": "111947",
+          "openTimes": 2,
+          "upStat": "1/1",
+          "limitTimes": 1,
+          "sealedAmountCny": 86159093.0
+        },
+        "previousBoardHeight": 0,
+        "progressionState": "首板建立"
+      }
+    ],
+    "failedPromotions": [
+      {
+        "code": "002949.SZ",
+        "name": "华阳国际",
+        "industry": "建筑装饰",
+        "return1d": -0.064327,
+        "boardHeight": 0,
+        "amountCny": 395843429,
+        "board": "主板",
+        "previousBoardHeight": 2,
+        "progressionState": "晋级未完成",
+        "limitDetail": null
+      },
+      {
+        "code": "002963.SZ",
+        "name": "豪尔赛",
+        "industry": "建筑装饰",
+        "return1d": -0.047874999999999994,
+        "boardHeight": 0,
+        "amountCny": 688514993,
+        "board": "主板",
+        "previousBoardHeight": 2,
+        "progressionState": "晋级未完成",
+        "limitDetail": null
+      },
+      {
+        "code": "002703.SZ",
+        "name": "浙江世宝",
+        "industry": "汽车",
+        "return1d": -0.030355,
+        "boardHeight": 0,
+        "amountCny": 2015368203,
+        "board": "主板",
+        "previousBoardHeight": 2,
+        "progressionState": "晋级未完成",
+        "limitDetail": null
+      },
+      {
+        "code": "000428.SZ",
+        "name": "华天酒店",
+        "industry": "社会服务",
+        "return1d": -0.029474,
+        "boardHeight": 0,
+        "amountCny": 433171126,
+        "board": "主板",
+        "previousBoardHeight": 2,
+        "progressionState": "晋级未完成",
+        "limitDetail": null
+      },
+      {
+        "code": "002094.SZ",
+        "name": "青岛金王",
+        "industry": "美容护理",
+        "return1d": 0.0017699999999999999,
+        "boardHeight": 0,
+        "amountCny": 880998903,
+        "board": "主板",
+        "previousBoardHeight": 2,
+        "progressionState": "晋级未完成",
+        "limitDetail": null
+      },
+      {
+        "code": "301177.SZ",
+        "name": "迪阿股份",
+        "industry": "纺织服饰",
+        "return1d": -0.08179600000000001,
+        "boardHeight": 0,
+        "amountCny": 289299755,
+        "board": "创业板",
+        "previousBoardHeight": 1,
+        "progressionState": "晋级未完成",
+        "limitDetail": null
+      },
+      {
+        "code": "605169.SH",
+        "name": "洪通燃气",
+        "industry": "公用事业",
+        "return1d": -0.033038,
+        "boardHeight": 0,
+        "amountCny": 163892934,
+        "board": "主板",
+        "previousBoardHeight": 1,
+        "progressionState": "晋级未完成",
+        "limitDetail": null
+      },
+      {
+        "code": "002719.SZ",
+        "name": "ST麦趣",
+        "industry": "食品饮料",
+        "return1d": -0.031019,
+        "boardHeight": 0,
+        "amountCny": 36690785,
+        "board": "主板",
+        "previousBoardHeight": 1,
+        "progressionState": "晋级未完成",
+        "limitDetail": null
+      },
+      {
+        "code": "002721.SZ",
+        "name": "金一文化",
+        "industry": "纺织服饰",
+        "return1d": -0.029221,
+        "boardHeight": 0,
+        "amountCny": 785036445,
+        "board": "主板",
+        "previousBoardHeight": 1,
+        "progressionState": "晋级未完成",
+        "limitDetail": null
+      },
+      {
+        "code": "002047.SZ",
+        "name": "宝鹰股份",
+        "industry": "建筑装饰",
+        "return1d": -0.024793,
+        "boardHeight": 0,
+        "amountCny": 306052682,
+        "board": "主板",
+        "previousBoardHeight": 1,
+        "progressionState": "晋级未完成",
+        "limitDetail": null
+      },
+      {
+        "code": "600604.SH",
+        "name": "市北高新",
+        "industry": "房地产",
+        "return1d": -0.023529,
+        "boardHeight": 0,
+        "amountCny": 430355741,
+        "board": "主板",
+        "previousBoardHeight": 1,
+        "progressionState": "晋级未完成",
+        "limitDetail": null
+      },
+      {
+        "code": "000536.SZ",
+        "name": "华映科技",
+        "industry": "电子",
+        "return1d": -0.022284,
+        "boardHeight": 0,
+        "amountCny": 586087861,
+        "board": "主板",
+        "previousBoardHeight": 1,
+        "progressionState": "晋级未完成",
+        "limitDetail": null
+      },
+      {
+        "code": "000677.SZ",
+        "name": "ST海龙",
+        "industry": "基础化工",
+        "return1d": -0.015872999999999998,
+        "boardHeight": 0,
+        "amountCny": 126846840,
+        "board": "主板",
+        "previousBoardHeight": 1,
+        "progressionState": "晋级未完成",
+        "limitDetail": null
+      },
+      {
+        "code": "002366.SZ",
+        "name": "融发核电",
+        "industry": "电力设备",
+        "return1d": -0.011217999999999999,
+        "boardHeight": 0,
+        "amountCny": 629973851,
+        "board": "主板",
+        "previousBoardHeight": 1,
+        "progressionState": "晋级未完成",
+        "limitDetail": null
+      },
+      {
+        "code": "605162.SH",
+        "name": "新中港",
+        "industry": "公用事业",
+        "return1d": -0.011111,
+        "boardHeight": 0,
+        "amountCny": 538324561,
+        "board": "主板",
+        "previousBoardHeight": 1,
+        "progressionState": "晋级未完成",
+        "limitDetail": null
+      },
+      {
+        "code": "600227.SH",
+        "name": "赤天化",
+        "industry": "基础化工",
+        "return1d": -0.00716,
+        "boardHeight": 0,
+        "amountCny": 1240266325,
+        "board": "主板",
+        "previousBoardHeight": 1,
+        "progressionState": "晋级未完成",
+        "limitDetail": null
+      }
+    ],
+    "leaders": [
+      {
+        "code": "000017.SZ",
+        "name": "深中华A",
+        "industry": "纺织服饰",
+        "return1d": 0.10042299999999998,
+        "boardHeight": 6,
+        "amountCny": 605589528,
+        "board": "主板",
+        "limitDetail": {
+          "type": "U",
+          "firstTime": "93224",
+          "lastTime": "93536",
+          "openTimes": 2,
+          "upStat": "6/6",
+          "limitTimes": 6,
+          "sealedAmountCny": 45440691.0
+        }
+      },
+      {
+        "code": "003040.SZ",
+        "name": "楚天龙",
+        "industry": "通信",
+        "return1d": 0.099824,
+        "boardHeight": 5,
+        "amountCny": 1759884206,
+        "board": "主板",
+        "limitDetail": {
+          "type": "U",
+          "firstTime": "93048",
+          "lastTime": "131809",
+          "openTimes": 19,
+          "upStat": "5/5",
+          "limitTimes": 5,
+          "sealedAmountCny": 38151137.0
+        }
+      },
+      {
+        "code": "002084.SZ",
+        "name": "海鸥住工",
+        "industry": "轻工制造",
+        "return1d": 0.10020899999999999,
+        "boardHeight": 4,
+        "amountCny": 27643695,
+        "board": "主板",
+        "limitDetail": {
+          "type": "U",
+          "firstTime": "92500",
+          "lastTime": "92500",
+          "openTimes": 0,
+          "upStat": "4/4",
+          "limitTimes": 4,
+          "sealedAmountCny": 329225563.0
+        }
+      },
+      {
+        "code": "002418.SZ",
+        "name": "康盛股份",
+        "industry": "家用电器",
+        "return1d": 0.100897,
+        "boardHeight": 3,
+        "amountCny": 1227785884,
+        "board": "主板",
+        "limitDetail": {
+          "type": "U",
+          "firstTime": "93415",
+          "lastTime": "94642",
+          "openTimes": 2,
+          "upStat": "3/3",
+          "limitTimes": 3,
+          "sealedAmountCny": 86280007.0
+        }
+      },
+      {
+        "code": "600103.SH",
+        "name": "青山纸业",
+        "industry": "轻工制造",
+        "return1d": 0.100865,
+        "boardHeight": 3,
+        "amountCny": 507382958,
+        "board": "主板",
+        "limitDetail": {
+          "type": "U",
+          "firstTime": "93033",
+          "lastTime": "93033",
+          "openTimes": 0,
+          "upStat": "3/3",
+          "limitTimes": 3,
+          "sealedAmountCny": 307811504.0
+        }
+      },
+      {
+        "code": "600371.SH",
+        "name": "万向德农",
+        "industry": "农林牧渔",
+        "return1d": 0.099581,
+        "boardHeight": 3,
+        "amountCny": 169885569,
+        "board": "主板",
+        "limitDetail": {
+          "type": "U",
+          "firstTime": "93006",
+          "lastTime": "93006",
+          "openTimes": 0,
+          "upStat": "5/8",
+          "limitTimes": 3,
+          "sealedAmountCny": 204232474.0
+        }
+      },
+      {
+        "code": "002742.SZ",
+        "name": "冀衡医药",
+        "industry": "医药生物",
+        "return1d": 0.10097099999999999,
+        "boardHeight": 3,
+        "amountCny": 56422737,
+        "board": "主板",
+        "limitDetail": {
+          "type": "U",
+          "firstTime": "92500",
+          "lastTime": "92500",
+          "openTimes": 0,
+          "upStat": "3/3",
+          "limitTimes": 3,
+          "sealedAmountCny": 168347970.0
+        }
+      },
+      {
+        "code": "002855.SZ",
+        "name": "捷荣技术",
+        "industry": "电子",
+        "return1d": 0.1,
+        "boardHeight": 3,
+        "amountCny": 18861601,
+        "board": "主板",
+        "limitDetail": {
+          "type": "U",
+          "firstTime": "92500",
+          "lastTime": "92500",
+          "openTimes": 0,
+          "upStat": "3/3",
+          "limitTimes": 3,
+          "sealedAmountCny": 92996970.0
+        }
+      },
+      {
+        "code": "603618.SH",
+        "name": "杭电股份",
+        "industry": "电力设备",
+        "return1d": 0.099937,
+        "boardHeight": 2,
+        "amountCny": 2296869925,
+        "board": "主板",
+        "limitDetail": {
+          "type": "U",
+          "firstTime": "93513",
+          "lastTime": "93528",
+          "openTimes": 1,
+          "upStat": "2/2",
+          "limitTimes": 2,
+          "sealedAmountCny": 347233967.0
+        }
+      },
+      {
+        "code": "600095.SH",
+        "name": "湘财股份",
+        "industry": "非银金融",
+        "return1d": 0.10034599999999999,
+        "boardHeight": 2,
+        "amountCny": 1916435926,
+        "board": "主板",
+        "limitDetail": {
+          "type": "U",
+          "firstTime": "93941",
+          "lastTime": "130241",
+          "openTimes": 10,
+          "upStat": "2/2",
+          "limitTimes": 2,
+          "sealedAmountCny": 65334690.0
+        }
+      },
+      {
+        "code": "600479.SH",
+        "name": "千金药业",
+        "industry": "医药生物",
+        "return1d": 0.09981899999999999,
+        "boardHeight": 2,
+        "amountCny": 1300882233,
+        "board": "主板",
+        "limitDetail": {
+          "type": "U",
+          "firstTime": "93130",
+          "lastTime": "132045",
+          "openTimes": 7,
+          "upStat": "2/2",
+          "limitTimes": 2,
+          "sealedAmountCny": 36494459.0
+        }
+      },
+      {
+        "code": "600969.SH",
+        "name": "郴电国际",
+        "industry": "公用事业",
+        "return1d": 0.1,
+        "boardHeight": 2,
+        "amountCny": 367645166,
+        "board": "主板",
+        "limitDetail": {
+          "type": "U",
+          "firstTime": "100924",
+          "lastTime": "100954",
+          "openTimes": 1,
+          "upStat": "2/2",
+          "limitTimes": 2,
+          "sealedAmountCny": 18546242.0
+        }
+      },
+      {
+        "code": "002072.SZ",
+        "name": "凯瑞德",
+        "industry": "商贸零售",
+        "return1d": 0.10012399999999999,
+        "boardHeight": 2,
+        "amountCny": 361420293,
+        "board": "主板",
+        "limitDetail": {
+          "type": "U",
+          "firstTime": "93427",
+          "lastTime": "100648",
+          "openTimes": 4,
+          "upStat": "2/2",
+          "limitTimes": 2,
+          "sealedAmountCny": 38225491.0
+        }
+      },
+      {
+        "code": "000712.SZ",
+        "name": "锦龙股份",
+        "industry": "非银金融",
+        "return1d": 0.10051299999999999,
+        "boardHeight": 2,
+        "amountCny": 158057696,
+        "board": "主板",
+        "limitDetail": {
+          "type": "U",
+          "firstTime": "92500",
+          "lastTime": "92500",
+          "openTimes": 0,
+          "upStat": "2/2",
+          "limitTimes": 2,
+          "sealedAmountCny": 220685551.0
+        }
+      },
+      {
+        "code": "000890.SZ",
+        "name": "法尔胜",
+        "industry": "环保",
+        "return1d": 0.100251,
+        "boardHeight": 2,
+        "amountCny": 132042068,
+        "board": "主板",
+        "limitDetail": {
+          "type": "U",
+          "firstTime": "93009",
+          "lastTime": "93009",
+          "openTimes": 0,
+          "upStat": "2/2",
+          "limitTimes": 2,
+          "sealedAmountCny": 98898798.0
+        }
+      },
+      {
+        "code": "002942.SZ",
+        "name": "新农股份",
+        "industry": "基础化工",
+        "return1d": 0.100116,
+        "boardHeight": 2,
+        "amountCny": 42953665,
+        "board": "主板",
+        "limitDetail": {
+          "type": "U",
+          "firstTime": "92500",
+          "lastTime": "92500",
+          "openTimes": 0,
+          "upStat": "2/2",
+          "limitTimes": 2,
+          "sealedAmountCny": 356469246.0
+        }
+      },
+      {
+        "code": "001309.SZ",
+        "name": "德明利",
+        "industry": "电子",
+        "return1d": 0.100003,
+        "boardHeight": 1,
+        "amountCny": 8762050141,
+        "board": "主板",
+        "limitDetail": {
+          "type": "U",
+          "firstTime": "143024",
+          "lastTime": "143433",
+          "openTimes": 1,
+          "upStat": "1/1",
+          "limitTimes": 1,
+          "sealedAmountCny": 172055705.0
+        }
+      },
+      {
+        "code": "601869.SH",
+        "name": "长飞光纤",
+        "industry": "通信",
+        "return1d": 0.099995,
+        "boardHeight": 1,
+        "amountCny": 6145393362,
+        "board": "主板",
+        "limitDetail": {
+          "type": "U",
+          "firstTime": "94919",
+          "lastTime": "102555",
+          "openTimes": 1,
+          "upStat": "1/1",
+          "limitTimes": 1,
+          "sealedAmountCny": 339458482.0
+        }
+      },
+      {
+        "code": "601208.SH",
+        "name": "东材科技",
+        "industry": "基础化工",
+        "return1d": 0.09991,
+        "boardHeight": 1,
+        "amountCny": 3775172934,
+        "board": "主板",
+        "limitDetail": {
+          "type": "U",
+          "firstTime": "130016",
+          "lastTime": "133034",
+          "openTimes": 2,
+          "upStat": "1/1",
+          "limitTimes": 1,
+          "sealedAmountCny": 106395330.0
+        }
+      },
+      {
+        "code": "688300.SH",
+        "name": "联瑞新材",
+        "industry": "基础化工",
+        "return1d": 0.2,
+        "boardHeight": 1,
+        "amountCny": 3769790833,
+        "board": "科创板",
+        "limitDetail": {
+          "type": "U",
+          "firstTime": "104920",
+          "lastTime": "111947",
+          "openTimes": 2,
+          "upStat": "1/1",
+          "limitTimes": 1,
+          "sealedAmountCny": 86159093.0
+        }
+      }
+    ],
+    "limitDownSamples": [
+      {
+        "code": "002028.SZ",
+        "name": "思源电气",
+        "industry": "电力设备",
+        "return1d": -0.100006,
+        "boardHeight": 0,
+        "amountCny": 1015802575,
+        "board": "主板",
+        "limitDetail": {
+          "type": "D",
+          "firstTime": null,
+          "lastTime": "93618",
+          "openTimes": 4,
+          "upStat": null,
+          "limitTimes": 1,
+          "sealedAmountCny": 465418811.0
+        }
+      },
+      {
+        "code": "003013.SZ",
+        "name": "地铁设计",
+        "industry": "建筑装饰",
+        "return1d": -0.09971999999999999,
+        "boardHeight": 0,
+        "amountCny": 323242877,
+        "board": "主板",
+        "limitDetail": {
+          "type": "D",
+          "firstTime": null,
+          "lastTime": "142715",
+          "openTimes": 8,
+          "upStat": null,
+          "limitTimes": 1,
+          "sealedAmountCny": 4166951.0
+        }
+      },
+      {
+        "code": "603839.SH",
+        "name": "安正时尚",
+        "industry": "纺织服饰",
+        "return1d": -0.099861,
+        "boardHeight": 0,
+        "amountCny": 130658824,
+        "board": "主板",
+        "limitDetail": {
+          "type": "D",
+          "firstTime": null,
+          "lastTime": "150000",
+          "openTimes": 7,
+          "upStat": null,
+          "limitTimes": 1,
+          "sealedAmountCny": 1402489.0
+        }
+      },
+      {
+        "code": "002731.SZ",
+        "name": "*ST萃华",
+        "industry": "纺织服饰",
+        "return1d": -0.09615399999999999,
+        "boardHeight": 0,
+        "amountCny": 8693214,
+        "board": "主板",
+        "limitDetail": null
+      }
+    ],
+    "largeLossSamples": [
+      {
+        "code": "300274.SZ",
+        "name": "阳光电源",
+        "industry": "电力设备",
+        "return1d": -0.122358,
+        "boardHeight": 0,
+        "amountCny": 14133098171,
+        "board": "创业板",
+        "limitDetail": null
+      },
+      {
+        "code": "002028.SZ",
+        "name": "思源电气",
+        "industry": "电力设备",
+        "return1d": -0.100006,
+        "boardHeight": 0,
+        "amountCny": 1015802575,
+        "board": "主板",
+        "limitDetail": {
+          "type": "D",
+          "firstTime": null,
+          "lastTime": "93618",
+          "openTimes": 4,
+          "upStat": null,
+          "limitTimes": 1,
+          "sealedAmountCny": 465418811.0
+        }
+      },
+      {
+        "code": "603839.SH",
+        "name": "安正时尚",
+        "industry": "纺织服饰",
+        "return1d": -0.099861,
+        "boardHeight": 0,
+        "amountCny": 130658824,
+        "board": "主板",
+        "limitDetail": {
+          "type": "D",
+          "firstTime": null,
+          "lastTime": "150000",
+          "openTimes": 7,
+          "upStat": null,
+          "limitTimes": 1,
+          "sealedAmountCny": 1402489.0
+        }
+      },
+      {
+        "code": "003013.SZ",
+        "name": "地铁设计",
+        "industry": "建筑装饰",
+        "return1d": -0.09971999999999999,
+        "boardHeight": 0,
+        "amountCny": 323242877,
+        "board": "主板",
+        "limitDetail": {
+          "type": "D",
+          "firstTime": null,
+          "lastTime": "142715",
+          "openTimes": 8,
+          "upStat": null,
+          "limitTimes": 1,
+          "sealedAmountCny": 4166951.0
+        }
+      },
+      {
+        "code": "920717.BJ",
+        "name": "瑞星股份",
+        "industry": "机械设备",
+        "return1d": -0.09846500000000001,
+        "boardHeight": 0,
+        "amountCny": 29727285,
+        "board": "北交所",
+        "limitDetail": null
+      },
+      {
+        "code": "002731.SZ",
+        "name": "*ST萃华",
+        "industry": "纺织服饰",
+        "return1d": -0.09615399999999999,
+        "boardHeight": 0,
+        "amountCny": 8693214,
+        "board": "主板",
+        "limitDetail": null
+      },
+      {
+        "code": "688155.SH",
+        "name": "先惠技术",
+        "industry": "电力设备",
+        "return1d": -0.092833,
+        "boardHeight": 0,
+        "amountCny": 434311519,
+        "board": "科创板",
+        "limitDetail": null
+      },
+      {
+        "code": "300486.SZ",
+        "name": "东杰智能",
+        "industry": "机械设备",
+        "return1d": -0.085308,
+        "boardHeight": 0,
+        "amountCny": 562585084,
+        "board": "创业板",
+        "limitDetail": null
+      },
+      {
+        "code": "301177.SZ",
+        "name": "迪阿股份",
+        "industry": "纺织服饰",
+        "return1d": -0.08179600000000001,
+        "boardHeight": 0,
+        "amountCny": 289299755,
+        "board": "创业板",
+        "limitDetail": null
+      },
+      {
+        "code": "688676.SH",
+        "name": "金盘科技",
+        "industry": "电力设备",
+        "return1d": -0.077125,
+        "boardHeight": 0,
+        "amountCny": 2406873985,
+        "board": "科创板",
+        "limitDetail": null
+      },
+      {
+        "code": "600984.SH",
+        "name": "建设机械",
+        "industry": "机械设备",
+        "return1d": -0.075107,
+        "boardHeight": 0,
+        "amountCny": 575416379,
+        "board": "主板",
+        "limitDetail": null
+      },
+      {
+        "code": "603706.SH",
+        "name": "东方环宇",
+        "industry": "公用事业",
+        "return1d": -0.074581,
+        "boardHeight": 0,
+        "amountCny": 87900097,
+        "board": "主板",
+        "limitDetail": null
+      }
+    ],
+    "touchedCount": 99,
+    "failedCount": 21,
+    "providerDetail": {
+      "rowCount": 97,
+      "limitUpCount": 77,
+      "limitDownCount": 3,
+      "openedOrTouchedNotClosedCount": 17,
+      "classification": "TuShare limit_list_d: U=涨停, D=跌停, Z=开板/触板未封。"
+    }
+  },
+  "moneyflow": {
+    "marketNetCny": 53772177408.0,
+    "extraLargeNetCny": 49316663296.0,
+    "largeNetCny": 4455514112.0,
+    "mediumNetCny": -33933123584.0,
+    "smallNetCny": -19839049728.0,
+    "stockCoverageCount": 6000,
+    "classificationBoundary": "供应商订单分类代理，不等于机构、游资或真实主体资金。",
+    "marketNetRate": 0.0253
+  },
+  "industries": [
+    {
+      "name": "电子",
+      "sampleCount": 511,
+      "return1d": 0.04006124266144814,
+      "medianReturn1d": 0.036676,
+      "return5d": 0.02719967456604052,
+      "return20d": 0.22380066060131046,
+      "advanceShare": 0.9295499021526419,
+      "aboveMa20Share": 0.7592954990215264,
+      "amountCny": 559819372118,
+      "amountShare": 0.2614805475742522,
+      "limitUpCount": 12,
+      "limitDownCount": 0,
+      "medianPeTtm": 80.3217,
+      "medianPb": 5.0398,
+      "lifecycle": "修复延续"
+    },
+    {
+      "name": "通信",
+      "sampleCount": 127,
+      "return1d": 0.025494102362204722,
+      "medianReturn1d": 0.016667,
+      "return5d": 0.03506619678850417,
+      "return20d": 0.22345741024745985,
+      "advanceShare": 0.7874015748031497,
+      "aboveMa20Share": 0.6062992125984252,
+      "amountCny": 191523479232,
+      "amountShare": 0.08945682610707946,
+      "limitUpCount": 5,
+      "limitDownCount": 0,
+      "medianPeTtm": 97.1169,
+      "medianPb": 4.7827,
+      "lifecycle": "趋势扩散"
+    },
+    {
+      "name": "煤炭",
+      "sampleCount": 33,
+      "return1d": 0.02488378787878788,
+      "medianReturn1d": 0.024457,
+      "return5d": 0.06402664914390921,
+      "return20d": 0.13092870522138123,
+      "advanceShare": 0.9696969696969697,
+      "aboveMa20Share": 0.9696969696969697,
+      "amountCny": 14061115337,
+      "amountShare": 0.0065676686460588345,
+      "limitUpCount": 0,
+      "limitDownCount": 0,
+      "medianPeTtm": 30.5812,
+      "medianPb": 1.3342,
+      "lifecycle": "趋势扩散"
+    },
+    {
+      "name": "农林牧渔",
+      "sampleCount": 114,
+      "return1d": 0.02394632456140351,
+      "medianReturn1d": 0.0151155,
+      "return5d": 0.023211605484705862,
+      "return20d": 0.14521655300388864,
+      "advanceShare": 0.8333333333333334,
+      "aboveMa20Share": 0.7807017543859649,
+      "amountCny": 30059909646,
+      "amountShare": 0.01404038878554216,
+      "limitUpCount": 7,
+      "limitDownCount": 0,
+      "medianPeTtm": 46.1246,
+      "medianPb": 2.5577,
+      "lifecycle": "修复延续"
+    },
+    {
+      "name": "国防军工",
+      "sampleCount": 140,
+      "return1d": 0.01964127142857143,
+      "medianReturn1d": 0.0162185,
+      "return5d": 0.02398859560368222,
+      "return20d": 0.07038126503498518,
+      "advanceShare": 0.85,
+      "aboveMa20Share": 0.45714285714285713,
+      "amountCny": 40784452121,
+      "amountShare": 0.019049610292398135,
+      "limitUpCount": 2,
+      "limitDownCount": 0,
+      "medianPeTtm": 78.06790000000001,
+      "medianPb": 3.7931,
+      "lifecycle": "修复延续"
+    },
+    {
+      "name": "基础化工",
+      "sampleCount": 443,
+      "return1d": 0.016705866817155756,
+      "medianReturn1d": 0.010373,
+      "return5d": 0.022713448710641154,
+      "return20d": 0.12233668435164587,
+      "advanceShare": 0.7042889390519187,
+      "aboveMa20Share": 0.6862302483069977,
+      "amountCny": 113767970164,
+      "amountShare": 0.05313876692482601,
+      "limitUpCount": 10,
+      "limitDownCount": 0,
+      "medianPeTtm": 37.6473,
+      "medianPb": 2.2209,
+      "lifecycle": "修复延续"
+    },
+    {
+      "name": "综合",
+      "sampleCount": 20,
+      "return1d": 0.01653675,
+      "medianReturn1d": 0.0093415,
+      "return5d": 0.024622030423898524,
+      "return20d": 0.11571161054765253,
+      "advanceShare": 0.7,
+      "aboveMa20Share": 0.85,
+      "amountCny": 3560311954,
+      "amountShare": 0.0016629512403861406,
+      "limitUpCount": 0,
+      "limitDownCount": 0,
+      "medianPeTtm": 49.7081,
+      "medianPb": 2.9278,
+      "lifecycle": "修复延续"
+    },
+    {
+      "name": "有色金属",
+      "sampleCount": 146,
+      "return1d": 0.016510260273972604,
+      "medianReturn1d": 0.0117295,
+      "return5d": 0.04352213592507065,
+      "return20d": 0.16017467621034628,
+      "advanceShare": 0.7671232876712328,
+      "aboveMa20Share": 0.7397260273972602,
+      "amountCny": 150401038363,
+      "amountShare": 0.07024934796032702,
+      "limitUpCount": 3,
+      "limitDownCount": 0,
+      "medianPeTtm": 33.7366,
+      "medianPb": 3.3744,
+      "lifecycle": "趋势扩散"
+    },
+    {
+      "name": "机械设备",
+      "sampleCount": 607,
+      "return1d": 0.015514304777594728,
+      "medianReturn1d": 0.008163,
+      "return5d": 0.02262424482272546,
+      "return20d": 0.1519856066456293,
+      "advanceShare": 0.6655683690280065,
+      "aboveMa20Share": 0.6128500823723229,
+      "amountCny": 167511429538,
+      "amountShare": 0.07824127299271366,
+      "limitUpCount": 6,
+      "limitDownCount": 0,
+      "medianPeTtm": 50.8561,
+      "medianPb": 3.17885,
+      "lifecycle": "修复延续"
+    },
+    {
+      "name": "计算机",
+      "sampleCount": 357,
+      "return1d": 0.014489044817927172,
+      "medianReturn1d": 0.010376000000000002,
+      "return5d": 0.01508716089282969,
+      "return20d": 0.09106976033037396,
+      "advanceShare": 0.742296918767507,
+      "aboveMa20Share": 0.36694677871148457,
+      "amountCny": 104757861051,
+      "amountShare": 0.048930323305287536,
+      "limitUpCount": 2,
+      "limitDownCount": 0,
+      "medianPeTtm": 76.0576,
+      "medianPb": 3.596,
+      "lifecycle": "修复延续"
+    },
+    {
+      "name": "石油石化",
+      "sampleCount": 48,
+      "return1d": 0.014101979166666667,
+      "medianReturn1d": 0.0095995,
+      "return5d": 0.029382592269124947,
+      "return20d": 0.08166492655985429,
+      "advanceShare": 0.6875,
+      "aboveMa20Share": 0.875,
+      "amountCny": 16998462033,
+      "amountShare": 0.007939645145722757,
+      "limitUpCount": 1,
+      "limitDownCount": 0,
+      "medianPeTtm": 37.0213,
+      "medianPb": 2.12555,
+      "lifecycle": "修复延续"
+    },
+    {
+      "name": "非银金融",
+      "sampleCount": 80,
+      "return1d": 0.013192475,
+      "medianReturn1d": 0.008666,
+      "return5d": 0.05209749286312311,
+      "return20d": 0.018937212681531698,
+      "advanceShare": 0.8,
+      "aboveMa20Share": 0.9,
+      "amountCny": 54666219086,
+      "amountShare": 0.025533508864372032,
+      "limitUpCount": 3,
+      "limitDownCount": 0,
+      "medianPeTtm": 16.75065,
+      "medianPb": 1.2754,
+      "lifecycle": "趋势扩散"
+    },
+    {
+      "name": "医药生物",
+      "sampleCount": 502,
+      "return1d": 0.00783061155378486,
+      "medianReturn1d": 0.0034944999999999998,
+      "return5d": -0.026045581124868253,
+      "return20d": 0.12143190402507595,
+      "advanceShare": 0.6095617529880478,
+      "aboveMa20Share": 0.4860557768924303,
+      "amountCny": 138749119677,
+      "amountShare": 0.06480696738165538,
+      "limitUpCount": 4,
+      "limitDownCount": 0,
+      "medianPeTtm": 38.3085,
+      "medianPb": 2.5365,
+      "lifecycle": "低位修复"
+    },
+    {
+      "name": "家用电器",
+      "sampleCount": 101,
+      "return1d": 0.007568702970297029,
+      "medianReturn1d": 0.0,
+      "return5d": 0.013800735450834989,
+      "return20d": 0.08920195586462057,
+      "advanceShare": 0.49504950495049505,
+      "aboveMa20Share": 0.6039603960396039,
+      "amountCny": 19529350417,
+      "amountShare": 0.009121773013058757,
+      "limitUpCount": 1,
+      "limitDownCount": 0,
+      "medianPeTtm": 37.2331,
+      "medianPb": 2.498,
+      "lifecycle": "方向待明"
+    },
+    {
+      "name": "汽车",
+      "sampleCount": 318,
+      "return1d": 0.006571147798742138,
+      "medianReturn1d": 0.001214,
+      "return5d": 0.021426600405459618,
+      "return20d": 0.07690920314782444,
+      "advanceShare": 0.5251572327044025,
+      "aboveMa20Share": 0.5314465408805031,
+      "amountCny": 52951443578,
+      "amountShare": 0.024732571166972677,
+      "limitUpCount": 4,
+      "limitDownCount": 0,
+      "medianPeTtm": 30.3119,
+      "medianPb": 2.4245,
+      "lifecycle": "修复延续"
+    },
+    {
+      "name": "社会服务",
+      "sampleCount": 86,
+      "return1d": 0.006452255813953488,
+      "medianReturn1d": -0.001164,
+      "return5d": 0.02427167856569252,
+      "return20d": 0.08340087681999003,
+      "advanceShare": 0.4186046511627907,
+      "aboveMa20Share": 0.6395348837209303,
+      "amountCny": 11629309605,
+      "amountShare": 0.005431820324375086,
+      "limitUpCount": 1,
+      "limitDownCount": 0,
+      "medianPeTtm": 38.6501,
+      "medianPb": 3.0652,
+      "lifecycle": "方向待明"
+    },
+    {
+      "name": "商贸零售",
+      "sampleCount": 99,
+      "return1d": 0.005364787878787879,
+      "medianReturn1d": 0.0013189999999999999,
+      "return5d": 0.022593087948615694,
+      "return20d": 0.06074929552183249,
+      "advanceShare": 0.5151515151515151,
+      "aboveMa20Share": 0.6363636363636364,
+      "amountCny": 13729625821,
+      "amountShare": 0.006412836454698698,
+      "limitUpCount": 1,
+      "limitDownCount": 0,
+      "medianPeTtm": 29.9428,
+      "medianPb": 1.8758,
+      "lifecycle": "修复延续"
+    },
+    {
+      "name": "建筑材料",
+      "sampleCount": 76,
+      "return1d": 0.005124223684210526,
+      "medianReturn1d": 0.0,
+      "return5d": 0.020761852789915526,
+      "return20d": 0.08845592473725793,
+      "advanceShare": 0.4868421052631579,
+      "aboveMa20Share": 0.7105263157894737,
+      "amountCny": 26117226977,
+      "amountShare": 0.012198839752967226,
+      "limitUpCount": 0,
+      "limitDownCount": 0,
+      "medianPeTtm": 43.4515,
+      "medianPb": 1.66285,
+      "lifecycle": "方向待明"
+    },
+    {
+      "name": "环保",
+      "sampleCount": 134,
+      "return1d": 0.0035185970149253735,
+      "medianReturn1d": 0.0004785,
+      "return5d": 0.02041376301659676,
+      "return20d": 0.11672407162026754,
+      "advanceShare": 0.5074626865671642,
+      "aboveMa20Share": 0.6417910447761194,
+      "amountCny": 15071088604,
+      "amountShare": 0.0070394071675376315,
+      "limitUpCount": 1,
+      "limitDownCount": 0,
+      "medianPeTtm": 32.1869,
+      "medianPb": 2.043,
+      "lifecycle": "修复延续"
+    },
+    {
+      "name": "房地产",
+      "sampleCount": 95,
+      "return1d": 0.002958463157894737,
+      "medianReturn1d": 0.0,
+      "return5d": 0.013358805142077514,
+      "return20d": 0.08380786223853649,
+      "advanceShare": 0.4105263157894737,
+      "aboveMa20Share": 0.7473684210526316,
+      "amountCny": 13462609786,
+      "amountShare": 0.006288118550163347,
+      "limitUpCount": 2,
+      "limitDownCount": 0,
+      "medianPeTtm": 35.1439,
+      "medianPb": 1.1473,
+      "lifecycle": "方向待明"
+    },
+    {
+      "name": "电力设备",
+      "sampleCount": 412,
+      "return1d": 0.002469893203883495,
+      "medianReturn1d": 0.0,
+      "return5d": 0.011205774603719139,
+      "return20d": 0.07898774671225546,
+      "advanceShare": 0.49271844660194175,
+      "aboveMa20Share": 0.41019417475728154,
+      "amountCny": 155766837606,
+      "amountShare": 0.07275560657554012,
+      "limitUpCount": 3,
+      "limitDownCount": 1,
+      "medianPeTtm": 46.6179,
+      "medianPb": 2.7687,
+      "lifecycle": "方向待明"
+    },
+    {
+      "name": "食品饮料",
+      "sampleCount": 126,
+      "return1d": 0.0014243333333333332,
+      "medianReturn1d": -0.000182,
+      "return5d": -0.004971676111108851,
+      "return20d": 0.033152389435247974,
+      "advanceShare": 0.42857142857142855,
+      "aboveMa20Share": 0.4603174603174603,
+      "amountCny": 29368777150,
+      "amountShare": 0.013717574477317956,
+      "limitUpCount": 2,
+      "limitDownCount": 0,
+      "medianPeTtm": 24.99425,
+      "medianPb": 2.2643500000000003,
+      "lifecycle": "低位修复"
+    },
+    {
+      "name": "纺织服饰",
+      "sampleCount": 108,
+      "return1d": 0.0006287314814814811,
+      "medianReturn1d": -0.0032719999999999997,
+      "return5d": 0.010180509393417228,
+      "return20d": 0.08226957285210003,
+      "advanceShare": 0.35185185185185186,
+      "aboveMa20Share": 0.5370370370370371,
+      "amountCny": 12382394957,
+      "amountShare": 0.0057835715853521525,
+      "limitUpCount": 2,
+      "limitDownCount": 2,
+      "medianPeTtm": 31.6317,
+      "medianPb": 1.9427,
+      "lifecycle": "方向待明"
+    },
+    {
+      "name": "轻工制造",
+      "sampleCount": 167,
+      "return1d": -0.00031540119760479015,
+      "medianReturn1d": -0.003683,
+      "return5d": 0.018328480900414668,
+      "return20d": 0.11650896611481332,
+      "advanceShare": 0.40119760479041916,
+      "aboveMa20Share": 0.6407185628742516,
+      "amountCny": 16474533143,
+      "amountShare": 0.007694928332046306,
+      "limitUpCount": 2,
+      "limitDownCount": 0,
+      "medianPeTtm": 33.3908,
+      "medianPb": 2.2504,
+      "lifecycle": "方向待明"
+    },
+    {
+      "name": "公用事业",
+      "sampleCount": 138,
+      "return1d": -0.0011161086956521737,
+      "medianReturn1d": -0.001873,
+      "return5d": 0.020885344911904545,
+      "return20d": 0.024823263518934605,
+      "advanceShare": 0.391304347826087,
+      "aboveMa20Share": 0.34782608695652173,
+      "amountCny": 36830002478,
+      "amountShare": 0.0172025651392036,
+      "limitUpCount": 1,
+      "limitDownCount": 0,
+      "medianPeTtm": 25.76115,
+      "medianPb": 1.6033,
+      "lifecycle": "方向待明"
+    },
+    {
+      "name": "美容护理",
+      "sampleCount": 30,
+      "return1d": -0.001160333333333333,
+      "medianReturn1d": -0.0038380000000000003,
+      "return5d": 0.002677765676230733,
+      "return20d": 0.005859365566887479,
+      "advanceShare": 0.3333333333333333,
+      "aboveMa20Share": 0.4,
+      "amountCny": 3876157448,
+      "amountShare": 0.0018104764188000791,
+      "limitUpCount": 0,
+      "limitDownCount": 0,
+      "medianPeTtm": 25.9307,
+      "medianPb": 2.3727,
+      "lifecycle": "方向待明"
+    },
+    {
+      "name": "建筑装饰",
+      "sampleCount": 154,
+      "return1d": -0.001243564935064935,
+      "medianReturn1d": -0.004562,
+      "return5d": 0.019837525974033984,
+      "return20d": 0.10577597006081177,
+      "advanceShare": 0.36363636363636365,
+      "aboveMa20Share": 0.6298701298701299,
+      "amountCny": 26977625329,
+      "amountShare": 0.01260071479214595,
+      "limitUpCount": 2,
+      "limitDownCount": 1,
+      "medianPeTtm": 29.6573,
+      "medianPb": 2.0885499999999997,
+      "lifecycle": "方向待明"
+    },
+    {
+      "name": "交通运输",
+      "sampleCount": 128,
+      "return1d": -0.0013888593750000001,
+      "medianReturn1d": -0.005076,
+      "return5d": 0.01470070572309078,
+      "return20d": 0.03134154280820211,
+      "advanceShare": 0.328125,
+      "aboveMa20Share": 0.640625,
+      "amountCny": 21031965179,
+      "amountShare": 0.009823614625442652,
+      "limitUpCount": 0,
+      "limitDownCount": 0,
+      "medianPeTtm": 18.8455,
+      "medianPb": 1.4449,
+      "lifecycle": "方向待明"
+    },
+    {
+      "name": "传媒",
+      "sampleCount": 131,
+      "return1d": -0.0024604274809160304,
+      "medianReturn1d": -0.001614,
+      "return5d": -0.003390811045388988,
+      "return20d": 0.03938829561848173,
+      "advanceShare": 0.3893129770992366,
+      "aboveMa20Share": 0.15267175572519084,
+      "amountCny": 27514106235,
+      "amountShare": 0.012851294404441344,
+      "limitUpCount": 0,
+      "limitDownCount": 0,
+      "medianPeTtm": 40.171,
+      "medianPb": 2.9457,
+      "lifecycle": "方向待明"
+    },
+    {
+      "name": "钢铁",
+      "sampleCount": 43,
+      "return1d": -0.0041232790697674415,
+      "medianReturn1d": -0.005348,
+      "return5d": 0.025027046148875152,
+      "return20d": 0.016676692284005323,
+      "advanceShare": 0.23255813953488372,
+      "aboveMa20Share": 0.6744186046511628,
+      "amountCny": 7118765102,
+      "amountShare": 0.003325034269502673,
+      "limitUpCount": 0,
+      "limitDownCount": 0,
+      "medianPeTtm": 22.88315,
+      "medianPb": 1.2042000000000002,
+      "lifecycle": "高位分歧"
+    },
+    {
+      "name": "银行",
+      "sampleCount": 42,
+      "return1d": -0.010475,
+      "medianReturn1d": -0.0099405,
+      "return5d": 0.0015604889819856357,
+      "return20d": -0.02061098101642743,
+      "advanceShare": 0.09523809523809523,
+      "aboveMa20Share": 0.6904761904761905,
+      "amountCny": 30185499699,
+      "amountShare": 0.014099049413244106,
+      "limitUpCount": 0,
+      "limitDownCount": 0,
+      "medianPeTtm": 6.0969,
+      "medianPb": 0.5534,
+      "lifecycle": "方向待明"
+    }
+  ],
+  "themes": [
+    {
+      "name": "AI硬件与数字经济",
+      "members": [
+        "电子",
+        "通信",
+        "计算机"
+      ],
+      "sampleCount": 995,
+      "return1d": 0.029026768844221108,
+      "return5d": 0.02385784636595672,
+      "return20d": 0.17613380211722668,
+      "advanceShare": 0.8442211055276382,
+      "aboveMa20Share": 0.5989949748743718,
+      "amountShare": 0.3998676969866192,
+      "limitUpCount": 19,
+      "limitDownCount": 0
+    },
+    {
+      "name": "资源周期",
+      "members": [
+        "有色金属",
+        "钢铁",
+        "煤炭",
+        "石油石化",
+        "基础化工"
+      ],
+      "sampleCount": 713,
+      "return1d": 0.015612841514726509,
+      "return5d": 0.02947503009669422,
+      "return20d": 0.12137211137430645,
+      "advanceShare": 0.699859747545582,
+      "aboveMa20Share": 0.7223001402524544,
+      "amountShare": 0.14122046294643728,
+      "limitUpCount": 14,
+      "limitDownCount": 0
+    },
+    {
+      "name": "高端制造",
+      "members": [
+        "机械设备",
+        "国防军工",
+        "电力设备",
+        "汽车"
+      ],
+      "sampleCount": 1477,
+      "return1d": 0.010341355450236966,
+      "return5d": 0.01931060125766981,
+      "return20d": 0.10772425090403001,
+      "advanceShare": 0.6046039268788084,
+      "aboveMa20Share": 0.5240352064996615,
+      "amountShare": 0.1947790610276246,
+      "limitUpCount": 15,
+      "limitDownCount": 1
+    },
+    {
+      "name": "大消费",
+      "members": [
+        "食品饮料",
+        "家用电器",
+        "社会服务",
+        "商贸零售",
+        "农林牧渔"
+      ],
+      "sampleCount": 526,
+      "return1d": 0.009049038022813687,
+      "return5d": 0.014710353953143719,
+      "return20d": 0.0816120557353456,
+      "advanceShare": 0.5437262357414449,
+      "aboveMa20Share": 0.6197718631178707,
+      "amountShare": 0.048724393054992654,
+      "limitUpCount": 12,
+      "limitDownCount": 0
+    },
+    {
+      "name": "医药健康",
+      "members": [
+        "医药生物",
+        "美容护理"
+      ],
+      "sampleCount": 532,
+      "return1d": 0.007323603383458646,
+      "return5d": -0.024425843523302522,
+      "return20d": 0.11491465561577961,
+      "advanceShare": 0.5939849624060151,
+      "aboveMa20Share": 0.48120300751879697,
+      "amountShare": 0.06661744380045546,
+      "limitUpCount": 4,
+      "limitDownCount": 0
+    },
+    {
+      "name": "金融地产",
+      "members": [
+        "银行",
+        "非银金融",
+        "房地产"
+      ],
+      "sampleCount": 217,
+      "return1d": 0.004131345622119816,
+      "return5d": 0.02535680393912723,
+      "return20d": 0.039682316702735254,
+      "advanceShare": 0.4930875576036866,
+      "aboveMa20Share": 0.7926267281105991,
+      "amountShare": 0.045920676827779484,
+      "limitUpCount": 5,
+      "limitDownCount": 0
+    },
+    {
+      "name": "基建链",
+      "members": [
+        "建筑装饰",
+        "建筑材料"
+      ],
+      "sampleCount": 230,
+      "return1d": 0.000860573913043478,
+      "return5d": 0.02014295570449919,
+      "return20d": 0.1000528246495505,
+      "advanceShare": 0.4043478260869565,
+      "aboveMa20Share": 0.6565217391304348,
+      "amountShare": 0.024799554545113178,
+      "limitUpCount": 2,
+      "limitDownCount": 1
+    },
+    {
+      "name": "公用防御",
+      "members": [
+        "公用事业",
+        "交通运输",
+        "环保"
+      ],
+      "sampleCount": 400,
+      "return1d": 0.0003492375000000001,
+      "return5d": 0.01874828043655603,
+      "return20d": 0.05769588360544674,
+      "advanceShare": 0.41,
+      "aboveMa20Share": 0.54,
+      "amountShare": 0.03406558693218388,
+      "limitUpCount": 2,
+      "limitDownCount": 0
+    }
+  ],
+  "directions": {
+    "membershipAsOf": "2026-08-27",
+    "items": [
+      {
+        "name": "电子化学品",
+        "sourceIndexCode": "881172.TI",
+        "memberCount": 43,
+        "coveredCount": 43,
+        "return1d": 0.052222,
+        "medianReturn1d": 0.047514,
+        "advanceShare": 1.0,
+        "aboveMa20Share": 0.6976744186046512,
+        "amountCny": 45022838987,
+        "amountShare": 0.02102927690268166,
+        "amount20dPercentile": 0.35,
+        "relativeVsAllA": 0.04034625310978907,
+        "return5d": 0.025128774449246105,
+        "return20d": 0.2495622080079838,
+        "moneyflowProxyCny": 3437085300,
+        "moneyflowCoverage": null,
+        "limitUpCount": 3,
+        "limitDownCount": 0,
+        "loss5Count": 0,
+        "componentCrossCheck": {
+          "return1d": 0.05222237209302326,
+          "return5d": 0.02502437745694476,
+          "return20d": 0.2511427638802798,
+          "delta1dVsOfficial": 3.7209302326118854e-07
+        },
+        "leaders": [
+          {
+            "code": "603002.SH",
+            "name": "宏昌电子",
+            "return1d": 0.100195,
+            "amountCny": 966065523
+          },
+          {
+            "code": "603435.SH",
+            "name": "嘉德利",
+            "return1d": 0.10010300000000001,
+            "amountCny": 184840163
+          },
+          {
+            "code": "600330.SH",
+            "name": "天通股份",
+            "return1d": 0.1,
+            "amountCny": 3703383335
+          }
+        ],
+        "laggards": [
+          {
+            "code": "002584.SZ",
+            "name": "西陇科学",
+            "return1d": 0.017157
+          },
+          {
+            "code": "300481.SZ",
+            "name": "濮阳惠成",
+            "return1d": 0.019915000000000002
+          },
+          {
+            "code": "688683.SH",
+            "name": "莱尔科技",
+            "return1d": 0.020027
+          }
+        ],
+        "state": "方向待明"
+      },
+      {
+        "name": "存储芯片",
+        "sourceIndexCode": "886042.TI",
+        "memberCount": 203,
+        "coveredCount": 202,
+        "return1d": 0.045488,
+        "medianReturn1d": 0.039401,
+        "advanceShare": 0.9702970297029703,
+        "aboveMa20Share": 0.7475247524752475,
+        "amountCny": 329745239364,
+        "amountShare": 0.15401747428403342,
+        "amount20dPercentile": 0.3,
+        "relativeVsAllA": 0.033612253109789075,
+        "return5d": 0.02969969498735958,
+        "return20d": 0.22200259344975493,
+        "moneyflowProxyCny": 22491175700,
+        "moneyflowCoverage": null,
+        "limitUpCount": 7,
+        "limitDownCount": 0,
+        "loss5Count": 0,
+        "componentCrossCheck": {
+          "return1d": 0.045468569306930696,
+          "return5d": 0.029044797716580775,
+          "return20d": 0.22210014618406976,
+          "delta1dVsOfficial": -1.9430693069304172e-05
+        },
+        "leaders": [
+          {
+            "code": "688300.SH",
+            "name": "联瑞新材",
+            "return1d": 0.2,
+            "amountCny": 3769790833
+          },
+          {
+            "code": "301666.SZ",
+            "name": "大普微",
+            "return1d": 0.2,
+            "amountCny": 961955872
+          },
+          {
+            "code": "920971.BJ",
+            "name": "天马新材",
+            "return1d": 0.14984,
+            "amountCny": 284720384
+          }
+        ],
+        "laggards": [
+          {
+            "code": "688573.SH",
+            "name": "信宇人",
+            "return1d": -0.018855999999999998
+          },
+          {
+            "code": "688596.SH",
+            "name": "正帆科技",
+            "return1d": -0.005495
+          },
+          {
+            "code": "688439.SH",
+            "name": "振华风光",
+            "return1d": -0.003357
+          }
+        ],
+        "state": "方向待明"
+      },
+      {
+        "name": "CPO",
+        "sourceIndexCode": "886033.TI",
+        "memberCount": 205,
+        "coveredCount": 205,
+        "return1d": 0.044667000000000005,
+        "medianReturn1d": 0.039663,
+        "advanceShare": 0.9658536585365853,
+        "aboveMa20Share": 0.7804878048780488,
+        "amountCny": 420264123574,
+        "amountShare": 0.19629705335503206,
+        "amount20dPercentile": 0.5,
+        "relativeVsAllA": 0.03279125310978908,
+        "return5d": 0.03863179979862852,
+        "return20d": 0.2947548864179943,
+        "moneyflowProxyCny": 29676710400,
+        "moneyflowCoverage": null,
+        "limitUpCount": 8,
+        "limitDownCount": 0,
+        "loss5Count": 0,
+        "componentCrossCheck": {
+          "return1d": 0.044521458536585366,
+          "return5d": 0.03848396418376321,
+          "return20d": 0.2999696158669696,
+          "delta1dVsOfficial": -0.00014554146341463903
+        },
+        "leaders": [
+          {
+            "code": "300456.SZ",
+            "name": "赛微电子",
+            "return1d": 0.20013000000000003,
+            "amountCny": 2873362735
+          },
+          {
+            "code": "688183.SH",
+            "name": "生益电子",
+            "return1d": 0.143166,
+            "amountCny": 4104189329
+          },
+          {
+            "code": "300903.SZ",
+            "name": "科翔股份",
+            "return1d": 0.140128,
+            "amountCny": 2895258622
+          }
+        ],
+        "laggards": [
+          {
+            "code": "688270.SH",
+            "name": "ST臻镭",
+            "return1d": -0.033591
+          },
+          {
+            "code": "300571.SZ",
+            "name": "平治信息",
+            "return1d": -0.03305
+          },
+          {
+            "code": "603330.SH",
+            "name": "天洋新材",
+            "return1d": -0.027728000000000003
+          }
+        ],
+        "state": "方向待明"
+      },
+      {
+        "name": "先进封装",
+        "sourceIndexCode": "886009.TI",
+        "memberCount": 204,
+        "coveredCount": 204,
+        "return1d": 0.042914,
+        "medianReturn1d": 0.038325,
+        "advanceShare": 0.9509803921568627,
+        "aboveMa20Share": 0.7401960784313726,
+        "amountCny": 275055339587,
+        "amountShare": 0.12847290463733993,
+        "amount20dPercentile": 0.45,
+        "relativeVsAllA": 0.031038253109789075,
+        "return5d": 0.02523466145524811,
+        "return20d": 0.22644639622718543,
+        "moneyflowProxyCny": 18397137500,
+        "moneyflowCoverage": null,
+        "limitUpCount": 6,
+        "limitDownCount": 0,
+        "loss5Count": 0,
+        "componentCrossCheck": {
+          "return1d": 0.04328971078431373,
+          "return5d": 0.02460096272160979,
+          "return20d": 0.23104637143229784,
+          "delta1dVsOfficial": 0.0003757107843137264
+        },
+        "leaders": [
+          {
+            "code": "300456.SZ",
+            "name": "赛微电子",
+            "return1d": 0.20013000000000003,
+            "amountCny": 2873362735
+          },
+          {
+            "code": "688300.SH",
+            "name": "联瑞新材",
+            "return1d": 0.2,
+            "amountCny": 3769790833
+          },
+          {
+            "code": "300489.SZ",
+            "name": "光智科技",
+            "return1d": 0.161978,
+            "amountCny": 4391591181
+          }
+        ],
+        "laggards": [
+          {
+            "code": "300545.SZ",
+            "name": "联得装备",
+            "return1d": -0.02254
+          },
+          {
+            "code": "688726.SH",
+            "name": "拉普拉斯",
+            "return1d": -0.013234999999999999
+          },
+          {
+            "code": "300397.SZ",
+            "name": "天和防务",
+            "return1d": -0.009892
+          }
+        ],
+        "state": "方向待明"
+      },
+      {
+        "name": "PCB",
+        "sourceIndexCode": "885959.TI",
+        "memberCount": 236,
+        "coveredCount": 235,
+        "return1d": 0.041399,
+        "medianReturn1d": 0.039282,
+        "advanceShare": 0.8893617021276595,
+        "aboveMa20Share": 0.7659574468085106,
+        "amountCny": 257096605795,
+        "amountShare": 0.12008473556110964,
+        "amount20dPercentile": 0.55,
+        "relativeVsAllA": 0.029523253109789073,
+        "return5d": 0.03439009843931151,
+        "return20d": 0.2450623566224701,
+        "moneyflowProxyCny": 19013751700,
+        "moneyflowCoverage": null,
+        "limitUpCount": 12,
+        "limitDownCount": 0,
+        "loss5Count": 0,
+        "componentCrossCheck": {
+          "return1d": 0.041702434042553194,
+          "return5d": 0.034555114272129824,
+          "return20d": 0.24931626503120963,
+          "delta1dVsOfficial": 0.00030343404255319534
+        },
+        "leaders": [
+          {
+            "code": "301591.SZ",
+            "name": "肯特股份",
+            "return1d": 0.2,
+            "amountCny": 779741932
+          },
+          {
+            "code": "688183.SH",
+            "name": "生益电子",
+            "return1d": 0.143166,
+            "amountCny": 4104189329
+          },
+          {
+            "code": "300903.SZ",
+            "name": "科翔股份",
+            "return1d": 0.140128,
+            "amountCny": 2895258622
+          }
+        ],
+        "laggards": [
+          {
+            "code": "301512.SZ",
+            "name": "智信精密",
+            "return1d": -0.03384
+          },
+          {
+            "code": "300082.SZ",
+            "name": "奥克股份",
+            "return1d": -0.031532
+          },
+          {
+            "code": "600525.SH",
+            "name": "长园集团",
+            "return1d": -0.025455000000000002
+          }
+        ],
+        "state": "方向待明"
+      },
+      {
+        "name": "MLCC",
+        "sourceIndexCode": "886112.TI",
+        "memberCount": 35,
+        "coveredCount": 35,
+        "return1d": 0.040962,
+        "medianReturn1d": 0.037315999999999995,
+        "advanceShare": 0.9714285714285714,
+        "aboveMa20Share": 0.4857142857142857,
+        "amountCny": 46446367855,
+        "amountShare": 0.02169417905920512,
+        "amount20dPercentile": 0.25,
+        "relativeVsAllA": 0.029086253109789073,
+        "return5d": 0.023166585078655322,
+        "return20d": null,
+        "moneyflowProxyCny": 3673251500,
+        "moneyflowCoverage": null,
+        "limitUpCount": 1,
+        "limitDownCount": 0,
+        "loss5Count": 0,
+        "componentCrossCheck": {
+          "return1d": 0.040962485714285714,
+          "return5d": 0.02282270426570374,
+          "return20d": 0.1565513491110496,
+          "delta1dVsOfficial": 4.857142857153662e-07
+        },
+        "leaders": [
+          {
+            "code": "601208.SH",
+            "name": "东材科技",
+            "return1d": 0.09991,
+            "amountCny": 3775172934
+          },
+          {
+            "code": "300285.SZ",
+            "name": "国瓷材料",
+            "return1d": 0.091859,
+            "amountCny": 7585483782
+          },
+          {
+            "code": "300726.SZ",
+            "name": "宏达电子",
+            "return1d": 0.07745099999999999,
+            "amountCny": 617455806
+          }
+        ],
+        "laggards": [
+          {
+            "code": "300305.SZ",
+            "name": "裕兴股份",
+            "return1d": -0.0016289999999999998
+          },
+          {
+            "code": "603212.SH",
+            "name": "赛伍技术",
+            "return1d": 0.003425
+          },
+          {
+            "code": "600063.SH",
+            "name": "皖维高新",
+            "return1d": 0.017422
+          }
+        ],
+        "state": "方向待明"
+      },
+      {
+        "name": "玻璃基板",
+        "sourceIndexCode": "886111.TI",
+        "memberCount": 57,
+        "coveredCount": 57,
+        "return1d": 0.038946,
+        "medianReturn1d": 0.038462,
+        "advanceShare": 0.9122807017543859,
+        "aboveMa20Share": 0.7719298245614035,
+        "amountCny": 75382041275,
+        "amountShare": 0.035209459357057285,
+        "amount20dPercentile": 0.45,
+        "relativeVsAllA": 0.027070253109789076,
+        "return5d": 0.018150174798601704,
+        "return20d": 0.20410463456636552,
+        "moneyflowProxyCny": 3302206800,
+        "moneyflowCoverage": null,
+        "limitUpCount": 1,
+        "limitDownCount": 0,
+        "loss5Count": 0,
+        "componentCrossCheck": {
+          "return1d": 0.03957494736842105,
+          "return5d": 0.019615016443060306,
+          "return20d": 0.20638059524394187,
+          "delta1dVsOfficial": 0.0006289473684210484
+        },
+        "leaders": [
+          {
+            "code": "300456.SZ",
+            "name": "赛微电子",
+            "return1d": 0.20013000000000003,
+            "amountCny": 2873362735
+          },
+          {
+            "code": "688700.SH",
+            "name": "东威科技",
+            "return1d": 0.095367,
+            "amountCny": 860685297
+          },
+          {
+            "code": "688603.SH",
+            "name": "天承科技",
+            "return1d": 0.09037699999999999,
+            "amountCny": 668735772
+          }
+        ],
+        "laggards": [
+          {
+            "code": "300545.SZ",
+            "name": "联得装备",
+            "return1d": -0.02254
+          },
+          {
+            "code": "300724.SZ",
+            "name": "捷佳伟创",
+            "return1d": -0.007596
+          },
+          {
+            "code": "688499.SH",
+            "name": "利元亨",
+            "return1d": -0.0022589999999999997
+          }
+        ],
+        "state": "方向待明"
+      },
+      {
+        "name": "光刻胶",
+        "sourceIndexCode": "885864.TI",
+        "memberCount": 80,
+        "coveredCount": 80,
+        "return1d": 0.032112,
+        "medianReturn1d": 0.029989,
+        "advanceShare": 0.9375,
+        "aboveMa20Share": 0.6875,
+        "amountCny": 43084854920,
+        "amountShare": 0.020124082905608593,
+        "amount20dPercentile": 0.35,
+        "relativeVsAllA": 0.020236253109789076,
+        "return5d": 0.004844245820700088,
+        "return20d": 0.20436412563994577,
+        "moneyflowProxyCny": 2773938200,
+        "moneyflowCoverage": null,
+        "limitUpCount": 1,
+        "limitDownCount": 0,
+        "loss5Count": 0,
+        "componentCrossCheck": {
+          "return1d": 0.032065125,
+          "return5d": 0.0038871724794794322,
+          "return20d": 0.20154554204727676,
+          "delta1dVsOfficial": -4.6875000000001776e-05
+        },
+        "leaders": [
+          {
+            "code": "601208.SH",
+            "name": "东材科技",
+            "return1d": 0.09991,
+            "amountCny": 3775172934
+          },
+          {
+            "code": "300700.SZ",
+            "name": "岱勒新材",
+            "return1d": 0.075943,
+            "amountCny": 249331347
+          },
+          {
+            "code": "920193.BJ",
+            "name": "吉和昌",
+            "return1d": 0.069182,
+            "amountCny": 163708072
+          }
+        ],
+        "laggards": [
+          {
+            "code": "300446.SZ",
+            "name": "航天智造",
+            "return1d": -0.013453
+          },
+          {
+            "code": "001358.SZ",
+            "name": "兴欣新材",
+            "return1d": -0.013266
+          },
+          {
+            "code": "688669.SH",
+            "name": "聚石化学",
+            "return1d": -0.002102
+          }
+        ],
+        "state": "方向待明"
+      },
+      {
+        "name": "液冷服务器",
+        "sourceIndexCode": "886044.TI",
+        "memberCount": 229,
+        "coveredCount": 229,
+        "return1d": 0.031455000000000004,
+        "medianReturn1d": 0.025640999999999997,
+        "advanceShare": 0.851528384279476,
+        "aboveMa20Share": 0.6506550218340611,
+        "amountCny": 260285643723,
+        "amountShare": 0.12157427205280456,
+        "amount20dPercentile": 0.45,
+        "relativeVsAllA": 0.01957925310978908,
+        "return5d": 0.0473906097827832,
+        "return20d": 0.19414155917786524,
+        "moneyflowProxyCny": 11511329400,
+        "moneyflowCoverage": null,
+        "limitUpCount": 6,
+        "limitDownCount": 0,
+        "loss5Count": 1,
+        "componentCrossCheck": {
+          "return1d": 0.03162577292576419,
+          "return5d": 0.04696412242813581,
+          "return20d": 0.1955828404462081,
+          "delta1dVsOfficial": 0.00017077292576418712
+        },
+        "leaders": [
+          {
+            "code": "301399.SZ",
+            "name": "英特科技",
+            "return1d": 0.2,
+            "amountCny": 354092613
+          },
+          {
+            "code": "688800.SH",
+            "name": "瑞可达",
+            "return1d": 0.12158,
+            "amountCny": 1358406588
+          },
+          {
+            "code": "301307.SZ",
+            "name": "美利信",
+            "return1d": 0.114635,
+            "amountCny": 1052766476
+          }
+        ],
+        "laggards": [
+          {
+            "code": "300115.SZ",
+            "name": "长盈精密",
+            "return1d": -0.0605
+          },
+          {
+            "code": "002963.SZ",
+            "name": "豪尔赛",
+            "return1d": -0.047874999999999994
+          },
+          {
+            "code": "920978.BJ",
+            "name": "开特股份",
+            "return1d": -0.041688
+          }
+        ],
+        "state": "方向待明"
+      },
+      {
+        "name": "商业航天",
+        "sourceIndexCode": "886078.TI",
+        "memberCount": 505,
+        "coveredCount": 505,
+        "return1d": 0.022383,
+        "medianReturn1d": 0.015408,
+        "advanceShare": 0.7920792079207921,
+        "aboveMa20Share": 0.4910891089108911,
+        "amountCny": 276541010506,
+        "amountShare": 0.12916683211600993,
+        "amount20dPercentile": 0.35,
+        "relativeVsAllA": 0.010507253109789075,
+        "return5d": 0.021650043386086004,
+        "return20d": 0.1240082666153548,
+        "moneyflowProxyCny": 15516868300,
+        "moneyflowCoverage": null,
+        "limitUpCount": 12,
+        "limitDownCount": 0,
+        "loss5Count": 1,
+        "componentCrossCheck": {
+          "return1d": 0.022385746534653465,
+          "return5d": 0.021525191595043645,
+          "return20d": 0.12697236046139992,
+          "delta1dVsOfficial": 2.746534653465249e-06
+        },
+        "leaders": [
+          {
+            "code": "688790.SH",
+            "name": "昂瑞微",
+            "return1d": 0.200042,
+            "amountCny": 206636788
+          },
+          {
+            "code": "301591.SZ",
+            "name": "肯特股份",
+            "return1d": 0.2,
+            "amountCny": 779741932
+          },
+          {
+            "code": "920971.BJ",
+            "name": "天马新材",
+            "return1d": 0.14984,
+            "amountCny": 284720384
+          }
+        ],
+        "laggards": [
+          {
+            "code": "688175.SH",
+            "name": "高凌信息",
+            "return1d": -0.061303
+          },
+          {
+            "code": "688270.SH",
+            "name": "ST臻镭",
+            "return1d": -0.033591
+          },
+          {
+            "code": "688472.SH",
+            "name": "阿特斯",
+            "return1d": -0.025366
+          }
+        ],
+        "state": "方向待明"
+      },
+      {
+        "name": "金属新材料",
+        "sourceIndexCode": "881114.TI",
+        "memberCount": 34,
+        "coveredCount": 34,
+        "return1d": 0.02178,
+        "medianReturn1d": 0.017829499999999998,
+        "advanceShare": 0.8235294117647058,
+        "aboveMa20Share": 0.6176470588235294,
+        "amountCny": 7971397550,
+        "amountShare": 0.003723282008534948,
+        "amount20dPercentile": 0.3,
+        "relativeVsAllA": 0.009904253109789075,
+        "return5d": 0.02520077298564427,
+        "return20d": 0.13539483371278682,
+        "moneyflowProxyCny": 58453400,
+        "moneyflowCoverage": null,
+        "limitUpCount": 0,
+        "limitDownCount": 0,
+        "loss5Count": 0,
+        "componentCrossCheck": {
+          "return1d": 0.02178008823529412,
+          "return5d": 0.024736196930160773,
+          "return20d": 0.13442332176674854,
+          "delta1dVsOfficial": 8.823529411977615e-08
+        },
+        "leaders": [
+          {
+            "code": "301531.SZ",
+            "name": "春光集团",
+            "return1d": 0.073909,
+            "amountCny": 217241243
+          },
+          {
+            "code": "601137.SH",
+            "name": "博威合金",
+            "return1d": 0.071537,
+            "amountCny": 654622993
+          },
+          {
+            "code": "688456.SH",
+            "name": "有研粉材",
+            "return1d": 0.069059,
+            "amountCny": 675814116
+          }
+        ],
+        "laggards": [
+          {
+            "code": "920078.BJ",
+            "name": "族兴新材",
+            "return1d": -0.016137
+          },
+          {
+            "code": "605158.SH",
+            "name": "华达新材",
+            "return1d": -0.01233
+          },
+          {
+            "code": "603978.SH",
+            "name": "深圳新星",
+            "return1d": -0.010455
+          }
+        ],
+        "state": "方向待明"
+      },
+      {
+        "name": "物理AI",
+        "sourceIndexCode": "886069.TI",
+        "memberCount": 463,
+        "coveredCount": 463,
+        "return1d": 0.019206,
+        "medianReturn1d": 0.013621000000000001,
+        "advanceShare": 0.7861771058315334,
+        "aboveMa20Share": 0.4794816414686825,
+        "amountCny": 252800300521,
+        "amountShare": 0.11807801640916989,
+        "amount20dPercentile": 0.35,
+        "relativeVsAllA": 0.0073302531097890755,
+        "return5d": 0.021334138639714784,
+        "return20d": 0.13090338688158032,
+        "moneyflowProxyCny": 11686026500,
+        "moneyflowCoverage": null,
+        "limitUpCount": 4,
+        "limitDownCount": 0,
+        "loss5Count": 3,
+        "componentCrossCheck": {
+          "return1d": 0.019391812095032396,
+          "return5d": 0.02095968741637041,
+          "return20d": 0.13366496388874763,
+          "delta1dVsOfficial": 0.00018581209503239562
+        },
+        "leaders": [
+          {
+            "code": "688800.SH",
+            "name": "瑞可达",
+            "return1d": 0.12158,
+            "amountCny": 1358406588
+          },
+          {
+            "code": "300873.SZ",
+            "name": "海晨股份",
+            "return1d": 0.116185,
+            "amountCny": 365887071
+          },
+          {
+            "code": "688308.SH",
+            "name": "欧科亿",
+            "return1d": 0.110601,
+            "amountCny": 1625183798
+          }
+        ],
+        "laggards": [
+          {
+            "code": "300115.SZ",
+            "name": "长盈精密",
+            "return1d": -0.0605
+          },
+          {
+            "code": "601799.SH",
+            "name": "星宇股份",
+            "return1d": -0.051997999999999996
+          },
+          {
+            "code": "688787.SH",
+            "name": "海天瑞声",
+            "return1d": -0.05101
+          }
+        ],
+        "state": "方向待明"
+      },
+      {
+        "name": "减速器",
+        "sourceIndexCode": "886008.TI",
+        "memberCount": 139,
+        "coveredCount": 139,
+        "return1d": 0.01268,
+        "medianReturn1d": 0.006757,
+        "advanceShare": 0.7338129496402878,
+        "aboveMa20Share": 0.381294964028777,
+        "amountCny": 38082854249,
+        "amountShare": 0.01778774740237204,
+        "amount20dPercentile": 0.25,
+        "relativeVsAllA": 0.000804253109789075,
+        "return5d": 0.017940777403635977,
+        "return20d": 0.1028960538991539,
+        "moneyflowProxyCny": 322924100,
+        "moneyflowCoverage": null,
+        "limitUpCount": 2,
+        "limitDownCount": 0,
+        "loss5Count": 1,
+        "componentCrossCheck": {
+          "return1d": 0.01267948201438849,
+          "return5d": 0.017327621949272346,
+          "return20d": 0.10132132089969245,
+          "delta1dVsOfficial": -5.179856115110348e-07
+        },
+        "leaders": [
+          {
+            "code": "301307.SZ",
+            "name": "美利信",
+            "return1d": 0.114635,
+            "amountCny": 1052766476
+          },
+          {
+            "code": "000951.SZ",
+            "name": "中国重汽",
+            "return1d": 0.100246,
+            "amountCny": 692269432
+          },
+          {
+            "code": "603319.SH",
+            "name": "美湖股份",
+            "return1d": 0.100112,
+            "amountCny": 603684138
+          }
+        ],
+        "laggards": [
+          {
+            "code": "300115.SZ",
+            "name": "长盈精密",
+            "return1d": -0.0605
+          },
+          {
+            "code": "600218.SH",
+            "name": "全柴动力",
+            "return1d": -0.02574
+          },
+          {
+            "code": "002164.SZ",
+            "name": "宁波东力",
+            "return1d": -0.024215
+          }
+        ],
+        "state": "方向待明"
+      },
+      {
+        "name": "创新药",
+        "sourceIndexCode": "886015.TI",
+        "memberCount": 281,
+        "coveredCount": 280,
+        "return1d": 0.010321,
+        "medianReturn1d": 0.005561,
+        "advanceShare": 0.6821428571428572,
+        "aboveMa20Share": 0.475,
+        "amountCny": 102474991165,
+        "amountShare": 0.047864039969008086,
+        "amount20dPercentile": 0.35,
+        "relativeVsAllA": -0.001554746890210925,
+        "return5d": -0.032979309040557236,
+        "return20d": 0.11400866564151668,
+        "moneyflowProxyCny": -348691500,
+        "moneyflowCoverage": null,
+        "limitUpCount": 2,
+        "limitDownCount": 0,
+        "loss5Count": 0,
+        "componentCrossCheck": {
+          "return1d": 0.01071392857142857,
+          "return5d": -0.032622028251645424,
+          "return20d": 0.11643014631482626,
+          "delta1dVsOfficial": 0.0003929285714285701
+        },
+        "leaders": [
+          {
+            "code": "688091.SH",
+            "name": "上海谊众",
+            "return1d": 0.16419899999999998,
+            "amountCny": 470975655
+          },
+          {
+            "code": "600721.SH",
+            "name": "百花医药",
+            "return1d": 0.100264,
+            "amountCny": 2746713034
+          },
+          {
+            "code": "600479.SH",
+            "name": "千金药业",
+            "return1d": 0.09981899999999999,
+            "amountCny": 1300882233
+          }
+        ],
+        "laggards": [
+          {
+            "code": "688710.SH",
+            "name": "益诺思",
+            "return1d": -0.040438
+          },
+          {
+            "code": "301096.SZ",
+            "name": "百诚医药",
+            "return1d": -0.039547
+          },
+          {
+            "code": "688202.SH",
+            "name": "美迪西",
+            "return1d": -0.037033
+          }
+        ],
+        "state": "低位修复"
+      },
+      {
+        "name": "文化传媒",
+        "sourceIndexCode": "885418.TI",
+        "memberCount": 197,
+        "coveredCount": 197,
+        "return1d": 0.00037999999999999997,
+        "medianReturn1d": 0.0,
+        "advanceShare": 0.4517766497461929,
+        "aboveMa20Share": 0.3604060913705584,
+        "amountCny": 38829522078,
+        "amountShare": 0.018136501165642045,
+        "amount20dPercentile": 0.2,
+        "relativeVsAllA": -0.011495746890210925,
+        "return5d": 0.0078105807497665936,
+        "return20d": 0.06553346639318791,
+        "moneyflowProxyCny": 466152900,
+        "moneyflowCoverage": null,
+        "limitUpCount": 1,
+        "limitDownCount": 0,
+        "loss5Count": 4,
+        "componentCrossCheck": {
+          "return1d": 0.00038016243654822343,
+          "return5d": 0.006910387623854101,
+          "return20d": 0.0633993096867802,
+          "delta1dVsOfficial": 1.624365482234629e-07
+        },
+        "leaders": [
+          {
+            "code": "002396.SZ",
+            "name": "星网锐捷",
+            "return1d": 0.099934,
+            "amountCny": 3237273230
+          },
+          {
+            "code": "300300.SZ",
+            "name": "海峡创新",
+            "return1d": 0.056910999999999996,
+            "amountCny": 505595646
+          },
+          {
+            "code": "002678.SZ",
+            "name": "珠江钢琴",
+            "return1d": 0.047228000000000006,
+            "amountCny": 77080318
+          }
+        ],
+        "laggards": [
+          {
+            "code": "002949.SZ",
+            "name": "华阳国际",
+            "return1d": -0.064327
+          },
+          {
+            "code": "601801.SH",
+            "name": "皖新传媒",
+            "return1d": -0.060998000000000004
+          },
+          {
+            "code": "600757.SH",
+            "name": "长江传媒",
+            "return1d": -0.058289999999999995
+          }
+        ],
+        "state": "方向待明"
+      },
+      {
+        "name": "酿酒",
+        "sourceIndexCode": "700531.TI",
+        "memberCount": 31,
+        "coveredCount": 30,
+        "return1d": -0.007402,
+        "medianReturn1d": -0.007555,
+        "advanceShare": 0.2,
+        "aboveMa20Share": 0.3333333333333333,
+        "amountCny": 9804036265,
+        "amountShare": 0.004579271276909324,
+        "amount20dPercentile": 0.25,
+        "relativeVsAllA": -0.019277746890210924,
+        "return5d": 0.0013951664620870385,
+        "return20d": 0.01745005692635404,
+        "moneyflowProxyCny": -1129596800,
+        "moneyflowCoverage": null,
+        "limitUpCount": 0,
+        "limitDownCount": 0,
+        "loss5Count": 0,
+        "componentCrossCheck": {
+          "return1d": -0.007597266666666667,
+          "return5d": -0.0034753001286014144,
+          "return20d": -0.009801180714766978,
+          "delta1dVsOfficial": -0.00019526666666666755
+        },
+        "leaders": [
+          {
+            "code": "603369.SH",
+            "name": "今世缘",
+            "return1d": 0.014235,
+            "amountCny": 338256468
+          },
+          {
+            "code": "603198.SH",
+            "name": "迎驾贡酒",
+            "return1d": 0.012339,
+            "amountCny": 180771979
+          },
+          {
+            "code": "600084.SH",
+            "name": "*ST尼雅",
+            "return1d": 0.009479,
+            "amountCny": 12146533
+          }
+        ],
+        "laggards": [
+          {
+            "code": "600197.SH",
+            "name": "伊力特",
+            "return1d": -0.037886
+          },
+          {
+            "code": "600238.SH",
+            "name": "ST椰岛",
+            "return1d": -0.029106
+          },
+          {
+            "code": "002304.SZ",
+            "name": "洋河股份",
+            "return1d": -0.025808
+          }
+        ],
+        "state": "方向待明"
+      }
+    ]
+  },
+  "etfGroups": {
+    "groups": [
+      {
+        "name": "AI与半导体",
+        "rule": "人工智能|半导体|芯片|算力|通信|计算机|软件|机器人",
+        "sampleCount": 129,
+        "amountWeightedReturn1d": 0.03966057151744656,
+        "medianReturn1d": 0.039599999999999996,
+        "medianReturn5d": 0.013655462184873901,
+        "medianReturn20d": 0.07709750566893425,
+        "amountCny": 38428861324,
+        "shareCoverage": 1.0,
+        "shareIncreaseCount": 25,
+        "shareDecreaseCount": 80,
+        "representative": {
+          "code": "588170.SH",
+          "name": "华夏上证科创板半导体材料设备主题ETF",
+          "return1d": 0.037200000000000004,
+          "amountCny": 6429423517,
+          "shareDelta": -0.0056929279399347
+        }
+      },
+      {
+        "name": "中小盘宽基",
+        "rule": "中证1000|中证2000|中证500|创业板|科创50",
+        "sampleCount": 140,
+        "amountWeightedReturn1d": 0.02270299695925359,
+        "medianReturn1d": 0.01945,
+        "medianReturn5d": 0.006629758219895865,
+        "medianReturn20d": 0.08709209968812737,
+        "amountCny": 25388918034,
+        "shareCoverage": 1.0,
+        "shareIncreaseCount": 40,
+        "shareDecreaseCount": 26,
+        "representative": {
+          "code": "159915.SZ",
+          "name": "易方达创业板ETF",
+          "return1d": 0.0181,
+          "amountCny": 5191828280,
+          "shareDelta": -0.014838626045823089
+        }
+      },
+      {
+        "name": "资源周期",
+        "rule": "有色|黄金|煤炭|钢铁|化工|石油|稀土",
+        "sampleCount": 61,
+        "amountWeightedReturn1d": 0.016156693246735538,
+        "medianReturn1d": 0.0137,
+        "medianReturn5d": 0.03349282296650724,
+        "medianReturn20d": 0.11067438867438861,
+        "amountCny": 6351997261,
+        "shareCoverage": 0.9836065573770492,
+        "shareIncreaseCount": 15,
+        "shareDecreaseCount": 27,
+        "representative": {
+          "code": "512400.SH",
+          "name": "南方中证申万有色金属ETF",
+          "return1d": 0.0118,
+          "amountCny": 1158127566,
+          "shareDelta": 0.013862222339870778
+        }
+      },
+      {
+        "name": "消费",
+        "rule": "消费|食品|饮料|白酒|酒|家电",
+        "sampleCount": 47,
+        "amountWeightedReturn1d": 0.012733068733606858,
+        "medianReturn1d": 0.0022,
+        "medianReturn5d": -0.005628059049264222,
+        "medianReturn20d": 0.0,
+        "amountCny": 1552783754,
+        "shareCoverage": 1.0,
+        "shareIncreaseCount": 7,
+        "shareDecreaseCount": 13,
+        "representative": {
+          "code": "159732.SZ",
+          "name": "华夏国证消费电子主题ETF",
+          "return1d": 0.0311,
+          "amountCny": 403375460,
+          "shareDelta": -0.014639725584992047
+        }
+      },
+      {
+        "name": "大盘宽基",
+        "rule": "沪深300|上证50|A50(?!0)|中证100(?!0)",
+        "sampleCount": 83,
+        "amountWeightedReturn1d": 0.007647997272806778,
+        "medianReturn1d": 0.0068000000000000005,
+        "medianReturn5d": 0.00795372378886472,
+        "medianReturn20d": 0.010249242953645377,
+        "amountCny": 9251231560,
+        "shareCoverage": 1.0,
+        "shareIncreaseCount": 11,
+        "shareDecreaseCount": 25,
+        "representative": {
+          "code": "510300.SH",
+          "name": "华泰柏瑞沪深300ETF",
+          "return1d": 0.0084,
+          "amountCny": 3001316406,
+          "shareDelta": -0.011507895860811912
+        }
+      },
+      {
+        "name": "医药健康",
+        "rule": "医药|医疗|创新药|生物科技",
+        "sampleCount": 53,
+        "amountWeightedReturn1d": 0.007269850854394245,
+        "medianReturn1d": 0.0059,
+        "medianReturn5d": -0.045419573353766174,
+        "medianReturn20d": 0.05128205128205132,
+        "amountCny": 3984669049,
+        "shareCoverage": 0.9811320754716981,
+        "shareIncreaseCount": 15,
+        "shareDecreaseCount": 22,
+        "representative": {
+          "code": "159992.SZ",
+          "name": "银华中证创新药产业ETF",
+          "return1d": 0.008100000000000001,
+          "amountCny": 805469953,
+          "shareDelta": -0.011685739862695388
+        }
+      },
+      {
+        "name": "金融地产",
+        "rule": "银行|证券|非银|地产|房地产",
+        "sampleCount": 50,
+        "amountWeightedReturn1d": 0.004773663952118283,
+        "medianReturn1d": 0.00695,
+        "medianReturn5d": 0.03103848035065937,
+        "medianReturn20d": -0.0009970089730806375,
+        "amountCny": 8461762420,
+        "shareCoverage": 1.0,
+        "shareIncreaseCount": 11,
+        "shareDecreaseCount": 34,
+        "representative": {
+          "code": "512880.SH",
+          "name": "国泰中证全指证券公司ETF",
+          "return1d": 0.0091,
+          "amountCny": 2689721813,
+          "shareDelta": -0.0056331396321939176
+        }
+      },
+      {
+        "name": "红利防御",
+        "rule": "红利|高股息|央企|公用事业|低波",
+        "sampleCount": 99,
+        "amountWeightedReturn1d": -0.0022595400432173307,
+        "medianReturn1d": -0.002,
+        "medianReturn5d": 0.01148225469728592,
+        "medianReturn20d": -0.00968661148669997,
+        "amountCny": 4750633621,
+        "shareCoverage": 1.0,
+        "shareIncreaseCount": 16,
+        "shareDecreaseCount": 31,
+        "representative": {
+          "code": "512890.SH",
+          "name": "华泰柏瑞中证红利低波动ETF",
+          "return1d": -0.0067,
+          "amountCny": 1094747351,
+          "shareDelta": 0.00586948747935967
+        }
+      }
+    ]
+  },
+  "segments": {
+    "boards": [
+      {
+        "name": "主板",
+        "sampleCount": 3191,
+        "return1d": 0.008043799435913507,
+        "advanceShare": 0.5562519586336572,
+        "aboveMa20Share": 0.606079598871827,
+        "turnoverRateMedian": 0.015629
+      },
+      {
+        "name": "创业板",
+        "sampleCount": 1402,
+        "return1d": 0.01611127746077033,
+        "advanceShare": 0.68830242510699,
+        "aboveMa20Share": 0.5848787446504993,
+        "turnoverRateMedian": 0.028369
+      },
+      {
+        "name": "科创板",
+        "sampleCount": 616,
+        "return1d": 0.023553118506493505,
+        "advanceShare": 0.7321428571428571,
+        "aboveMa20Share": 0.5633116883116883,
+        "turnoverRateMedian": 0.02031
+      },
+      {
+        "name": "北交所",
+        "sampleCount": 338,
+        "return1d": 0.009201988165680474,
+        "advanceShare": 0.6005917159763313,
+        "aboveMa20Share": 0.34615384615384615,
+        "turnoverRateMedian": 0.0186835
+      }
+    ],
+    "marketCap": [
+      {
+        "name": "小盘",
+        "sampleCount": 2774,
+        "return1d": 0.005722570656092285,
+        "advanceShare": 0.5241528478731075,
+        "medianMarketCapCny": 3352908568.5
+      },
+      {
+        "name": "中盘",
+        "sampleCount": 1664,
+        "return1d": 0.01648308954326923,
+        "advanceShare": 0.6899038461538461,
+        "medianMarketCapCny": 9359203096.0
+      },
+      {
+        "name": "大盘",
+        "sampleCount": 832,
+        "return1d": 0.02126521875,
+        "advanceShare": 0.7223557692307693,
+        "medianMarketCapCny": 29025725358.499996
+      },
+      {
+        "name": "超大盘",
+        "sampleCount": 277,
+        "return1d": 0.017616729241877255,
+        "advanceShare": 0.6895306859205776,
+        "medianMarketCapCny": 135696319585.0
+      }
+    ]
+  },
+  "stocks": {
+    "top": [
+      {
+        "code": "920895.BJ",
+        "name": "花溪科技",
+        "industry": "机械设备",
+        "return1d": 0.3,
+        "boardHeight": 1,
+        "amountCny": 107431847,
+        "board": "北交所",
+        "limitDetail": {
+          "type": "U",
+          "firstTime": "102348",
+          "lastTime": "110203",
+          "openTimes": 3,
+          "upStat": "1/1",
+          "limitTimes": 1,
+          "sealedAmountCny": 11112253.0
+        }
+      },
+      {
+        "code": "300456.SZ",
+        "name": "赛微电子",
+        "industry": "电子",
+        "return1d": 0.20013000000000003,
+        "boardHeight": 1,
+        "amountCny": 2873362735,
+        "board": "创业板",
+        "limitDetail": {
+          "type": "U",
+          "firstTime": "101324",
+          "lastTime": "102627",
+          "openTimes": 2,
+          "upStat": "1/1",
+          "limitTimes": 1,
+          "sealedAmountCny": 174117404.0
+        }
+      },
+      {
+        "code": "688790.SH",
+        "name": "昂瑞微",
+        "industry": "电子",
+        "return1d": 0.200042,
+        "boardHeight": 1,
+        "amountCny": 206636788,
+        "board": "科创板",
+        "limitDetail": {
+          "type": "U",
+          "firstTime": "101856",
+          "lastTime": "101856",
+          "openTimes": 0,
+          "upStat": "1/1",
+          "limitTimes": 1,
+          "sealedAmountCny": 35146565.0
+        }
+      },
+      {
+        "code": "688300.SH",
+        "name": "联瑞新材",
+        "industry": "基础化工",
+        "return1d": 0.2,
+        "boardHeight": 1,
+        "amountCny": 3769790833,
+        "board": "科创板",
+        "limitDetail": {
+          "type": "U",
+          "firstTime": "104920",
+          "lastTime": "111947",
+          "openTimes": 2,
+          "upStat": "1/1",
+          "limitTimes": 1,
+          "sealedAmountCny": 86159093.0
+        }
+      },
+      {
+        "code": "301399.SZ",
+        "name": "英特科技",
+        "industry": "机械设备",
+        "return1d": 0.2,
+        "boardHeight": 1,
+        "amountCny": 354092613,
+        "board": "创业板",
+        "limitDetail": {
+          "type": "U",
+          "firstTime": "100015",
+          "lastTime": "104636",
+          "openTimes": 1,
+          "upStat": "1/1",
+          "limitTimes": 1,
+          "sealedAmountCny": 28386261.0
+        }
+      },
+      {
+        "code": "301666.SZ",
+        "name": "大普微",
+        "industry": "电子",
+        "return1d": 0.2,
+        "boardHeight": 1,
+        "amountCny": 961955872,
+        "board": "创业板",
+        "limitDetail": {
+          "type": "U",
+          "firstTime": "93051",
+          "lastTime": "93051",
+          "openTimes": 0,
+          "upStat": "1/1",
+          "limitTimes": 1,
+          "sealedAmountCny": 251022000.0
+        }
+      },
+      {
+        "code": "688368.SH",
+        "name": "晶丰明源",
+        "industry": "电子",
+        "return1d": 0.2,
+        "boardHeight": 1,
+        "amountCny": 794789891,
+        "board": "科创板",
+        "limitDetail": {
+          "type": "U",
+          "firstTime": "143148",
+          "lastTime": "143148",
+          "openTimes": 0,
+          "upStat": "1/1",
+          "limitTimes": 1,
+          "sealedAmountCny": 19339982.0
+        }
+      },
+      {
+        "code": "301591.SZ",
+        "name": "肯特股份",
+        "industry": "基础化工",
+        "return1d": 0.2,
+        "boardHeight": 1,
+        "amountCny": 779741932,
+        "board": "创业板",
+        "limitDetail": {
+          "type": "U",
+          "firstTime": "101948",
+          "lastTime": "101948",
+          "openTimes": 0,
+          "upStat": "1/1",
+          "limitTimes": 1,
+          "sealedAmountCny": 81255434.0
+        }
+      },
+      {
+        "code": "300368.SZ",
+        "name": "汇金股份",
+        "industry": "计算机",
+        "return1d": 0.19950099999999998,
+        "boardHeight": 1,
+        "amountCny": 606935398,
+        "board": "创业板",
+        "limitDetail": {
+          "type": "U",
+          "firstTime": "93921",
+          "lastTime": "94330",
+          "openTimes": 1,
+          "upStat": "1/1",
+          "limitTimes": 1,
+          "sealedAmountCny": 80192329.0
+        }
+      },
+      {
+        "code": "301373.SZ",
+        "name": "凌玮科技",
+        "industry": "基础化工",
+        "return1d": 0.177894,
+        "boardHeight": 0,
+        "amountCny": 1461145883,
+        "board": "创业板",
+        "limitDetail": null
+      },
+      {
+        "code": "688091.SH",
+        "name": "上海谊众",
+        "industry": "医药生物",
+        "return1d": 0.16419899999999998,
+        "boardHeight": 0,
+        "amountCny": 470975655,
+        "board": "科创板",
+        "limitDetail": null
+      },
+      {
+        "code": "300489.SZ",
+        "name": "光智科技",
+        "industry": "电子",
+        "return1d": 0.161978,
+        "boardHeight": 0,
+        "amountCny": 4391591181,
+        "board": "创业板",
+        "limitDetail": null
+      }
+    ],
+    "bottom": [
+      {
+        "code": "300274.SZ",
+        "name": "阳光电源",
+        "industry": "电力设备",
+        "return1d": -0.122358,
+        "boardHeight": 0,
+        "amountCny": 14133098171,
+        "board": "创业板",
+        "limitDetail": null
+      },
+      {
+        "code": "002028.SZ",
+        "name": "思源电气",
+        "industry": "电力设备",
+        "return1d": -0.100006,
+        "boardHeight": 0,
+        "amountCny": 1015802575,
+        "board": "主板",
+        "limitDetail": {
+          "type": "D",
+          "firstTime": null,
+          "lastTime": "93618",
+          "openTimes": 4,
+          "upStat": null,
+          "limitTimes": 1,
+          "sealedAmountCny": 465418811.0
+        }
+      },
+      {
+        "code": "603839.SH",
+        "name": "安正时尚",
+        "industry": "纺织服饰",
+        "return1d": -0.099861,
+        "boardHeight": 0,
+        "amountCny": 130658824,
+        "board": "主板",
+        "limitDetail": {
+          "type": "D",
+          "firstTime": null,
+          "lastTime": "150000",
+          "openTimes": 7,
+          "upStat": null,
+          "limitTimes": 1,
+          "sealedAmountCny": 1402489.0
+        }
+      },
+      {
+        "code": "003013.SZ",
+        "name": "地铁设计",
+        "industry": "建筑装饰",
+        "return1d": -0.09971999999999999,
+        "boardHeight": 0,
+        "amountCny": 323242877,
+        "board": "主板",
+        "limitDetail": {
+          "type": "D",
+          "firstTime": null,
+          "lastTime": "142715",
+          "openTimes": 8,
+          "upStat": null,
+          "limitTimes": 1,
+          "sealedAmountCny": 4166951.0
+        }
+      },
+      {
+        "code": "920717.BJ",
+        "name": "瑞星股份",
+        "industry": "机械设备",
+        "return1d": -0.09846500000000001,
+        "boardHeight": 0,
+        "amountCny": 29727285,
+        "board": "北交所",
+        "limitDetail": null
+      },
+      {
+        "code": "002731.SZ",
+        "name": "*ST萃华",
+        "industry": "纺织服饰",
+        "return1d": -0.09615399999999999,
+        "boardHeight": 0,
+        "amountCny": 8693214,
+        "board": "主板",
+        "limitDetail": null
+      },
+      {
+        "code": "688155.SH",
+        "name": "先惠技术",
+        "industry": "电力设备",
+        "return1d": -0.092833,
+        "boardHeight": 0,
+        "amountCny": 434311519,
+        "board": "科创板",
+        "limitDetail": null
+      },
+      {
+        "code": "300486.SZ",
+        "name": "东杰智能",
+        "industry": "机械设备",
+        "return1d": -0.085308,
+        "boardHeight": 0,
+        "amountCny": 562585084,
+        "board": "创业板",
+        "limitDetail": null
+      },
+      {
+        "code": "301177.SZ",
+        "name": "迪阿股份",
+        "industry": "纺织服饰",
+        "return1d": -0.08179600000000001,
+        "boardHeight": 0,
+        "amountCny": 289299755,
+        "board": "创业板",
+        "limitDetail": null
+      },
+      {
+        "code": "688676.SH",
+        "name": "金盘科技",
+        "industry": "电力设备",
+        "return1d": -0.077125,
+        "boardHeight": 0,
+        "amountCny": 2406873985,
+        "board": "科创板",
+        "limitDetail": null
+      },
+      {
+        "code": "600984.SH",
+        "name": "建设机械",
+        "industry": "机械设备",
+        "return1d": -0.075107,
+        "boardHeight": 0,
+        "amountCny": 575416379,
+        "board": "主板",
+        "limitDetail": null
+      },
+      {
+        "code": "603706.SH",
+        "name": "东方环宇",
+        "industry": "公用事业",
+        "return1d": -0.074581,
+        "boardHeight": 0,
+        "amountCny": 87900097,
+        "board": "主板",
+        "limitDetail": null
+      }
+    ]
+  },
+  "technical": {
+    "indexCode": "000001.SH",
+    "asOf": "2026-08-27",
+    "close": 3956.571,
+    "ma5": 3909.1499799999997,
+    "ma10": 3924.40269,
+    "ma20": 3910.0691099999995,
+    "atr20": 44.99275,
+    "support": [
+      {
+        "label": "MA20",
+        "value": 3910.0691099999995,
+        "kind": "dynamic_average"
+      },
+      {
+        "label": "10日区间低点",
+        "value": 3850.8628,
+        "kind": "observed_low"
+      },
+      {
+        "label": "20日区间低点",
+        "value": 3797.6431,
+        "kind": "observed_low"
+      }
+    ],
+    "resistance": [
+      {
+        "label": "10日区间高点",
+        "value": 3994.1812,
+        "kind": "observed_high"
+      },
+      {
+        "label": "20日区间高点",
+        "value": 3994.1812,
+        "kind": "observed_high"
+      }
+    ],
+    "confirmationRule": "收盘高于前20日区间高点，且全A上涨覆盖不低于50%，且全市场成交额不低于近20日中位数。",
+    "confirmationNow": false
+  },
+  "summary": {
+    "headline": "涨跌分化，市场仍在寻找一致方向",
+    "tags": [
+      "广度分化",
+      "量能扩张",
+      "MA20上方58%",
+      "78家封板",
+      "温度77.3"
+    ],
+    "text": "全A收盘为3394家上涨、1944家下跌，上涨占比61.19%；成交2.1410万亿元，环比+12.68%。涨跌覆盖处于分化区，58.0%样本位于MA20上方；78家封板、4家跌停，尚不能仅凭单日截面确认统一方向。",
+    "support": "16方向中电子化学品当日+5.22%居前；99家触板、封板率78.8%，最高6板。",
+    "counterEvidence": "银行当日等权-1.05%，酿酒方向-0.74%；成交额环比+12.68%，资金流分类代理+537.7亿元。",
+    "risks": [
+      {
+        "title": "分化状态尚未形成一致方向",
+        "text": "上涨占比61.19%，中位数涨幅+0.53%。"
+      },
+      {
+        "title": "少数方向逆势承压",
+        "text": "钢铁、银行分别为-0.41%、-1.05%。"
+      },
+      {
+        "title": "放量后的次日承接仍需验证",
+        "text": "成交额环比+12.68%，99家触板中21家未封住。"
+      }
+    ],
+    "nextValidations": [
+      {
+        "title": "市场广度能否脱离分化区",
+        "text": "上涨占比与MA20上方比例同向改善或恶化，才能确认状态迁移。"
+      },
+      {
+        "title": "电子化学品强势能否扩散",
+        "text": "相对收益、上涨覆盖和成交占比至少两项继续改善。"
+      },
+      {
+        "title": "酿酒弱势能否收敛",
+        "text": "相对收益不再恶化，且上涨覆盖回升。"
+      },
+      {
+        "title": "封板生态能否稳定",
+        "text": "封板率不低于今日78.8%，多板梯队未明显塌缩。"
+      }
+    ]
+  },
+  "evolution": {
+    "rows": [
+      {
+        "advanceCount": 3394,
+        "declineCount": 1944,
+        "advanceShare": 0.6118622678925545,
+        "aboveMa20Share": 0.5801334054443843,
+        "medianReturn1d": 0.0052910000000000006,
+        "turnoverCny": 2140959919627,
+        "date": "2026-08-21",
+        "headline": "历史展示样例（缺少完整历史快照）",
+        "complete": false,
+        "temperature": 77.3,
+        "sentiment": 82.6,
+        "limitUpCount": 78,
+        "limitDownCount": 4,
+        "maxBoard": 6,
+        "sealRate": 0.7878787878787878,
+        "trendStrongShare": 0.21597259780061295,
+        "topDirections": null,
+        "topIndustries": [
+          {
+            "name": "电子",
+            "return1d": 0.04006124266144814
+          },
+          {
+            "name": "通信",
+            "return1d": 0.025494102362204722
+          },
+          {
+            "name": "煤炭",
+            "return1d": 0.02488378787878788
+          }
+        ],
+        "directionsRelative": null
+      },
+      {
+        "advanceCount": 3394,
+        "declineCount": 1944,
+        "advanceShare": 0.26330027051397653,
+        "aboveMa20Share": 0.4205590622182146,
+        "medianReturn1d": -0.012177,
+        "turnoverCny": 2021215318551,
+        "date": "2026-08-24",
+        "headline": "历史展示样例（缺少完整历史快照）",
+        "complete": false,
+        "temperature": 77.3,
+        "sentiment": 82.6,
+        "limitUpCount": 48,
+        "limitDownCount": 14,
+        "maxBoard": 4,
+        "sealRate": 0.6956521739130435,
+        "trendStrongShare": 0.21597259780061295,
+        "topDirections": null,
+        "topIndustries": [
+          {
+            "name": "电子",
+            "return1d": 0.04006124266144814
+          },
+          {
+            "name": "通信",
+            "return1d": 0.025494102362204722
+          },
+          {
+            "name": "煤炭",
+            "return1d": 0.02488378787878788
+          }
+        ],
+        "directionsRelative": null
+      },
+      {
+        "advanceCount": 3394,
+        "declineCount": 1944,
+        "advanceShare": 0.6118622678925545,
+        "aboveMa20Share": 0.5801334054443843,
+        "medianReturn1d": 0.0052910000000000006,
+        "turnoverCny": 2140959919627,
+        "date": "2026-08-25",
+        "headline": "历史展示样例（缺少完整历史快照）",
+        "complete": false,
+        "temperature": 77.3,
+        "sentiment": 82.6,
+        "limitUpCount": 78,
+        "limitDownCount": 4,
+        "maxBoard": 6,
+        "sealRate": 0.7878787878787878,
+        "trendStrongShare": 0.21597259780061295,
+        "topDirections": null,
+        "topIndustries": [
+          {
+            "name": "电子",
+            "return1d": 0.04006124266144814
+          },
+          {
+            "name": "通信",
+            "return1d": 0.025494102362204722
+          },
+          {
+            "name": "煤炭",
+            "return1d": 0.02488378787878788
+          }
+        ],
+        "directionsRelative": null
+      },
+      {
+        "advanceCount": 3394,
+        "declineCount": 1944,
+        "advanceShare": 0.6118622678925545,
+        "aboveMa20Share": 0.5801334054443843,
+        "medianReturn1d": 0.0052910000000000006,
+        "turnoverCny": 2140959919627,
+        "date": "2026-08-26",
+        "headline": "历史展示样例（缺少完整历史快照）",
+        "complete": false,
+        "temperature": 77.3,
+        "sentiment": 82.6,
+        "limitUpCount": 78,
+        "limitDownCount": 4,
+        "maxBoard": 6,
+        "sealRate": 0.7878787878787878,
+        "trendStrongShare": 0.21597259780061295,
+        "topDirections": null,
+        "topIndustries": [
+          {
+            "name": "电子",
+            "return1d": 0.04006124266144814
+          },
+          {
+            "name": "通信",
+            "return1d": 0.025494102362204722
+          },
+          {
+            "name": "煤炭",
+            "return1d": 0.02488378787878788
+          }
+        ],
+        "directionsRelative": null
+      },
+      {
+        "advanceCount": 3394,
+        "declineCount": 1944,
+        "advanceShare": 0.6118622678925545,
+        "aboveMa20Share": 0.5801334054443843,
+        "medianReturn1d": 0.0052910000000000006,
+        "turnoverCny": 2140959919627,
+        "date": "2026-08-27",
+        "headline": "涨跌分化，市场仍在寻找一致方向",
+        "complete": false,
+        "temperature": 77.3,
+        "sentiment": 82.6,
+        "limitUpCount": 78,
+        "limitDownCount": 4,
+        "maxBoard": 6,
+        "sealRate": 0.7878787878787878,
+        "trendStrongShare": 0.21597259780061295,
+        "topDirections": [
+          {
+            "name": "电子化学品",
+            "return1d": 0.052222
+          },
+          {
+            "name": "存储芯片",
+            "return1d": 0.045488
+          },
+          {
+            "name": "CPO",
+            "return1d": 0.044667000000000005
+          }
+        ],
+        "topIndustries": [
+          {
+            "name": "电子",
+            "return1d": 0.04006124266144814
+          },
+          {
+            "name": "通信",
+            "return1d": 0.025494102362204722
+          },
+          {
+            "name": "煤炭",
+            "return1d": 0.02488378787878788
+          }
+        ],
+        "directionsRelative": [
+          {
+            "name": "电子化学品",
+            "relativeVsAllA": 0.04034625310978907
+          },
+          {
+            "name": "存储芯片",
+            "relativeVsAllA": 0.033612253109789075
+          },
+          {
+            "name": "CPO",
+            "relativeVsAllA": 0.03279125310978908
+          },
+          {
+            "name": "先进封装",
+            "relativeVsAllA": 0.031038253109789075
+          },
+          {
+            "name": "PCB",
+            "relativeVsAllA": 0.029523253109789073
+          },
+          {
+            "name": "MLCC",
+            "relativeVsAllA": 0.029086253109789073
+          },
+          {
+            "name": "玻璃基板",
+            "relativeVsAllA": 0.027070253109789076
+          },
+          {
+            "name": "光刻胶",
+            "relativeVsAllA": 0.020236253109789076
+          },
+          {
+            "name": "液冷服务器",
+            "relativeVsAllA": 0.01957925310978908
+          },
+          {
+            "name": "商业航天",
+            "relativeVsAllA": 0.010507253109789075
+          },
+          {
+            "name": "金属新材料",
+            "relativeVsAllA": 0.009904253109789075
+          },
+          {
+            "name": "物理AI",
+            "relativeVsAllA": 0.0073302531097890755
+          },
+          {
+            "name": "减速器",
+            "relativeVsAllA": 0.000804253109789075
+          },
+          {
+            "name": "创新药",
+            "relativeVsAllA": -0.001554746890210925
+          },
+          {
+            "name": "文化传媒",
+            "relativeVsAllA": -0.011495746890210925
+          },
+          {
+            "name": "酿酒",
+            "relativeVsAllA": -0.019277746890210924
+          }
+        ]
+      }
+    ],
+    "edgeChanges": {
+      "turnover": {
+        "change": 0.0,
+        "state": "持平"
+      },
+      "advanceShare": {
+        "change": 0.0,
+        "state": "持平"
+      },
+      "limitUpCount": {
+        "change": 0,
+        "state": "持平"
+      },
+      "maxBoard": {
+        "change": 0,
+        "state": "持平"
+      }
+    },
+    "summary": {
+      "turnoverMedianCny": 2140959919627,
+      "temperatureRange": [
+        77.3,
+        77.3
+      ],
+      "advanceShareRange": [
+        0.26330027051397653,
+        0.6118622678925545
+      ],
+      "directions": [
+        {
+          "name": "电子化学品",
+          "top3Appearances": 1
+        },
+        {
+          "name": "存储芯片",
+          "top3Appearances": 1
+        },
+        {
+          "name": "CPO",
+          "top3Appearances": 1
+        }
+      ],
+      "industries": [
+        {
+          "name": "电子",
+          "top3Appearances": 5
+        },
+        {
+          "name": "通信",
+          "top3Appearances": 5
+        },
+        {
+          "name": "煤炭",
+          "top3Appearances": 5
+        }
+      ],
+      "directionCoverageDays": 1,
+      "windowDays": 5
+    },
+    "transmission": {
+      "liquidityBreadth": {
+        "name": "量能与广度",
+        "text": "成交额较前日+0.00%，上涨覆盖61.2%，五日成交中位21409.6亿元。"
+      },
+      "direction": {
+        "name": "方向承接",
+        "text": "电子化学品当日+5.22%。"
+      },
+      "limitCluster": {
+        "name": "涨停聚类",
+        "text": "电子涨停12家，最高3板。"
+      },
+      "negativeFeedback": {
+        "name": "负反馈",
+        "text": "跌停4家，晋级未完成16家。"
+      }
+    },
+    "signals": {
+      "liquidity": {
+        "name": "量能承接",
+        "currentState": "乐观条件已满足",
+        "confirmation": "成交维持或高于近五日中位21409.6亿元",
+        "invalidation": "放量冲高后快速回落，且低于五日中位"
+      },
+      "direction": {
+        "name": "方向延续",
+        "currentState": "电子化学品",
+        "confirmation": "电子化学品继续居前且内部上涨覆盖不收窄",
+        "invalidation": "龙头断板、居前方向跌出前三且负反馈扩散"
+      },
+      "progression": {
+        "name": "前排晋级",
+        "currentState": "28.6%",
+        "confirmation": "晋级率回升、最高板不压缩，炸板率下降",
+        "invalidation": "晋级率继续下滑，最高板压缩且掉队增多"
+      },
+      "breadth": {
+        "name": "市场广度",
+        "currentState": "61.2%",
+        "confirmation": "上涨覆盖维持且中位数同步改善",
+        "invalidation": "指数上涨但中位数、上涨覆盖明显回落"
+      }
+    }
+  },
+  "validation": {
+    "settledToday": [
+      "HYP-20260826-LIMIT-ECOLOGY",
+      "HYP-20260826-MARKET-PERSISTENCE",
+      "HYP-20260826-TOP-DIRECTION",
+      "HYP-20260826-WEAK-DIRECTION"
+    ],
+    "createdToday": [
+      "HYP-20260827-DIRECTION-SPREAD",
+      "HYP-20260827-LIMIT-ECOLOGY",
+      "HYP-20260827-MARKET-PERSISTENCE",
+      "HYP-20260827-TOP-DIRECTION",
+      "HYP-20260827-WEAK-DIRECTION"
+    ],
+    "stats": {
+      "cumulative": [
+        {
+          "ruleType": null,
+          "settledCount": 11,
+          "confirmedCount": 4,
+          "notConfirmedCount": 4,
+          "inconclusiveCount": 3,
+          "confirmedShare": 0.36363636363636365,
+          "notConfirmedShare": 0.36363636363636365,
+          "inconclusiveShare": 0.2727272727272727
+        },
+        {
+          "ruleType": "MARKET_PERSISTENCE",
+          "settledCount": 8,
+          "confirmedCount": 0,
+          "notConfirmedCount": 3,
+          "inconclusiveCount": 5,
+          "confirmedShare": 0.0,
+          "notConfirmedShare": 0.375,
+          "inconclusiveShare": 0.625
+        },
+        {
+          "ruleType": "DIRECTION_PERSISTENCE",
+          "settledCount": 8,
+          "confirmedCount": 0,
+          "notConfirmedCount": 4,
+          "inconclusiveCount": 4,
+          "confirmedShare": 0.0,
+          "notConfirmedShare": 0.5,
+          "inconclusiveShare": 0.5
+        },
+        {
+          "ruleType": "DIRECTION_REPAIR",
+          "settledCount": 8,
+          "confirmedCount": 4,
+          "notConfirmedCount": 0,
+          "inconclusiveCount": 4,
+          "confirmedShare": 0.5,
+          "notConfirmedShare": 0.0,
+          "inconclusiveShare": 0.5
+        },
+        {
+          "ruleType": "LIMIT_ECOLOGY",
+          "settledCount": 8,
+          "confirmedCount": 1,
+          "notConfirmedCount": 2,
+          "inconclusiveCount": 5,
+          "confirmedShare": 0.125,
+          "notConfirmedShare": 0.25,
+          "inconclusiveShare": 0.625
+        },
+        {
+          "ruleType": "DIRECTION_SPREAD",
+          "settledCount": 4,
+          "confirmedCount": 4,
+          "notConfirmedCount": 0,
+          "inconclusiveCount": 0,
+          "confirmedShare": 1.0,
+          "notConfirmedShare": 0.0,
+          "inconclusiveShare": 0.0
+        }
+      ],
+      "last20TradingDays": [
+        {
+          "ruleType": null,
+          "settledCount": 11,
+          "confirmedCount": 4,
+          "notConfirmedCount": 4,
+          "inconclusiveCount": 3,
+          "confirmedShare": 0.36363636363636365,
+          "notConfirmedShare": 0.36363636363636365,
+          "inconclusiveShare": 0.2727272727272727
+        },
+        {
+          "ruleType": "MARKET_PERSISTENCE",
+          "settledCount": 8,
+          "confirmedCount": 0,
+          "notConfirmedCount": 3,
+          "inconclusiveCount": 5,
+          "confirmedShare": 0.0,
+          "notConfirmedShare": 0.375,
+          "inconclusiveShare": 0.625
+        },
+        {
+          "ruleType": "DIRECTION_PERSISTENCE",
+          "settledCount": 8,
+          "confirmedCount": 0,
+          "notConfirmedCount": 4,
+          "inconclusiveCount": 4,
+          "confirmedShare": 0.0,
+          "notConfirmedShare": 0.5,
+          "inconclusiveShare": 0.5
+        },
+        {
+          "ruleType": "DIRECTION_REPAIR",
+          "settledCount": 8,
+          "confirmedCount": 4,
+          "notConfirmedCount": 0,
+          "inconclusiveCount": 4,
+          "confirmedShare": 0.5,
+          "notConfirmedShare": 0.0,
+          "inconclusiveShare": 0.5
+        },
+        {
+          "ruleType": "LIMIT_ECOLOGY",
+          "settledCount": 8,
+          "confirmedCount": 1,
+          "notConfirmedCount": 2,
+          "inconclusiveCount": 5,
+          "confirmedShare": 0.125,
+          "notConfirmedShare": 0.25,
+          "inconclusiveShare": 0.625
+        },
+        {
+          "ruleType": "DIRECTION_SPREAD",
+          "settledCount": 4,
+          "confirmedCount": 4,
+          "notConfirmedCount": 0,
+          "inconclusiveCount": 0,
+          "confirmedShare": 1.0,
+          "notConfirmedShare": 0.0,
+          "inconclusiveShare": 0.0
+        }
+      ]
+    }
+  }
+}

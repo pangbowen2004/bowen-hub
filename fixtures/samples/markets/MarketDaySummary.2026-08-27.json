@@ -1,0 +1,112 @@
+{
+  "advanceCount": 3394,
+  "declineCount": 1944,
+  "advanceShare": 0.6118622678925545,
+  "aboveMa20Share": 0.5801334054443843,
+  "medianReturn1d": 0.0052910000000000006,
+  "turnoverCny": 2140959919627,
+  "date": "2026-08-27",
+  "headline": "涨跌分化，市场仍在寻找一致方向",
+  "complete": false,
+  "temperature": 77.3,
+  "sentiment": 82.6,
+  "limitUpCount": 78,
+  "limitDownCount": 4,
+  "maxBoard": 6,
+  "sealRate": 0.7878787878787878,
+  "trendStrongShare": 0.21597259780061295,
+  "topDirections": [
+    {
+      "name": "电子化学品",
+      "return1d": 0.052222
+    },
+    {
+      "name": "存储芯片",
+      "return1d": 0.045488
+    },
+    {
+      "name": "CPO",
+      "return1d": 0.044667000000000005
+    }
+  ],
+  "topIndustries": [
+    {
+      "name": "电子",
+      "return1d": 0.04006124266144814
+    },
+    {
+      "name": "通信",
+      "return1d": 0.025494102362204722
+    },
+    {
+      "name": "煤炭",
+      "return1d": 0.02488378787878788
+    }
+  ],
+  "directionsRelative": [
+    {
+      "name": "电子化学品",
+      "relativeVsAllA": 0.04034625310978907
+    },
+    {
+      "name": "存储芯片",
+      "relativeVsAllA": 0.033612253109789075
+    },
+    {
+      "name": "CPO",
+      "relativeVsAllA": 0.03279125310978908
+    },
+    {
+      "name": "先进封装",
+      "relativeVsAllA": 0.031038253109789075
+    },
+    {
+      "name": "PCB",
+      "relativeVsAllA": 0.029523253109789073
+    },
+    {
+      "name": "MLCC",
+      "relativeVsAllA": 0.029086253109789073
+    },
+    {
+      "name": "玻璃基板",
+      "relativeVsAllA": 0.027070253109789076
+    },
+    {
+      "name": "光刻胶",
+      "relativeVsAllA": 0.020236253109789076
+    },
+    {
+      "name": "液冷服务器",
+      "relativeVsAllA": 0.01957925310978908
+    },
+    {
+      "name": "商业航天",
+      "relativeVsAllA": 0.010507253109789075
+    },
+    {
+      "name": "金属新材料",
+      "relativeVsAllA": 0.009904253109789075
+    },
+    {
+      "name": "物理AI",
+      "relativeVsAllA": 0.0073302531097890755
+    },
+    {
+      "name": "减速器",
+      "relativeVsAllA": 0.000804253109789075
+    },
+    {
+      "name": "创新药",
+      "relativeVsAllA": -0.001554746890210925
+    },
+    {
+      "name": "文化传媒",
+      "relativeVsAllA": -0.011495746890210925
+    },
+    {
+      "name": "酿酒",
+      "relativeVsAllA": -0.019277746890210924
+    }
+  ]
+}

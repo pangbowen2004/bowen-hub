@@ -1,0 +1,112 @@
+{
+  "advanceCount": 3013,
+  "declineCount": 2390,
+  "advanceShare": 0.5431764917973679,
+  "aboveMa20Share": 0.5859022895258699,
+  "medianReturn1d": 0.002241,
+  "turnoverCny": 2117732336241,
+  "date": "2026-08-28",
+  "headline": "涨跌分化，市场仍在寻找一致方向",
+  "complete": false,
+  "temperature": 51.9,
+  "sentiment": 81.1,
+  "limitUpCount": 83,
+  "limitDownCount": 3,
+  "maxBoard": 7,
+  "sealRate": 0.7830188679245284,
+  "trendStrongShare": 0.23796646836127636,
+  "topDirections": [
+    {
+      "name": "文化传媒",
+      "return1d": 0.006639000000000001
+    },
+    {
+      "name": "商业航天",
+      "return1d": -0.001229
+    },
+    {
+      "name": "酿酒",
+      "return1d": -0.003896
+    }
+  ],
+  "topIndustries": [
+    {
+      "name": "农林牧渔",
+      "return1d": 0.02099184210526316
+    },
+    {
+      "name": "石油石化",
+      "return1d": 0.020181770833333335
+    },
+    {
+      "name": "基础化工",
+      "return1d": 0.016237081447963802
+    }
+  ],
+  "directionsRelative": [
+    {
+      "name": "文化传媒",
+      "relativeVsAllA": 0.003907760771588246
+    },
+    {
+      "name": "商业航天",
+      "relativeVsAllA": -0.003960239228411754
+    },
+    {
+      "name": "酿酒",
+      "relativeVsAllA": -0.006627239228411755
+    },
+    {
+      "name": "MLCC",
+      "relativeVsAllA": -0.007105239228411754
+    },
+    {
+      "name": "减速器",
+      "relativeVsAllA": -0.007687239228411753
+    },
+    {
+      "name": "金属新材料",
+      "relativeVsAllA": -0.008692239228411754
+    },
+    {
+      "name": "PCB",
+      "relativeVsAllA": -0.008816239228411755
+    },
+    {
+      "name": "物理AI",
+      "relativeVsAllA": -0.008920239228411755
+    },
+    {
+      "name": "玻璃基板",
+      "relativeVsAllA": -0.009176239228411754
+    },
+    {
+      "name": "光刻胶",
+      "relativeVsAllA": -0.012267239228411754
+    },
+    {
+      "name": "液冷服务器",
+      "relativeVsAllA": -0.012449239228411754
+    },
+    {
+      "name": "创新药",
+      "relativeVsAllA": -0.013668239228411753
+    },
+    {
+      "name": "CPO",
+      "relativeVsAllA": -0.014156239228411756
+    },
+    {
+      "name": "先进封装",
+      "relativeVsAllA": -0.015106239228411755
+    },
+    {
+      "name": "电子化学品",
+      "relativeVsAllA": -0.016345239228411752
+    },
+    {
+      "name": "存储芯片",
+      "relativeVsAllA": -0.017152239228411754
+    }
+  ]
+}
