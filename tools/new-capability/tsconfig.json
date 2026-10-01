@@ -1,0 +1,8 @@
+{
+  "extends": "@bowen-hub/config/tsconfig/dom.json",
+  "compilerOptions": {
+    "types": ["node", "vitest/globals"],
+    "allowImportingTsExtensions": true
+  },
+  "include": ["src/**/*.ts", "test/**/*.ts"]
+}

@@ -3,7 +3,7 @@ name = "hub-ai"
 version = "0.1.0"
 description = "领域预接线，业务由后续任务实现"
 requires-python = ">=3.14"
-dependencies = ["hub-core", "hub-contracts", "typer>=0.24,<1"]
+dependencies = ["hub-core", "hub-contracts", "typer>=0.24,<1", "pydantic-ai-slim[openai]==2.52.0", "pydantic-evals==2.52.0", "jsonschema>=4.26,<5", "pyyaml>=6,<7"]
 [project.entry-points."hub.commands"]
 ai = "hub_ai.commands:register"
 [tool.uv.sources]

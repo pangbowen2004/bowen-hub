@@ -1,0 +1,27 @@
+{
+  "name": "@bowen-hub/ai",
+  "private": true,
+  "type": "module",
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "scripts": {
+    "build": "node scripts/build.ts",
+    "typecheck": "pnpm run build && tsc -p .",
+    "test": "pnpm run build && vitest run"
+  },
+  "dependencies": {
+    "@bowen-hub/contracts": "workspace:*",
+    "ai": "6.0.280",
+    "@ai-sdk/openai": "3.0.110",
+    "zod": "4.6.5"
+  },
+  "devDependencies": {
+    "@bowen-hub/config": "workspace:*",
+    "@types/node": "catalog:",
+    "typescript": "catalog:",
+    "vitest": "catalog:",
+    "yaml": "2.9.1",
+    "ajv": "8.20.0"
+  }
+}
