@@ -1,5 +1,10 @@
 import { describe, expect, it } from "vitest";
-import { markBinarySchemas, removeZodOutputAliases, rewriteSchemaImports } from "../src/orval.ts";
+import {
+  markBinarySchemas,
+  normalizeRecordSchemas,
+  removeZodOutputAliases,
+  rewriteSchemaImports,
+} from "../src/orval.ts";
 
 describe("Orval 类型文件的导入", () => {
   it("client.schemas、hooks.schemas 都改成 ./types", () => {
@@ -75,5 +80,38 @@ describe("能力输出模型与 Zod 推导类型的重名", () => {
     expect(result).not.toContain("EarningsCardOutputOutput");
     expect(result).toContain("export type Other = zod.output<typeof EarningsCard>;");
     expect(removeZodOutputAliases(result)).toBe(result);
+  });
+});
+
+describe("纯字典的 TypeSpec / Orval 关键字适配", () => {
+  it("无值约束的未知字典保持原样", () => {
+    for (const unevaluatedProperties of [true, {}]) {
+      const input = { type: "object", unevaluatedProperties };
+      expect(normalizeRecordSchemas(input)).toEqual(input);
+    }
+  });
+  it("递归保留字典值类型，不修改原文", () => {
+    const input = { items: [{ type: "object", unevaluatedProperties: { type: "number" } }] };
+    const result = normalizeRecordSchemas(input);
+    expect(result.items[0]).toEqual({
+      type: "object",
+      unevaluatedProperties: { type: "number" },
+      additionalProperties: { type: "number" },
+    });
+    expect(input.items[0]).not.toHaveProperty("additionalProperties");
+    expect(normalizeRecordSchemas(result)).toEqual(result);
+  });
+  it("不把带属性、组合或既有 additionalProperties 的对象当纯字典", () => {
+    for (const extra of [
+      { properties: { name: { type: "string" } } },
+      { allOf: [] },
+      { anyOf: [] },
+      { oneOf: [] },
+      { patternProperties: {} },
+      { additionalProperties: false },
+    ]) {
+      const input = { type: "object", unevaluatedProperties: { type: "number" }, ...extra };
+      expect(normalizeRecordSchemas(input)).toEqual(input);
+    }
   });
 });
