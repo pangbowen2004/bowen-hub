@@ -1,1 +1,5 @@
-"""后续任务实现此模块。"""
+"""fred 来源入口。"""
+
+from .adapter import FredSource
+
+__all__ = ["FredSource"]

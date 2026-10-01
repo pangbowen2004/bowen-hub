@@ -1,0 +1,18 @@
+{
+  "origin": "真实 HTTP 验收录制",
+  "recordedAt": "2026-10-01T18:57:18.726069+00:00",
+  "request": {
+    "method": "GET",
+    "url": "https://api.tiingo.com/tiingo/daily/QQQ/prices",
+    "params": {
+      "startDate": "2026-09-29",
+      "endDate": "2026-09-30"
+    }
+  },
+  "response": {
+    "status": 200,
+    "contentType": "application/json",
+    "location": null,
+    "text": "[{\"date\":\"2026-09-29T00:00:00.000Z\",\"close\":737.93,\"high\":740.5799,\"low\":735.34,\"open\":740.145,\"volume\":27052269,\"adjClose\":737.93,\"adjHigh\":740.5799,\"adjLow\":735.34,\"adjOpen\":740.145,\"adjVolume\":27052269,\"divCash\":0.0,\"splitFactor\":1.0},{\"date\":\"2026-09-30T00:00:00.000Z\",\"close\":739.77,\"high\":745.1,\"low\":739.46,\"open\":740.19,\"volume\":29820353,\"adjClose\":739.77,\"adjHigh\":745.1,\"adjLow\":739.46,\"adjOpen\":740.19,\"adjVolume\":29820353,\"divCash\":0.0,\"splitFactor\":1.0}]"
+  }
+}

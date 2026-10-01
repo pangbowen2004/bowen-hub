@@ -1,0 +1,18 @@
+{
+  "origin": "真实 HTTP 验收录制",
+  "recordedAt": "2026-10-01T18:57:21.576403+00:00",
+  "request": {
+    "method": "GET",
+    "url": "https://api.tiingo.com/tiingo/daily/SOXX/prices",
+    "params": {
+      "startDate": "2026-09-29",
+      "endDate": "2026-09-30"
+    }
+  },
+  "response": {
+    "status": 200,
+    "contentType": "application/json",
+    "location": null,
+    "text": "[{\"date\":\"2026-09-29T00:00:00.000Z\",\"close\":567.44,\"high\":574.4687,\"low\":565.3,\"open\":569.79,\"volume\":5131460,\"adjClose\":567.44,\"adjHigh\":574.4687,\"adjLow\":565.3,\"adjOpen\":569.79,\"adjVolume\":5131460,\"divCash\":0.0,\"splitFactor\":1.0},{\"date\":\"2026-09-30T00:00:00.000Z\",\"close\":568.64,\"high\":572.32,\"low\":564.01,\"open\":568.725,\"volume\":4481465,\"adjClose\":568.64,\"adjHigh\":572.32,\"adjLow\":564.01,\"adjOpen\":568.725,\"adjVolume\":4481465,\"divCash\":0.0,\"splitFactor\":1.0}]"
+  }
+}

@@ -1,0 +1,18 @@
+{
+  "origin": "真实 HTTP 验收录制",
+  "recordedAt": "2026-10-01T18:57:19.014882+00:00",
+  "request": {
+    "method": "GET",
+    "url": "https://api.tiingo.com/tiingo/daily/DIA/prices",
+    "params": {
+      "startDate": "2026-09-29",
+      "endDate": "2026-09-30"
+    }
+  },
+  "response": {
+    "status": 200,
+    "contentType": "application/json",
+    "location": null,
+    "text": "[{\"date\":\"2026-09-29T00:00:00.000Z\",\"close\":512.88,\"high\":514.26,\"low\":510.46,\"open\":513.79,\"volume\":2575014,\"adjClose\":512.88,\"adjHigh\":514.26,\"adjLow\":510.46,\"adjOpen\":513.79,\"adjVolume\":2575014,\"divCash\":0.0,\"splitFactor\":1.0},{\"date\":\"2026-09-30T00:00:00.000Z\",\"close\":508.55,\"high\":514.16,\"low\":508.34,\"open\":513.99,\"volume\":2695336,\"adjClose\":508.55,\"adjHigh\":514.16,\"adjLow\":508.34,\"adjOpen\":513.99,\"adjVolume\":2695336,\"divCash\":0.0,\"splitFactor\":1.0}]"
+  }
+}

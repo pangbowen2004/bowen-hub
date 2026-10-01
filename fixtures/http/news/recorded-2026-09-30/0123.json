@@ -1,0 +1,15 @@
+{
+  "origin": "真实 HTTP 验收录制",
+  "recordedAt": "2026-10-01T18:58:56.340719+00:00",
+  "request": {
+    "method": "GET",
+    "url": "https://www.scmp.com/rss/91/feed",
+    "params": {}
+  },
+  "response": {
+    "status": 301,
+    "contentType": "text/html",
+    "location": "http://www.scmp.com/rss/91/feed/?",
+    "text": null
+  }
+}

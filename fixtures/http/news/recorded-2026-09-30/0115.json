@@ -1,0 +1,18 @@
+{
+  "origin": "真实 HTTP 验收录制",
+  "recordedAt": "2026-10-01T18:57:26.674731+00:00",
+  "request": {
+    "method": "GET",
+    "url": "https://api.tiingo.com/tiingo/daily/TLN/prices",
+    "params": {
+      "startDate": "2026-09-29",
+      "endDate": "2026-09-30"
+    }
+  },
+  "response": {
+    "status": 200,
+    "contentType": "application/json",
+    "location": null,
+    "text": "[{\"date\":\"2026-09-29T00:00:00.000Z\",\"close\":314.84,\"high\":317.99,\"low\":307.87,\"open\":307.91,\"volume\":899463,\"adjClose\":314.84,\"adjHigh\":317.99,\"adjLow\":307.87,\"adjOpen\":307.91,\"adjVolume\":899463,\"divCash\":0.0,\"splitFactor\":1.0},{\"date\":\"2026-09-30T00:00:00.000Z\",\"close\":312.69,\"high\":320.0,\"low\":305.15,\"open\":317.085,\"volume\":2367760,\"adjClose\":312.69,\"adjHigh\":320.0,\"adjLow\":305.15,\"adjOpen\":317.085,\"adjVolume\":2367760,\"divCash\":0.0,\"splitFactor\":1.0}]"
+  }
+}

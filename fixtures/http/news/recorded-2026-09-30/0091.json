@@ -1,0 +1,18 @@
+{
+  "origin": "真实 HTTP 验收录制",
+  "recordedAt": "2026-10-01T18:57:19.880746+00:00",
+  "request": {
+    "method": "GET",
+    "url": "https://api.tiingo.com/tiingo/daily/TSM/prices",
+    "params": {
+      "startDate": "2026-09-29",
+      "endDate": "2026-09-30"
+    }
+  },
+  "response": {
+    "status": 200,
+    "contentType": "application/json",
+    "location": null,
+    "text": "[{\"date\":\"2026-09-29T00:00:00.000Z\",\"close\":456.94,\"high\":459.43,\"low\":447.07,\"open\":452.27,\"volume\":9939606,\"adjClose\":456.94,\"adjHigh\":459.43,\"adjLow\":447.07,\"adjOpen\":452.27,\"adjVolume\":9939606,\"divCash\":0.0,\"splitFactor\":1.0},{\"date\":\"2026-09-30T00:00:00.000Z\",\"close\":456.19,\"high\":461.87,\"low\":454.9,\"open\":456.74,\"volume\":8983433,\"adjClose\":456.19,\"adjHigh\":461.87,\"adjLow\":454.9,\"adjOpen\":456.74,\"adjVolume\":8983433,\"divCash\":0.0,\"splitFactor\":1.0}]"
+  }
+}

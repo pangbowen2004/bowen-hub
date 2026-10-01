@@ -1,0 +1,18 @@
+{
+  "origin": "真实 HTTP 验收录制",
+  "recordedAt": "2026-10-01T18:57:23.267958+00:00",
+  "request": {
+    "method": "GET",
+    "url": "https://api.tiingo.com/tiingo/daily/GOOG/prices",
+    "params": {
+      "startDate": "2026-09-29",
+      "endDate": "2026-09-30"
+    }
+  },
+  "response": {
+    "status": 200,
+    "contentType": "application/json",
+    "location": null,
+    "text": "[{\"date\":\"2026-09-29T00:00:00.000Z\",\"close\":337.32,\"high\":339.64,\"low\":335.02,\"open\":338.54,\"volume\":14002319,\"adjClose\":337.32,\"adjHigh\":339.64,\"adjLow\":335.02,\"adjOpen\":338.54,\"adjVolume\":14002319,\"divCash\":0.0,\"splitFactor\":1.0},{\"date\":\"2026-09-30T00:00:00.000Z\",\"close\":340.74,\"high\":349.055,\"low\":337.72,\"open\":340.65,\"volume\":24240064,\"adjClose\":340.74,\"adjHigh\":349.055,\"adjLow\":337.72,\"adjOpen\":340.65,\"adjVolume\":24240064,\"divCash\":0.0,\"splitFactor\":1.0}]"
+  }
+}

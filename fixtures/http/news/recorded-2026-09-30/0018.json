@@ -1,0 +1,15 @@
+{
+  "origin": "真实 HTTP 验收录制",
+  "recordedAt": "2026-10-01T18:55:38.858230+00:00",
+  "request": {
+    "method": "GET",
+    "url": "https://www.cnbc.com/id/100003114/device/rss/rss.html",
+    "params": {}
+  },
+  "response": {
+    "status": 403,
+    "contentType": "text/html",
+    "location": null,
+    "text": null
+  }
+}

@@ -1,0 +1,18 @@
+{
+  "origin": "真实 HTTP 验收录制",
+  "recordedAt": "2026-10-01T18:57:19.309045+00:00",
+  "request": {
+    "method": "GET",
+    "url": "https://api.tiingo.com/tiingo/daily/IWM/prices",
+    "params": {
+      "startDate": "2026-09-29",
+      "endDate": "2026-09-30"
+    }
+  },
+  "response": {
+    "status": 200,
+    "contentType": "application/json",
+    "location": null,
+    "text": "[{\"date\":\"2026-09-29T00:00:00.000Z\",\"close\":279.01,\"high\":281.05,\"low\":277.41,\"open\":280.25,\"volume\":21500594,\"adjClose\":279.01,\"adjHigh\":281.05,\"adjLow\":277.41,\"adjOpen\":280.25,\"adjVolume\":21500594,\"divCash\":0.0,\"splitFactor\":1.0},{\"date\":\"2026-09-30T00:00:00.000Z\",\"close\":277.89,\"high\":280.475,\"low\":277.86,\"open\":280.17,\"volume\":21123765,\"adjClose\":277.89,\"adjHigh\":280.475,\"adjLow\":277.86,\"adjOpen\":280.17,\"adjVolume\":21123765,\"divCash\":0.0,\"splitFactor\":1.0}]"
+  }
+}

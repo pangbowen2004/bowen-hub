@@ -1,0 +1,18 @@
+{
+  "origin": "真实 HTTP 验收录制",
+  "recordedAt": "2026-10-01T18:57:21.287123+00:00",
+  "request": {
+    "method": "GET",
+    "url": "https://api.tiingo.com/tiingo/daily/SKHY/prices",
+    "params": {
+      "startDate": "2026-09-29",
+      "endDate": "2026-09-30"
+    }
+  },
+  "response": {
+    "status": 200,
+    "contentType": "application/json",
+    "location": null,
+    "text": "[{\"date\":\"2026-09-29T00:00:00.000Z\",\"close\":186.68,\"high\":188.41,\"low\":183.05,\"open\":185.1,\"volume\":13140642,\"adjClose\":186.68,\"adjHigh\":188.41,\"adjLow\":183.05,\"adjOpen\":185.1,\"adjVolume\":13140642,\"divCash\":0.0,\"splitFactor\":1.0},{\"date\":\"2026-09-30T00:00:00.000Z\",\"close\":184.15,\"high\":187.7,\"low\":183.9,\"open\":186.175,\"volume\":11066887,\"adjClose\":184.15,\"adjHigh\":187.7,\"adjLow\":183.9,\"adjOpen\":186.175,\"adjVolume\":11066887,\"divCash\":0.0,\"splitFactor\":1.0}]"
+  }
+}

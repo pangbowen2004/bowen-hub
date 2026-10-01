@@ -1,1 +1,5 @@
-"""后续任务实现此模块。"""
+"""treasury 来源入口。"""
+
+from .adapter import TreasurySource
+
+__all__ = ["TreasurySource"]

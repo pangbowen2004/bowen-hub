@@ -1,0 +1,18 @@
+{
+  "origin": "真实 HTTP 验收录制",
+  "recordedAt": "2026-10-01T18:57:22.999695+00:00",
+  "request": {
+    "method": "GET",
+    "url": "https://api.tiingo.com/tiingo/daily/AMZN/prices",
+    "params": {
+      "startDate": "2026-09-29",
+      "endDate": "2026-09-30"
+    }
+  },
+  "response": {
+    "status": 200,
+    "contentType": "application/json",
+    "location": null,
+    "text": "[{\"date\":\"2026-09-29T00:00:00.000Z\",\"close\":246.67,\"high\":248.8389,\"low\":245.14,\"open\":246.705,\"volume\":33730401,\"adjClose\":246.67,\"adjHigh\":248.8389,\"adjLow\":245.14,\"adjOpen\":246.705,\"adjVolume\":33730401,\"divCash\":0.0,\"splitFactor\":1.0},{\"date\":\"2026-09-30T00:00:00.000Z\",\"close\":249.15,\"high\":252.44,\"low\":246.08,\"open\":246.79,\"volume\":41913110,\"adjClose\":249.15,\"adjHigh\":252.44,\"adjLow\":246.08,\"adjOpen\":246.79,\"adjVolume\":41913110,\"divCash\":0.0,\"splitFactor\":1.0}]"
+  }
+}

@@ -1,0 +1,18 @@
+{
+  "origin": "真实 HTTP 验收录制",
+  "recordedAt": "2026-10-01T18:57:24.965431+00:00",
+  "request": {
+    "method": "GET",
+    "url": "https://api.tiingo.com/tiingo/daily/HOOD/prices",
+    "params": {
+      "startDate": "2026-09-29",
+      "endDate": "2026-09-30"
+    }
+  },
+  "response": {
+    "status": 200,
+    "contentType": "application/json",
+    "location": null,
+    "text": "[{\"date\":\"2026-09-29T00:00:00.000Z\",\"close\":116.22,\"high\":119.1899,\"low\":114.93,\"open\":118.83,\"volume\":15194612,\"adjClose\":116.22,\"adjHigh\":119.1899,\"adjLow\":114.93,\"adjOpen\":118.83,\"adjVolume\":15194612,\"divCash\":0.0,\"splitFactor\":1.0},{\"date\":\"2026-09-30T00:00:00.000Z\",\"close\":112.5,\"high\":123.49,\"low\":111.95,\"open\":122.61,\"volume\":35140195,\"adjClose\":112.5,\"adjHigh\":123.49,\"adjLow\":111.95,\"adjOpen\":122.61,\"adjVolume\":35140195,\"divCash\":0.0,\"splitFactor\":1.0}]"
+  }
+}

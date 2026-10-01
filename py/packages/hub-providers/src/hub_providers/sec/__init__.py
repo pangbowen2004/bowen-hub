@@ -1,1 +1,5 @@
-"""后续任务实现此模块。"""
+"""sec 来源入口。"""
+
+from .adapter import SecSource
+
+__all__ = ["SecSource"]

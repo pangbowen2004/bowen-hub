@@ -1,0 +1,18 @@
+{
+  "origin": "真实 HTTP 验收录制",
+  "recordedAt": "2026-10-01T18:57:26.122256+00:00",
+  "request": {
+    "method": "GET",
+    "url": "https://api.tiingo.com/tiingo/daily/RKLB/prices",
+    "params": {
+      "startDate": "2026-09-29",
+      "endDate": "2026-09-30"
+    }
+  },
+  "response": {
+    "status": 200,
+    "contentType": "application/json",
+    "location": null,
+    "text": "[{\"date\":\"2026-09-29T00:00:00.000Z\",\"close\":69.7,\"high\":74.25,\"low\":69.4,\"open\":73.47,\"volume\":19684739,\"adjClose\":69.7,\"adjHigh\":74.25,\"adjLow\":69.4,\"adjOpen\":73.47,\"adjVolume\":19684739,\"divCash\":0.0,\"splitFactor\":1.0},{\"date\":\"2026-09-30T00:00:00.000Z\",\"close\":69.68,\"high\":74.58,\"low\":69.63,\"open\":70.64,\"volume\":22428564,\"adjClose\":69.68,\"adjHigh\":74.58,\"adjLow\":69.63,\"adjOpen\":70.64,\"adjVolume\":22428564,\"divCash\":0.0,\"splitFactor\":1.0}]"
+  }
+}

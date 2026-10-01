@@ -1,0 +1,18 @@
+{
+  "origin": "真实 HTTP 验收录制",
+  "recordedAt": "2026-10-01T18:57:20.440069+00:00",
+  "request": {
+    "method": "GET",
+    "url": "https://api.tiingo.com/tiingo/daily/NVDA/prices",
+    "params": {
+      "startDate": "2026-09-29",
+      "endDate": "2026-09-30"
+    }
+  },
+  "response": {
+    "status": 200,
+    "contentType": "application/json",
+    "location": null,
+    "text": "[{\"date\":\"2026-09-29T00:00:00.000Z\",\"close\":227.21,\"high\":232.82,\"low\":227.025,\"open\":230.97,\"volume\":101494933,\"adjClose\":227.21,\"adjHigh\":232.82,\"adjLow\":227.025,\"adjOpen\":230.97,\"adjVolume\":101494933,\"divCash\":0.0,\"splitFactor\":1.0},{\"date\":\"2026-09-30T00:00:00.000Z\",\"close\":228.38,\"high\":232.37,\"low\":228.17,\"open\":229.27,\"volume\":121732188,\"adjClose\":228.38,\"adjHigh\":232.37,\"adjLow\":228.17,\"adjOpen\":229.27,\"adjVolume\":121732188,\"divCash\":0.0,\"splitFactor\":1.0}]"
+  }
+}

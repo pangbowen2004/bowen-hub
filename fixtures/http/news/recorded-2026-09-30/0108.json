@@ -1,0 +1,18 @@
+{
+  "origin": "真实 HTTP 验收录制",
+  "recordedAt": "2026-10-01T18:57:24.693783+00:00",
+  "request": {
+    "method": "GET",
+    "url": "https://api.tiingo.com/tiingo/daily/MSTR/prices",
+    "params": {
+      "startDate": "2026-09-29",
+      "endDate": "2026-09-30"
+    }
+  },
+  "response": {
+    "status": 200,
+    "contentType": "application/json",
+    "location": null,
+    "text": "[{\"date\":\"2026-09-29T00:00:00.000Z\",\"close\":154.67,\"high\":161.625,\"low\":152.34,\"open\":161.625,\"volume\":16376444,\"adjClose\":154.67,\"adjHigh\":161.625,\"adjLow\":152.34,\"adjOpen\":161.625,\"adjVolume\":16376444,\"divCash\":0.0,\"splitFactor\":1.0},{\"date\":\"2026-09-30T00:00:00.000Z\",\"close\":153.09,\"high\":163.53,\"low\":152.02,\"open\":160.89,\"volume\":17559298,\"adjClose\":153.09,\"adjHigh\":163.53,\"adjLow\":152.02,\"adjOpen\":160.89,\"adjVolume\":17559298,\"divCash\":0.0,\"splitFactor\":1.0}]"
+  }
+}

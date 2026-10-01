@@ -1,0 +1,183 @@
+{
+  "date": "2026-09-30",
+  "windowTimezone": "America/New_York",
+  "scope": "当天新闻/公告/内部人、当日日线和前一日、随后七日日程、RSS 当前可获得前 N 条",
+  "coverage": "RSS 无历史全日覆盖保证；失败或缺配置的源不假装录制成功",
+  "responses": 142,
+  "health": [
+    {
+      "id": "alpaca-news",
+      "checkedAt": "2026-10-01T18:55:38.787890Z",
+      "status": "ok",
+      "error": null
+    },
+    {
+      "id": "cnbc-top",
+      "checkedAt": "2026-10-01T18:55:38.858855Z",
+      "status": "failed",
+      "error": "HTTP 403"
+    },
+    {
+      "id": "marketwatch-top",
+      "checkedAt": "2026-10-01T18:55:40.368519Z",
+      "status": "ok",
+      "error": null
+    },
+    {
+      "id": "nasdaq-markets",
+      "checkedAt": "2026-10-01T18:57:07.573213Z",
+      "status": "failed",
+      "error": "ReadTimeout"
+    },
+    {
+      "id": "fed-monetary",
+      "checkedAt": "2026-10-01T18:57:07.921944Z",
+      "status": "ok",
+      "error": null
+    },
+    {
+      "id": "sec-edgar",
+      "checkedAt": "2026-10-01T18:57:15.311043Z",
+      "status": "ok",
+      "error": null
+    },
+    {
+      "id": "fred-calendar",
+      "checkedAt": "2026-10-01T18:57:15.322030Z",
+      "status": "failed",
+      "error": "缺少 FRED_API_KEY"
+    },
+    {
+      "id": "finnhub-earnings",
+      "checkedAt": "2026-10-01T18:57:15.330138Z",
+      "status": "failed",
+      "error": "缺少 FINNHUB_API_KEY"
+    },
+    {
+      "id": "alpaca-bars",
+      "checkedAt": "2026-10-01T18:57:16.951660Z",
+      "status": "ok",
+      "error": null
+    },
+    {
+      "id": "tiingo-eod",
+      "checkedAt": "2026-10-01T18:57:27.529022Z",
+      "status": "ok",
+      "error": null
+    },
+    {
+      "id": "treasury-yield",
+      "checkedAt": "2026-10-01T18:58:55.141015Z",
+      "status": "failed",
+      "error": "ReadTimeout"
+    },
+    {
+      "id": "cboe-vix",
+      "checkedAt": "2026-10-01T18:58:55.856156Z",
+      "status": "ok",
+      "error": null
+    },
+    {
+      "id": "bbc-world",
+      "checkedAt": "2026-10-01T18:58:55.927156Z",
+      "status": "ok",
+      "error": null
+    },
+    {
+      "id": "npr-world",
+      "checkedAt": "2026-10-01T18:58:56.093703Z",
+      "status": "ok",
+      "error": null
+    },
+    {
+      "id": "scmp-china",
+      "checkedAt": "2026-10-01T18:58:56.605013Z",
+      "status": "ok",
+      "error": null
+    },
+    {
+      "id": "bbc-business",
+      "checkedAt": "2026-10-01T18:58:56.675846Z",
+      "status": "ok",
+      "error": null
+    },
+    {
+      "id": "npr-business",
+      "checkedAt": "2026-10-01T18:58:56.766998Z",
+      "status": "ok",
+      "error": null
+    },
+    {
+      "id": "bbc-tech",
+      "checkedAt": "2026-10-01T18:58:57.029347Z",
+      "status": "ok",
+      "error": null
+    },
+    {
+      "id": "techcrunch",
+      "checkedAt": "2026-10-01T18:58:57.255940Z",
+      "status": "ok",
+      "error": null
+    },
+    {
+      "id": "the-verge",
+      "checkedAt": "2026-10-01T18:58:57.895426Z",
+      "status": "ok",
+      "error": null
+    },
+    {
+      "id": "hacker-news",
+      "checkedAt": "2026-10-01T18:58:58.863430Z",
+      "status": "ok",
+      "error": null
+    },
+    {
+      "id": "ars-technica",
+      "checkedAt": "2026-10-01T18:58:58.995745Z",
+      "status": "ok",
+      "error": null
+    },
+    {
+      "id": "mit-tech-review",
+      "checkedAt": "2026-10-01T18:58:59.322229Z",
+      "status": "ok",
+      "error": null
+    },
+    {
+      "id": "huggingface-blog",
+      "checkedAt": "2026-10-01T18:58:59.790431Z",
+      "status": "ok",
+      "error": null
+    },
+    {
+      "id": "venturebeat-ai",
+      "checkedAt": "2026-10-01T18:59:07.444030Z",
+      "status": "failed",
+      "error": "HTTP 429"
+    },
+    {
+      "id": "the-verge-ai",
+      "checkedAt": "2026-10-01T18:59:08.058411Z",
+      "status": "ok",
+      "error": null
+    },
+    {
+      "id": "36kr",
+      "checkedAt": "2026-10-01T18:59:10.207496Z",
+      "status": "failed",
+      "error": "响应解析失败"
+    },
+    {
+      "id": "ithome",
+      "checkedAt": "2026-10-01T18:59:12.879191Z",
+      "status": "ok",
+      "error": null
+    },
+    {
+      "id": "technode",
+      "checkedAt": "2026-10-01T18:59:15.019009Z",
+      "status": "ok",
+      "error": null
+    }
+  ]
+}

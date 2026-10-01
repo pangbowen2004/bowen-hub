@@ -1,0 +1,18 @@
+{
+  "origin": "真实 HTTP 验收录制",
+  "recordedAt": "2026-10-01T18:57:26.388364+00:00",
+  "request": {
+    "method": "GET",
+    "url": "https://api.tiingo.com/tiingo/daily/SPCX/prices",
+    "params": {
+      "startDate": "2026-09-29",
+      "endDate": "2026-09-30"
+    }
+  },
+  "response": {
+    "status": 200,
+    "contentType": "application/json",
+    "location": null,
+    "text": "[{\"date\":\"2026-09-29T00:00:00.000Z\",\"close\":149.24,\"high\":150.06,\"low\":145.47,\"open\":146.675,\"volume\":80056715,\"adjClose\":149.24,\"adjHigh\":150.06,\"adjLow\":145.47,\"adjOpen\":146.675,\"adjVolume\":80056715,\"divCash\":0.0,\"splitFactor\":1.0},{\"date\":\"2026-09-30T00:00:00.000Z\",\"close\":150.86,\"high\":152.58,\"low\":147.75,\"open\":148.68,\"volume\":79614173,\"adjClose\":150.86,\"adjHigh\":152.58,\"adjLow\":147.75,\"adjOpen\":148.68,\"adjVolume\":79614173,\"divCash\":0.0,\"splitFactor\":1.0}]"
+  }
+}

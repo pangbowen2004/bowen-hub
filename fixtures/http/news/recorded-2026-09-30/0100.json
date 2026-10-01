@@ -1,0 +1,18 @@
+{
+  "origin": "真实 HTTP 验收录制",
+  "recordedAt": "2026-10-01T18:57:22.435547+00:00",
+  "request": {
+    "method": "GET",
+    "url": "https://api.tiingo.com/tiingo/daily/AAPL/prices",
+    "params": {
+      "startDate": "2026-09-29",
+      "endDate": "2026-09-30"
+    }
+  },
+  "response": {
+    "status": 200,
+    "contentType": "application/json",
+    "location": null,
+    "text": "[{\"date\":\"2026-09-29T00:00:00.000Z\",\"close\":329.4,\"high\":337.085,\"low\":328.7,\"open\":336.965,\"volume\":38478037,\"adjClose\":329.4,\"adjHigh\":337.085,\"adjLow\":328.7,\"adjOpen\":336.965,\"adjVolume\":38478037,\"divCash\":0.0,\"splitFactor\":1.0},{\"date\":\"2026-09-30T00:00:00.000Z\",\"close\":333.02,\"high\":339.5,\"low\":330.1401,\"open\":330.8,\"volume\":49988558,\"adjClose\":333.02,\"adjHigh\":339.5,\"adjLow\":330.1401,\"adjOpen\":330.8,\"adjVolume\":49988558,\"divCash\":0.0,\"splitFactor\":1.0}]"
+  }
+}

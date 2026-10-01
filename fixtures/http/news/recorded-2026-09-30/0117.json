@@ -1,0 +1,18 @@
+{
+  "origin": "真实 HTTP 验收录制",
+  "recordedAt": "2026-10-01T18:57:27.240696+00:00",
+  "request": {
+    "method": "GET",
+    "url": "https://api.tiingo.com/tiingo/daily/PFE/prices",
+    "params": {
+      "startDate": "2026-09-29",
+      "endDate": "2026-09-30"
+    }
+  },
+  "response": {
+    "status": 200,
+    "contentType": "application/json",
+    "location": null,
+    "text": "[{\"date\":\"2026-09-29T00:00:00.000Z\",\"close\":28.72,\"high\":28.76,\"low\":28.26,\"open\":28.6,\"volume\":33309392,\"adjClose\":28.72,\"adjHigh\":28.76,\"adjLow\":28.26,\"adjOpen\":28.6,\"adjVolume\":33309392,\"divCash\":0.0,\"splitFactor\":1.0},{\"date\":\"2026-09-30T00:00:00.000Z\",\"close\":28.52,\"high\":28.945,\"low\":28.52,\"open\":28.79,\"volume\":33638990,\"adjClose\":28.52,\"adjHigh\":28.945,\"adjLow\":28.52,\"adjOpen\":28.79,\"adjVolume\":33638990,\"divCash\":0.0,\"splitFactor\":1.0}]"
+  }
+}
