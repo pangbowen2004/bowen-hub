@@ -1,7 +1,7 @@
 {
   "extends": "@bowen-hub/config/tsconfig/dom.json",
   "compilerOptions": {
-    "types": ["node", "vitest/globals"]
+    "types": ["node", "vitest/globals", "astro/client"]
   },
   "include": ["src/**/*.ts", "src/**/*.tsx", "test/**/*.ts", "test/**/*.tsx"]
 }

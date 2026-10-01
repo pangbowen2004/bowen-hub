@@ -1,5 +1,5 @@
 import { Tabs } from "./index";
-export default { title: "交互组件/Tabs", component: Tabs };
+export default { parameters: { renderer: "react" }, title: "交互组件/Tabs", component: Tabs };
 export const Default = {
   args: {
     items: [

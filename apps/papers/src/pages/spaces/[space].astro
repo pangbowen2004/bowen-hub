@@ -9,4 +9,4 @@ export async function getStaticPaths() {
 }
 const { space } = Astro.props;
 ---
-<Placeholder title={space.name} lead={space.description}><p>论文 {space.paperCount} 篇</p></Placeholder>
+<Placeholder title={space.label} lead={space.description}><p>论文 {space.paperCount} 篇</p></Placeholder>

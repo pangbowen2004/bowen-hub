@@ -14,8 +14,8 @@
   "scripts": {
     "typecheck": "tsc -p .",
     "test": "vitest run",
-    "storybook": "storybook dev -p 6006 -c ../../.storybook",
-    "build-storybook": "storybook build -c ../../.storybook -o storybook-static"
+    "storybook": "storybook dev -p 6006 -c .storybook",
+    "build-storybook": "storybook build -c .storybook -o storybook-static"
   },
   "dependencies": {
     "radix-ui": "1.6.7",

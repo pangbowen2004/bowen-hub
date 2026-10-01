@@ -143,3 +143,17 @@ it("服务端搜索取消旧请求且展示失败", async () => {
   fireEvent.change(screen.getByRole("searchbox"), { target: { value: "乙" } });
   await waitFor(() => expect(signals[0]?.aborted).toBe(true));
 });
+
+it("新搜索失败后不保留旧查询的可点击结果", async () => {
+  const search = vi
+    .fn()
+    .mockResolvedValueOnce([{ id: "a", title: "旧查询结果", href: "/a" }])
+    .mockRejectedValueOnce(new Error("离线失败"));
+  render(<SearchBox search={search} />);
+  fireEvent.change(screen.getByRole("searchbox"), { target: { value: "甲" } });
+  await waitFor(() => expect(screen.getByRole("link", { name: "旧查询结果" })).toBeTruthy());
+  fireEvent.change(screen.getByRole("searchbox"), { target: { value: "乙" } });
+  expect(screen.queryByRole("link", { name: "旧查询结果" })).toBeNull();
+  await waitFor(() => expect(screen.getByRole("status").textContent).toBe("搜索失败，请重试"));
+  expect(screen.queryByRole("link", { name: "旧查询结果" })).toBeNull();
+});

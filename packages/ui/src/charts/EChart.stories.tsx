@@ -1,5 +1,5 @@
 import { EChart } from "./EChart";
-export default { title: "图表/EChart", component: EChart };
+export default { parameters: { renderer: "react" }, title: "图表/EChart", component: EChart };
 export const Default = {
   args: {
     label: "展示折线",

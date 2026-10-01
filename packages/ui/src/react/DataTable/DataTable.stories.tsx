@@ -1,5 +1,9 @@
 import { DataTable } from "./index";
-export default { title: "交互组件/DataTable", component: DataTable };
+export default {
+  parameters: { renderer: "react" },
+  title: "交互组件/DataTable",
+  component: DataTable,
+};
 export const Default = {
   args: {
     rows: [

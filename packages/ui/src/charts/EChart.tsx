@@ -53,9 +53,25 @@ export function EChart({
           renderers.CanvasRenderer,
         ]);
         const tokens = getComputedStyle(element);
+        const token = (name: string) => tokens.getPropertyValue(name).trim();
+        const axis = {
+          axisLine: { lineStyle: { color: token("--border") } },
+          axisLabel: { color: token("--text") },
+          splitLine: { lineStyle: { color: token("--border") } },
+        };
         chart = core.init(element, {
-          textStyle: { color: tokens.getPropertyValue("--text"), fontFamily: tokens.fontFamily },
-          categoryAxis: { axisLine: { lineStyle: { color: tokens.getPropertyValue("--border") } } },
+          color: ["--accent", "--paper", "--warning", "--info", "--console", "--market"].map(token),
+          textStyle: { color: token("--text"), fontFamily: tokens.fontFamily },
+          categoryAxis: axis,
+          valueAxis: axis,
+          candlestick: {
+            itemStyle: {
+              color: token("--up"),
+              color0: token("--down"),
+              borderColor: token("--up"),
+              borderColor0: token("--down"),
+            },
+          },
         });
         chart.setOption(option);
         setError(false);

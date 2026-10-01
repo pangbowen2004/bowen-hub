@@ -25,6 +25,7 @@ export function SearchBox({
     return value;
   }, [items]);
   useEffect(() => {
+    setResults([]);
     const controller = new AbortController();
     const timer = setTimeout(
       async () => {

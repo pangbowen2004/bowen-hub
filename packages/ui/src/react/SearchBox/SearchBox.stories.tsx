@@ -1,5 +1,9 @@
 import { SearchBox } from "./index";
-export default { title: "交互组件/SearchBox", component: SearchBox };
+export default {
+  parameters: { renderer: "react" },
+  title: "交互组件/SearchBox",
+  component: SearchBox,
+};
 export const Default = {
   args: {
     items: [

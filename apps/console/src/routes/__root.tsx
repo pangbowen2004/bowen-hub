@@ -1,6 +1,6 @@
 import { Button } from "@bowen-hub/ui";
 import { createRootRoute, Link, Outlet } from "@tanstack/react-router";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { requireSession } from "../features/auth";
 
 const desktop = [
@@ -15,6 +15,10 @@ const desktop = [
 const mobile = [desktop[0], desktop[1], desktop[2], { to: "/ops", label: "更多" }] as const;
 function Root() {
   const [theme, setTheme] = useState<string>(localStorage.getItem("theme") ?? "system");
+  useEffect(() => {
+    if (theme === "system") delete document.documentElement.dataset.theme;
+    else document.documentElement.dataset.theme = theme;
+  }, [theme]);
   function changeTheme() {
     const next = theme === "system" ? "light" : theme === "light" ? "dark" : "system";
     setTheme(next);
