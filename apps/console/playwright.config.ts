@@ -5,6 +5,7 @@ export default defineConfig({
   use: { baseURL: "http://localhost:5173" },
   projects: [
     { name: "手机", use: { viewport: { width: 390, height: 844 } } },
+    { name: "平板", use: { viewport: { width: 768, height: 1024 } } },
     { name: "桌面", use: { viewport: { width: 1440, height: 900 } } },
   ],
   webServer: {

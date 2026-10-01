@@ -18,6 +18,7 @@ for (const path of routes) {
     const response = await page.goto(path);
     expect(response?.status()).toBe(200);
     await expect(page.locator("h1")).toBeVisible();
+    await expect(page.locator("body")).not.toContainText(/Bowen/i);
     expect(
       await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth),
     ).toBe(true);
