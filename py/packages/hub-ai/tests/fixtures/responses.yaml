@@ -1,0 +1,6 @@
+basic:
+  output: {digest: '收入同比增长1.2%。'}
+  usage: {input_tokens: 1000, output_tokens: 100, cached_input_tokens: 500}
+dates:
+  output: {digest: '2026年Q3发布8-K，Item 5.02，标普500，收入达到12亿。'}
+  usage: {input_tokens: 1000, output_tokens: 100}

@@ -1,54 +1,11 @@
-# 评测集
+# AI 能力评测
 
-每个 AI 能力一个目录，目录名就是能力 ID（`news.ticker_digest/`、`papers.qa/` ……）。评测方法、评分器和运行时机见 `docs/10` 第 7 节；阈值写在各能力的清单 `capabilities/<id>.yaml` 的 `evals.thresholds`。
+运行入口是 `hub_ai/evals/runner.py`，用 pydantic-evals 的 Dataset/Evaluator 执行。产品用例由对应领域任务提供，框架不会生成假产品案例。
 
-## 目录内容
+每个能力目录包含 `cases.yaml`（数组：id/input/expect/tags），可选运行上下文 totalPages 必须来自真实 PDF 元数据。expect 支持 must_include/must_exclude/reference/labels；judge_* 同名 Markdown 提供评分标准，经 balanced 档网关打分。评测统计未经后处理的首次输出，删改后可用不等于一次通过。
 
-```text
-evals/news.ticker_digest/
-├── cases.yaml            # 用例（必需）
-├── judge_faithful.md     # 评分标准：清单里用到 judge_faithful 评分器时才需要
-└── judge_specific.md     # 每个 judge 评分器一个同名文件
-```
+`mise run evals -- --changed` 只选择清单、提示词、能力评测目录、llm 配置实际变化的能力；框架或清单 schema 变化且未涉及产品能力时报告0。选中但缺用例/期望/评分器时明确失败。`--weekly --write-api` 写真实每周结果；PR 默认只输出 Markdown。`hub evals compare --candidate ...` 同时输出基线和候选分数与费用，候选低于阈值或基线即失败；月度成本还需按调用量人工判断。
 
-## `cases.yaml`
+离线使用显式 `--offline`，目录里的 `responses.yaml` 为用例 id → `{output, usage}`，只能是录制或测试假响应；缺失即失败，不得说成真实联网。T04 自测专用能力在 `py/packages/hub-ai/tests/fixtures`，不替代产品评测集。
 
-```yaml
-- id: nvda-no-direct-news
-  tags: [edge]                  # fixture 录制数据 / feedback 来自 Kevin 的反馈 / edge 手写边界
-  input:                        # 能力的输入，结构同 contracts/capabilities.tsp 里的输入模型
-    mode: daily
-    symbol: NVDA
-    name: 英伟达
-    changeText: "-3.4%"
-    withSector: true
-    sectorEtf: SMH
-    articles: []
-    filings: []
-    earnings: null
-  expect:                       # 可选
-    mustInclude: ["同步"]        # must_include：输出里必须出现
-    mustExclude: ["因为", "由于"]  # must_exclude：输出里不能出现（这里：没有消息时不能编原因）
-    label: null                 # labels_match：分类类能力的正确标签
-    pages: []                   # papers.qa：回答必须引用到的页码
-```
-
-## `judge_<名字>.md`
-
-和提示词同样的格式（`## system` / `## user`），占位符有 `{{ input }}`、`{{ output }}`、`{{ expect }}`。要求评审模型输出 `{"score": 0 到 1 的小数, "reason": "一句话"}`。每个 judge 只评一个维度（例如 `judge_faithful` 只看“有没有超出原文”），评分标准写成可判断的条目。
-
-## 命令
-
-```bash
-uv run hub evals run --capability news.ticker_digest     # 跑一个能力（可以写通配，如 'news.*'）
-uv run hub evals run --changed                           # 只跑本分支改动影响到的能力（CI 用）
-uv run hub evals run --capability news.brief --offline   # 用假模型跑通流程，不花钱
-uv run hub evals compare --candidate openai/gpt-6-astra  # 现配置 vs 候选模型，输出对比表
-uv run hub evals harvest                                 # 把控制台里标了“有错 / 没用”的条目转成用例草稿
-```
-
-## 规矩
-
-- 每个能力起步至少 10 条用例；`news.us_rank`、`news.ticker_digest`、`papers.qa` 至少 20 条。
-- 用例里的真实新闻和论文内容只用于评测，不外传；不放任何密钥或私人笔记。
-- 改提示词、换模型、改档位的 PR 必须附评测结果（`docs/10` 第 6 节）。
+`hub evals harvest --output ...` 读取 API 反馈、期次持久化证据，生成待人工补齐的草稿。当前接口无法按历史文章 id 获取完整事实包，缺字段标 unresolved；未找到不能断言来源不存在。只有补齐 input/expect 并通过契约校验的草稿才可入库。
