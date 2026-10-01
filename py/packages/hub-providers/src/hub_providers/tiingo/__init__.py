@@ -1,1 +1,5 @@
-"""后续任务实现此模块。"""
+"""tiingo 来源入口。"""
+
+from .adapter import TiingoSource
+
+__all__ = ["TiingoSource"]

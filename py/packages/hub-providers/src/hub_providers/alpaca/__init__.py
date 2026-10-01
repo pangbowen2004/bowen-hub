@@ -1,1 +1,5 @@
-"""后续任务实现此模块。"""
+"""alpaca 来源入口。"""
+
+from .adapter import AlpacaSource
+
+__all__ = ["AlpacaSource"]
