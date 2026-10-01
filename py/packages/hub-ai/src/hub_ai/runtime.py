@@ -311,6 +311,11 @@ class Runtime:
                     usage.input_tokens += response.usage.input_tokens
                     usage.output_tokens += response.usage.output_tokens
                     usage.cached_input_tokens += response.usage.cached_input_tokens
+                    if (
+                        response.usage.input_tokens > request.max_input_tokens
+                        or response.usage.output_tokens > request.max_output_tokens
+                    ):
+                        raise ValueError("超过 token 上限")
                     score = output_model.model_validate(response.output)
                     ok = True
                     return score
@@ -327,6 +332,11 @@ class Runtime:
                     }
                     request.repair = True
             raise ValueError("评审没有输出")
+        except TokenLimitError as error:
+            usage.input_tokens += error.usage.input_tokens
+            usage.output_tokens += error.usage.output_tokens
+            usage.cached_input_tokens += error.usage.cached_input_tokens
+            raise ValueError("超过 token 上限") from None
         finally:
             price = self.registry.llm["prices"][tier["model"]]
             cached = min(usage.cached_input_tokens, usage.input_tokens)

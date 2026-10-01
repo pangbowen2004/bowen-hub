@@ -13,7 +13,15 @@ from hub_ai.checks import CheckContext, CheckRegistry, quantities
 from hub_ai.evals.runner import evaluate, select_capabilities
 from hub_ai.registry import Registry, find_root
 from hub_ai.render import render_prompt
-from hub_ai.runtime import Request, Response, Runtime, StructureError, TransportError, Usage
+from hub_ai.runtime import (
+    Request,
+    Response,
+    Runtime,
+    StructureError,
+    TokenLimitError,
+    TransportError,
+    Usage,
+)
 from hub_contracts import FilingDigestOutput
 
 from .prepare_fixture import prepare
@@ -637,3 +645,33 @@ def test_images_attached_by_page_and_prompt_numbers() -> None:
     assert result.ok
     assert adapter.requests[0].images == [b"png1", b"png3"]
     assert "[\n  1,\n  3\n]" in adapter.requests[0].prompt["user"]
+
+
+@pytest.mark.parametrize("adapter_raises", [False, True])
+def test_judge_token_limit_records_failed_call(adapter_raises: bool) -> None:
+    from hub_ai.evals.runner import JudgeScore
+
+    registry = Registry(ROOT)
+    used = Usage(input_tokens=20001, output_tokens=513, cached_input_tokens=10)
+    calls: list[Any] = []
+
+    class LimitAdapter:
+        async def generate(self, request: Request) -> Response:
+            if adapter_raises:
+                raise TokenLimitError(used)
+            return Response({"score": 0.8}, used)
+
+    async def record(call: Any) -> None:
+        calls.append(call)
+
+    with pytest.raises(ValueError, match="超过 token 上限"):
+        asyncio.run(
+            Runtime(registry, LimitAdapter(), record=record).judge(
+                "news.filing_digest", {"system": "评审规则", "user": "输入输出"}, JudgeScore
+            )
+        )
+    assert len(calls) == 1
+    assert not calls[0].ok
+    assert calls[0].inputTokens == 20001
+    assert calls[0].outputTokens == 513
+    assert calls[0].costUsd > 0
