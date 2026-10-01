@@ -1,0 +1,26 @@
+{
+  "table": "runs",
+  "items": [
+    {
+      "id": "news-morning-2026-09-30-1287",
+      "job": "news-morning",
+      "date": "2026-09-30",
+      "status": "succeeded",
+      "started_at": "2026-09-29T23:10:42Z",
+      "finished_at": "2026-09-29T23:18:05Z",
+      "stats": "{\"articles\":186,\"filings\":9,\"insiderTrades\":3,\"calendarEvents\":7,\"aiCalls\":9,\"emailSent\":true}",
+      "error": null
+    },
+    {
+      "id": "market-eod-2026-09-29-1290",
+      "job": "market-eod",
+      "date": "2026-09-29",
+      "status": "failed",
+      "started_at": "2026-09-29T14:05:31Z",
+      "finished_at": "2026-09-29T14:06:10Z",
+      "stats": "{}",
+      "error": "核心表未就绪：已过 22:00 截止时间，daily 仍没有 2026-09-29 的数据"
+    }
+  ],
+  "nextCursor": "runs:market-eod-2026-09-29-1290"
+}

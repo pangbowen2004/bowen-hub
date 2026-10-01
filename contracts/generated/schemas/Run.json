@@ -1,0 +1,74 @@
+{
+  "$comment": "由 contracts 生成，勿手改（mise run gen）",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "Run.json",
+  "type": "object",
+  "properties": {
+    "id": {
+      "type": "string",
+      "description": "运行 ID，由任务生成，如 news-morning-2026-09-30-<GitHub 运行号>"
+    },
+    "job": {
+      "type": "string",
+      "description": "任务名，如 news-morning、market-eod、papers-ingest、data-export；月度预算超支提醒记为 budget-alert"
+    },
+    "date": {
+      "type": "string",
+      "format": "date",
+      "description": "这次运行处理的业务日期（如早报日期、A 股交易日）"
+    },
+    "status": {
+      "$ref": "RunStatus.json"
+    },
+    "startedAt": {
+      "type": "string",
+      "format": "date-time",
+      "description": "开始时间"
+    },
+    "finishedAt": {
+      "anyOf": [
+        {
+          "type": "string",
+          "format": "date-time"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "description": "结束时间；还在运行时为 null"
+    },
+    "stats": {
+      "$ref": "#/$defs/RecordUnknown",
+      "description": "统计：由各任务自己决定写什么（条目数、AI 调用数、校验删掉了什么等）"
+    },
+    "error": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "description": "错误摘要；没有出错时为 null"
+    }
+  },
+  "required": [
+    "id",
+    "job",
+    "date",
+    "status",
+    "startedAt",
+    "finishedAt",
+    "stats",
+    "error"
+  ],
+  "description": "计算任务的一次运行（runs 表，docs/09 第 3、7、9 节）。\n任务开始和结束各写一次 PUT /v1/internal/runs/{runId}（同一 id 覆盖）。",
+  "$defs": {
+    "RecordUnknown": {
+      "type": "object",
+      "properties": {},
+      "unevaluatedProperties": {}
+    }
+  }
+}

@@ -1,0 +1,38 @@
+{
+  "$comment": "由 contracts 生成，勿手改（mise run gen）",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "PaperReaderCheck.json",
+  "type": "object",
+  "properties": {
+    "problem": {
+      "type": "string"
+    },
+    "gap": {
+      "type": "string"
+    },
+    "input": {
+      "type": "string"
+    },
+    "mechanism": {
+      "type": "string"
+    },
+    "output": {
+      "type": "string"
+    },
+    "boundary": {
+      "type": "string"
+    },
+    "openQuestion": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "problem",
+    "gap",
+    "input",
+    "mechanism",
+    "output",
+    "boundary",
+    "openQuestion"
+  ]
+}

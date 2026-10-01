@@ -1,0 +1,64 @@
+{
+  "$comment": "由 contracts 生成，勿手改（mise run gen）",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "MarketReference.json",
+  "type": "object",
+  "properties": {
+    "metrics": {
+      "type": "array",
+      "items": {
+        "$ref": "MarketReferenceMetric.json"
+      }
+    },
+    "directions": {
+      "type": "array",
+      "items": {
+        "$ref": "MarketReferenceDirection.json"
+      }
+    },
+    "etfGroups": {
+      "type": "array",
+      "items": {
+        "$ref": "MarketReferenceEtfGroup.json"
+      }
+    },
+    "themes": {
+      "type": "array",
+      "items": {
+        "$ref": "MarketReferenceTheme.json"
+      }
+    },
+    "indices": {
+      "type": "array",
+      "items": {
+        "$ref": "MarketReferenceIndex.json"
+      }
+    },
+    "sources": {
+      "type": "array",
+      "items": {
+        "$ref": "MarketReferenceSource.json"
+      }
+    },
+    "limitations": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "disclaimer": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "metrics",
+    "directions",
+    "etfGroups",
+    "themes",
+    "indices",
+    "sources",
+    "limitations",
+    "disclaimer"
+  ],
+  "description": "MarketReference：市场观测台数据。"
+}

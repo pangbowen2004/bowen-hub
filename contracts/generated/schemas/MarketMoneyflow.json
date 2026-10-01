@@ -1,0 +1,52 @@
+{
+  "$comment": "由 contracts 生成，勿手改（mise run gen）",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "MarketMoneyflow.json",
+  "type": "object",
+  "properties": {
+    "marketNetCny": {
+      "type": "number"
+    },
+    "marketNetRate": {
+      "type": "number"
+    },
+    "extraLargeNetCny": {
+      "type": "number"
+    },
+    "largeNetCny": {
+      "type": "number"
+    },
+    "mediumNetCny": {
+      "type": "number"
+    },
+    "smallNetCny": {
+      "type": "number"
+    },
+    "stockCoverageCount": {
+      "anyOf": [
+        {
+          "type": "integer",
+          "minimum": -2147483648,
+          "maximum": 2147483647
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "classificationBoundary": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "marketNetCny",
+    "marketNetRate",
+    "extraLargeNetCny",
+    "largeNetCny",
+    "mediumNetCny",
+    "smallNetCny",
+    "stockCoverageCount",
+    "classificationBoundary"
+  ],
+  "description": "MarketMoneyflow：市场观测台数据。"
+}

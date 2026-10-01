@@ -1,0 +1,24 @@
+{
+  "$comment": "由 contracts 生成，勿手改（mise run gen）",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "MarketPersistenceRule.json",
+  "type": "object",
+  "properties": {
+    "type": {
+      "type": "string",
+      "const": "MARKET_PERSISTENCE"
+    },
+    "thresholds": {
+      "$ref": "MarketPersistenceThresholds.json"
+    },
+    "baseline": {
+      "$ref": "MarketPersistenceBaseline.json"
+    }
+  },
+  "required": [
+    "type",
+    "thresholds",
+    "baseline"
+  ],
+  "description": "MarketPersistenceRule：市场观测台数据。"
+}

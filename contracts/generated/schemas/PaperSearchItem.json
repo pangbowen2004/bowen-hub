@@ -1,0 +1,62 @@
+{
+  "$comment": "由 contracts 生成，勿手改（mise run gen）",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "PaperSearchItem.json",
+  "type": "object",
+  "properties": {
+    "id": {
+      "type": "string"
+    },
+    "title": {
+      "type": "string"
+    },
+    "titleZh": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "authors": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "oneSentence": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "concepts": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "spaces": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "研究空间的展示名称，供本地全文搜索。"
+    }
+  },
+  "required": [
+    "id",
+    "title",
+    "titleZh",
+    "authors",
+    "oneSentence",
+    "concepts",
+    "spaces"
+  ]
+}

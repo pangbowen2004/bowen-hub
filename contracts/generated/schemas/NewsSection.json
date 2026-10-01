@@ -1,0 +1,34 @@
+{
+  "$comment": "由 contracts 生成，勿手改（mise run gen）",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "NewsSection.json",
+  "anyOf": [
+    {
+      "$ref": "NewsSnapshotSection.json"
+    },
+    {
+      "$ref": "NewsTickerSection.json"
+    },
+    {
+      "$ref": "NewsQuietSection.json"
+    },
+    {
+      "$ref": "NewsArticlesSection.json"
+    },
+    {
+      "$ref": "NewsEarningsSection.json"
+    },
+    {
+      "$ref": "NewsFilingsSection.json"
+    },
+    {
+      "$ref": "NewsInsidersSection.json"
+    },
+    {
+      "$ref": "NewsCalendarSection.json"
+    },
+    {
+      "$ref": "NewsInternationalSection.json"
+    }
+  ]
+}

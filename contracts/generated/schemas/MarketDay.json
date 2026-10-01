@@ -1,0 +1,133 @@
+{
+  "$comment": "由 contracts 生成，勿手改（mise run gen）",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "MarketDay.json",
+  "type": "object",
+  "properties": {
+    "schemaVersion": {
+      "type": "number",
+      "const": 1
+    },
+    "date": {
+      "type": "string",
+      "format": "date"
+    },
+    "previousDate": {
+      "type": "string",
+      "format": "date"
+    },
+    "generatedAt": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "dataStatus": {
+      "$ref": "MarketDataStatus.json"
+    },
+    "indices": {
+      "type": "array",
+      "items": {
+        "$ref": "MarketIndex.json"
+      }
+    },
+    "market": {
+      "$ref": "MarketOverview.json"
+    },
+    "temperature": {
+      "$ref": "MarketTemperature.json"
+    },
+    "sentiment": {
+      "$ref": "MarketSentiment.json"
+    },
+    "style": {
+      "$ref": "MarketStyle.json"
+    },
+    "limitEcology": {
+      "$ref": "MarketLimitEcology.json"
+    },
+    "moneyflow": {
+      "anyOf": [
+        {
+          "$ref": "MarketMoneyflow.json"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "industries": {
+      "type": "array",
+      "items": {
+        "$ref": "MarketIndustry.json"
+      }
+    },
+    "themes": {
+      "type": "array",
+      "items": {
+        "$ref": "MarketTheme.json"
+      }
+    },
+    "directions": {
+      "anyOf": [
+        {
+          "$ref": "MarketDirections.json"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "etfGroups": {
+      "anyOf": [
+        {
+          "$ref": "MarketEtfGroups.json"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "segments": {
+      "$ref": "MarketSegments.json"
+    },
+    "stocks": {
+      "$ref": "MarketStocks.json"
+    },
+    "technical": {
+      "$ref": "MarketTechnical.json"
+    },
+    "summary": {
+      "$ref": "MarketStateSummary.json"
+    },
+    "evolution": {
+      "$ref": "MarketEvolution.json"
+    },
+    "validation": {
+      "$ref": "MarketValidation.json"
+    }
+  },
+  "required": [
+    "schemaVersion",
+    "date",
+    "previousDate",
+    "generatedAt",
+    "dataStatus",
+    "indices",
+    "market",
+    "temperature",
+    "sentiment",
+    "style",
+    "limitEcology",
+    "moneyflow",
+    "industries",
+    "themes",
+    "directions",
+    "etfGroups",
+    "segments",
+    "stocks",
+    "technical",
+    "summary",
+    "evolution",
+    "validation"
+  ],
+  "description": "MarketDay：市场观测台数据。"
+}

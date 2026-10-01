@@ -1,0 +1,20 @@
+{
+  "schemaVersion": 1,
+  "mastery": "pending",
+  "notes": "",
+  "explanations": [],
+  "legacyCards": [
+    {
+      "title": "R0 初筛卡",
+      "markdown": "# 原文初筛\n\nOpenMEVA 给故事评价指标做体检：一个指标即使和人评分相关，也可能换数据就失灵，或对故事错误不敏感。读它的重点是学会检查评价工具，而不是寻找一个永远正确的总分。\n\n全文存在；R1内容由Codex直接修正并核验，未作完整实验复现，未发布。\n"
+    },
+    {
+      "title": "R1 结构阅读卡",
+      "markdown": "## 先用通俗语言讲清楚\n\n- 这篇论文想解决：OpenMEVA 不是写故事的模型，而是检查“给故事打分的指标是否可靠”的测试平台。它把故事与众包总体质量评分配对，检验自动指标能否跟随人的判断。这里评的是故事，不是角色对白；MANS 收集的是总体评分，而不是把连贯性、趣味性等拆成独立人评分数。\n- 以前的问题在于：把长文本生成或评价当成单步任务，会掩盖中间机制及其失效条件。\n- 作者的做法是：测试不只看原始数据上的相关性。作者还让可学习指标跨数据集使用，并构造改变故事质量的扰动，观察指标是否能识别问题。这样可以区分“在熟悉分布上与人评分相关”和“换一种故事或错误类型后仍可靠”。这两件事不能用同一个相关系数替代。\n- 最重要的发现是：在 ROCStories / WritingPrompts 上，UNION 与总体人评分的相关系数分别为 0.4119 / 0.3256；BLEURT 为 0.3163 / 0.1738。UNION 是无参考指标，不是混合指标。这些数值支持本实验中的相对比较，不代表自动评价已经能代替读者；表中还有不显著的指标结果，不能把所有相关性都当作有效证据。\n\n## 3. 核心结果\n\n| 结果 | 核心数字/方向 | 不确定性 | 证据位置 | 状态 |\n|---|---|---|---|---|\n| 主结果应该怎么读 | 在 ROCStories / WritingPrompts 上，UNION 与总体人评分的相关系数分别为 0.4119 / 0.3256；BLEURT 为 0.3163 / 0.1738。UNION 是无参考指标，不是混合指标。这些数值支持本实验中的相对比较，不代表自动评价已经能代替读者；表中还有不显著的指标结果，不能把所有相关性都当作有效证据。 | 以本段给出的指标、对照和限制解释；不外推为通用质量保证或已完成复现。 | PDF p.13, Table 11 | paper_supported |\n| 换数据后会怎样 | 跨数据集测试中，UNION 在 ROCStories 训练后，测试 ROCStories 为 0.4119，测试 WritingPrompts 为 0.2287；在 WritingPrompts 训练后，测试 ROCStories 为 0.2128，测试 WritingPrompts 为 0.3256。这里比较的是相关系数，不是分类准确率；结果提醒我们，指标本身也有分布适应问题。 | 以本段给出的指标、对照和限制解释；不外推为通用质量保证或已完成复现。 | PDF p.7, Table 5 | paper_supported |\n\n## 5. 局限\n\n- 自动构造的扰动只能覆盖部分错误，不能穷尽故事里的因果、人物与时间问题。因此，这篇论文最值得记住的不是某个指标赢了，而是评价指标也需要被测试：既要看与人的关系，也要看它对错误和无关变化的反应。\n\n## 8. 未解决的问题\n\n- [ ] 更换模型、文本分布或评价者后，主要观察是否仍能成立？\n"
+    },
+    {
+      "title": "迁移补充字段",
+      "markdown": "```yaml\n资源与出处.yml:\n  code:\n    status: source_located\n08-理解学习包.yml:\n  paper_id: acl-2021.acl-long.500\n  schema_version: 1\n10-阅读导航包.yml:\n  paper_id: acl-2021.acl-long.500\n  schema_version: 1\n  reading_route:\n    current_depth: R1\n00-元数据.yml:\n  paper_id: acl-2021.acl-long.500\n  knowledge_status: pending\n11-读者导读.yml:\n  paper_id: acl-2021.acl-long.500\n  schema_version: 2\n  guide_version: reader-first-v2\n  contract_version: 2\n  findings:\n  - claim_origin: paper_supported\n  - claim_origin: paper_supported\nevidence-audit.json:\n  schema_version: 2\n  article_blocks:\n  - {}\n  - {}\n  - {}\n  - {}\n  - {}\n  - {}\n  - {}\n  - {}\n  - {}\n  - checked_url: https://github.com/thu-coai/OpenMEVA\n    checked_at: '2026-09-15'\n    check_scope: 原文与本轮既有核查；无法访问和未确认事项在正文明确标注，不宣称复现\n```\n"
+    }
+  ]
+}

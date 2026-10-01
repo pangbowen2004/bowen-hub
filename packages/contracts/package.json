@@ -1,0 +1,45 @@
+{
+  "name": "@bowen-hub/contracts",
+  "private": true,
+  "type": "module",
+  "description": "由 contracts/ 生成的 TS 类型、Zod、fetch 客户端、TanStack Query hooks 与 MSW 模拟（docs/08）",
+  "exports": {
+    ".": "./src/index.ts",
+    "./types": "./src/generated/types.ts",
+    "./zod": "./src/generated/zod.ts",
+    "./client": "./src/client.ts",
+    "./hooks": "./src/generated/hooks.ts",
+    "./mocks": "./src/mocks/index.ts"
+  },
+  "scripts": {
+    "typecheck": "tsc -p . && tsc -p test",
+    "test": "vitest run --testTimeout=30000"
+  },
+  "dependencies": {
+    "@faker-js/faker": "10.6.0",
+    "zod": "4.6.5"
+  },
+  "peerDependencies": {
+    "@tanstack/react-query": "^5.104.0",
+    "msw": "^2.15.0"
+  },
+  "peerDependenciesMeta": {
+    "@tanstack/react-query": {
+      "optional": true
+    },
+    "msw": {
+      "optional": true
+    }
+  },
+  "devDependencies": {
+    "@bowen-hub/config": "workspace:*",
+    "@tanstack/react-query": "5.104.0",
+    "@types/node": "catalog:",
+    "ajv": "8.20.0",
+    "ajv-formats": "3.0.1",
+    "msw": "2.15.0",
+    "typescript": "catalog:",
+    "vitest": "catalog:",
+    "yaml": "2.9.1"
+  }
+}

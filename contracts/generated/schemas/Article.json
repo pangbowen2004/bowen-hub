@@ -1,0 +1,96 @@
+{
+  "$comment": "由 contracts 生成，勿手改（mise run gen）",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "Article.json",
+  "type": "object",
+  "properties": {
+    "id": {
+      "type": "string"
+    },
+    "sourceId": {
+      "type": "string"
+    },
+    "kind": {
+      "anyOf": [
+        {
+          "type": "string",
+          "const": "news"
+        },
+        {
+          "type": "string",
+          "const": "filing"
+        },
+        {
+          "type": "string",
+          "const": "press_release"
+        },
+        {
+          "type": "string",
+          "const": "macro"
+        }
+      ]
+    },
+    "title": {
+      "type": "string"
+    },
+    "url": {
+      "type": "string"
+    },
+    "publishedAt": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "summary": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "lang": {
+      "type": "string"
+    },
+    "tickers": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "topics": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "paywall": {
+      "$ref": "NewsPaywall.json"
+    },
+    "clusterId": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    }
+  },
+  "required": [
+    "id",
+    "sourceId",
+    "kind",
+    "title",
+    "url",
+    "publishedAt",
+    "summary",
+    "lang",
+    "tickers",
+    "topics",
+    "paywall",
+    "clusterId"
+  ]
+}

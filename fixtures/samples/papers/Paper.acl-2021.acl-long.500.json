@@ -1,0 +1,402 @@
+{
+  "schemaVersion": 1,
+  "id": "acl-2021.acl-long.500",
+  "meta": {
+    "title": "OpenMEVA: A Benchmark for Evaluating Open-ended Story Generation Metrics",
+    "titleZh": "OpenMEVA: 开放式故事生成评估指标基准测试",
+    "authors": [
+      "Jian Guan",
+      "Zhexin Zhang",
+      "Zhuoer Feng",
+      "Zitao Liu",
+      "Wenbiao Ding",
+      "Xiaoxi Mao",
+      "Changjie Fan",
+      "Minlie Huang"
+    ],
+    "year": 2021,
+    "venue": "ACL",
+    "version": "v1",
+    "paperType": "conference",
+    "studyDesign": "empirical",
+    "sourceUrl": "https://aclanthology.org/2021.acl-long.500/",
+    "paperKind": "empirical"
+  },
+  "spaces": [
+    "general-research"
+  ],
+  "status": {
+    "visibility": "private",
+    "review": "passed",
+    "readingDepth": "R1",
+    "nextAction": "本地阅读；发布锁保持，等待用户另行授权",
+    "updatedAt": "2026-10-01"
+  },
+  "guide": {
+    "oneSentence": "测试不只看原始数据上的相关性。作者还让可学习指标跨数据集使用，并构造改变故事质量的扰动，观察指标是否能识别问题。这样可以区分“在熟悉分布上与人评分相关”和“换一种故事或错误类型后仍可靠”。这两件事不能用同一个相关系数替代。",
+    "readingGoal": "OpenMEVA 不是写故事的模型，而是检查“给故事打分的指标是否可靠”的测试平台。它把故事与众包总体质量评分配对，检验自动指标能否跟随人的判断。这里评的是故事，不是角色对白；MANS 收集的是总体评分，而不是把连贯性、趣味性等拆成独立人评分数。",
+    "problem": {
+      "setup": "OpenMEVA 不是写故事的模型，而是检查“给故事打分的指标是否可靠”的测试平台。它把故事与众包总体质量评分配对，检验自动指标能否跟随人的判断。这里评的是故事，不是角色对白；MANS 收集的是总体评分，而不是把连贯性、趣味性等拆成独立人评分数。\n把长文本生成或评价当成单步任务，会掩盖中间机制及其失效条件。"
+    },
+    "method": {
+      "thesis": "测试不只看原始数据上的相关性。作者还让可学习指标跨数据集使用，并构造改变故事质量的扰动，观察指标是否能识别问题。这样可以区分“在熟悉分布上与人评分相关”和“换一种故事或错误类型后仍可靠”。这两件事不能用同一个相关系数替代。"
+    },
+    "findings": [
+      {
+        "title": "主结果应该怎么读",
+        "evidence": "在 ROCStories / WritingPrompts 上，UNION 与总体人评分的相关系数分别为 0.4119 / 0.3256；BLEURT 为 0.3163 / 0.1738。UNION 是无参考指标，不是混合指标。这些数值支持本实验中的相对比较，不代表自动评价已经能代替读者；表中还有不显著的指标结果，不能把所有相关性都当作有效证据。",
+        "anchor": "PDF p.13, Table 11",
+        "caveat": "以本段给出的指标、对照和限制解释；不外推为通用质量保证或已完成复现。"
+      },
+      {
+        "title": "换数据后会怎样",
+        "evidence": "跨数据集测试中，UNION 在 ROCStories 训练后，测试 ROCStories 为 0.4119，测试 WritingPrompts 为 0.2287；在 WritingPrompts 训练后，测试 ROCStories 为 0.2128，测试 WritingPrompts 为 0.3256。这里比较的是相关系数，不是分类准确率；结果提醒我们，指标本身也有分布适应问题。",
+        "anchor": "PDF p.7, Table 5",
+        "caveat": "以本段给出的指标、对照和限制解释；不外推为通用质量保证或已完成复现。"
+      }
+    ],
+    "article": "## 先说结论\n\nOpenMEVA 给故事评价指标做体检：一个指标即使和人评分相关，也可能换数据就失灵，或对故事错误不敏感。读它的重点是学会检查评价工具，而不是寻找一个永远正确的总分。\n（原文：PDF p.3, §3.1；PDF p.7, §4.3–4.4；PDF p.8, Tables 6–7; §4.4–4.5；PDF p.3, experimental setup；PDF p.13, Table 11；PDF p.7, Table 5；PDF p.7, §4.4）\n\n## 论文为什么要做这件事\n\nOpenMEVA 不是写故事的模型，而是检查“给故事打分的指标是否可靠”的测试平台。它把故事与众包总体质量评分配对，检验自动指标能否跟随人的判断。这里评的是故事，不是角色对白；MANS 收集的是总体评分，而不是把连贯性、趣味性等拆成独立人评分数。\n（原文：PDF p.3, §3.1）\n\n## 核心方法到底怎么运转\n\n测试不只看原始数据上的相关性。作者还让可学习指标跨数据集使用，并构造改变故事质量的扰动，观察指标是否能识别问题。这样可以区分“在熟悉分布上与人评分相关”和“换一种故事或错误类型后仍可靠”。这两件事不能用同一个相关系数替代。\n（原文：PDF p.7, §4.3–4.4）\n\n## 两种扰动，方向恰好不同\n\n辨别测试破坏连贯性，检查指标分数能否区分正常故事与受损故事；不变性测试尽量保留质量，检查指标是否对无关变化过度敏感。论文用分数与二元标签的 Pearson 相关来报告这些测试：辨别测试期待较高相关，不变性期待较小的绝对相关。不能把两个表都理解为越高越好；恒定打分也可能显得“不受扰动”，却没有评价价值。\n（原文：PDF p.8, Tables 6–7; §4.4–4.5）\n\n## 实验怎样检验这个方法\n\nMANS 将机器生成故事交给 AMT 众包评分，每个故事保留五个有效总体评分；另有受控扰动测试。总体人评分、破坏性扰动和保真扰动回答不同问题，结果需要分别解释。\n（原文：PDF p.3, experimental setup）\n\n## 结果说明了什么\n\n在 ROCStories / WritingPrompts 上，UNION 与总体人评分的相关系数分别为 0.4119 / 0.3256；BLEURT 为 0.3163 / 0.1738。UNION 是无参考指标，不是混合指标。这些数值支持本实验中的相对比较，不代表自动评价已经能代替读者；表中还有不显著的指标结果，不能把所有相关性都当作有效证据。\n（原文：PDF p.13, Table 11）\n\n## 换数据后会怎样\n\n跨数据集测试中，UNION 在 ROCStories 训练后，测试 ROCStories 为 0.4119，测试 WritingPrompts 为 0.2287；在 WritingPrompts 训练后，测试 ROCStories 为 0.2128，测试 WritingPrompts 为 0.3256。这里比较的是相关系数，不是分类准确率；结果提醒我们，指标本身也有分布适应问题。\n（原文：PDF p.7, Table 5）\n\n## 这篇论文哪里最强，哪里最危险\n\n自动构造的扰动只能覆盖部分错误，不能穷尽故事里的因果、人物与时间问题。因此，这篇论文最值得记住的不是某个指标赢了，而是评价指标也需要被测试：既要看与人的关系，也要看它对错误和无关变化的反应。\n（原文：PDF p.7, §4.4）\n\n## 读完后记住这三件事\n\n记住三个区别：故事生成器不等于评价指标；同分布相关不等于跨分布可靠；识别破坏与抵抗无关扰动的指标方向不同。\n（原文：PDF p.3, §3.1；PDF p.7, §4.3–4.4；PDF p.8, Tables 6–7; §4.4–4.5；PDF p.3, experimental setup；PDF p.13, Table 11；PDF p.7, Table 5；PDF p.7, §4.4）\n\n## 代码从哪里读\n\n[原始来源入口](https://github.com/thu-coai/OpenMEVA)。从指标实现与扰动测试入手；先理解分数方向，再复跑测试，不要把数据集的人评误称专家独立分维度标注。\n",
+    "openQuestions": [
+      "更换模型、文本分布或评价者后，主要观察是否仍能成立？"
+    ]
+  },
+  "evidence": {
+    "readerCheck": {
+      "problem": "OpenMEVA 不是写故事的模型，而是检查“给故事打分的指标是否可靠”的测试平台。它把故事与众包总体质量评分配对，检验自动指标能否跟随人的判断。这里评的是故事，不是角色对白；MANS 收集的是总体评分，而不是把连贯性、趣味性等拆成独立人评分数。",
+      "gap": "把长文本生成或评价当成单步任务，会掩盖中间机制及其失效条件。",
+      "input": "机器生成故事、众包总体评分，以及受控改变前后的一对故事。",
+      "mechanism": "测试不只看原始数据上的相关性。作者还让可学习指标跨数据集使用，并构造改变故事质量的扰动，观察指标是否能识别问题。这样可以区分“在熟悉分布上与人评分相关”和“换一种故事或错误类型后仍可靠”。这两件事不能用同一个相关系数替代。",
+      "output": "在 ROCStories / WritingPrompts 上，UNION 与总体人评分的相关系数分别为 0.4119 / 0.3256；BLEURT 为 0.3163 / 0.1738。UNION 是无参考指标，不是混合指标。这些数值支持本实验中的相对比较，不代表自动评价已经能代替读者；表中还有不显著的指标结果，不能把所有相关性都当作有效证据。",
+      "boundary": "自动构造的扰动只能覆盖部分错误，不能穷尽故事里的因果、人物与时间问题。因此，这篇论文最值得记住的不是某个指标赢了，而是评价指标也需要被测试：既要看与人的关系，也要看它对错误和无关变化的反应。",
+      "openQuestion": "更换模型、文本分布或评价者后，主要观察是否仍能成立？"
+    },
+    "claims": [
+      {
+        "id": "c1",
+        "kind": "method",
+        "claim": "它到底在解决什么",
+        "metric": "OpenMEVA 不是写故事的模型，而是检查“给故事打分的指标是否可靠”的测试平台。它把故事与众包总体质量评分配对，检验自动指标能否跟随人的判断。这里评的是故事，不是角色对白；MANS 收集的是总体评分，而不是把连贯性、趣味性等拆成独立人评分数。",
+        "anchor": "PDF p.3, §3.1",
+        "condition": "仅限本地原始PDF的 §3.1；不同表格与实验不合并",
+        "interpretationBoundary": "以本段给出的指标、对照和限制解释；不外推为通用质量保证或已完成复现。",
+        "pdfPage": 3,
+        "sourceLines": [
+          1,
+          76
+        ],
+        "sourceExcerpt": "Instruction                                                     Rating Story A\n                                                                                                                                              Annotator #1          ✅\n                                                                                                                                             Sample        Rating\n        1. Read the following Input and seven stories                         Overall Quality:         1      2   3     4   5\n                                                                                                                                           Human-written      5\n           from Story A to Story G .                                          Reasons:\n        2. Comparing the stories with one another in                          • Local Errors                                                 Negative         1\n\n           terms of Overall Quality .                                             • Repetitive plots (repeating similar texts)                  ...           ...\n        3. Rate each story in 1-5 range (5 is the                                       -1                 -2                                   ...           ...\n           best). And choose your Reasons.                                        • Unrelated events (with unrelated events to the input\n                                                                                     or within its own context)\n                                                                                        -1                 -2                                         . . .\n          Input: My dad likes watermelon very much.                               • Conflicting logic (against common sense or with           Annotator #5 ❌\n                                                                                     wrong causal or temporal relationship)\n                                                                                                                                             Sample        Rating\n       One Human-written Story      Story A: He bought himself a ...\n                                                                                        -1                 -2\n                                                                              • Global Errors                                              Human-written      2\n\n                                    Story B: He wanted to try ...                 • Chaotic scenes (difficult to understand as a whole)      Negative         4\n        Five Generated samples                                                          -2\n                                                                                                                                                ...           ...\n                                                  . . .                                                . . .\n                                                                                                                                                ...           ...\n        One Negative Sample         Story G: It has been a pretty great ...\n                                                                                                 Rating story G\n\n\nFigure 1: Overview for the manual annotation interface. Story A gets two points in overall quality since it gets\nthree points deducted for its repetitive plot and chaotic scene. The ratings of Annotator #5 for the current story\ngroup are rejected because of the low score for the human-written story and the high score for the negative sample.\n\n\nin WP. Although we only consider the stories in the                                     Then we ask workers to compare the overall qual-\ntwo corpora, OpenMEVA is designed to measure                                            ity of the seven stories2 , and rate each story with\nthe capability of NLG metrics to evaluate general                                       a 5-point Likert scale. We reject an HIT if the\nlinguistic features such as coherence, which may                                        worker rates the human-written story lower than\npertain to other stories. Besides, our idea that build-                                 four points or rates the negative example higher\ning datasets by manual annotation or automatic                                          than two points. Through the quality control mech-\nconstruction can be easily extended to evaluate spe-                                    anism, we filtered about 38.7% assignments for\ncific aspects for other types of stories.                                               ROC and 75.4% for WP. Finally, we ensure that\n                                                                                        there are five valid ratings for each generated story,\n3.1   MANS: Manually Annotated Stories\n                                                                                        and we regard the average rating as the final human\nWe collect MANS to assess the correlation of met-                                       judgment.\nrics with human judgments and the generalization                                           Considering that overall quality is often too ab-\nability when evaluating machine-generated stories.                                      stract to measure, we follow previous recommen-\nWe randomly split ROC and WP by 90%/5%/5%                                               dations (Belz and Hastie, 2014; van der Lee et al.,\nfor training/validation/test of the generation mod-                                     2020) to decide the overall quality by summariz-\nels. We regard the first sentence for ROC and                                           ing multiple separate criteria. We ask the workers\nthe prompt for WP as input. After training, we                                          to decide the rating of a story based on a point\ngenerate stories based on the test sets. Then, we                                       deduction policy. Specifically, a story should get\nresort to Amazon Mechanical Turk (AMT) for                                              punishment in points if it contains errors such as\nhuman judgments of the generated stories. We                                            repetitive plots, unrelated events and conflicting\nconsider various generation models including a                                          logic, or globally chaotic scenes, which are com-\nSeq2Seq model (Sutskever et al., 2014), Fusion                                          monly observed in existing NLG models (Guan\n(Fan et al., 2018), Plan&Write (Yao et al., 2019),                                      and Huang, 2020) (several examples shown in the\nthe fine-tuned GPT-2 (Radford et al., 2019) and                                         appendix). Intuitively, the policy can alleviate the\nKnowledGe-enhanced GPT-2 (Guan et al., 2020).                                           tendency to give high scores and ensure that the\nThese models cover diverse network architectures                                        judgment standard of workers is as consistent as\nand different levels of the generation ability, which                                   possible during annotation. To avoid introducing\nsupport to evaluate the generalization to examples                                      extra bias in the policy, we do not impose the re-\nwith different model biases or quality levels.                                          striction on workers to exactly match the rating in\nManual Annotation We present the manual an-                                             overall quality with the deducted points.\nnotation interface in Figure 1. In each human intel-                                    Data Statistics We randomly sampled 200 sto-\nligence task (HIT) of AMT, we show workers the                                          ries from test sets of ROC and WP for story\ninput of a story paired with seven stories including\n(a) five stories generated by the above five mod-                                            2\n                                                                                             We do not ask annotation in other aspects (e.g., interest-\nels, (b) the human-written story, and (c) a negative                                    ing) since previous work (Novikova et al., 2017) has noted that\n                                                                                        the annotation scores on different aspects are highly correlated\nexample constructed by perturbing a story (e.g.,                                        in spite of careful design. And computing correlation scores\nrepetition, shuffling) sampled from the test sets.                                      in the entangled aspects would be unconvincing.\n\n                                                                                6396",
+        "quantities": [],
+        "claimOrigin": "paper_supported"
+      },
+      {
+        "id": "c2",
+        "kind": "method",
+        "claim": "方法怎样工作",
+        "metric": "测试不只看原始数据上的相关性。作者还让可学习指标跨数据集使用，并构造改变故事质量的扰动，观察指标是否能识别问题。这样可以区分“在熟悉分布上与人评分相关”和“换一种故事或错误类型后仍可靠”。这两件事不能用同一个相关系数替代。",
+        "anchor": "PDF p.7, §4.3–4.4",
+        "condition": "仅限本地原始PDF的 §4.3–4.4；不同表格与实验不合并",
+        "interpretationBoundary": "以本段给出的指标、对照和限制解释；不外推为通用质量保证或已完成复现。",
+        "pdfPage": 7,
+        "sourceLines": [
+          1,
+          78
+        ],
+        "sourceExcerpt": "ferent NLG models since the generation quality or                         4.4     Ability to Judge Story Coherence\ninductive bias can vary significantly across models.\nBesides, we also expect a metric to reliably eval-                        We assess the ability of the unreferenced metrics8\nuate output from different datasets even without                          to judge story coherence based on the discrimina-\nre-training. Therefore, we assess the generaliza-                         tion test set of AUTOS. We assign each test example\ntion ability of learnable metrics, including PPL (F),                     with a binary label (1/0 for the coherent/incoherent\nRu -BERT and U NION, which are fine-tuned on the                          example). Then we calculate the correlation be-\ntraining sets of ROC and WP, respectively.                                tween metric scores and the binary labels on the\n   To assess the generalization to model drift, we                        test examples of different aspects. The higher corre-\ntest the metrics on stories generated by five afore-                      lation means the better ability to judge coherence.\nmentioned models in MANS, respectively (200 sto-\n                                                                             Table 6 presents the correlation results. We sum-\nries by each model). Table 4 presents the perfor-\n                                                                          marize the results as follows: (1) PPL is ineffec-\nmance, which varies considerably with models. Ru -\n                                                                          tive to recognize repetition errors. The observa-\nBERT only achieves a good correlation on those\n                                                                          tion is accordant with the results on MANS (Table 3).\nstories with poor relatedness (e.g., Seq2Seq on\n                                                                          PPL (P) even has a significantly negative correla-\nWP). PPL (F) and U NION perform comparably but\n                                                                          tion with labels in lexical and semantic repetition.\nneither do well in evaluating all the NLG models.\n                                                                          (2) PPL (F) and U NION have better average per-\n                                                                          formance than others. Ru -BERT performs worst\n        Metrics       S2S      P&W         Fusion   GPT-2     KG-G        in almost all the aspects. U NION has the highest\n        PPL (F)        0.14     0.22       0.12     0.14       0.25∗      average performance by a large margin on ROC\n  ROC   Ru -BERT      -0.02    -0.08       0.04     0.12       0.06\n                                                                          but underperforms PPL (F) on WP, indicating the\n        UN I O N       0.12     0.28∗      0.10     0.15∗      0.32∗\n        PPL (F)        0.11     0.15       0.05     0.12       0.13\n                                                                          shortage of U NION when evaluating longer sto-\n  WP    Ru -BERT       0.18∗    0.08       0.14     0.07       0.02       ries. Besides, the results show that a powerful\n        UN I O N       0.09     0.02       0.15     0.04       0.15∗\n                                                                          language model may also be a powerful evalua-\nTable 4: Pearson correlation with human judgments                         tor (if we can alleviate its preference for repetitive\nto assess generalization to output from different mod-                    texts). (3) Existing metrics perform well in rec-\nels including Seq2Seq (S2S), Plan&Write (P&W), Fu-                        ognizing incoherence at token and sentence lev-\nsion, GPT-2, KG-GPT-2 (KG-G). The best perfor-                            els. For example, they seem to be able to recognize\nmance among the metrics is highlighted in bold.                           unreasonable behavior for a certain character, and\n                                                                          possess some commonsense knowledge about en-\n                                                                          tity relations. However, in this work the proposed\n   To assess the generalization to dataset drift, we\n                                                                          perturbation can not fully cover all possible inco-\nfirst trained the metrics on ROC and then directly\n                                                                          herence in these aspects, which would be regarded\nused them to evaluate stories from WP, and vice\n                                                                          as the future work. (4) The metrics still struggle\nversa. As shown in Table 5, all the metrics drops\n                                                                          to recognize discourse-level incoherence. Specif-\nsignificantly in correlation when used for the other\n                                                                          ically, it is difficult to recognize inconsistent events\ndataset due to the difference in length and topic.\n                                                                          when we insert or delete negated words, and un-\nPPL (F) and U NION also have similar performance\n                                                                          derstand the semantic relatedness across sentences.\ndrops but are more generalizable. The results sug-\n                                                                          Besides, they also lack inferential knowledge about\ngest existing metrics fall short of generalization.\n                                                                          the causal and temporal relationship. The observa-\n                                                                          tions are also accordant with the results in Table 3\n                        Train: ROC                  Train: WP             where unrelated events and conflicting logic can\n  Metrics\n                  Test: ROC     Test: WP     Test: ROC     Test: WP\n                                                                          not be well recognized. In conclusion, we reveal\n  PPL(F)           0.2817∗      0.2423∗       0.2470∗       0.2952∗       various issues of the existing metrics by the isolat-\n  Ru -BERT         0.0830∗      0.0379        0.0891∗       0.1666∗\n  UN I O N         0.4119∗      0.2287∗       0.2128∗       0.3256∗       ing behavioral testing, while they achieve moderate\n                                                                          correlation with human judgments on MANS.\nTable 5: Pearson correlation with human judgments to\nassess generalization to samples from different datasets.\nThe best performance between two test datasets (each\nrow) for each metric is highlighted in bold.                                  8\n                                                                              It is meaningless to evaluate referenced or hybrid metrics\n                                                                          on AUTOS since the reference text of a positive example is\n                                                                          exactly itself, which is an unfair case for unreferenced metrics.\n\n                                                                       6400",
+        "quantities": [],
+        "claimOrigin": "paper_supported"
+      },
+      {
+        "id": "c3",
+        "kind": "method",
+        "claim": "两种扰动，方向恰好不同",
+        "metric": "辨别测试破坏连贯性，检查指标分数能否区分正常故事与受损故事；不变性测试尽量保留质量，检查指标是否对无关变化过度敏感。论文用分数与二元标签的 Pearson 相关来报告这些测试：辨别测试期待较高相关，不变性期待较小的绝对相关。不能把两个表都理解为越高越好；恒定打分也可能显得“不受扰动”，却没有评价价值。",
+        "anchor": "PDF p.8, Tables 6–7; §4.4–4.5",
+        "condition": "仅限本地原始PDF的 Tables 6–7; §4.4–4.5；不同表格与实验不合并",
+        "interpretationBoundary": "以本段给出的指标、对照和限制解释；不外推为通用质量保证或已完成复现。",
+        "pdfPage": 8,
+        "sourceLines": [
+          1,
+          80
+        ],
+        "sourceExcerpt": "Lexical        Semantic             Character       Common                                         Causal           Temporal\n      Metrics                                                                                   Consistency   Relatedness\n                            Repetition      Repetition           Behavior         Sense                                       Relationship      Relationship\n\n                Cohe          4,736              4,736             1,022           1,921            455           563             476                 2,376\n      ROC\n                Incohe        4,049              3,243              266             448            3,666         3,570            410                 1,799\n      PPL (P)               -0.1886∗        -0.0719∗              0.2547∗        0.4246∗         0.1357∗        0.0744∗         0.1002∗              0.1759∗\n      PPL (F)                0.0287∗         0.2315∗              0.3595∗        0.3976∗         0.1630∗        0.1458          0.1568∗              0.2007\n      Ru -BERT               0.0121          0.0543∗              0.0671∗        0.0478∗         0.0194∗        0.0764∗        -0.0075               0.0135∗\n      UN I O N               0.5454∗         0.5631∗              0.3191∗        0.3965∗         0.1676∗        0.2045∗         0.1425∗              0.1769∗\n\n                Cohe          9,922              9,922             3,911           2,052           2,914          497            4,552                9,408\n        WP\n                Incohe        9,022              8,381              173             235            6,239          851            3,057                7,092\n      PPL (P)               -0.0886∗        -0.0461∗              0.2077∗         0.4782∗        0.2575∗        0.1328∗         0.0355∗              0.0763∗\n      PPL (F)               -0.0467∗         0.0986∗              0.2783∗         0.4871∗        0.3420∗        0.2297∗         0.1597∗              0.1788∗\n      Ru -BERT               0.0098          0.0108              -0.0299         -0.0183         0.0137         0.0054         -0.0143               0.0042\n      UN I O N               0.2302∗         0.2150∗              0.3044∗         0.3940∗        0.3661∗        0.2107∗         0.0514∗              0.0459∗\n\n\nTable 6: Pearson correlation with automatic labels on the discrimination test set of AUTOS. The higher correlation\nindicates the better ability to judge story coherence in different aspects. The best performance is highlighted in\nbold. Cohe and Incohe stand for the number of coherent and incoherent examples, respectively.\n\n                            Synonym                     Paraphrase                     Punctuation                Contraction                  Typo\n   Metrics\n                         Human      Dis              Human       Dis                Human        Dis           Human        Dis           Human                Dis\n\n   ROC                     3,777         2,395           3,174        2,194           574           171         1,602         1,208          4,755            4,763\n                                                                                                                                                  ∗\n   PPL (P)               0.3162∗\n                                       0.2515∗\n                                                     0.1450  ∗\n                                                                     0.0916  ∗\n                                                                                    0.0922  ∗\n                                                                                                  0.0856      -0.0557             ∗\n                                                                                                                            -0.0522        0.4124         0.2616∗\n   PPL (F)               0.3309∗       0.2521∗       0.2742∗         0.2022∗        0.1475∗       0.0996       0.0504        0.0331∗       0.4540∗        0.2973∗\n   RUBERu -BERT          0.0307∗       0.0290∗       0.0255          0.0263         0.0052        -0.0140      0.0064        0.0071       -0.0112         0.0042\n   UN I O N              0.2187∗       0.1169∗       0.1112∗         0.0399∗        0.0818∗       0.1375∗      0.0275        0.0251        0.6021∗        0.4606∗\n\n   WP                      6,961         35,90           7,881        2,576          4,535          2,287       8,731         4,522          15,073       15,082\n   PPL (P)                0.2174∗      0.1822∗       0.0910∗         0.0617∗        0.2690∗        0.2178∗    -0.0222∗      -0.0157       0.3983∗         0.3885∗\n   PPL (F)                0.2964∗      0.1747∗       0.2273∗         0.1020∗        0.3822∗        0.2515∗     0.0851∗       0.0682∗      0.4603∗         0.4043∗\n   RUBERu -BERT          -0.0013       0.0004        0.0000          0.0000        -0.0256∗       -0.0308∗    -0.0012       -0.0043       0.0133          0.0154∗\n   UN I O N               0.1077∗      0.0843∗       0.0389∗         0.0292∗        0.2182∗        0.2224∗     0.0185∗       0.0173∗      0.3812∗         0.3208∗\n\n\nTable 7: Pearson correlation with automatic labels on the invariance test set of AUTOS. The smaller absolute\nvalue of correlation indicates the better robustness. The best performance is highlighted in bold and the second\nbest is underlined. The numbers in the ROC/WP rows indicate how many human-written stories (Human) and\nincoherent samples from the discrimination test set (Dis) are perturbed.\n\n\n4.5     Robustness Evaluation                                                               substitution because the low-frequency words in-\nA reliable metric should produce similar judgments                                          troduced by the perturbations (e.g., from “happy”\nfor an example with simple perturbations or attacks                                         to “joyful”) can cause significant change in PPL.\nin the input. Therefore, it is essential to evaluate                                        U NION has better robustness on average thanks to\nthe robustness of metrics. We test the robustness                                           the robust contextualized representation of BERT.\non the invariance test set of AUTOS. We assign                                              Furthermore, both PPL and U NION perform better\neach example with a binary label (1/0 for the orig-                                         in contraction than in other aspects. However, they\ninal/perturbed example). Then, we calculate the                                             are very sensitive to a small number of typos (less\ncorrelation between metric scores and the binary la-                                        than 2% words) because typos may bring some\nbels. The original examples can be sampled either                                           out-of-vocabulary words. Although the issue is\nfrom human-written stories or from the incoherent                                           common for almost all the (sub)word-based met-\nexamples in the discrimination test set.                                                    rics, it is still important to handle typos since they\n   Table 7 shows the robustness results. It is not                                          are also common in human writing.\nsurprising that Ru -BERT has the “best robustness”\nsince the perturbations hardly influence the input-\n                                                                                            5    Conclusion\noutput relatedness. The result validates the related-                                      We present OpenMEVA, a benchmark to compre-\nness is merely one side for evaluating NLG, but not                                        hensively assess capabilities of metrics for evalu-\nmeans that it is a promising direction for develop-                                        ating open-ended story generation. OpenMEVA\ning robust metrics9 . PPL is not robust to synonym                                         includes test examples which are created by either\n   9\n     We can imagine that a constant metric has the perfect                                 annotating machine-generated stories or perturb-\nrobustness to any perturbations, but is useless for evaluation.                            ing human-written stories in terms of each single\n\n                                                                                   6401",
+        "quantities": [],
+        "claimOrigin": "paper_supported"
+      },
+      {
+        "id": "c4",
+        "kind": "method",
+        "claim": "实验怎样检验这个方法",
+        "metric": "MANS 将机器生成故事交给 AMT 众包评分，每个故事保留五个有效总体评分；另有受控扰动测试。总体人评分、破坏性扰动和保真扰动回答不同问题，结果需要分别解释。",
+        "anchor": "PDF p.3, experimental setup",
+        "condition": "仅限本地原始PDF的 experimental setup；不同表格与实验不合并",
+        "interpretationBoundary": "以本段给出的指标、对照和限制解释；不外推为通用质量保证或已完成复现。",
+        "pdfPage": 3,
+        "sourceLines": [
+          1,
+          76
+        ],
+        "sourceExcerpt": "Instruction                                                     Rating Story A\n                                                                                                                                              Annotator #1          ✅\n                                                                                                                                             Sample        Rating\n        1. Read the following Input and seven stories                         Overall Quality:         1      2   3     4   5\n                                                                                                                                           Human-written      5\n           from Story A to Story G .                                          Reasons:\n        2. Comparing the stories with one another in                          • Local Errors                                                 Negative         1\n\n           terms of Overall Quality .                                             • Repetitive plots (repeating similar texts)                  ...           ...\n        3. Rate each story in 1-5 range (5 is the                                       -1                 -2                                   ...           ...\n           best). And choose your Reasons.                                        • Unrelated events (with unrelated events to the input\n                                                                                     or within its own context)\n                                                                                        -1                 -2                                         . . .\n          Input: My dad likes watermelon very much.                               • Conflicting logic (against common sense or with           Annotator #5 ❌\n                                                                                     wrong causal or temporal relationship)\n                                                                                                                                             Sample        Rating\n       One Human-written Story      Story A: He bought himself a ...\n                                                                                        -1                 -2\n                                                                              • Global Errors                                              Human-written      2\n\n                                    Story B: He wanted to try ...                 • Chaotic scenes (difficult to understand as a whole)      Negative         4\n        Five Generated samples                                                          -2\n                                                                                                                                                ...           ...\n                                                  . . .                                                . . .\n                                                                                                                                                ...           ...\n        One Negative Sample         Story G: It has been a pretty great ...\n                                                                                                 Rating story G\n\n\nFigure 1: Overview for the manual annotation interface. Story A gets two points in overall quality since it gets\nthree points deducted for its repetitive plot and chaotic scene. The ratings of Annotator #5 for the current story\ngroup are rejected because of the low score for the human-written story and the high score for the negative sample.\n\n\nin WP. Although we only consider the stories in the                                     Then we ask workers to compare the overall qual-\ntwo corpora, OpenMEVA is designed to measure                                            ity of the seven stories2 , and rate each story with\nthe capability of NLG metrics to evaluate general                                       a 5-point Likert scale. We reject an HIT if the\nlinguistic features such as coherence, which may                                        worker rates the human-written story lower than\npertain to other stories. Besides, our idea that build-                                 four points or rates the negative example higher\ning datasets by manual annotation or automatic                                          than two points. Through the quality control mech-\nconstruction can be easily extended to evaluate spe-                                    anism, we filtered about 38.7% assignments for\ncific aspects for other types of stories.                                               ROC and 75.4% for WP. Finally, we ensure that\n                                                                                        there are five valid ratings for each generated story,\n3.1   MANS: Manually Annotated Stories\n                                                                                        and we regard the average rating as the final human\nWe collect MANS to assess the correlation of met-                                       judgment.\nrics with human judgments and the generalization                                           Considering that overall quality is often too ab-\nability when evaluating machine-generated stories.                                      stract to measure, we follow previous recommen-\nWe randomly split ROC and WP by 90%/5%/5%                                               dations (Belz and Hastie, 2014; van der Lee et al.,\nfor training/validation/test of the generation mod-                                     2020) to decide the overall quality by summariz-\nels. We regard the first sentence for ROC and                                           ing multiple separate criteria. We ask the workers\nthe prompt for WP as input. After training, we                                          to decide the rating of a story based on a point\ngenerate stories based on the test sets. Then, we                                       deduction policy. Specifically, a story should get\nresort to Amazon Mechanical Turk (AMT) for                                              punishment in points if it contains errors such as\nhuman judgments of the generated stories. We                                            repetitive plots, unrelated events and conflicting\nconsider various generation models including a                                          logic, or globally chaotic scenes, which are com-\nSeq2Seq model (Sutskever et al., 2014), Fusion                                          monly observed in existing NLG models (Guan\n(Fan et al., 2018), Plan&Write (Yao et al., 2019),                                      and Huang, 2020) (several examples shown in the\nthe fine-tuned GPT-2 (Radford et al., 2019) and                                         appendix). Intuitively, the policy can alleviate the\nKnowledGe-enhanced GPT-2 (Guan et al., 2020).                                           tendency to give high scores and ensure that the\nThese models cover diverse network architectures                                        judgment standard of workers is as consistent as\nand different levels of the generation ability, which                                   possible during annotation. To avoid introducing\nsupport to evaluate the generalization to examples                                      extra bias in the policy, we do not impose the re-\nwith different model biases or quality levels.                                          striction on workers to exactly match the rating in\nManual Annotation We present the manual an-                                             overall quality with the deducted points.\nnotation interface in Figure 1. In each human intel-                                    Data Statistics We randomly sampled 200 sto-\nligence task (HIT) of AMT, we show workers the                                          ries from test sets of ROC and WP for story\ninput of a story paired with seven stories including\n(a) five stories generated by the above five mod-                                            2\n                                                                                             We do not ask annotation in other aspects (e.g., interest-\nels, (b) the human-written story, and (c) a negative                                    ing) since previous work (Novikova et al., 2017) has noted that\n                                                                                        the annotation scores on different aspects are highly correlated\nexample constructed by perturbing a story (e.g.,                                        in spite of careful design. And computing correlation scores\nrepetition, shuffling) sampled from the test sets.                                      in the entangled aspects would be unconvincing.\n\n                                                                                6396",
+        "quantities": [],
+        "claimOrigin": "paper_supported"
+      },
+      {
+        "id": "c5",
+        "kind": "result",
+        "claim": "主结果应该怎么读",
+        "metric": "在 ROCStories / WritingPrompts 上，UNION 与总体人评分的相关系数分别为 0.4119 / 0.3256；BLEURT 为 0.3163 / 0.1738。UNION 是无参考指标，不是混合指标。这些数值支持本实验中的相对比较，不代表自动评价已经能代替读者；表中还有不显著的指标结果，不能把所有相关性都当作有效证据。",
+        "anchor": "PDF p.13, Table 11",
+        "condition": "仅限本地原始PDF的 Table 11；不同表格与实验不合并",
+        "interpretationBoundary": "以本段给出的指标、对照和限制解释；不外推为通用质量保证或已完成复现。",
+        "pdfPage": 13,
+        "sourceLines": [
+          1,
+          62
+        ],
+        "sourceExcerpt": "RUBER, and the supervised metric BLEURT which                   at least three types of person (i.e., at least\nis fine-tuned on the released annotation results                three pronouns from different rows) as the co-\nfrom Guan and Huang (2020). The experiment                      herent examples. And when substituting the\nresults is shown in Table 11.                                   pronouns to create incoherent examples, we\n                                                                only perform the substitution in the same col-\n      Metrics                ROC        WP                      umn (e.g., “my” can be only substituted with\n      Referenced Metrics                                       “our”, “your”, etc.) for better grammaticality.\n      BLEU                   -0.0239    -0.0537\n      ROUGE-L                 0.0188    -0.0107             • Consistency, Causal and Temporal Rela-\n      METEOR                  0.0155    -0.0079               tionship: We present the negated words,\n      Greedy Matching         0.1892∗   -0.0510               causality-related words and the time-related\n      Vector Average          0.1840∗   -0.0429\n      Vector Extrema          0.1021∗   -0.0241               words in Table 12.\n      BERTScore-P             0.1538∗    0.0857∗\n      BERTScore-R             0.0838∗   -0.0215\n      BERTScore-F1            0.1271∗    0.0329          B.2     Grammaticality Classifier\n      MoverScore              0.1294∗   -0.0586\n      Rr -BERT                0.0808∗    0.1567∗         We train a binary classifier on the CoLA cor-\n                                                         pus (Warstadt et al., 2019) to learn to judge the\n      Unreferenced Metrics\n                                                         grammaticality, and then filter out those examples\n      PPL (P)                0.2547∗    0.3033∗          that are classified as ungrammatical (the classifier\n      PPL (F)                0.2817∗    0.2952∗\n      Ru -BERT               0.0830∗    0.1666∗          score less than 0.5). For simplicity, we directly use\n      UN I O N               0.4119∗    0.3256∗          the public model from TextAttack (Morris et al.,\n      Hybrid Metrics                                     2020) as a classifier to filter out those examples in\n                                                         AUTOS with poor grammaticality. The classifier is\n      RUBER                  0.0119     -0.0527\n      RUBER-BERT             0.1434∗     0.2116∗         fine-tuned on the CoLA corpus based on BERT and\n      BLEURT                 0.3163∗     0.1738∗         achieves an accuracy of 82.90% on the test set of\n                                                         CoLA. Furthermore, if we suppose that all of the\nTable 11: Pearson correlation with human judgments       human-written stories in ROC and WP are gram-\non MANS. The best performance for each type of\n                                                         matical, the accuracy of the classifier on the stories\nmetrics is highlighted in bold. The correlation scores\nmarked with * indicate the result significantly corre-   would be 96.48% and 65.68% for ROC and WP,\nlates with human judgments (p-value<0.01).               respectively. The results are intuitive since stories\n                                                         in WP may contain much informal English (e.g.,\n                                                         website link). We present several examples in Ta-\nB     Details for AUTOS                                  ble 15 to further indicate the usefulness of the clas-\n                                                         sifier. We can see that the classifier can detect the\nB.1    Construction                                      grammar errors in multiple aspects such as verb\nWe list some technical details for constructing AU -     forms (e.g., “head” should be “heads” for case 1)\nTOS within different aspects as follows:                 and sentence elements (e.g., the predicate is miss-\n                                                         ing for case 3). And the classifier would give the\n    • Semantic Repetition and Paraphrases: We            grammatical sentences high scores although they\n      present several examples for paraphrase gen-       may be unreasonable in logic (e.g., repetitive texts\n      eration in Table 14. We adopt MoverScore           for case 4 and conflicting plot for case 5). Finally,\n      and BLEU-1 to measure the semantic similar-        we filter out about 21.69% and 50.15% examples\n      ity and word overlap between the paraphrases       for ROC/WP, respectively.\n      and the original sentences, respectively. We\n      finally only use the paraphrase whose Mover-       B.3     Statistics\n      Score is larger than 0.4 and BLEU-1 is less        We show the statistics of the discrimination test set\n      than 0.6 with the original sentence, because       and the invariance test set in AUTOS in Table 16\n      they achieve both high semantic similarity and     and Table 17, respectively.\n      low word overlap.\n\n    • Character Behaviour: We recognize the\n      personal pronouns in a story following Ta-\n      ble 13. We select those stories which contain\n\n                                                     6406",
+        "quantities": [
+          {
+            "text": "0.1738",
+            "sourceText": "0.1738",
+            "meaning": "在 ROCStories / WritingPrompts 上，UNION 与总体人评分的相关系数分别为 0.4119 / 0.3256；BLEURT 为 0.3163 / 0.1738。UNION 是无参考指标，不是混合指标。这些数值支持本实验中的相对比较，不代表自动评价已经能代替读者；表中还有不显著的指标结果，不能把所有相关性都当作有效证据。"
+          },
+          {
+            "text": "0.3163",
+            "sourceText": "0.3163",
+            "meaning": "在 ROCStories / WritingPrompts 上，UNION 与总体人评分的相关系数分别为 0.4119 / 0.3256；BLEURT 为 0.3163 / 0.1738。UNION 是无参考指标，不是混合指标。这些数值支持本实验中的相对比较，不代表自动评价已经能代替读者；表中还有不显著的指标结果，不能把所有相关性都当作有效证据。"
+          },
+          {
+            "text": "0.3256",
+            "sourceText": "0.3256",
+            "meaning": "在 ROCStories / WritingPrompts 上，UNION 与总体人评分的相关系数分别为 0.4119 / 0.3256；BLEURT 为 0.3163 / 0.1738。UNION 是无参考指标，不是混合指标。这些数值支持本实验中的相对比较，不代表自动评价已经能代替读者；表中还有不显著的指标结果，不能把所有相关性都当作有效证据。"
+          },
+          {
+            "text": "0.4119",
+            "sourceText": "0.4119",
+            "meaning": "在 ROCStories / WritingPrompts 上，UNION 与总体人评分的相关系数分别为 0.4119 / 0.3256；BLEURT 为 0.3163 / 0.1738。UNION 是无参考指标，不是混合指标。这些数值支持本实验中的相对比较，不代表自动评价已经能代替读者；表中还有不显著的指标结果，不能把所有相关性都当作有效证据。"
+          }
+        ],
+        "claimOrigin": "paper_supported"
+      },
+      {
+        "id": "c6",
+        "kind": "result",
+        "claim": "换数据后会怎样",
+        "metric": "跨数据集测试中，UNION 在 ROCStories 训练后，测试 ROCStories 为 0.4119，测试 WritingPrompts 为 0.2287；在 WritingPrompts 训练后，测试 ROCStories 为 0.2128，测试 WritingPrompts 为 0.3256。这里比较的是相关系数，不是分类准确率；结果提醒我们，指标本身也有分布适应问题。",
+        "anchor": "PDF p.7, Table 5",
+        "condition": "仅限本地原始PDF的 Table 5；不同表格与实验不合并",
+        "interpretationBoundary": "以本段给出的指标、对照和限制解释；不外推为通用质量保证或已完成复现。",
+        "pdfPage": 7,
+        "sourceLines": [
+          1,
+          78
+        ],
+        "sourceExcerpt": "ferent NLG models since the generation quality or                         4.4     Ability to Judge Story Coherence\ninductive bias can vary significantly across models.\nBesides, we also expect a metric to reliably eval-                        We assess the ability of the unreferenced metrics8\nuate output from different datasets even without                          to judge story coherence based on the discrimina-\nre-training. Therefore, we assess the generaliza-                         tion test set of AUTOS. We assign each test example\ntion ability of learnable metrics, including PPL (F),                     with a binary label (1/0 for the coherent/incoherent\nRu -BERT and U NION, which are fine-tuned on the                          example). Then we calculate the correlation be-\ntraining sets of ROC and WP, respectively.                                tween metric scores and the binary labels on the\n   To assess the generalization to model drift, we                        test examples of different aspects. The higher corre-\ntest the metrics on stories generated by five afore-                      lation means the better ability to judge coherence.\nmentioned models in MANS, respectively (200 sto-\n                                                                             Table 6 presents the correlation results. We sum-\nries by each model). Table 4 presents the perfor-\n                                                                          marize the results as follows: (1) PPL is ineffec-\nmance, which varies considerably with models. Ru -\n                                                                          tive to recognize repetition errors. The observa-\nBERT only achieves a good correlation on those\n                                                                          tion is accordant with the results on MANS (Table 3).\nstories with poor relatedness (e.g., Seq2Seq on\n                                                                          PPL (P) even has a significantly negative correla-\nWP). PPL (F) and U NION perform comparably but\n                                                                          tion with labels in lexical and semantic repetition.\nneither do well in evaluating all the NLG models.\n                                                                          (2) PPL (F) and U NION have better average per-\n                                                                          formance than others. Ru -BERT performs worst\n        Metrics       S2S      P&W         Fusion   GPT-2     KG-G        in almost all the aspects. U NION has the highest\n        PPL (F)        0.14     0.22       0.12     0.14       0.25∗      average performance by a large margin on ROC\n  ROC   Ru -BERT      -0.02    -0.08       0.04     0.12       0.06\n                                                                          but underperforms PPL (F) on WP, indicating the\n        UN I O N       0.12     0.28∗      0.10     0.15∗      0.32∗\n        PPL (F)        0.11     0.15       0.05     0.12       0.13\n                                                                          shortage of U NION when evaluating longer sto-\n  WP    Ru -BERT       0.18∗    0.08       0.14     0.07       0.02       ries. Besides, the results show that a powerful\n        UN I O N       0.09     0.02       0.15     0.04       0.15∗\n                                                                          language model may also be a powerful evalua-\nTable 4: Pearson correlation with human judgments                         tor (if we can alleviate its preference for repetitive\nto assess generalization to output from different mod-                    texts). (3) Existing metrics perform well in rec-\nels including Seq2Seq (S2S), Plan&Write (P&W), Fu-                        ognizing incoherence at token and sentence lev-\nsion, GPT-2, KG-GPT-2 (KG-G). The best perfor-                            els. For example, they seem to be able to recognize\nmance among the metrics is highlighted in bold.                           unreasonable behavior for a certain character, and\n                                                                          possess some commonsense knowledge about en-\n                                                                          tity relations. However, in this work the proposed\n   To assess the generalization to dataset drift, we\n                                                                          perturbation can not fully cover all possible inco-\nfirst trained the metrics on ROC and then directly\n                                                                          herence in these aspects, which would be regarded\nused them to evaluate stories from WP, and vice\n                                                                          as the future work. (4) The metrics still struggle\nversa. As shown in Table 5, all the metrics drops\n                                                                          to recognize discourse-level incoherence. Specif-\nsignificantly in correlation when used for the other\n                                                                          ically, it is difficult to recognize inconsistent events\ndataset due to the difference in length and topic.\n                                                                          when we insert or delete negated words, and un-\nPPL (F) and U NION also have similar performance\n                                                                          derstand the semantic relatedness across sentences.\ndrops but are more generalizable. The results sug-\n                                                                          Besides, they also lack inferential knowledge about\ngest existing metrics fall short of generalization.\n                                                                          the causal and temporal relationship. The observa-\n                                                                          tions are also accordant with the results in Table 3\n                        Train: ROC                  Train: WP             where unrelated events and conflicting logic can\n  Metrics\n                  Test: ROC     Test: WP     Test: ROC     Test: WP\n                                                                          not be well recognized. In conclusion, we reveal\n  PPL(F)           0.2817∗      0.2423∗       0.2470∗       0.2952∗       various issues of the existing metrics by the isolat-\n  Ru -BERT         0.0830∗      0.0379        0.0891∗       0.1666∗\n  UN I O N         0.4119∗      0.2287∗       0.2128∗       0.3256∗       ing behavioral testing, while they achieve moderate\n                                                                          correlation with human judgments on MANS.\nTable 5: Pearson correlation with human judgments to\nassess generalization to samples from different datasets.\nThe best performance between two test datasets (each\nrow) for each metric is highlighted in bold.                                  8\n                                                                              It is meaningless to evaluate referenced or hybrid metrics\n                                                                          on AUTOS since the reference text of a positive example is\n                                                                          exactly itself, which is an unfair case for unreferenced metrics.\n\n                                                                       6400",
+        "quantities": [
+          {
+            "text": "0.2128",
+            "sourceText": "0.2128",
+            "meaning": "跨数据集测试中，UNION 在 ROCStories 训练后，测试 ROCStories 为 0.4119，测试 WritingPrompts 为 0.2287；在 WritingPrompts 训练后，测试 ROCStories 为 0.2128，测试 WritingPrompts 为 0.3256。这里比较的是相关系数，不是分类准确率；结果提醒我们，指标本身也有分布适应问题。"
+          },
+          {
+            "text": "0.2287",
+            "sourceText": "0.2287",
+            "meaning": "跨数据集测试中，UNION 在 ROCStories 训练后，测试 ROCStories 为 0.4119，测试 WritingPrompts 为 0.2287；在 WritingPrompts 训练后，测试 ROCStories 为 0.2128，测试 WritingPrompts 为 0.3256。这里比较的是相关系数，不是分类准确率；结果提醒我们，指标本身也有分布适应问题。"
+          },
+          {
+            "text": "0.3256",
+            "sourceText": "0.3256",
+            "meaning": "跨数据集测试中，UNION 在 ROCStories 训练后，测试 ROCStories 为 0.4119，测试 WritingPrompts 为 0.2287；在 WritingPrompts 训练后，测试 ROCStories 为 0.2128，测试 WritingPrompts 为 0.3256。这里比较的是相关系数，不是分类准确率；结果提醒我们，指标本身也有分布适应问题。"
+          },
+          {
+            "text": "0.4119",
+            "sourceText": "0.4119",
+            "meaning": "跨数据集测试中，UNION 在 ROCStories 训练后，测试 ROCStories 为 0.4119，测试 WritingPrompts 为 0.2287；在 WritingPrompts 训练后，测试 ROCStories 为 0.2128，测试 WritingPrompts 为 0.3256。这里比较的是相关系数，不是分类准确率；结果提醒我们，指标本身也有分布适应问题。"
+          }
+        ],
+        "claimOrigin": "paper_supported"
+      },
+      {
+        "id": "c7",
+        "kind": "limitation",
+        "claim": "读完需要留下的边界",
+        "metric": "自动构造的扰动只能覆盖部分错误，不能穷尽故事里的因果、人物与时间问题。因此，这篇论文最值得记住的不是某个指标赢了，而是评价指标也需要被测试：既要看与人的关系，也要看它对错误和无关变化的反应。",
+        "anchor": "PDF p.7, §4.4",
+        "condition": "仅限本地原始PDF的 §4.4；不同表格与实验不合并",
+        "interpretationBoundary": "以本段给出的指标、对照和限制解释；不外推为通用质量保证或已完成复现。",
+        "pdfPage": 7,
+        "sourceLines": [
+          1,
+          78
+        ],
+        "sourceExcerpt": "ferent NLG models since the generation quality or                         4.4     Ability to Judge Story Coherence\ninductive bias can vary significantly across models.\nBesides, we also expect a metric to reliably eval-                        We assess the ability of the unreferenced metrics8\nuate output from different datasets even without                          to judge story coherence based on the discrimina-\nre-training. Therefore, we assess the generaliza-                         tion test set of AUTOS. We assign each test example\ntion ability of learnable metrics, including PPL (F),                     with a binary label (1/0 for the coherent/incoherent\nRu -BERT and U NION, which are fine-tuned on the                          example). Then we calculate the correlation be-\ntraining sets of ROC and WP, respectively.                                tween metric scores and the binary labels on the\n   To assess the generalization to model drift, we                        test examples of different aspects. The higher corre-\ntest the metrics on stories generated by five afore-                      lation means the better ability to judge coherence.\nmentioned models in MANS, respectively (200 sto-\n                                                                             Table 6 presents the correlation results. We sum-\nries by each model). Table 4 presents the perfor-\n                                                                          marize the results as follows: (1) PPL is ineffec-\nmance, which varies considerably with models. Ru -\n                                                                          tive to recognize repetition errors. The observa-\nBERT only achieves a good correlation on those\n                                                                          tion is accordant with the results on MANS (Table 3).\nstories with poor relatedness (e.g., Seq2Seq on\n                                                                          PPL (P) even has a significantly negative correla-\nWP). PPL (F) and U NION perform comparably but\n                                                                          tion with labels in lexical and semantic repetition.\nneither do well in evaluating all the NLG models.\n                                                                          (2) PPL (F) and U NION have better average per-\n                                                                          formance than others. Ru -BERT performs worst\n        Metrics       S2S      P&W         Fusion   GPT-2     KG-G        in almost all the aspects. U NION has the highest\n        PPL (F)        0.14     0.22       0.12     0.14       0.25∗      average performance by a large margin on ROC\n  ROC   Ru -BERT      -0.02    -0.08       0.04     0.12       0.06\n                                                                          but underperforms PPL (F) on WP, indicating the\n        UN I O N       0.12     0.28∗      0.10     0.15∗      0.32∗\n        PPL (F)        0.11     0.15       0.05     0.12       0.13\n                                                                          shortage of U NION when evaluating longer sto-\n  WP    Ru -BERT       0.18∗    0.08       0.14     0.07       0.02       ries. Besides, the results show that a powerful\n        UN I O N       0.09     0.02       0.15     0.04       0.15∗\n                                                                          language model may also be a powerful evalua-\nTable 4: Pearson correlation with human judgments                         tor (if we can alleviate its preference for repetitive\nto assess generalization to output from different mod-                    texts). (3) Existing metrics perform well in rec-\nels including Seq2Seq (S2S), Plan&Write (P&W), Fu-                        ognizing incoherence at token and sentence lev-\nsion, GPT-2, KG-GPT-2 (KG-G). The best perfor-                            els. For example, they seem to be able to recognize\nmance among the metrics is highlighted in bold.                           unreasonable behavior for a certain character, and\n                                                                          possess some commonsense knowledge about en-\n                                                                          tity relations. However, in this work the proposed\n   To assess the generalization to dataset drift, we\n                                                                          perturbation can not fully cover all possible inco-\nfirst trained the metrics on ROC and then directly\n                                                                          herence in these aspects, which would be regarded\nused them to evaluate stories from WP, and vice\n                                                                          as the future work. (4) The metrics still struggle\nversa. As shown in Table 5, all the metrics drops\n                                                                          to recognize discourse-level incoherence. Specif-\nsignificantly in correlation when used for the other\n                                                                          ically, it is difficult to recognize inconsistent events\ndataset due to the difference in length and topic.\n                                                                          when we insert or delete negated words, and un-\nPPL (F) and U NION also have similar performance\n                                                                          derstand the semantic relatedness across sentences.\ndrops but are more generalizable. The results sug-\n                                                                          Besides, they also lack inferential knowledge about\ngest existing metrics fall short of generalization.\n                                                                          the causal and temporal relationship. The observa-\n                                                                          tions are also accordant with the results in Table 3\n                        Train: ROC                  Train: WP             where unrelated events and conflicting logic can\n  Metrics\n                  Test: ROC     Test: WP     Test: ROC     Test: WP\n                                                                          not be well recognized. In conclusion, we reveal\n  PPL(F)           0.2817∗      0.2423∗       0.2470∗       0.2952∗       various issues of the existing metrics by the isolat-\n  Ru -BERT         0.0830∗      0.0379        0.0891∗       0.1666∗\n  UN I O N         0.4119∗      0.2287∗       0.2128∗       0.3256∗       ing behavioral testing, while they achieve moderate\n                                                                          correlation with human judgments on MANS.\nTable 5: Pearson correlation with human judgments to\nassess generalization to samples from different datasets.\nThe best performance between two test datasets (each\nrow) for each metric is highlighted in bold.                                  8\n                                                                              It is meaningless to evaluate referenced or hybrid metrics\n                                                                          on AUTOS since the reference text of a positive example is\n                                                                          exactly itself, which is an unfair case for unreferenced metrics.\n\n                                                                       6400",
+        "quantities": [],
+        "claimOrigin": "paper_supported"
+      }
+    ],
+    "articleBlocks": [
+      {
+        "claimOrigin": "paper_supported",
+        "claimIds": [
+          "c1",
+          "c2",
+          "c3",
+          "c4",
+          "c5",
+          "c6",
+          "c7"
+        ]
+      },
+      {
+        "claimOrigin": "paper_supported",
+        "claimIds": [
+          "c1"
+        ]
+      },
+      {
+        "claimOrigin": "paper_supported",
+        "claimIds": [
+          "c2"
+        ]
+      },
+      {
+        "claimOrigin": "paper_supported",
+        "claimIds": [
+          "c3"
+        ]
+      },
+      {
+        "claimOrigin": "paper_supported",
+        "claimIds": [
+          "c4"
+        ]
+      },
+      {
+        "claimOrigin": "paper_supported",
+        "claimIds": [
+          "c5"
+        ]
+      },
+      {
+        "claimOrigin": "paper_supported",
+        "claimIds": [
+          "c6"
+        ]
+      },
+      {
+        "claimOrigin": "paper_supported",
+        "claimIds": [
+          "c7"
+        ]
+      },
+      {
+        "claimOrigin": "paper_supported",
+        "claimIds": [
+          "c1",
+          "c2",
+          "c3",
+          "c4",
+          "c5",
+          "c6",
+          "c7"
+        ]
+      },
+      {
+        "claimOrigin": "source_navigation",
+        "claimIds": []
+      }
+    ],
+    "legacyAnchors": true
+  },
+  "structure": {
+    "concepts": [
+      {
+        "id": "c1",
+        "name": "它到底在解决什么",
+        "explanation": "OpenMEVA 不是写故事的模型，而是检查“给故事打分的指标是否可靠”的测试平台。它把故事与众包总体质量评分配对，检验自动指标能否跟随人的判断。这里评的是故事，不是角色对白；MANS 收集的是总体评分，而不是把连贯性、趣味性等拆成独立人评分数。",
+        "anchor": "PDF p.3, §3.1",
+        "claimOrigin": "paper_supported"
+      },
+      {
+        "id": "c2",
+        "name": "方法怎样工作",
+        "explanation": "测试不只看原始数据上的相关性。作者还让可学习指标跨数据集使用，并构造改变故事质量的扰动，观察指标是否能识别问题。这样可以区分“在熟悉分布上与人评分相关”和“换一种故事或错误类型后仍可靠”。这两件事不能用同一个相关系数替代。",
+        "anchor": "PDF p.7, §4.3–4.4",
+        "claimOrigin": "paper_supported"
+      }
+    ],
+    "figures": [
+      {
+        "page": 13,
+        "title": "PDF p.13, Table 11",
+        "explanation": "在 ROCStories / WritingPrompts 上，UNION 与总体人评分的相关系数分别为 0.4119 / 0.3256；BLEURT 为 0.3163 / 0.1738。UNION 是无参考指标，不是混合指标。这些数值支持本实验中的相对比较，不代表自动评价已经能代替读者；表中还有不显著的指标结果，不能把所有相关性都当作有效证据。"
+      },
+      {
+        "page": 7,
+        "title": "PDF p.7, Table 5",
+        "explanation": "跨数据集测试中，UNION 在 ROCStories 训练后，测试 ROCStories 为 0.4119，测试 WritingPrompts 为 0.2287；在 WritingPrompts 训练后，测试 ROCStories 为 0.2128，测试 WritingPrompts 为 0.3256。这里比较的是相关系数，不是分类准确率；结果提醒我们，指标本身也有分布适应问题。"
+      }
+    ],
+    "pageCount": 14,
+    "sections": [
+      {
+        "pages": "3",
+        "role": "method",
+        "keyQuestion": "它到底在解决什么",
+        "status": "read"
+      },
+      {
+        "pages": "7",
+        "role": "method",
+        "keyQuestion": "方法怎样工作",
+        "status": "read"
+      },
+      {
+        "pages": "8",
+        "role": "method",
+        "keyQuestion": "两种扰动，方向恰好不同",
+        "status": "read"
+      },
+      {
+        "pages": "3",
+        "role": "method",
+        "keyQuestion": "实验怎样检验这个方法",
+        "status": "read"
+      },
+      {
+        "pages": "13",
+        "role": "result",
+        "keyQuestion": "主结果应该怎么读",
+        "status": "read"
+      },
+      {
+        "pages": "7",
+        "role": "result",
+        "keyQuestion": "换数据后会怎样",
+        "status": "read"
+      },
+      {
+        "pages": "7",
+        "role": "limitation",
+        "keyQuestion": "读完需要留下的边界",
+        "status": "read"
+      }
+    ],
+    "appraisal": {
+      "minimumClaim": "自动构造的扰动只能覆盖部分错误，不能穷尽故事里的因果、人物与时间问题。因此，这篇论文最值得记住的不是某个指标赢了，而是评价指标也需要被测试：既要看与人的关系，也要看它对错误和无关变化的反应。"
+    }
+  },
+  "learning": {
+    "orientation": {
+      "whatItIs": "测试不只看原始数据上的相关性。作者还让可学习指标跨数据集使用，并构造改变故事质量的扰动，观察指标是否能识别问题。这样可以区分“在熟悉分布上与人评分相关”和“换一种故事或错误类型后仍可靠”。这两件事不能用同一个相关系数替代。",
+      "whyItMatters": "OpenMEVA 不是写故事的模型，而是检查“给故事打分的指标是否可靠”的测试平台。它把故事与众包总体质量评分配对，检验自动指标能否跟随人的判断。这里评的是故事，不是角色对白；MANS 收集的是总体评分，而不是把连贯性、趣味性等拆成独立人评分数。"
+    }
+  },
+  "resources": {
+    "landingPage": "https://aclanthology.org/2021.acl-long.500/",
+    "code": {
+      "status": "unverified",
+      "url": "https://github.com/thu-coai/OpenMEVA",
+      "note": "从指标实现与扰动测试入手；先理解分数方向，再复跑测试，不要把数据集的人评误称专家独立分维度标注。"
+    }
+  }
+}

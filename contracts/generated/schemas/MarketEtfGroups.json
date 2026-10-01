@@ -1,0 +1,18 @@
+{
+  "$comment": "由 contracts 生成，勿手改（mise run gen）",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "MarketEtfGroups.json",
+  "type": "object",
+  "properties": {
+    "groups": {
+      "type": "array",
+      "items": {
+        "$ref": "MarketEtfGroup.json"
+      }
+    }
+  },
+  "required": [
+    "groups"
+  ],
+  "description": "MarketEtfGroups：市场观测台数据。"
+}

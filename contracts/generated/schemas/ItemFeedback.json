@@ -1,0 +1,45 @@
+{
+  "$comment": "由 contracts 生成，勿手改（mise run gen）",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "ItemFeedback.json",
+  "type": "object",
+  "properties": {
+    "kind": {
+      "type": "string",
+      "const": "item"
+    },
+    "id": {
+      "type": "string"
+    },
+    "createdAt": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "editionId": {
+      "type": "string"
+    },
+    "itemId": {
+      "type": "string"
+    },
+    "reason": {
+      "anyOf": [
+        {
+          "type": "string",
+          "const": "useless"
+        },
+        {
+          "type": "string",
+          "const": "incorrect"
+        }
+      ]
+    }
+  },
+  "required": [
+    "kind",
+    "id",
+    "createdAt",
+    "editionId",
+    "itemId",
+    "reason"
+  ]
+}

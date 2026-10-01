@@ -1,0 +1,88 @@
+{
+  "$comment": "由 contracts 生成，勿手改（mise run gen）",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "MarketSentimentDimension.json",
+  "type": "object",
+  "properties": {
+    "key": {
+      "anyOf": [
+        {
+          "type": "string",
+          "const": "limitHeight"
+        },
+        {
+          "type": "string",
+          "const": "limitUpCount"
+        },
+        {
+          "type": "string",
+          "const": "sealRate"
+        },
+        {
+          "type": "string",
+          "const": "advancementRate"
+        },
+        {
+          "type": "string",
+          "const": "previousLimitPremium"
+        },
+        {
+          "type": "string",
+          "const": "lossEffect"
+        },
+        {
+          "type": "string",
+          "const": "breadth"
+        },
+        {
+          "type": "string",
+          "const": "upDownBalance"
+        },
+        {
+          "type": "string",
+          "const": "turnover"
+        }
+      ]
+    },
+    "label": {
+      "type": "string"
+    },
+    "weight": {
+      "type": "number"
+    },
+    "input": {
+      "anyOf": [
+        {
+          "type": "number"
+        },
+        {
+          "$ref": "MarketLossEffectInput.json"
+        },
+        {
+          "$ref": "MarketUpDownBalanceInput.json"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "unit": {
+      "type": "string"
+    },
+    "score": {
+      "type": "number"
+    },
+    "formula": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "key",
+    "label",
+    "weight",
+    "input",
+    "unit",
+    "score",
+    "formula"
+  ]
+}

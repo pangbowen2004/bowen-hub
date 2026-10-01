@@ -1,0 +1,34 @@
+{
+  "$comment": "由 contracts 生成，勿手改（mise run gen）",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "NewsCalendarSection.json",
+  "type": "object",
+  "properties": {
+    "kind": {
+      "anyOf": [
+        {
+          "type": "string",
+          "const": "calendar"
+        },
+        {
+          "type": "string",
+          "const": "next_week_calendar"
+        }
+      ]
+    },
+    "title": {
+      "type": "string"
+    },
+    "items": {
+      "type": "array",
+      "items": {
+        "$ref": "NewsCalendarEventItem.json"
+      }
+    }
+  },
+  "required": [
+    "kind",
+    "title",
+    "items"
+  ]
+}

@@ -1,0 +1,96 @@
+{
+  "$comment": "由 contracts 生成，勿手改（mise run gen）",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "ExportTable.json",
+  "anyOf": [
+    {
+      "type": "string",
+      "const": "news_sources"
+    },
+    {
+      "type": "string",
+      "const": "articles"
+    },
+    {
+      "type": "string",
+      "const": "filings"
+    },
+    {
+      "type": "string",
+      "const": "insider_trades"
+    },
+    {
+      "type": "string",
+      "const": "calendar_events"
+    },
+    {
+      "type": "string",
+      "const": "earnings_cards"
+    },
+    {
+      "type": "string",
+      "const": "editions"
+    },
+    {
+      "type": "string",
+      "const": "edition_feedback"
+    },
+    {
+      "type": "string",
+      "const": "watch_items"
+    },
+    {
+      "type": "string",
+      "const": "market_days"
+    },
+    {
+      "type": "string",
+      "const": "market_hypotheses"
+    },
+    {
+      "type": "string",
+      "const": "market_weeklies"
+    },
+    {
+      "type": "string",
+      "const": "market_events"
+    },
+    {
+      "type": "string",
+      "const": "index_history"
+    },
+    {
+      "type": "string",
+      "const": "papers"
+    },
+    {
+      "type": "string",
+      "const": "paper_private"
+    },
+    {
+      "type": "string",
+      "const": "paper_reviews"
+    },
+    {
+      "type": "string",
+      "const": "paper_uploads"
+    },
+    {
+      "type": "string",
+      "const": "documents"
+    },
+    {
+      "type": "string",
+      "const": "runs"
+    },
+    {
+      "type": "string",
+      "const": "ai_calls"
+    },
+    {
+      "type": "string",
+      "const": "eval_results"
+    }
+  ],
+  "description": "可以导出的表：docs/09 第 3 节除鉴权表和两张 FTS5 虚拟表以外的全部表"
+}

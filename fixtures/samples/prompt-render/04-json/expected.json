@@ -1,0 +1,4 @@
+{
+  "system": "你是美股简报的要闻编辑。",
+  "user": "公司：\n{\n  \"symbol\": \"TSM\",\n  \"name\": \"台积电\",\n  \"aliases\": [\n    \"TSMC\",\n    \"Taiwan Semiconductor\"\n  ]\n}\n\n相关代码：[\n  \"TSM\",\n  \"NVDA\"\n]\n\n相关新闻：\n[\n  {\n    \"title\": \"台积电 9 月营收同比增长 36%\",\n    \"id\": \"a1\",\n    \"source\": \"Alpaca\",\n    \"publishedAt\": \"2026-09-30T21:05:00Z\",\n    \"summary\": \"公司称 \\\"AI 需求强劲\\\"。\\n第二段：月营收 3,512 亿新台币。\",\n    \"score\": 7,\n    \"paywall\": null,\n    \"topics\": [],\n    \"extra\": {}\n  },\n  {\n    \"title\": \"NVIDIA unveils new chips\",\n    \"id\": \"a2\",\n    \"source\": \"CNBC\",\n    \"publishedAt\": \"2026-09-30T13:40:00Z\",\n    \"summary\": \"Revenue guidance: $35.1B.\",\n    \"score\": 5,\n    \"paywall\": \"metered\",\n    \"topics\": [\n      \"ai_semis\"\n    ],\n    \"extra\": {\n      \"clusterId\": \"c-17\"\n    }\n  }\n]"
+}

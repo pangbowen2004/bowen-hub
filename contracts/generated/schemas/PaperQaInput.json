@@ -1,0 +1,29 @@
+{
+  "$comment": "由 contracts 生成，勿手改（mise run gen）",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "PaperQaInput.json",
+  "type": "object",
+  "properties": {
+    "question": {
+      "type": "string"
+    },
+    "guide": {
+      "$ref": "PaperGuide.json"
+    },
+    "claims": {
+      "type": "array",
+      "items": {
+        "$ref": "PaperClaim.json"
+      }
+    },
+    "pages": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "question",
+    "guide",
+    "claims",
+    "pages"
+  ]
+}

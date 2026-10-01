@@ -1,0 +1,128 @@
+{
+  "$comment": "由 contracts 生成，勿手改（mise run gen）",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "MarketDaySummary.json",
+  "type": "object",
+  "properties": {
+    "date": {
+      "type": "string",
+      "format": "date"
+    },
+    "headline": {
+      "type": "string"
+    },
+    "complete": {
+      "type": "boolean"
+    },
+    "temperature": {
+      "type": "number"
+    },
+    "sentiment": {
+      "type": "number"
+    },
+    "advanceShare": {
+      "type": "number"
+    },
+    "aboveMa20Share": {
+      "type": "number"
+    },
+    "medianReturn1d": {
+      "type": "number"
+    },
+    "turnoverCny": {
+      "type": "number"
+    },
+    "trendStrongShare": {
+      "type": "number"
+    },
+    "advanceCount": {
+      "type": "integer",
+      "minimum": -2147483648,
+      "maximum": 2147483647
+    },
+    "declineCount": {
+      "type": "integer",
+      "minimum": -2147483648,
+      "maximum": 2147483647
+    },
+    "limitUpCount": {
+      "type": "integer",
+      "minimum": -2147483648,
+      "maximum": 2147483647
+    },
+    "limitDownCount": {
+      "type": "integer",
+      "minimum": -2147483648,
+      "maximum": 2147483647
+    },
+    "maxBoard": {
+      "type": "integer",
+      "minimum": -2147483648,
+      "maximum": 2147483647
+    },
+    "sealRate": {
+      "anyOf": [
+        {
+          "type": "number"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "topDirections": {
+      "anyOf": [
+        {
+          "type": "array",
+          "items": {
+            "$ref": "MarketRankedReturn.json"
+          }
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "topIndustries": {
+      "type": "array",
+      "items": {
+        "$ref": "MarketRankedReturn.json"
+      }
+    },
+    "directionsRelative": {
+      "anyOf": [
+        {
+          "type": "array",
+          "items": {
+            "$ref": "MarketDirectionRelative.json"
+          }
+        },
+        {
+          "type": "null"
+        }
+      ]
+    }
+  },
+  "required": [
+    "date",
+    "headline",
+    "complete",
+    "temperature",
+    "sentiment",
+    "advanceShare",
+    "aboveMa20Share",
+    "medianReturn1d",
+    "turnoverCny",
+    "trendStrongShare",
+    "advanceCount",
+    "declineCount",
+    "limitUpCount",
+    "limitDownCount",
+    "maxBoard",
+    "sealRate",
+    "topDirections",
+    "topIndustries",
+    "directionsRelative"
+  ],
+  "description": "MarketDaySummary：市场观测台数据。"
+}

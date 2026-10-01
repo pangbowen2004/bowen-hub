@@ -1,0 +1,61 @@
+{
+  "$comment": "由 contracts 生成，勿手改（mise run gen）",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "EvalResult.json",
+  "type": "object",
+  "properties": {
+    "capability": {
+      "type": "string",
+      "description": "能力 ID"
+    },
+    "model": {
+      "type": "string",
+      "description": "被评测的模型（供应商/模型）"
+    },
+    "datasetVersion": {
+      "type": "string",
+      "description": "评测集版本"
+    },
+    "scores": {
+      "$ref": "#/$defs/RecordFloat64",
+      "description": "各评分器的得分（评分器名 → 0–1），如 schema_valid、judge_faithful"
+    },
+    "passed": {
+      "type": "boolean",
+      "description": "是否达到清单里的全部阈值"
+    },
+    "at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "评测时间"
+    },
+    "costUsd": {
+      "type": "number",
+      "description": "这次评测的费用（美元）（运维页显示费用，docs/10 第 7.3 节）"
+    },
+    "durationMs": {
+      "type": "integer",
+      "minimum": -2147483648,
+      "maximum": 2147483647,
+      "description": "这次评测的耗时（毫秒）（运维页显示耗时，docs/10 第 7.3 节）"
+    }
+  },
+  "required": [
+    "capability",
+    "model",
+    "datasetVersion",
+    "scores",
+    "passed",
+    "at"
+  ],
+  "description": "一个能力的一次评测结果（eval_results 表，docs/09 第 3 节、docs/10 第 7 节）",
+  "$defs": {
+    "RecordFloat64": {
+      "type": "object",
+      "properties": {},
+      "unevaluatedProperties": {
+        "type": "number"
+      }
+    }
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "symbol": "NVDA",
+  "change": 0.034,
+  "withSector": null,
+  "whatHappened": "公司发布季度财报。",
+  "whyItMatters": "提供本季营收口径。",
+  "sourceIds": [
+    "sample-nvda"
+  ],
+  "points": [],
+  "generatedBy": {
+    "capability": "news.ticker_digest",
+    "version": 1,
+    "model": "fixture/fake",
+    "at": "2026-09-30T00:00:00Z"
+  }
+}

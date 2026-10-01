@@ -1,0 +1,472 @@
+[
+  {
+    "id": "news.brief",
+    "version": 1,
+    "summary": "国际与科技栏目：英文条目的中文摘要（2–3 句）",
+    "owner": "newsroom",
+    "runtime": "python",
+    "tier": "fast",
+    "model": "openai/gpt-6-luna",
+    "reasoning": "none",
+    "autonomy": "L2",
+    "prompt": "prompts/news_brief.md",
+    "io": {
+      "input": "BriefInput",
+      "output": "BriefOutput"
+    },
+    "limits": {
+      "maxInputTokens": 40000,
+      "maxOutputTokens": 4000,
+      "timeoutSec": 90
+    },
+    "checks": [
+      "source_ids_exist",
+      "numbers_in_sources",
+      "length_within"
+    ],
+    "fallback": "rss_summary",
+    "params": {},
+    "evals": {
+      "dataset": "evals/news.brief/",
+      "schedule": "weekly",
+      "thresholds": {
+        "schema_valid": 1.0,
+        "numbers_in_sources": 1.0,
+        "length_within": 1.0
+      }
+    },
+    "latestEval": null
+  },
+  {
+    "id": "news.classify",
+    "version": 1,
+    "summary": "国际与科技栏目：给每条新闻分到 8 个主题之一",
+    "owner": "newsroom",
+    "runtime": "python",
+    "tier": "fast",
+    "model": "openai/gpt-6-luna",
+    "reasoning": "none",
+    "autonomy": "L2",
+    "prompt": "prompts/news_classify.md",
+    "io": {
+      "input": "ClassifyInput",
+      "output": "ClassifyOutput"
+    },
+    "limits": {
+      "maxInputTokens": 30000,
+      "maxOutputTokens": 2000,
+      "timeoutSec": 60
+    },
+    "checks": [
+      "source_ids_exist"
+    ],
+    "fallback": "keyword_rules",
+    "params": {},
+    "evals": {
+      "dataset": "evals/news.classify/",
+      "schedule": "weekly",
+      "thresholds": {
+        "schema_valid": 1.0,
+        "labels_match": 0.85
+      }
+    },
+    "latestEval": null
+  },
+  {
+    "id": "news.curate",
+    "version": 1,
+    "summary": "国际与科技栏目：选 Top 5 并写 100–150 字综述",
+    "owner": "newsroom",
+    "runtime": "python",
+    "tier": "balanced",
+    "model": "openai/gpt-6-luna",
+    "reasoning": "medium",
+    "autonomy": "L2",
+    "prompt": "prompts/news_curate.md",
+    "io": {
+      "input": "CurateInput",
+      "output": "CurateOutput"
+    },
+    "limits": {
+      "maxInputTokens": 40000,
+      "maxOutputTokens": 2500,
+      "timeoutSec": 90
+    },
+    "checks": [
+      "source_ids_exist",
+      "numbers_in_sources",
+      "no_advice",
+      "length_within"
+    ],
+    "fallback": "top_by_score",
+    "params": {},
+    "evals": {
+      "dataset": "evals/news.curate/",
+      "schedule": "weekly",
+      "thresholds": {
+        "schema_valid": 1.0,
+        "source_ids_exist": 1.0,
+        "judge_specific": 0.8
+      }
+    },
+    "latestEval": null
+  },
+  {
+    "id": "news.earnings_card",
+    "version": 1,
+    "summary": "从财报新闻稿原文里摘出关键数字（带原文片段）、指引和一句话要点",
+    "owner": "newsroom",
+    "runtime": "python",
+    "tier": "balanced",
+    "model": "openai/gpt-6-luna",
+    "reasoning": "medium",
+    "autonomy": "L2",
+    "prompt": "prompts/news_earnings_card.md",
+    "io": {
+      "input": "EarningsCardInput",
+      "output": "EarningsCardOutput"
+    },
+    "limits": {
+      "maxInputTokens": 60000,
+      "maxOutputTokens": 1500,
+      "timeoutSec": 90
+    },
+    "checks": [
+      "quotes_in_sources",
+      "numbers_in_sources",
+      "no_advice",
+      "length_within"
+    ],
+    "fallback": "link_only",
+    "params": {},
+    "evals": {
+      "dataset": "evals/news.earnings_card/",
+      "schedule": "weekly",
+      "thresholds": {
+        "schema_valid": 1.0,
+        "quotes_in_sources": 1.0,
+        "numbers_in_sources": 1.0,
+        "must_include": 0.9
+      }
+    },
+    "latestEval": null
+  },
+  {
+    "id": "news.edition_lede",
+    "version": 1,
+    "summary": "写每期开头：早报导语（3 句）、盘前“今晚三件事”（3 行）、周报“本周主线”（250–350 字）",
+    "owner": "newsroom",
+    "runtime": "python",
+    "tier": "frontier",
+    "model": "openai/gpt-6-sol",
+    "reasoning": "high",
+    "autonomy": "L2",
+    "prompt": "prompts/news_edition_lede.md",
+    "io": {
+      "input": "EditionLedeInput",
+      "output": "EditionLedeOutput"
+    },
+    "limits": {
+      "maxInputTokens": 30000,
+      "maxOutputTokens": 1200,
+      "timeoutSec": 90
+    },
+    "checks": [
+      "numbers_in_sources",
+      "no_advice",
+      "length_within"
+    ],
+    "fallback": "omit",
+    "params": {},
+    "evals": {
+      "dataset": "evals/news.edition_lede/",
+      "schedule": "weekly",
+      "thresholds": {
+        "schema_valid": 1.0,
+        "numbers_in_sources": 1.0,
+        "no_advice": 1.0,
+        "judge_faithful": 0.9
+      }
+    },
+    "latestEval": null
+  },
+  {
+    "id": "news.filing_digest",
+    "version": 1,
+    "summary": "用 1–2 句话说清一份 8-K 公告的要点",
+    "owner": "newsroom",
+    "runtime": "python",
+    "tier": "fast",
+    "model": "openai/gpt-6-luna",
+    "reasoning": "none",
+    "autonomy": "L2",
+    "prompt": "prompts/news_filing_digest.md",
+    "io": {
+      "input": "FilingDigestInput",
+      "output": "FilingDigestOutput"
+    },
+    "limits": {
+      "maxInputTokens": 20000,
+      "maxOutputTokens": 300,
+      "timeoutSec": 45
+    },
+    "checks": [
+      "numbers_in_sources",
+      "no_advice",
+      "length_within"
+    ],
+    "fallback": "items_only",
+    "params": {},
+    "evals": {
+      "dataset": "evals/news.filing_digest/",
+      "schedule": "weekly",
+      "thresholds": {
+        "schema_valid": 1.0,
+        "numbers_in_sources": 1.0,
+        "judge_faithful": 0.9
+      }
+    },
+    "latestEval": null
+  },
+  {
+    "id": "news.ticker_digest",
+    "version": 1,
+    "summary": "为一只自选股写“发生了什么 / 为什么重要”（日报）或 1–3 条要点（周记）",
+    "owner": "newsroom",
+    "runtime": "python",
+    "tier": "balanced",
+    "model": "openai/gpt-6-luna",
+    "reasoning": "medium",
+    "autonomy": "L2",
+    "prompt": "prompts/news_ticker_digest.md",
+    "io": {
+      "input": "TickerDigestInput",
+      "output": "TickerDigestOutput"
+    },
+    "limits": {
+      "maxInputTokens": 20000,
+      "maxOutputTokens": 800,
+      "timeoutSec": 60
+    },
+    "checks": [
+      "numbers_in_sources",
+      "source_ids_exist",
+      "no_advice",
+      "length_within"
+    ],
+    "fallback": "headlines",
+    "params": {},
+    "evals": {
+      "dataset": "evals/news.ticker_digest/",
+      "schedule": "weekly",
+      "thresholds": {
+        "schema_valid": 1.0,
+        "numbers_in_sources": 1.0,
+        "source_ids_exist": 1.0,
+        "judge_faithful": 0.9,
+        "judge_specific": 0.8
+      }
+    },
+    "latestEval": {
+      "capability": "news.ticker_digest",
+      "model": "openai/gpt-6-luna",
+      "datasetVersion": "1",
+      "scores": {
+        "schema_valid": 1.0,
+        "numbers_in_sources": 1.0,
+        "source_ids_exist": 1.0,
+        "judge_faithful": 0.93,
+        "judge_specific": 0.84
+      },
+      "passed": true,
+      "at": "2026-09-26T19:06:12Z",
+      "costUsd": 0.0412,
+      "durationMs": 186400
+    }
+  },
+  {
+    "id": "news.us_rank",
+    "version": 1,
+    "summary": "从规则分前 20 的美股新闻里选 6–8 条，写中文摘要和为什么重要",
+    "owner": "newsroom",
+    "runtime": "python",
+    "tier": "balanced",
+    "model": "openai/gpt-6-luna",
+    "reasoning": "medium",
+    "autonomy": "L2",
+    "prompt": "prompts/news_us_rank.md",
+    "io": {
+      "input": "UsRankInput",
+      "output": "UsRankOutput"
+    },
+    "limits": {
+      "maxInputTokens": 30000,
+      "maxOutputTokens": 2500,
+      "timeoutSec": 90
+    },
+    "checks": [
+      "numbers_in_sources",
+      "source_ids_exist",
+      "no_advice",
+      "length_within"
+    ],
+    "fallback": "top_by_score",
+    "params": {},
+    "evals": {
+      "dataset": "evals/news.us_rank/",
+      "schedule": "weekly",
+      "thresholds": {
+        "schema_valid": 1.0,
+        "source_ids_exist": 1.0,
+        "numbers_in_sources": 1.0,
+        "must_include": 0.8,
+        "judge_specific": 0.8
+      }
+    },
+    "latestEval": {
+      "capability": "news.us_rank",
+      "model": "openai/gpt-6-luna",
+      "datasetVersion": "1",
+      "scores": {
+        "schema_valid": 1.0,
+        "source_ids_exist": 1.0,
+        "numbers_in_sources": 1.0,
+        "must_include": 0.75,
+        "judge_specific": 0.82
+      },
+      "passed": false,
+      "at": "2026-09-26T19:10:31Z",
+      "costUsd": 0.0587,
+      "durationMs": 241900
+    }
+  },
+  {
+    "id": "papers.author",
+    "version": 1,
+    "summary": "读整篇论文原文，写导读草稿（Paper 草稿：导读、证据、结构）",
+    "owner": "papers",
+    "runtime": "python",
+    "tier": "frontier",
+    "model": "openai/gpt-6-sol",
+    "reasoning": "high",
+    "autonomy": "L1",
+    "prompt": "prompts/paper_author.md",
+    "io": {
+      "input": "PaperAuthorInput",
+      "output": "PaperDraft"
+    },
+    "limits": {
+      "maxInputTokens": 400000,
+      "maxOutputTokens": 64000,
+      "timeoutSec": 900
+    },
+    "checks": [
+      "paper_draft"
+    ],
+    "fallback": "fail",
+    "params": {
+      "repairRounds": 2,
+      "reviewRounds": 1
+    },
+    "evals": {
+      "dataset": "evals/papers.author/",
+      "schedule": "on-change",
+      "thresholds": {
+        "schema_valid": 1.0,
+        "paper_draft": 0.9,
+        "judge_explains": 0.8
+      }
+    },
+    "latestEval": null
+  },
+  {
+    "id": "papers.qa",
+    "version": 1,
+    "summary": "基于这篇论文的导读、证据和整篇原文回答问题，标注页码（流式）",
+    "owner": "papers",
+    "runtime": "typescript",
+    "tier": "balanced",
+    "model": "openai/gpt-6-luna",
+    "reasoning": "medium",
+    "autonomy": "L2",
+    "prompt": "prompts/paper_qa.md",
+    "io": {
+      "input": "PaperQaInput",
+      "output": "PaperQaOutput"
+    },
+    "limits": {
+      "maxInputTokens": 200000,
+      "maxOutputTokens": 3000,
+      "timeoutSec": 120
+    },
+    "checks": [
+      "pages_in_range"
+    ],
+    "fallback": "error_message",
+    "params": {},
+    "evals": {
+      "dataset": "evals/papers.qa/",
+      "schedule": "weekly",
+      "thresholds": {
+        "schema_valid": 1.0,
+        "pages_in_range": 1.0,
+        "must_include": 0.8,
+        "judge_faithful": 0.9
+      }
+    },
+    "latestEval": {
+      "capability": "papers.qa",
+      "model": "openai/gpt-6-luna",
+      "datasetVersion": "1",
+      "scores": {
+        "schema_valid": 1.0,
+        "pages_in_range": 1.0,
+        "must_include": 0.85,
+        "judge_faithful": 0.92
+      },
+      "passed": true,
+      "at": "2026-09-26T19:17:48Z",
+      "costUsd": 0.1938,
+      "durationMs": 412700
+    }
+  },
+  {
+    "id": "papers.review",
+    "version": 1,
+    "summary": "按六项检查审核导读草稿，给出 pass / revise / escalate 和问题清单",
+    "owner": "papers",
+    "runtime": "python",
+    "tier": "frontier",
+    "model": "openai/gpt-6-sol",
+    "reasoning": "high",
+    "autonomy": "L1",
+    "prompt": "prompts/paper_review.md",
+    "io": {
+      "input": "PaperReviewInput",
+      "output": "PaperReviewOutput"
+    },
+    "limits": {
+      "maxInputTokens": 400000,
+      "maxOutputTokens": 8000,
+      "timeoutSec": 600
+    },
+    "checks": [
+      "quotes_in_sources",
+      "pages_in_range"
+    ],
+    "fallback": "unreviewed",
+    "params": {
+      "maxPageImages": 8
+    },
+    "evals": {
+      "dataset": "evals/papers.review/",
+      "schedule": "on-change",
+      "thresholds": {
+        "schema_valid": 1.0,
+        "labels_match": 0.8,
+        "must_include": 0.7
+      }
+    },
+    "latestEval": null
+  }
+]

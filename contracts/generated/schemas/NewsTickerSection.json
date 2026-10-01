@@ -1,0 +1,34 @@
+{
+  "$comment": "由 contracts 生成，勿手改（mise run gen）",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "NewsTickerSection.json",
+  "type": "object",
+  "properties": {
+    "kind": {
+      "anyOf": [
+        {
+          "type": "string",
+          "const": "ticker_digests"
+        },
+        {
+          "type": "string",
+          "const": "ticker_weekly"
+        }
+      ]
+    },
+    "title": {
+      "type": "string"
+    },
+    "items": {
+      "type": "array",
+      "items": {
+        "$ref": "NewsTickerDigestItem.json"
+      }
+    }
+  },
+  "required": [
+    "kind",
+    "title",
+    "items"
+  ]
+}

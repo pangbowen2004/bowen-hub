@@ -1,0 +1,13 @@
+{
+  "accession": "0000000000-26-000002",
+  "transactionIndex": 0,
+  "ticker": "NVDA",
+  "insider": "示例姓名",
+  "role": "董事",
+  "code": "P",
+  "shares": 100,
+  "priceUsd": 10,
+  "valueUsd": 1000,
+  "filedAt": "2026-09-29T22:00:00Z",
+  "url": "https://example.com/form4"
+}

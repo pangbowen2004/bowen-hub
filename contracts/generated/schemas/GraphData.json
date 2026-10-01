@@ -1,0 +1,31 @@
+{
+  "$comment": "由 contracts 生成，勿手改（mise run gen）",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "GraphData.json",
+  "type": "object",
+  "properties": {
+    "nodes": {
+      "type": "array",
+      "items": {
+        "$ref": "PaperGraphNode.json"
+      }
+    },
+    "edges": {
+      "type": "array",
+      "items": {
+        "$ref": "PaperGraphEdge.json"
+      }
+    },
+    "cooccurrence": {
+      "type": "array",
+      "items": {
+        "$ref": "PaperConceptCooccurrence.json"
+      }
+    }
+  },
+  "required": [
+    "nodes",
+    "edges",
+    "cooccurrence"
+  ]
+}

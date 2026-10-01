@@ -1,0 +1,34 @@
+{
+  "$comment": "由 contracts 生成，勿手改（mise run gen）",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "MarketEvolutionSignals.json",
+  "type": "object",
+  "properties": {
+    "liquidity": {
+      "$ref": "MarketEvolutionSignal.json"
+    },
+    "direction": {
+      "anyOf": [
+        {
+          "$ref": "MarketEvolutionSignal.json"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "progression": {
+      "$ref": "MarketEvolutionSignal.json"
+    },
+    "breadth": {
+      "$ref": "MarketEvolutionSignal.json"
+    }
+  },
+  "required": [
+    "liquidity",
+    "direction",
+    "progression",
+    "breadth"
+  ],
+  "description": "MarketEvolutionSignals：市场观测台数据。"
+}

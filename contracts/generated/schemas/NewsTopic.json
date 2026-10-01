@@ -1,0 +1,39 @@
+{
+  "$comment": "由 contracts 生成，勿手改（mise run gen）",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "NewsTopic.json",
+  "anyOf": [
+    {
+      "type": "string",
+      "const": "us_china"
+    },
+    {
+      "type": "string",
+      "const": "war_geopolitics"
+    },
+    {
+      "type": "string",
+      "const": "markets_macro"
+    },
+    {
+      "type": "string",
+      "const": "ai_tech"
+    },
+    {
+      "type": "string",
+      "const": "big_tech"
+    },
+    {
+      "type": "string",
+      "const": "us_politics"
+    },
+    {
+      "type": "string",
+      "const": "china_business"
+    },
+    {
+      "type": "string",
+      "const": "other"
+    }
+  ]
+}

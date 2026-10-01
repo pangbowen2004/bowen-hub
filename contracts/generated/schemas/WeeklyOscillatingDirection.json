@@ -1,0 +1,33 @@
+{
+  "$comment": "由 contracts 生成，勿手改（mise run gen）",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "WeeklyOscillatingDirection.json",
+  "type": "object",
+  "properties": {
+    "name": {
+      "type": "string"
+    },
+    "signChanges": {
+      "type": "integer",
+      "minimum": -2147483648,
+      "maximum": 2147483647
+    },
+    "latestRelative": {
+      "anyOf": [
+        {
+          "type": "number"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "description": "最后交易日缺该方向数据时为空，不回填更早日期。"
+    }
+  },
+  "required": [
+    "name",
+    "signChanges",
+    "latestRelative"
+  ],
+  "description": "WeeklyOscillatingDirection：市场观测台数据。"
+}

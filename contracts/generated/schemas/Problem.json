@@ -1,0 +1,33 @@
+{
+  "$comment": "由 contracts 生成，勿手改（mise run gen）",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "Problem.json",
+  "type": "object",
+  "properties": {
+    "type": {
+      "type": "string",
+      "description": "错误类型的 URI；没有专门类型时为 about:blank"
+    },
+    "title": {
+      "type": "string",
+      "description": "简短的错误标题，如“未实现”"
+    },
+    "status": {
+      "type": "integer",
+      "minimum": -2147483648,
+      "maximum": 2147483647,
+      "description": "HTTP 状态码"
+    },
+    "detail": {
+      "type": "string",
+      "description": "具体说明，如“未实现（任务 T14）”"
+    }
+  },
+  "required": [
+    "type",
+    "title",
+    "status",
+    "detail"
+  ],
+  "description": "错误响应的正文（application/problem+json，RFC 9457）。\n各接口统一用 HubHttp.ErrorResponse 声明错误（OpenAPI 里是 default 响应）。"
+}

@@ -1,0 +1,19 @@
+{
+  "$comment": "由 contracts 生成，勿手改（mise run gen）",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "MarketRankedReturn.json",
+  "type": "object",
+  "properties": {
+    "name": {
+      "type": "string"
+    },
+    "return1d": {
+      "type": "number"
+    }
+  },
+  "required": [
+    "name",
+    "return1d"
+  ],
+  "description": "MarketRankedReturn：市场观测台数据。"
+}

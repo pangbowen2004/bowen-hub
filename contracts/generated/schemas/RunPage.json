@@ -1,0 +1,31 @@
+{
+  "$comment": "由 contracts 生成，勿手改（mise run gen）",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "RunPage.json",
+  "type": "object",
+  "properties": {
+    "items": {
+      "type": "array",
+      "items": {
+        "$ref": "Run.json"
+      },
+      "description": "本页条目"
+    },
+    "nextCursor": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "description": "下一页的游标，原样作为 ?cursor= 传回；没有下一页时为 null"
+    }
+  },
+  "required": [
+    "items",
+    "nextCursor"
+  ],
+  "description": "GET /v1/runs 的一页"
+}

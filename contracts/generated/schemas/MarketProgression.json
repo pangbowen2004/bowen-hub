@@ -1,0 +1,43 @@
+{
+  "$comment": "由 contracts 生成，勿手改（mise run gen）",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "MarketProgression.json",
+  "type": "object",
+  "properties": {
+    "previousBoardHeight": {
+      "type": "integer",
+      "minimum": -2147483648,
+      "maximum": 2147483647
+    },
+    "progressionState": {
+      "anyOf": [
+        {
+          "type": "string",
+          "const": "连续晋级"
+        },
+        {
+          "type": "string",
+          "const": "首板建立"
+        },
+        {
+          "type": "string",
+          "const": "重新封板"
+        },
+        {
+          "type": "string",
+          "const": "晋级未完成"
+        }
+      ]
+    }
+  },
+  "required": [
+    "previousBoardHeight",
+    "progressionState"
+  ],
+  "allOf": [
+    {
+      "$ref": "MarketStock.json"
+    }
+  ],
+  "description": "MarketProgression：市场观测台数据。"
+}

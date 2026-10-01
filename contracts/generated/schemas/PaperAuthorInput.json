@@ -1,0 +1,58 @@
+{
+  "$comment": "由 contracts 生成，勿手改（mise run gen）",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "PaperAuthorInput.json",
+  "type": "object",
+  "properties": {
+    "paperId": {
+      "type": "string"
+    },
+    "knownMeta": {
+      "anyOf": [
+        {
+          "$ref": "PaperMeta.json"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "pages": {
+      "type": "string"
+    },
+    "previousDraft": {
+      "anyOf": [
+        {
+          "$ref": "PaperDraft.json"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "problems": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "instructions": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    }
+  },
+  "required": [
+    "paperId",
+    "knownMeta",
+    "pages",
+    "previousDraft",
+    "problems",
+    "instructions"
+  ]
+}

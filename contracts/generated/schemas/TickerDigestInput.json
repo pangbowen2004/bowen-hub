@@ -1,0 +1,92 @@
+{
+  "$comment": "由 contracts 生成，勿手改（mise run gen）",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "TickerDigestInput.json",
+  "type": "object",
+  "properties": {
+    "mode": {
+      "anyOf": [
+        {
+          "type": "string",
+          "const": "daily"
+        },
+        {
+          "type": "string",
+          "const": "weekly"
+        }
+      ]
+    },
+    "symbol": {
+      "type": "string"
+    },
+    "name": {
+      "type": "string"
+    },
+    "changeText": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "withSector": {
+      "anyOf": [
+        {
+          "type": "boolean"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "sectorEtf": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "articles": {
+      "type": "array",
+      "items": {
+        "$ref": "NewsTickerArticle.json"
+      }
+    },
+    "filings": {
+      "type": "array",
+      "items": {
+        "$ref": "NewsTickerFiling.json"
+      }
+    },
+    "earnings": {
+      "anyOf": [
+        {
+          "type": "array",
+          "items": {
+            "$ref": "NewsTickerEarnings.json"
+          }
+        },
+        {
+          "type": "null"
+        }
+      ]
+    }
+  },
+  "required": [
+    "mode",
+    "symbol",
+    "name",
+    "changeText",
+    "withSector",
+    "sectorEtf",
+    "articles",
+    "filings",
+    "earnings"
+  ]
+}

@@ -1,0 +1,39 @@
+{
+  "$comment": "由 contracts 生成，勿手改（mise run gen）",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "EarningsCardInput.json",
+  "type": "object",
+  "properties": {
+    "symbol": {
+      "type": "string"
+    },
+    "name": {
+      "type": "string"
+    },
+    "sourceKind": {
+      "anyOf": [
+        {
+          "type": "string",
+          "const": "press_release"
+        },
+        {
+          "type": "string",
+          "const": "news"
+        }
+      ]
+    },
+    "sourceUrl": {
+      "type": "string"
+    },
+    "sourceText": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "symbol",
+    "name",
+    "sourceKind",
+    "sourceUrl",
+    "sourceText"
+  ]
+}

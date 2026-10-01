@@ -1,0 +1,38 @@
+{
+  "$comment": "由 contracts 生成，勿手改（mise run gen）",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "MarketEtfRepresentative.json",
+  "type": "object",
+  "properties": {
+    "code": {
+      "type": "string"
+    },
+    "name": {
+      "type": "string"
+    },
+    "return1d": {
+      "type": "number"
+    },
+    "amountCny": {
+      "type": "number"
+    },
+    "shareDelta": {
+      "anyOf": [
+        {
+          "type": "number"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    }
+  },
+  "required": [
+    "code",
+    "name",
+    "return1d",
+    "amountCny",
+    "shareDelta"
+  ],
+  "description": "MarketEtfRepresentative：市场观测台数据。"
+}

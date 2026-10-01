@@ -1,0 +1,23 @@
+{
+  "$comment": "由 contracts 生成，勿手改（mise run gen）",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "TickerDigestPoint.json",
+  "type": "object",
+  "properties": {
+    "text": {
+      "type": "string",
+      "x-max-chars": 60
+    },
+    "sourceIds": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "0–3 个来源，由能力运行时按提示词检查。"
+    }
+  },
+  "required": [
+    "text",
+    "sourceIds"
+  ]
+}

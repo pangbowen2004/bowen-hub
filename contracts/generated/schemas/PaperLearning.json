@@ -1,0 +1,42 @@
+{
+  "$comment": "由 contracts 生成，勿手改（mise run gen）",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "PaperLearning.json",
+  "type": "object",
+  "properties": {
+    "orientation": {
+      "$ref": "PaperOrientation.json"
+    },
+    "mechanismSteps": {
+      "type": "array",
+      "items": {
+        "$ref": "PaperMechanismStep.json"
+      }
+    },
+    "designPhilosophy": {
+      "type": "array",
+      "items": {
+        "anyOf": [
+          {
+            "type": "string"
+          },
+          {
+            "$ref": "PaperDesignIdea.json"
+          }
+        ]
+      }
+    },
+    "activeRecall": {
+      "type": "array",
+      "items": {
+        "$ref": "PaperQuestionAnswer.json"
+      }
+    },
+    "expertQa": {
+      "type": "array",
+      "items": {
+        "$ref": "PaperQuestionAnswer.json"
+      }
+    }
+  }
+}

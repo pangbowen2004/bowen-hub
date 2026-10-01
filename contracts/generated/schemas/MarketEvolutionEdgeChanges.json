@@ -1,0 +1,55 @@
+{
+  "$comment": "由 contracts 生成，勿手改（mise run gen）",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "MarketEvolutionEdgeChanges.json",
+  "type": "object",
+  "properties": {
+    "turnover": {
+      "anyOf": [
+        {
+          "$ref": "MarketEdgeChange.json"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "advanceShare": {
+      "anyOf": [
+        {
+          "$ref": "MarketEdgeChange.json"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "limitUpCount": {
+      "anyOf": [
+        {
+          "$ref": "MarketEdgeChange.json"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "maxBoard": {
+      "anyOf": [
+        {
+          "$ref": "MarketEdgeChange.json"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    }
+  },
+  "required": [
+    "turnover",
+    "advanceShare",
+    "limitUpCount",
+    "maxBoard"
+  ],
+  "description": "MarketEvolutionEdgeChanges：市场观测台数据。"
+}

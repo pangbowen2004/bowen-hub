@@ -1,0 +1,121 @@
+{
+  "$comment": "由 contracts 生成，勿手改（mise run gen）",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "PaperSummary.json",
+  "type": "object",
+  "properties": {
+    "id": {
+      "type": "string"
+    },
+    "title": {
+      "type": "string"
+    },
+    "titleZh": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "year": {
+      "anyOf": [
+        {
+          "type": "integer",
+          "minimum": -2147483648,
+          "maximum": 2147483647
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "venue": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "oneSentence": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "spaces": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "readingDepth": {
+      "$ref": "PaperReadingDepth.json"
+    },
+    "paperKind": {
+      "anyOf": [
+        {
+          "$ref": "PaperKind.json"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "paperType": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "visibility": {
+      "$ref": "PaperVisibility.json"
+    },
+    "review": {
+      "$ref": "PaperReviewStatus.json"
+    },
+    "updatedAt": {
+      "type": "string",
+      "format": "date"
+    },
+    "hasCode": {
+      "type": "boolean"
+    },
+    "conceptCount": {
+      "type": "integer",
+      "minimum": -2147483648,
+      "maximum": 2147483647
+    }
+  },
+  "required": [
+    "id",
+    "title",
+    "titleZh",
+    "year",
+    "venue",
+    "oneSentence",
+    "spaces",
+    "readingDepth",
+    "paperKind",
+    "paperType",
+    "visibility",
+    "review",
+    "updatedAt",
+    "hasCode",
+    "conceptCount"
+  ],
+  "description": "列表摘要由计算任务与 Paper 一起写入；原文缺省的展示字段用 null。"
+}

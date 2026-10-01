@@ -1,0 +1,78 @@
+{
+  "$comment": "由 contracts 生成，勿手改（mise run gen）",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "MarketTheme.json",
+  "type": "object",
+  "properties": {
+    "name": {
+      "type": "string"
+    },
+    "members": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "sampleCount": {
+      "type": "integer",
+      "minimum": -2147483648,
+      "maximum": 2147483647
+    },
+    "return1d": {
+      "type": "number"
+    },
+    "advanceShare": {
+      "type": "number"
+    },
+    "aboveMa20Share": {
+      "type": "number"
+    },
+    "amountShare": {
+      "type": "number"
+    },
+    "return5d": {
+      "anyOf": [
+        {
+          "type": "number"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "return20d": {
+      "anyOf": [
+        {
+          "type": "number"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "limitUpCount": {
+      "type": "integer",
+      "minimum": -2147483648,
+      "maximum": 2147483647
+    },
+    "limitDownCount": {
+      "type": "integer",
+      "minimum": -2147483648,
+      "maximum": 2147483647
+    }
+  },
+  "required": [
+    "name",
+    "members",
+    "sampleCount",
+    "return1d",
+    "advanceShare",
+    "aboveMa20Share",
+    "amountShare",
+    "return5d",
+    "return20d",
+    "limitUpCount",
+    "limitDownCount"
+  ],
+  "description": "MarketTheme：市场观测台数据。"
+}

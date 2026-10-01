@@ -1,0 +1,100 @@
+{
+  "$comment": "由 contracts 生成，勿手改（mise run gen）",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "MarketEtfGroup.json",
+  "type": "object",
+  "properties": {
+    "name": {
+      "type": "string"
+    },
+    "rule": {
+      "type": "string"
+    },
+    "sampleCount": {
+      "type": "integer",
+      "minimum": -2147483648,
+      "maximum": 2147483647
+    },
+    "amountWeightedReturn1d": {
+      "type": "number"
+    },
+    "medianReturn1d": {
+      "type": "number"
+    },
+    "amountCny": {
+      "type": "number"
+    },
+    "medianReturn5d": {
+      "anyOf": [
+        {
+          "type": "number"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "medianReturn20d": {
+      "anyOf": [
+        {
+          "type": "number"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "shareCoverage": {
+      "anyOf": [
+        {
+          "type": "number"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "shareIncreaseCount": {
+      "anyOf": [
+        {
+          "type": "integer",
+          "minimum": -2147483648,
+          "maximum": 2147483647
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "shareDecreaseCount": {
+      "anyOf": [
+        {
+          "type": "integer",
+          "minimum": -2147483648,
+          "maximum": 2147483647
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "representative": {
+      "$ref": "MarketEtfRepresentative.json"
+    }
+  },
+  "required": [
+    "name",
+    "rule",
+    "sampleCount",
+    "amountWeightedReturn1d",
+    "medianReturn1d",
+    "amountCny",
+    "medianReturn5d",
+    "medianReturn20d",
+    "shareCoverage",
+    "shareIncreaseCount",
+    "shareDecreaseCount",
+    "representative"
+  ],
+  "description": "MarketEtfGroup：市场观测台数据。"
+}

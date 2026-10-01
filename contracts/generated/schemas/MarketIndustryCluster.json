@@ -1,0 +1,34 @@
+{
+  "$comment": "由 contracts 生成，勿手改（mise run gen）",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "MarketIndustryCluster.json",
+  "type": "object",
+  "properties": {
+    "industry": {
+      "type": "string"
+    },
+    "count": {
+      "type": "integer",
+      "minimum": -2147483648,
+      "maximum": 2147483647
+    },
+    "maxBoardHeight": {
+      "type": "integer",
+      "minimum": -2147483648,
+      "maximum": 2147483647
+    },
+    "names": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    }
+  },
+  "required": [
+    "industry",
+    "count",
+    "maxBoardHeight",
+    "names"
+  ],
+  "description": "MarketIndustryCluster：市场观测台数据。"
+}

@@ -1,0 +1,71 @@
+{
+  "$comment": "由 contracts 生成，勿手改（mise run gen）",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "InsiderTrade.json",
+  "type": "object",
+  "properties": {
+    "accession": {
+      "type": "string"
+    },
+    "transactionIndex": {
+      "type": "integer",
+      "minimum": -2147483648,
+      "maximum": 2147483647
+    },
+    "ticker": {
+      "type": "string"
+    },
+    "insider": {
+      "type": "string"
+    },
+    "role": {
+      "type": "string"
+    },
+    "code": {
+      "type": "string"
+    },
+    "shares": {
+      "type": "number"
+    },
+    "priceUsd": {
+      "anyOf": [
+        {
+          "type": "number"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "valueUsd": {
+      "anyOf": [
+        {
+          "type": "number"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "filedAt": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "url": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "accession",
+    "transactionIndex",
+    "ticker",
+    "insider",
+    "role",
+    "code",
+    "shares",
+    "priceUsd",
+    "valueUsd",
+    "filedAt",
+    "url"
+  ]
+}

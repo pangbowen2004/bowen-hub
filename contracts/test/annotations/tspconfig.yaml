@@ -1,0 +1,13 @@
+# 测试夹具的编译配置：输出到命令行 --output-dir 指定的临时目录
+emit:
+  - "@typespec/openapi3"
+  - "@typespec/json-schema"
+warn-as-error: true
+options:
+  "@typespec/openapi3":
+    emitter-output-dir: "{output-dir}"
+    output-file: "openapi.yaml"
+    openapi-versions: ["3.1.0"]
+  "@typespec/json-schema":
+    emitter-output-dir: "{output-dir}/schemas"
+    file-type: "json"

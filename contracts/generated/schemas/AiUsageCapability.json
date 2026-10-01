@@ -1,0 +1,49 @@
+{
+  "$comment": "由 contracts 生成，勿手改（mise run gen）",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "AiUsageCapability.json",
+  "type": "object",
+  "properties": {
+    "capability": {
+      "type": "string",
+      "description": "能力 ID"
+    },
+    "calls": {
+      "type": "integer",
+      "minimum": -2147483648,
+      "maximum": 2147483647,
+      "description": "调用次数"
+    },
+    "failedCalls": {
+      "type": "integer",
+      "minimum": -2147483648,
+      "maximum": 2147483647,
+      "description": "其中失败的次数"
+    },
+    "inputTokens": {
+      "type": "integer",
+      "minimum": -2147483648,
+      "maximum": 2147483647,
+      "description": "输入 token 合计"
+    },
+    "outputTokens": {
+      "type": "integer",
+      "minimum": -2147483648,
+      "maximum": 2147483647,
+      "description": "输出 token 合计"
+    },
+    "costUsd": {
+      "type": "number",
+      "description": "费用合计（美元）"
+    }
+  },
+  "required": [
+    "capability",
+    "calls",
+    "failedCalls",
+    "inputTokens",
+    "outputTokens",
+    "costUsd"
+  ],
+  "description": "某个能力的用量"
+}

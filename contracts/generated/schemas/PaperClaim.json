@@ -1,0 +1,77 @@
+{
+  "$comment": "由 contracts 生成，勿手改（mise run gen）",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "PaperClaim.json",
+  "type": "object",
+  "properties": {
+    "id": {
+      "type": "string"
+    },
+    "kind": {
+      "$ref": "PaperClaimKind.json"
+    },
+    "claim": {
+      "type": "string"
+    },
+    "metric": {
+      "type": "string"
+    },
+    "condition": {
+      "type": "string"
+    },
+    "anchor": {
+      "type": "string"
+    },
+    "pdfPage": {
+      "anyOf": [
+        {
+          "type": "integer",
+          "minimum": -2147483648,
+          "maximum": 2147483647
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "minimum": 1
+    },
+    "sourceLines": {
+      "type": "array",
+      "items": {
+        "type": "integer",
+        "minimum": -2147483648,
+        "maximum": 2147483647
+      },
+      "description": "起止行号；新草稿由 paper_draft 校验两项及范围。"
+    },
+    "sourceExcerpt": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "x-source-quote": true
+    },
+    "claimOrigin": {
+      "$ref": "PaperClaimOrigin.json"
+    },
+    "interpretationBoundary": {
+      "type": "string"
+    },
+    "quantities": {
+      "type": "array",
+      "items": {
+        "$ref": "PaperQuantity.json"
+      }
+    }
+  },
+  "required": [
+    "id",
+    "kind",
+    "claim"
+  ],
+  "description": "一条原文主张；R1 表格转换时没有页内行号和摘录，不制造这些值。"
+}

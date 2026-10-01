@@ -1,0 +1,43 @@
+{
+  "$comment": "由 contracts 生成，勿手改（mise run gen）",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "LimitEcologyThresholds.json",
+  "type": "object",
+  "properties": {
+    "sealRateMin": {
+      "type": "number"
+    },
+    "multiBoardMin": {
+      "type": "integer",
+      "minimum": -2147483648,
+      "maximum": 2147483647
+    },
+    "limitDownMax": {
+      "type": "integer",
+      "minimum": -2147483648,
+      "maximum": 2147483647
+    },
+    "sealRateInvalid": {
+      "type": "number"
+    },
+    "multiBoardInvalid": {
+      "type": "integer",
+      "minimum": -2147483648,
+      "maximum": 2147483647
+    },
+    "limitDownInvalid": {
+      "type": "integer",
+      "minimum": -2147483648,
+      "maximum": 2147483647
+    }
+  },
+  "required": [
+    "sealRateMin",
+    "multiBoardMin",
+    "limitDownMax",
+    "sealRateInvalid",
+    "multiBoardInvalid",
+    "limitDownInvalid"
+  ],
+  "description": "LimitEcologyThresholds：市场观测台数据。"
+}

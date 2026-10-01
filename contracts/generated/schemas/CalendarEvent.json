@@ -1,0 +1,83 @@
+{
+  "$comment": "由 contracts 生成，勿手改（mise run gen）",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "CalendarEvent.json",
+  "type": "object",
+  "properties": {
+    "kind": {
+      "anyOf": [
+        {
+          "type": "string",
+          "const": "macro"
+        },
+        {
+          "type": "string",
+          "const": "earnings"
+        },
+        {
+          "type": "string",
+          "const": "fomc"
+        }
+      ]
+    },
+    "date": {
+      "type": "string",
+      "format": "date"
+    },
+    "fredReleaseId": {
+      "anyOf": [
+        {
+          "type": "integer",
+          "minimum": -2147483648,
+          "maximum": 2147483647
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "at": {
+      "anyOf": [
+        {
+          "type": "string",
+          "format": "date-time"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "title": {
+      "type": "string"
+    },
+    "tickers": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "timing": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "importance": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "kind",
+    "date",
+    "fredReleaseId",
+    "at",
+    "title",
+    "tickers",
+    "timing",
+    "importance"
+  ]
+}

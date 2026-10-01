@@ -1,0 +1,33 @@
+{
+  "$comment": "由 contracts 生成，勿手改（mise run gen）",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "Document.json",
+  "type": "object",
+  "properties": {
+    "key": {
+      "$ref": "DocumentKey.json"
+    },
+    "payload": {
+      "$ref": "#/$defs/RecordUnknown",
+      "description": "文档内容，结构由 key 决定：markets.reference → MarketReference，papers.catalog.* → PapersCatalog，papers.graph.* → GraphData，papers.search.public → SearchIndex"
+    },
+    "updatedAt": {
+      "type": "string",
+      "format": "date-time",
+      "description": "最后写入时间"
+    }
+  },
+  "required": [
+    "key",
+    "payload",
+    "updatedAt"
+  ],
+  "description": "通用的“单份文档”（documents 表，docs/09 第 3 节）。\n写入用 PUT /v1/internal/documents/{key}，请求体就是 payload 本身；读取由各领域的接口完成\n（如 GET /v1/public/markets/reference 返回 markets.reference 的 payload）。",
+  "$defs": {
+    "RecordUnknown": {
+      "type": "object",
+      "properties": {},
+      "unevaluatedProperties": {}
+    }
+  }
+}

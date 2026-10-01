@@ -1,0 +1,46 @@
+{
+  "$comment": "由 contracts 生成，勿手改（mise run gen）",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "PaperDraftGuide.json",
+  "type": "object",
+  "properties": {
+    "oneSentence": {
+      "type": "string"
+    },
+    "readingGoal": {
+      "type": "string"
+    },
+    "article": {
+      "type": "string",
+      "description": "1800–3000 汉字是目标，不是硬上限；非典型论文允许更短。"
+    },
+    "prerequisites": {
+      "type": "array",
+      "items": {
+        "$ref": "PaperDraftPrerequisite.json"
+      }
+    },
+    "bottomLine": {
+      "$ref": "PaperBottomLine.json"
+    },
+    "limitations": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    }
+  },
+  "required": [
+    "oneSentence",
+    "readingGoal",
+    "article",
+    "prerequisites",
+    "bottomLine",
+    "limitations"
+  ],
+  "allOf": [
+    {
+      "$ref": "PaperGuide.json"
+    }
+  ]
+}

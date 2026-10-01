@@ -1,0 +1,46 @@
+{
+  "$comment": "由 contracts 生成，勿手改（mise run gen）",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "NewsCloseSnapshot.json",
+  "type": "object",
+  "properties": {
+    "indices": {
+      "type": "array",
+      "items": {
+        "$ref": "NewsPriceChange.json"
+      }
+    },
+    "watchlist": {
+      "type": "array",
+      "items": {
+        "$ref": "NewsPriceChange.json"
+      }
+    },
+    "treasury10Year": {
+      "anyOf": [
+        {
+          "type": "number"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "vix": {
+      "anyOf": [
+        {
+          "type": "number"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    }
+  },
+  "required": [
+    "indices",
+    "watchlist",
+    "treasury10Year",
+    "vix"
+  ]
+}

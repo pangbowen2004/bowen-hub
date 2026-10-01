@@ -1,0 +1,24 @@
+{
+  "$comment": "由 contracts 生成，勿手改（mise run gen）",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "PaperUploadPatch.json",
+  "type": "object",
+  "properties": {
+    "status": {
+      "$ref": "PaperUploadStatus.json"
+    },
+    "error": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "paperId": {
+      "type": "string"
+    }
+  }
+}

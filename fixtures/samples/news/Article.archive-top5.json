@@ -1,0 +1,82 @@
+[
+  {
+    "id": "https://arstechnica.com/tech-policy/2026/09/nvidia-may-sell-more-chips-in-china-as-jensen-huangs-influence-over-trump-grows",
+    "sourceId": "ars-technica",
+    "kind": "news",
+    "title": "Experts worry about Nvidia's AI chip sales in China and influence over Trump",
+    "url": "https://arstechnica.com/tech-policy/2026/09/nvidia-may-sell-more-chips-in-china-as-jensen-huangs-influence-over-trump-grows",
+    "publishedAt": "2026-09-28T21:49:10+00:00",
+    "summary": "报道聚焦 Nvidia 的中国业务前景：有消息称中国正在考虑允许字节跳动和阿里巴巴购买被禁的 Nvidia 芯片。标题同时指出，外界也在担心 Nvidia 的 AI 芯片销售，以及它对特朗普的影响力。",
+    "lang": "en",
+    "tickers": [],
+    "topics": [
+      "us_china"
+    ],
+    "paywall": "none",
+    "clusterId": null
+  },
+  {
+    "id": "https://www.scmp.com/news/us/diplomacy/article/3369150/important-and-consequential-nvidias-jensen-huang-us-china-ai-race-risk-management",
+    "sourceId": "scmp-china",
+    "kind": "news",
+    "title": "‘Important and consequential’: Nvidia’s Jensen Huang on US-China AI race, risk management",
+    "url": "https://www.scmp.com/news/us/diplomacy/article/3369150/important-and-consequential-nvidias-jensen-huang-us-china-ai-race-risk-management",
+    "publishedAt": "2026-09-29T05:20:17+00:00",
+    "summary": "黄仁勋再次谈到中美 AI 竞争，称双方需要改善沟通、加强合作，并更充分地拥抱技术，以降低 AI 相关风险。他强调，中美虽是竞争对手，但仍可以协作。",
+    "lang": "en",
+    "tickers": [],
+    "topics": [
+      "us_china"
+    ],
+    "paywall": "metered",
+    "clusterId": null
+  },
+  {
+    "id": "https://www.cnbc.com/2026/09/29/us-iran-war-trump-hormuz-.html",
+    "sourceId": "cnbc-top",
+    "kind": "news",
+    "title": "U.S., Iran hold separate mediator talks as Mideast oil exports hit war-time high",
+    "url": "https://www.cnbc.com/2026/09/29/us-iran-war-trump-hormuz-.html",
+    "publishedAt": "2026-09-29T04:02:47+00:00",
+    "summary": "报道称，美国和伊朗官员周一分别通过调停方进行会谈，推动停火进程。与此同时，中东原油出口回升至战时高位，显示能源供应与冲突局势仍在交织。",
+    "lang": "en",
+    "tickers": [],
+    "topics": [
+      "war_geopolitics"
+    ],
+    "paywall": "metered",
+    "clusterId": null
+  },
+  {
+    "id": "https://www.cnbc.com/2026/09/29/india-investment-billions-tech-ai-us-china.html",
+    "sourceId": "cnbc-top",
+    "kind": "news",
+    "title": "India readies $25 billion for Deep Tech investment as U.S. and China race ahead",
+    "url": "https://www.cnbc.com/2026/09/29/india-investment-billions-tech-ai-us-china.html",
+    "publishedAt": "2026-09-29T05:12:10+00:00",
+    "summary": "印度正准备投入 250 亿美元发展深科技，以减少对外国技术的依赖，并追赶中国和美国。报道显示，印度希望借此扶持本土初创公司和关键技术能力。",
+    "lang": "en",
+    "tickers": [],
+    "topics": [
+      "ai_tech"
+    ],
+    "paywall": "metered",
+    "clusterId": null
+  },
+  {
+    "id": "https://www.npr.org/2026/09/28/nx-s1-5918509/car-fuel-efficiency-cafe-standards-rollback",
+    "sourceId": "npr-business",
+    "kind": "news",
+    "title": "The Trump administration weakens fuel efficiency standards for new cars",
+    "url": "https://www.npr.org/2026/09/28/nx-s1-5918509/car-fuel-efficiency-cafe-standards-rollback",
+    "publishedAt": "2026-09-28T12:07:15-04:00",
+    "summary": "特朗普政府宣布放松新车燃油效率标准，称这样可以让汽车更便宜。批评者则认为事情没那么简单，政策可能对环境带来额外成本。",
+    "lang": "en",
+    "tickers": [],
+    "topics": [
+      "us_politics"
+    ],
+    "paywall": "none",
+    "clusterId": null
+  }
+]

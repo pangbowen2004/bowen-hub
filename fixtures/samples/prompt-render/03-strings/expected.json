@@ -1,0 +1,4 @@
+{
+  "system": "你在为 NVDA 写今天的摘要。",
+  "user": "股票：NVDA 英伟达（Nvidia）\n备注：价格从 $100 涨到 $120（+20%），\"翻倍\"了吗？$& $1 $$ 反斜杠 \\n 不是换行\n原文片段：\nRevenue was $35.1 billion, up 94% from a year ago.\n第二行：原样保留 {{ name }} 这样的文字，不再当作占位符。\n  第三行前面有两个空格"
+}

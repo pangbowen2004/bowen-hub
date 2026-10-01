@@ -1,0 +1,17 @@
+# TypeSpec 编译配置（docs/08 第 3 节）。不要直接运行 tsp：用 `mise run gen`，
+# 它会编译、做后处理（文件头、格式）并接着生成 TS 与 Python 代码。
+# 输出 contracts/generated/（入库，勿手改）：openapi.yaml（OpenAPI 3.1）+ schemas/<模型名>.json（JSON Schema 2020-12）。
+emit:
+  - "@typespec/openapi3"
+  - "@typespec/json-schema"
+warn-as-error: true
+options:
+  "@typespec/openapi3":
+    emitter-output-dir: "{project-root}/generated"
+    output-file: "openapi.yaml"
+    openapi-versions: ["3.1.0"]
+    # 能力的输入输出模型没有接口引用，也要进 components.schemas（Orval 和 Pydantic 从这里生成）
+    omit-unreachable-types: false
+  "@typespec/json-schema":
+    emitter-output-dir: "{project-root}/generated/schemas"
+    file-type: "json"

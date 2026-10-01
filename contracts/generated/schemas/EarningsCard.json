@@ -1,0 +1,72 @@
+{
+  "$comment": "由 contracts 生成，勿手改（mise run gen）",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "EarningsCard.json",
+  "type": "object",
+  "properties": {
+    "symbol": {
+      "type": "string"
+    },
+    "period": {
+      "type": "string"
+    },
+    "figures": {
+      "type": "array",
+      "items": {
+        "$ref": "EarningsFigure.json"
+      }
+    },
+    "guidance": {
+      "anyOf": [
+        {
+          "$ref": "EarningsGuidance.json"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "takeaway": {
+      "type": "string",
+      "x-max-chars": 60
+    },
+    "sourceUrl": {
+      "type": "string"
+    },
+    "sourceAccession": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "publishedAt": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "generatedBy": {
+      "anyOf": [
+        {
+          "$ref": "GeneratedBy.json"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    }
+  },
+  "required": [
+    "symbol",
+    "period",
+    "figures",
+    "guidance",
+    "takeaway",
+    "sourceUrl",
+    "sourceAccession",
+    "publishedAt",
+    "generatedBy"
+  ]
+}

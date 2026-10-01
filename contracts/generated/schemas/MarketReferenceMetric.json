@@ -1,0 +1,42 @@
+{
+  "$comment": "由 contracts 生成，勿手改（mise run gen）",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "MarketReferenceMetric.json",
+  "type": "object",
+  "properties": {
+    "id": {
+      "type": "string"
+    },
+    "label": {
+      "type": "string"
+    },
+    "group": {
+      "type": "string"
+    },
+    "boundary": {
+      "type": "string"
+    },
+    "definition": {
+      "type": "string"
+    },
+    "formula": {
+      "type": "string"
+    },
+    "unit": {
+      "type": "string"
+    },
+    "source": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "id",
+    "label",
+    "group",
+    "definition",
+    "formula",
+    "unit",
+    "source"
+  ],
+  "description": "MarketReferenceMetric：市场观测台数据。"
+}

@@ -1,0 +1,36 @@
+{
+  "$comment": "由 contracts 生成，勿手改（mise run gen）",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "MarketTechnicalLevel.json",
+  "type": "object",
+  "properties": {
+    "label": {
+      "type": "string"
+    },
+    "value": {
+      "type": "number"
+    },
+    "kind": {
+      "anyOf": [
+        {
+          "type": "string",
+          "const": "dynamic_average"
+        },
+        {
+          "type": "string",
+          "const": "observed_low"
+        },
+        {
+          "type": "string",
+          "const": "observed_high"
+        }
+      ]
+    }
+  },
+  "required": [
+    "label",
+    "value",
+    "kind"
+  ],
+  "description": "MarketTechnicalLevel：市场观测台数据。"
+}

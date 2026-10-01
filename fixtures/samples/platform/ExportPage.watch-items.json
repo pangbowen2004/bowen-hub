@@ -1,0 +1,26 @@
+{
+  "table": "watch_items",
+  "items": [
+    {
+      "symbol": "PFE",
+      "name": "辉瑞",
+      "kind": "stock",
+      "group": "其他",
+      "underlying": null,
+      "sector_etf": "SPY",
+      "aliases": "[\"Pfizer\"]",
+      "active": 1
+    },
+    {
+      "symbol": "WMT",
+      "name": "沃尔玛",
+      "kind": "stock",
+      "group": "其他",
+      "underlying": null,
+      "sector_etf": "SPY",
+      "aliases": "[\"Walmart\"]",
+      "active": 1
+    }
+  ],
+  "nextCursor": null
+}

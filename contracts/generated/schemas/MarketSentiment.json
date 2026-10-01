@@ -1,0 +1,31 @@
+{
+  "$comment": "由 contracts 生成，勿手改（mise run gen）",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "MarketSentiment.json",
+  "type": "object",
+  "properties": {
+    "value": {
+      "type": "number"
+    },
+    "version": {
+      "type": "string",
+      "const": "transparent-ecology-v2"
+    },
+    "dimensions": {
+      "type": "array",
+      "items": {
+        "$ref": "MarketSentimentDimension.json"
+      }
+    },
+    "boundary": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "value",
+    "version",
+    "dimensions",
+    "boundary"
+  ],
+  "description": "MarketSentiment：市场观测台数据。"
+}

@@ -1,0 +1,10 @@
+{
+  "id": "sample-upload",
+  "filename": "sample.pdf",
+  "arxivUrl": null,
+  "status": "ready",
+  "error": null,
+  "createdAt": "2026-10-01T00:00:00Z",
+  "updatedAt": "2026-10-01T00:00:00Z",
+  "paperId": "arxiv-2505.07078"
+}

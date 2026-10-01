@@ -1,0 +1,50 @@
+{
+  "$comment": "由 contracts 生成，勿手改（mise run gen）",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "MarketStyleGroup.json",
+  "type": "object",
+  "properties": {
+    "name": {
+      "anyOf": [
+        {
+          "type": "string",
+          "const": "高位加速"
+        },
+        {
+          "type": "string",
+          "const": "趋势延续"
+        },
+        {
+          "type": "string",
+          "const": "低位修复"
+        },
+        {
+          "type": "string",
+          "const": "中间状态"
+        }
+      ]
+    },
+    "count": {
+      "type": "integer",
+      "minimum": -2147483648,
+      "maximum": 2147483647
+    },
+    "share": {
+      "type": "number"
+    },
+    "meanReturn1d": {
+      "type": "number"
+    },
+    "medianReturn1d": {
+      "type": "number"
+    }
+  },
+  "required": [
+    "name",
+    "count",
+    "share",
+    "meanReturn1d",
+    "medianReturn1d"
+  ],
+  "description": "MarketStyleGroup：市场观测台数据。"
+}

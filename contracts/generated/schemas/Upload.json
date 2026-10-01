@@ -1,0 +1,65 @@
+{
+  "$comment": "由 contracts 生成，勿手改（mise run gen）",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "Upload.json",
+  "type": "object",
+  "properties": {
+    "id": {
+      "type": "string"
+    },
+    "filename": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "arxivUrl": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "status": {
+      "$ref": "PaperUploadStatus.json"
+    },
+    "error": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "createdAt": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "updatedAt": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "paperId": {
+      "type": "string",
+      "description": "定下后立即写入；重试沿用，避免误加版本后缀。"
+    }
+  },
+  "required": [
+    "id",
+    "filename",
+    "arxivUrl",
+    "status",
+    "error",
+    "createdAt",
+    "updatedAt"
+  ]
+}

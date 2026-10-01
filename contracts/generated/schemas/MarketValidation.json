@@ -1,0 +1,29 @@
+{
+  "$comment": "由 contracts 生成，勿手改（mise run gen）",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "MarketValidation.json",
+  "type": "object",
+  "properties": {
+    "settledToday": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "createdToday": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "stats": {
+      "$ref": "MarketValidationStats.json"
+    }
+  },
+  "required": [
+    "settledToday",
+    "createdToday",
+    "stats"
+  ],
+  "description": "MarketValidation：市场观测台数据。"
+}

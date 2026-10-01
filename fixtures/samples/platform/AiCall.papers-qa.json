@@ -1,0 +1,12 @@
+{
+  "capability": "papers.qa",
+  "version": 1,
+  "model": "openai/gpt-6-luna",
+  "inputTokens": 48230,
+  "outputTokens": 610,
+  "costUsd": 0.005128,
+  "durationMs": 9480,
+  "ok": true,
+  "runId": null,
+  "at": "2026-09-30T03:12:55Z"
+}

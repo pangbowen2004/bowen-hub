@@ -1,0 +1,32 @@
+{
+  "$comment": "由 contracts 生成，勿手改（mise run gen）",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "ReasoningEffort.json",
+  "anyOf": [
+    {
+      "type": "string",
+      "const": "none"
+    },
+    {
+      "type": "string",
+      "const": "low"
+    },
+    {
+      "type": "string",
+      "const": "medium"
+    },
+    {
+      "type": "string",
+      "const": "high"
+    },
+    {
+      "type": "string",
+      "const": "xhigh"
+    },
+    {
+      "type": "string",
+      "const": "max"
+    }
+  ],
+  "description": "推理强度（config/llm.yaml 里各档位的 reasoning）"
+}

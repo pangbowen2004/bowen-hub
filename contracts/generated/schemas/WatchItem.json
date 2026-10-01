@@ -1,0 +1,67 @@
+{
+  "$comment": "由 contracts 生成，勿手改（mise run gen）",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "WatchItem.json",
+  "type": "object",
+  "properties": {
+    "symbol": {
+      "type": "string",
+      "description": "代码（主键）；加密资产用 BTC、XRP"
+    },
+    "name": {
+      "type": "string",
+      "description": "中文名或常用名"
+    },
+    "kind": {
+      "$ref": "WatchItemKind.json"
+    },
+    "group": {
+      "type": "string",
+      "description": "分组（控制台和邮件里按组显示），如 半导体"
+    },
+    "underlying": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "description": "杠杆 ETF / 现货 ETF 并入的标的（新闻、公告都算在标的名下），如 TSMX → TSM；没有时为 null"
+    },
+    "sectorEtf": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "description": "判断“与板块同向”时对照的 ETF；为 null 时用 config/newsroom.yaml 的 defaultSectorEtf"
+    },
+    "aliases": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "在 RSS 标题里匹配这只股票用的名字（英文按词边界匹配，不区分大小写）"
+    },
+    "active": {
+      "type": "boolean",
+      "description": "是否启用"
+    }
+  },
+  "required": [
+    "symbol",
+    "name",
+    "kind",
+    "group",
+    "underlying",
+    "sectorEtf",
+    "aliases",
+    "active"
+  ],
+  "description": "一只自选股（watch_items 表，docs/09 第 3 节）"
+}

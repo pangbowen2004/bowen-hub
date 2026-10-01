@@ -1,0 +1,42 @@
+{
+  "$comment": "由 contracts 生成，勿手改（mise run gen）",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "WeeklySummary.json",
+  "type": "object",
+  "properties": {
+    "date": {
+      "type": "string",
+      "format": "date"
+    },
+    "title": {
+      "type": "string"
+    },
+    "sentence": {
+      "type": "string"
+    },
+    "settledCount": {
+      "type": "integer",
+      "minimum": -2147483648,
+      "maximum": 2147483647
+    },
+    "researchErrorCount": {
+      "type": "integer",
+      "minimum": -2147483648,
+      "maximum": 2147483647
+    },
+    "inconclusiveCount": {
+      "type": "integer",
+      "minimum": -2147483648,
+      "maximum": 2147483647
+    }
+  },
+  "required": [
+    "date",
+    "title",
+    "sentence",
+    "settledCount",
+    "researchErrorCount",
+    "inconclusiveCount"
+  ],
+  "description": "WeeklySummary：市场观测台数据。"
+}

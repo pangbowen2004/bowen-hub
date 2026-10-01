@@ -1,0 +1,28 @@
+{
+  "$comment": "由 contracts 生成，勿手改（mise run gen）",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "WeeklyResearchError.json",
+  "type": "object",
+  "properties": {
+    "id": {
+      "type": "string"
+    },
+    "title": {
+      "type": "string"
+    },
+    "result": {
+      "type": "string",
+      "const": "NOT_CONFIRMED"
+    },
+    "reason": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "id",
+    "title",
+    "result",
+    "reason"
+  ],
+  "description": "WeeklyResearchError：市场观测台数据。"
+}

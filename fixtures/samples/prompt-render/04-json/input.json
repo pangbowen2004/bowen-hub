@@ -1,0 +1,34 @@
+{
+  "company": {
+    "symbol": "TSM",
+    "name": "台积电",
+    "aliases": ["TSMC", "Taiwan Semiconductor"]
+  },
+  "tickers": ["TSM", "NVDA"],
+  "articles": [
+    {
+      "title": "台积电 9 月营收同比增长 36%",
+      "id": "a1",
+      "source": "Alpaca",
+      "publishedAt": "2026-09-30T21:05:00Z",
+      "summary": "公司称 \"AI 需求强劲\"。\n第二段：月营收 3,512 亿新台币。",
+      "score": 7,
+      "paywall": null,
+      "topics": [],
+      "extra": {}
+    },
+    {
+      "title": "NVIDIA unveils new chips",
+      "id": "a2",
+      "source": "CNBC",
+      "publishedAt": "2026-09-30T13:40:00Z",
+      "summary": "Revenue guidance: $35.1B.",
+      "score": 5,
+      "paywall": "metered",
+      "topics": ["ai_semis"],
+      "extra": {
+        "clusterId": "c-17"
+      }
+    }
+  ]
+}

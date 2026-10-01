@@ -1,0 +1,29 @@
+{
+  "$comment": "由 contracts 生成，勿手改（mise run gen）",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "CapabilityLimits.json",
+  "type": "object",
+  "properties": {
+    "maxInputTokens": {
+      "type": "integer",
+      "minimum": -2147483648,
+      "maximum": 2147483647
+    },
+    "maxOutputTokens": {
+      "type": "integer",
+      "minimum": -2147483648,
+      "maximum": 2147483647
+    },
+    "timeoutSec": {
+      "type": "integer",
+      "minimum": -2147483648,
+      "maximum": 2147483647
+    }
+  },
+  "required": [
+    "maxInputTokens",
+    "maxOutputTokens",
+    "timeoutSec"
+  ],
+  "description": "能力的调用上限"
+}

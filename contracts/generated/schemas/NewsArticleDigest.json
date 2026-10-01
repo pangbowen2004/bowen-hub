@@ -1,0 +1,58 @@
+{
+  "$comment": "由 contracts 生成，勿手改（mise run gen）",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "NewsArticleDigest.json",
+  "type": "object",
+  "properties": {
+    "article": {
+      "$ref": "Article.json"
+    },
+    "summary": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "whyItMatters": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "topic": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "generatedBy": {
+      "anyOf": [
+        {
+          "$ref": "GeneratedBy.json"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    }
+  },
+  "required": [
+    "article",
+    "summary",
+    "whyItMatters",
+    "topic",
+    "generatedBy"
+  ]
+}

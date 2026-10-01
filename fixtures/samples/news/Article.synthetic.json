@@ -1,0 +1,18 @@
+{
+  "id": "sample-nvda",
+  "sourceId": "alpaca-news",
+  "kind": "news",
+  "title": "示例公司发布财报",
+  "url": "https://example.com/nvda-earnings",
+  "publishedAt": "2026-09-29T22:00:00Z",
+  "summary": "示例新闻稿称营收为 $35.1 billion，同比增长 10%。",
+  "lang": "en",
+  "tickers": [
+    "NVDA"
+  ],
+  "topics": [
+    "earnings"
+  ],
+  "paywall": "none",
+  "clusterId": "sample-earnings"
+}

@@ -1,0 +1,34 @@
+{
+  "$comment": "由 contracts 生成，勿手改（mise run gen）",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "PaperReviewChecks.json",
+  "type": "object",
+  "properties": {
+    "identity": {
+      "$ref": "PaperReviewCheck.json"
+    },
+    "explanation": {
+      "$ref": "PaperReviewCheck.json"
+    },
+    "method": {
+      "$ref": "PaperReviewCheck.json"
+    },
+    "results": {
+      "$ref": "PaperReviewCheck.json"
+    },
+    "boundaries": {
+      "$ref": "PaperReviewCheck.json"
+    },
+    "sources": {
+      "$ref": "PaperReviewCheck.json"
+    }
+  },
+  "required": [
+    "identity",
+    "explanation",
+    "method",
+    "results",
+    "boundaries",
+    "sources"
+  ]
+}

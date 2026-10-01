@@ -1,0 +1,28 @@
+{
+  "$comment": "由 contracts 生成，勿手改（mise run gen）",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "MarketTemperature.json",
+  "type": "object",
+  "properties": {
+    "value": {
+      "type": "number"
+    },
+    "version": {
+      "type": "string",
+      "const": "transparent-close-v1"
+    },
+    "parts": {
+      "$ref": "MarketTemperatureParts.json"
+    },
+    "boundary": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "value",
+    "version",
+    "parts",
+    "boundary"
+  ],
+  "description": "MarketTemperature：市场观测台数据。"
+}

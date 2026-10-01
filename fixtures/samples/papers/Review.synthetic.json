@@ -1,0 +1,60 @@
+{
+  "id": "sample-review",
+  "createdAt": "2026-10-01T00:00:00Z",
+  "durationMs": 1,
+  "generatedBy": {
+    "capability": "papers.review",
+    "version": 1,
+    "model": "fixture/fake",
+    "at": "2026-10-01T00:00:00Z"
+  },
+  "decision": "revise",
+  "readerRestatement": "离线演示审核结构，不代表实际模型审查。",
+  "independentSourceCheck": {
+    "pdfPage": 3,
+    "sourceExcerpt": "Instruction                                                     Rating Story A\n                                                                                                                                              Annotator #1          ✅\n                                                                                                                                             Sample        Rating\n        1. Read the following Input and seven stories                         Overall Quality:         1      2   3     4   5\n                                                                                                                                           Human-written      5\n           from Story A to Story G .                                          Reasons:\n        2. Comparing the stories with one another in                          • Local Errors                                                 Negative         1\n\n           terms of Overall Quality .                                             • Repetitive plots (repeating similar texts)                  ...           ...\n        3. Rate each story in 1-5 range (5 is the                                       -1                 -2                                   ...           ...\n           best). And choose your Reasons.                                        • Unrelated events (with unrelated events to the input\n                                                                                     or within its own context)\n                                                                                        -1                 -2                                         . . .\n          Input: My dad likes watermelon very much.                               • Conflicting logic (against common sense or with           Annotator #5 ❌\n                                                                                     wrong causal or temporal relationship)\n                                                                                                                                             Sample        Rating\n       One Human-written Story      Story A: He bought himself a ...\n                                                                                        -1                 -2\n                                                                              • Global Errors                                              Human-written      2\n\n                                    Story B: He wanted to try ...                 • Chaotic scenes (difficult to understand as a whole)      Negative         4\n        Five Generated samples                                                          -2\n                                                                                                                                                ...           ...\n                                                  . . .                                                . . .\n                                                                                                                                                ...           ...\n        One Negative Sample         Story G: It has been a pretty great ...\n                                                                                                 Rating story G\n\n\nFigure 1: Overview for the manual annotation interface. Story A gets two points in overall quality since it gets\nthree points deducted for its repetitive plot and chaotic scene. The ratings of Annotator #5 for the current story\ngroup are rejected because of the low score for the human-written story and the high score for the negative sample.\n\n\nin WP. Although we only consider the stories in the                                     Then we ask workers to compare the overall qual-\ntwo corpora, OpenMEVA is designed to measure                                            ity of the seven stories2 , and rate each story with\nthe capability of NLG metrics to evaluate general                                       a 5-point Likert scale. We reject an HIT if the\nlinguistic features such as coherence, which may                                        worker rates the human-written story lower than\npertain to other stories. Besides, our idea that build-                                 four points or rates the negative example higher\ning datasets by manual annotation or automatic                                          than two points. Through the quality control mech-\nconstruction can be easily extended to evaluate spe-                                    anism, we filtered about 38.7% assignments for\ncific aspects for other types of stories.                                               ROC and 75.4% for WP. Finally, we ensure that\n                                                                                        there are five valid ratings for each generated story,\n3.1   MANS: Manually Annotated Stories\n                                                                                        and we regard the average rating as the final human\nWe collect MANS to assess the correlation of met-                                       judgment.\nrics with human judgments and the generalization                                           Considering that overall quality is often too ab-\nability when evaluating machine-generated stories.                                      stract to measure, we follow previous recommen-\nWe randomly split ROC and WP by 90%/5%/5%                                               dations (Belz and Hastie, 2014; van der Lee et al.,\nfor training/validation/test of the generation mod-                                     2020) to decide the overall quality by summariz-\nels. We regard the first sentence for ROC and                                           ing multiple separate criteria. We ask the workers\nthe prompt for WP as input. After training, we                                          to decide the rating of a story based on a point\ngenerate stories based on the test sets. Then, we                                       deduction policy. Specifically, a story should get\nresort to Amazon Mechanical Turk (AMT) for                                              punishment in points if it contains errors such as\nhuman judgments of the generated stories. We                                            repetitive plots, unrelated events and conflicting\nconsider various generation models including a                                          logic, or globally chaotic scenes, which are com-\nSeq2Seq model (Sutskever et al., 2014), Fusion                                          monly observed in existing NLG models (Guan\n(Fan et al., 2018), Plan&Write (Yao et al., 2019),                                      and Huang, 2020) (several examples shown in the\nthe fine-tuned GPT-2 (Radford et al., 2019) and                                         appendix). Intuitively, the policy can alleviate the\nKnowledGe-enhanced GPT-2 (Guan et al., 2020).                                           tendency to give high scores and ensure that the\nThese models cover diverse network architectures                                        judgment standard of workers is as consistent as\nand different levels of the generation ability, which                                   possible during annotation. To avoid introducing\nsupport to evaluate the generalization to examples                                      extra bias in the policy, we do not impose the re-\nwith different model biases or quality levels.                                          striction on workers to exactly match the rating in\nManual Annotation We present the manual an-                                             overall quality with the deducted points.\nnotation interface in Figure 1. In each human intel-                                    Data Statistics We randomly sampled 200 sto-\nligence task (HIT) of AMT, we show workers the                                          ries from test sets of ROC and WP for story\ninput of a story paired with seven stories including\n(a) five stories generated by the above five mod-                                            2\n                                                                                             We do not ask annotation in other aspects (e.g., interest-\nels, (b) the human-written story, and (c) a negative                                    ing) since previous work (Novikova et al., 2017) has noted that\n                                                                                        the annotation scores on different aspects are highly correlated\nexample constructed by perturbing a story (e.g.,                                        in spite of careful design. And computing correlation scores\nrepetition, shuffling) sampled from the test sets.                                      in the entangled aspects would be unconvincing.\n\n                                                                                6396",
+    "minimumClaim": "示例：只在原文设置内解释。",
+    "counterexampleOrLimit": "演示字段，需实际审核填写。",
+    "comparisonToArticle": "演示字段，需实际审核填写。"
+  },
+  "sampledClaimIds": [
+    "c1"
+  ],
+  "checks": {
+    "identity": {
+      "status": "not_applicable",
+      "evidence": "离线结构演示，未运行审核。"
+    },
+    "explanation": {
+      "status": "not_applicable",
+      "evidence": "离线结构演示，未运行审核。"
+    },
+    "method": {
+      "status": "not_applicable",
+      "evidence": "离线结构演示，未运行审核。"
+    },
+    "results": {
+      "status": "not_applicable",
+      "evidence": "离线结构演示，未运行审核。"
+    },
+    "boundaries": {
+      "status": "not_applicable",
+      "evidence": "离线结构演示，未运行审核。"
+    },
+    "sources": {
+      "status": "not_applicable",
+      "evidence": "离线结构演示，未运行审核。"
+    }
+  },
+  "findings": [
+    {
+      "severity": "P1",
+      "location": "示例",
+      "fix": "需要真实审核后再决定。"
+    }
+  ],
+  "pagesChecked": [
+    3
+  ],
+  "visualPagesChecked": []
+}

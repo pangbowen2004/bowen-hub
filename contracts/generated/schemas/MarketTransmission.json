@@ -1,0 +1,34 @@
+{
+  "$comment": "由 contracts 生成，勿手改（mise run gen）",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "MarketTransmission.json",
+  "type": "object",
+  "properties": {
+    "liquidityBreadth": {
+      "$ref": "MarketTransmissionPart.json"
+    },
+    "direction": {
+      "anyOf": [
+        {
+          "$ref": "MarketTransmissionPart.json"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "limitCluster": {
+      "$ref": "MarketTransmissionPart.json"
+    },
+    "negativeFeedback": {
+      "$ref": "MarketTransmissionPart.json"
+    }
+  },
+  "required": [
+    "liquidityBreadth",
+    "direction",
+    "limitCluster",
+    "negativeFeedback"
+  ],
+  "description": "MarketTransmission：市场观测台数据。"
+}

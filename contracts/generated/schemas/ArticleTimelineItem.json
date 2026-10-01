@@ -1,0 +1,24 @@
+{
+  "$comment": "由 contracts 生成，勿手改（mise run gen）",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "ArticleTimelineItem.json",
+  "type": "object",
+  "properties": {
+    "kind": {
+      "type": "string",
+      "const": "article"
+    },
+    "at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "article": {
+      "$ref": "Article.json"
+    }
+  },
+  "required": [
+    "kind",
+    "at",
+    "article"
+  ]
+}
