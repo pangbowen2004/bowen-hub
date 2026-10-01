@@ -26,7 +26,6 @@ candidates:
   - openai/gpt-5.4-mini
 
 defaults:
-  judgeMaxOutputTokens: 4096    # 评审独立预算，包含 balanced 档推理；不改正文能力上限
   timeoutSec: 90               # 能力清单的 limits.timeoutSec 优先
   maxRetries: 2                # 失败后再试 2 次，间隔 1s、2s
 
