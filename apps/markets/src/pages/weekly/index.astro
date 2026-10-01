@@ -1,0 +1,7 @@
+---
+import Placeholder from "../../layouts/Placeholder.astro";
+import { listWeeklies } from "../../lib/data";
+
+const rows = await listWeeklies();
+---
+<Placeholder title="周报" lead="周报列表"><ul>{rows.map(row=><li><a href={`/weekly/${row.date}/`}>{row.date} · {row.title}</a></li>)}</ul></Placeholder>

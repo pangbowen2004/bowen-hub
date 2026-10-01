@@ -1,0 +1,13 @@
+---
+import Callout from "@bowen-hub/ui/astro/Callout";
+import PageHeader from "@bowen-hub/ui/astro/PageHeader";
+import BaseLayout from "./BaseLayout.astro";
+
+interface Props {
+  title: string;
+  lead: string;
+  date?: string;
+}
+const { title, lead, date } = Astro.props;
+---
+<BaseLayout title={title} description={lead} date={date}><PageHeader title={title} lead={lead} date={date}/><Callout title="内容准备中"><p>阅读馆外壳已就绪，阅读与图谱组件由对应任务接入。</p></Callout><slot/></BaseLayout>

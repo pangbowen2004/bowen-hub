@@ -1,5 +1,8 @@
 ---
-interface Props { label: string; tone?: "info" | "warning" | "missing"; }
+interface Props {
+  label: string;
+  tone?: "info" | "warning" | "missing";
+}
 const { label, tone = "info" } = Astro.props;
 ---
 <span class="badge" data-tone={tone}>{label}</span>

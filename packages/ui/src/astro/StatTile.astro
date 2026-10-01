@@ -1,5 +1,11 @@
 ---
-interface Props { label: string; value: string; change?: string; direction?: "up" | "down" | "flat"; description?: string; }
+interface Props {
+  label: string;
+  value: string;
+  change?: string;
+  direction?: "up" | "down" | "flat";
+  description?: string;
+}
 const { label, value, change, direction = "flat", description } = Astro.props;
 ---
 <article class="card stat-tile"><h3 class="muted">{label}</h3><p class="stat-value number">{value}</p>{change && <p class:list={["number",direction]}>{direction === "up" ? "▲ " : direction === "down" ? "▼ " : ""}{change}</p>}{description && <p class="muted">{description}</p>}</article>

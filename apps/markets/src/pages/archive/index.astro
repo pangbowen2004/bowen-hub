@@ -1,0 +1,7 @@
+---
+import Placeholder from "../../layouts/Placeholder.astro";
+import { listDays } from "../../lib/data";
+
+const rows = await listDays();
+---
+<Placeholder title="历史" lead="历史列表"><ul>{rows.map(row=><li><a href={`/archive/${row.date}/`}>{row.date} · {row.headline}</a></li>)}</ul></Placeholder>

@@ -1,0 +1,7 @@
+---
+import Placeholder from "../layouts/Placeholder.astro";
+import { getReference } from "../lib/data";
+
+const reference = await getReference();
+---
+<Placeholder title="方法与口径" lead="每一个数字，都要能回到定义和来源。"><p>样例已加载 {reference.metrics.length} 项指标说明。</p></Placeholder>

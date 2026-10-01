@@ -1,5 +1,8 @@
 ---
-interface Props { title: string; tone?: "info" | "warning" | "missing"; }
+interface Props {
+  title: string;
+  tone?: "info" | "warning" | "missing";
+}
 const { title, tone = "info" } = Astro.props;
 ---
 <aside class="card callout" data-tone={tone}><strong>{title}</strong><slot /></aside>

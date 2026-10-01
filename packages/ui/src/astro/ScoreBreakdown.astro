@@ -1,5 +1,9 @@
 ---
-interface Props { title: string; score: number; items: { label: string; value: number; max?: number; formula?: string; input?: string }[]; }
+interface Props {
+  title: string;
+  score: number;
+  items: { label: string; value: number; max?: number; formula?: string; input?: string }[];
+}
 const { title, score, items } = Astro.props;
 ---
 <section class="card"><h3>{title} <span class="number">{score}</span></h3><ul class="score-list">{items.map(item => <li><div class="row"><span>{item.label}</span><span class="number">{item.value}</span></div><meter min="0" max={item.max ?? 100} value={item.value}>{item.value}</meter>{(item.formula || item.input) && <details><summary>输入与公式</summary>{item.input && <p>{item.input}</p>}{item.formula && <code>{item.formula}</code>}</details>}</li>)}</ul></section>

@@ -1,7 +1,16 @@
 ---
-interface Props { values: number[]; label: string; }
+interface Props {
+  values: number[];
+  label: string;
+}
 const { values, label } = Astro.props;
-const min = Math.min(...values), max = Math.max(...values);
-const points = values.map((value,index) => `${values.length === 1 ? 50 : index/(values.length-1)*100},${max === min ? 20 : 36-(value-min)/(max-min)*32}`).join(" ");
+const min = Math.min(...values),
+  max = Math.max(...values);
+const points = values
+  .map(
+    (value, index) =>
+      `${values.length === 1 ? 50 : (index / (values.length - 1)) * 100},${max === min ? 20 : 36 - ((value - min) / (max - min)) * 32}`,
+  )
+  .join(" ");
 ---
 <svg width="120" height="40" viewBox="0 0 100 40" role="img" aria-label={label}>{values.length ? <polyline points={points} fill="none" stroke="var(--accent)" stroke-width="2" /> : <text x="50" y="24" text-anchor="middle" fill="currentColor">无数据</text>}</svg>

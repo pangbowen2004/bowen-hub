@@ -1,10 +1,103 @@
-// 图表类型按需注册，进入可视区域才初始化，销毁时释放观察器与画布。
+// 进入可视区域才加载与初始化，按调用方需求注册图表类型。
 import type { ECharts, EChartsCoreOption } from "echarts/core";
-import { useEffect, useRef } from "react";
-export function EChart({ option, label, source }: { option: EChartsCoreOption; label: string; source: string }) {
- const ref = useRef<HTMLDivElement>(null);
- useEffect(() => { const element = ref.current; if (!element) return; let chart: ECharts | undefined; let disposed = false; let initializing = false;
- const initialize = async () => { if (chart || initializing) return; initializing = true; const [core, charts, components, renderers] = await Promise.all([import("echarts/core"), import("echarts/charts"), import("echarts/components"), import("echarts/renderers")]); if (disposed) return; core.use([charts.LineChart, charts.BarChart, charts.CandlestickChart, charts.TreemapChart, charts.HeatmapChart, charts.ScatterChart, components.GridComponent, components.TooltipComponent, components.LegendComponent, components.DataZoomComponent, components.VisualMapComponent, renderers.CanvasRenderer]); const tokens = getComputedStyle(element); chart = core.init(element, { textStyle: { color: tokens.getPropertyValue("--text"), fontFamily: tokens.fontFamily }, categoryAxis: { axisLine: { lineStyle: { color: tokens.getPropertyValue("--border") } } } }); chart.setOption(option); };
- const visible = new IntersectionObserver(entries => { if (entries.some(entry => entry.isIntersecting)) void initialize(); }); visible.observe(element); const resize = new ResizeObserver(() => chart?.resize()); resize.observe(element); const scheme = matchMedia("(prefers-color-scheme: dark)"); const theme = () => { chart?.dispose(); chart = undefined; initializing = false; void initialize(); }; scheme.addEventListener("change",theme); const attributes = new MutationObserver(theme); attributes.observe(document.documentElement, { attributes: true, attributeFilter: ["data-theme"] }); return () => { disposed = true; visible.disconnect(); resize.disconnect(); scheme.removeEventListener("change",theme); attributes.disconnect(); chart?.dispose(); }; }, [option]);
- return <figure><div ref={ref} role="img" aria-label={label} style={{ height: 320, width: "100%" }} /><figcaption className="muted">{source}</figcaption></figure>;
+import { useEffect, useRef, useState } from "react";
+
+type ChartType = "line" | "bar" | "candlestick" | "treemap" | "heatmap" | "scatter";
+const DEFAULT_TYPES: ChartType[] = ["line"];
+export function EChart({
+  option,
+  label,
+  source,
+  types = DEFAULT_TYPES,
+}: {
+  option: EChartsCoreOption;
+  label: string;
+  source: string;
+  types?: ChartType[];
+}) {
+  const ref = useRef<HTMLDivElement>(null);
+  const [error, setError] = useState(false);
+  useEffect(() => {
+    const element = ref.current;
+    if (!element) return;
+    let chart: ECharts | undefined;
+    let disposed = false;
+    let initializing = false;
+    let inView = false;
+    const initialize = async () => {
+      if (chart || initializing || !inView || disposed) return;
+      initializing = true;
+      try {
+        const [core, charts, components, renderers] = await Promise.all([
+          import("echarts/core"),
+          import("echarts/charts"),
+          import("echarts/components"),
+          import("echarts/renderers"),
+        ]);
+        if (disposed) return;
+        const available = {
+          line: charts.LineChart,
+          bar: charts.BarChart,
+          candlestick: charts.CandlestickChart,
+          treemap: charts.TreemapChart,
+          heatmap: charts.HeatmapChart,
+          scatter: charts.ScatterChart,
+        };
+        core.use([
+          ...types.map((type) => available[type]),
+          components.GridComponent,
+          components.TooltipComponent,
+          components.LegendComponent,
+          components.DataZoomComponent,
+          components.VisualMapComponent,
+          renderers.CanvasRenderer,
+        ]);
+        const tokens = getComputedStyle(element);
+        chart = core.init(element, {
+          textStyle: { color: tokens.getPropertyValue("--text"), fontFamily: tokens.fontFamily },
+          categoryAxis: { axisLine: { lineStyle: { color: tokens.getPropertyValue("--border") } } },
+        });
+        chart.setOption(option);
+        setError(false);
+      } catch {
+        if (!disposed) setError(true);
+      } finally {
+        initializing = false;
+      }
+    };
+    const visible = new IntersectionObserver((entries) => {
+      inView = entries.some((entry) => entry.isIntersecting);
+      if (inView) void initialize();
+    });
+    visible.observe(element);
+    const resize = new ResizeObserver(() => chart?.resize());
+    resize.observe(element);
+    const scheme = matchMedia("(prefers-color-scheme: dark)");
+    const theme = () => {
+      chart?.dispose();
+      chart = undefined;
+      void initialize();
+    };
+    scheme.addEventListener("change", theme);
+    const attributes = new MutationObserver(theme);
+    attributes.observe(document.documentElement, {
+      attributes: true,
+      attributeFilter: ["data-theme"],
+    });
+    return () => {
+      disposed = true;
+      visible.disconnect();
+      resize.disconnect();
+      scheme.removeEventListener("change", theme);
+      attributes.disconnect();
+      chart?.dispose();
+    };
+  }, [option, types]);
+  return (
+    <figure>
+      <div ref={ref} role="img" aria-label={label} style={{ height: 320, width: "100%" }} />
+      {error && <p role="status">图表未能加载，请查看相关数据表。</p>}
+      <figcaption className="muted">{source}</figcaption>
+    </figure>
+  );
 }
