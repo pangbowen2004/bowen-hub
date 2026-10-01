@@ -76,6 +76,35 @@ describe("样例处理器", () => {
   });
 });
 
+describe("兼容增量接口的生成模拟", () => {
+  const fixed = new Set(
+    sampleHandlers().map(({ info }) =>
+      String(info.path)
+        .replace(/^\*/, "")
+        .replace(/:(\w+)/g, "{$1}"),
+    ),
+  );
+  const fallback = Object.entries(doc.paths).filter(
+    ([path, methods]) =>
+      !fixed.has(path) &&
+      methods.get?.responses["200"]?.content?.["application/json"]?.schema !== undefined,
+  );
+  it("未登记固定样例的JSON GET也返回符合契约的生成样例", async () => {
+    for (const [path, methods] of fallback) {
+      const response = await fetch(`${BASE}${path.replace(/\{\w+\}/g, "sample")}`);
+      expect(response.status, path).toBe(200);
+      const validate = ajv.compile(
+        toJsonSchema(
+          methods.get?.responses["200"]?.content?.["application/json"]?.schema,
+        ) as object,
+      );
+      expect(validate(await response.json()), `${path}: ${ajv.errorsText(validate.errors)}`).toBe(
+        true,
+      );
+    }
+  });
+});
+
 describe("用生成的客户端读样例", () => {
   it("自选股列表就是 fixtures/samples/watchlist/WatchItem.initial.json 的 30 只", async () => {
     const list = await privateWatchlistList();
