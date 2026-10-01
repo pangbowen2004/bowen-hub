@@ -1,0 +1,361 @@
+[
+  {
+    "symbol": "TSM",
+    "name": "台积电",
+    "kind": "stock",
+    "group": "半导体",
+    "underlying": null,
+    "sectorEtf": "SMH",
+    "aliases": [
+      "TSMC",
+      "Taiwan Semiconductor"
+    ],
+    "active": true
+  },
+  {
+    "symbol": "AVGO",
+    "name": "博通",
+    "kind": "stock",
+    "group": "半导体",
+    "underlying": null,
+    "sectorEtf": "SMH",
+    "aliases": [
+      "Broadcom"
+    ],
+    "active": true
+  },
+  {
+    "symbol": "NVDA",
+    "name": "英伟达",
+    "kind": "stock",
+    "group": "半导体",
+    "underlying": null,
+    "sectorEtf": "SMH",
+    "aliases": [
+      "Nvidia"
+    ],
+    "active": true
+  },
+  {
+    "symbol": "MU",
+    "name": "美光科技",
+    "kind": "stock",
+    "group": "半导体",
+    "underlying": null,
+    "sectorEtf": "SMH",
+    "aliases": [
+      "Micron"
+    ],
+    "active": true
+  },
+  {
+    "symbol": "INTC",
+    "name": "英特尔",
+    "kind": "stock",
+    "group": "半导体",
+    "underlying": null,
+    "sectorEtf": "SMH",
+    "aliases": [
+      "Intel"
+    ],
+    "active": true
+  },
+  {
+    "symbol": "SKHY",
+    "name": "SK 海力士",
+    "kind": "stock",
+    "group": "半导体",
+    "underlying": null,
+    "sectorEtf": "SMH",
+    "aliases": [
+      "SK Hynix"
+    ],
+    "active": true
+  },
+  {
+    "symbol": "SOXX",
+    "name": "安硕半导体 ETF",
+    "kind": "etf",
+    "group": "半导体",
+    "underlying": null,
+    "sectorEtf": null,
+    "aliases": [],
+    "active": true
+  },
+  {
+    "symbol": "TSMX",
+    "name": "台积电 2 倍做多 ETF",
+    "kind": "leveraged_etf",
+    "group": "半导体",
+    "underlying": "TSM",
+    "sectorEtf": null,
+    "aliases": [],
+    "active": true
+  },
+  {
+    "symbol": "AVGX",
+    "name": "博通 2 倍做多 ETF",
+    "kind": "leveraged_etf",
+    "group": "半导体",
+    "underlying": "AVGO",
+    "sectorEtf": null,
+    "aliases": [],
+    "active": true
+  },
+  {
+    "symbol": "AAPL",
+    "name": "苹果",
+    "kind": "stock",
+    "group": "大型科技",
+    "underlying": null,
+    "sectorEtf": null,
+    "aliases": [
+      "Apple",
+      "iPhone"
+    ],
+    "active": true
+  },
+  {
+    "symbol": "MSFT",
+    "name": "微软",
+    "kind": "stock",
+    "group": "大型科技",
+    "underlying": null,
+    "sectorEtf": null,
+    "aliases": [
+      "Microsoft"
+    ],
+    "active": true
+  },
+  {
+    "symbol": "AMZN",
+    "name": "亚马逊",
+    "kind": "stock",
+    "group": "大型科技",
+    "underlying": null,
+    "sectorEtf": null,
+    "aliases": [
+      "Amazon",
+      "AWS"
+    ],
+    "active": true
+  },
+  {
+    "symbol": "GOOG",
+    "name": "谷歌",
+    "kind": "stock",
+    "group": "大型科技",
+    "underlying": null,
+    "sectorEtf": null,
+    "aliases": [
+      "Alphabet",
+      "Google"
+    ],
+    "active": true
+  },
+  {
+    "symbol": "META",
+    "name": "Meta",
+    "kind": "stock",
+    "group": "大型科技",
+    "underlying": null,
+    "sectorEtf": null,
+    "aliases": [
+      "Meta Platforms",
+      "Facebook",
+      "Instagram"
+    ],
+    "active": true
+  },
+  {
+    "symbol": "TSLA",
+    "name": "特斯拉",
+    "kind": "stock",
+    "group": "大型科技",
+    "underlying": null,
+    "sectorEtf": null,
+    "aliases": [
+      "Tesla"
+    ],
+    "active": true
+  },
+  {
+    "symbol": "BTC",
+    "name": "比特币",
+    "kind": "crypto",
+    "group": "加密",
+    "underlying": null,
+    "sectorEtf": null,
+    "aliases": [
+      "Bitcoin"
+    ],
+    "active": true
+  },
+  {
+    "symbol": "XRP",
+    "name": "XRP",
+    "kind": "crypto",
+    "group": "加密",
+    "underlying": null,
+    "sectorEtf": null,
+    "aliases": [
+      "XRP",
+      "Ripple"
+    ],
+    "active": true
+  },
+  {
+    "symbol": "IBIT",
+    "name": "贝莱德比特币 ETF",
+    "kind": "etf",
+    "group": "加密",
+    "underlying": "BTC",
+    "sectorEtf": null,
+    "aliases": [],
+    "active": true
+  },
+  {
+    "symbol": "COIN",
+    "name": "Coinbase",
+    "kind": "stock",
+    "group": "加密",
+    "underlying": null,
+    "sectorEtf": "IBIT",
+    "aliases": [
+      "Coinbase"
+    ],
+    "active": true
+  },
+  {
+    "symbol": "MSTR",
+    "name": "Strategy（原 MicroStrategy）",
+    "kind": "stock",
+    "group": "加密",
+    "underlying": null,
+    "sectorEtf": "IBIT",
+    "aliases": [
+      "MicroStrategy",
+      "Strategy Inc"
+    ],
+    "active": true
+  },
+  {
+    "symbol": "HOOD",
+    "name": "Robinhood",
+    "kind": "stock",
+    "group": "加密",
+    "underlying": null,
+    "sectorEtf": null,
+    "aliases": [
+      "Robinhood"
+    ],
+    "active": true
+  },
+  {
+    "symbol": "CRCL",
+    "name": "Circle",
+    "kind": "stock",
+    "group": "加密",
+    "underlying": null,
+    "sectorEtf": "IBIT",
+    "aliases": [
+      "Circle Internet",
+      "USDC"
+    ],
+    "active": true
+  },
+  {
+    "symbol": "PANW",
+    "name": "Palo Alto Networks",
+    "kind": "stock",
+    "group": "软件与网安",
+    "underlying": null,
+    "sectorEtf": null,
+    "aliases": [
+      "Palo Alto Networks"
+    ],
+    "active": true
+  },
+  {
+    "symbol": "CRWD",
+    "name": "CrowdStrike",
+    "kind": "stock",
+    "group": "软件与网安",
+    "underlying": null,
+    "sectorEtf": null,
+    "aliases": [
+      "CrowdStrike"
+    ],
+    "active": true
+  },
+  {
+    "symbol": "RKLB",
+    "name": "Rocket Lab",
+    "kind": "stock",
+    "group": "其他",
+    "underlying": null,
+    "sectorEtf": null,
+    "aliases": [
+      "Rocket Lab"
+    ],
+    "active": true
+  },
+  {
+    "symbol": "SPCX",
+    "name": "SpaceX",
+    "kind": "etf",
+    "group": "其他",
+    "underlying": null,
+    "sectorEtf": null,
+    "aliases": [],
+    "active": true
+  },
+  {
+    "symbol": "TLN",
+    "name": "Talen Energy",
+    "kind": "stock",
+    "group": "其他",
+    "underlying": null,
+    "sectorEtf": "SPY",
+    "aliases": [
+      "Talen Energy"
+    ],
+    "active": true
+  },
+  {
+    "symbol": "MAR",
+    "name": "万豪国际",
+    "kind": "stock",
+    "group": "其他",
+    "underlying": null,
+    "sectorEtf": "SPY",
+    "aliases": [
+      "Marriott"
+    ],
+    "active": true
+  },
+  {
+    "symbol": "PFE",
+    "name": "辉瑞",
+    "kind": "stock",
+    "group": "其他",
+    "underlying": null,
+    "sectorEtf": "SPY",
+    "aliases": [
+      "Pfizer"
+    ],
+    "active": true
+  },
+  {
+    "symbol": "WMT",
+    "name": "沃尔玛",
+    "kind": "stock",
+    "group": "其他",
+    "underlying": null,
+    "sectorEtf": "SPY",
+    "aliases": [
+      "Walmart"
+    ],
+    "active": true
+  }
+]

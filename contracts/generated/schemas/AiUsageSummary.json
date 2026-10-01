@@ -1,0 +1,49 @@
+{
+  "$comment": "由 contracts 生成，勿手改（mise run gen）",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "AiUsageSummary.json",
+  "type": "object",
+  "properties": {
+    "days": {
+      "type": "integer",
+      "minimum": -2147483648,
+      "maximum": 2147483647,
+      "description": "统计窗口：最近多少天（含今天）"
+    },
+    "total": {
+      "$ref": "AiUsageStats.json",
+      "description": "窗口内的合计"
+    },
+    "byDay": {
+      "type": "array",
+      "items": {
+        "$ref": "AiUsageDay.json"
+      },
+      "description": "按天（日期升序；没有调用的日子不出现）"
+    },
+    "byCapability": {
+      "type": "array",
+      "items": {
+        "$ref": "AiUsageCapability.json"
+      },
+      "description": "按能力"
+    },
+    "monthCostUsd": {
+      "type": "number",
+      "description": "本月累计费用（美元），与窗口无关"
+    },
+    "monthlyBudgetUsd": {
+      "type": "number",
+      "description": "月度预算（美元，config/llm.yaml 的 monthlyBudgetUsd）"
+    }
+  },
+  "required": [
+    "days",
+    "total",
+    "byDay",
+    "byCapability",
+    "monthCostUsd",
+    "monthlyBudgetUsd"
+  ],
+  "description": "GET /v1/ai/usage?days 的用量汇总（ai_calls 表的 SQL 聚合）。\n控制台“运维”页显示用量与费用并对比月度预算，“今日”页显示本月 AI 费用（docs/05 第 6 节）。"
+}

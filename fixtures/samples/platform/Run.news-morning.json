@@ -1,0 +1,17 @@
+{
+  "id": "news-morning-2026-09-30-1287",
+  "job": "news-morning",
+  "date": "2026-09-30",
+  "status": "succeeded",
+  "startedAt": "2026-09-29T23:10:42Z",
+  "finishedAt": "2026-09-29T23:18:05Z",
+  "stats": {
+    "articles": 186,
+    "filings": 9,
+    "insiderTrades": 3,
+    "calendarEvents": 7,
+    "aiCalls": 9,
+    "emailSent": true
+  },
+  "error": null
+}

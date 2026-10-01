@@ -1,0 +1,35 @@
+{
+  "$comment": "由 contracts 生成，勿手改（mise run gen）",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "CapabilityEvals.json",
+  "type": "object",
+  "properties": {
+    "dataset": {
+      "type": "string",
+      "description": "评测集目录，如 evals/news.ticker_digest/"
+    },
+    "schedule": {
+      "$ref": "EvalSchedule.json",
+      "description": "清单没写时为 weekly"
+    },
+    "thresholds": {
+      "$ref": "#/$defs/RecordFloat64",
+      "description": "评测阈值（评分器名 → 最低分 0–1）"
+    }
+  },
+  "required": [
+    "dataset",
+    "schedule",
+    "thresholds"
+  ],
+  "description": "能力的评测设置",
+  "$defs": {
+    "RecordFloat64": {
+      "type": "object",
+      "properties": {},
+      "unevaluatedProperties": {
+        "type": "number"
+      }
+    }
+  }
+}

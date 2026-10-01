@@ -1,0 +1,12 @@
+{
+  "id": "papers-ingest-2026-09-30-1293",
+  "job": "papers-ingest",
+  "date": "2026-09-30",
+  "status": "running",
+  "startedAt": "2026-09-30T02:41:09Z",
+  "finishedAt": null,
+  "stats": {
+    "uploadId": "up_2026093002405871"
+  },
+  "error": null
+}

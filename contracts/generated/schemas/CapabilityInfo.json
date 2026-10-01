@@ -1,0 +1,109 @@
+{
+  "$comment": "由 contracts 生成，勿手改（mise run gen）",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "CapabilityInfo.json",
+  "type": "object",
+  "properties": {
+    "id": {
+      "type": "string",
+      "description": "能力 ID，如 news.ticker_digest"
+    },
+    "version": {
+      "type": "integer",
+      "minimum": -2147483648,
+      "maximum": 2147483647,
+      "description": "清单版本：提示词、输入输出或校验变了就 +1"
+    },
+    "summary": {
+      "type": "string",
+      "description": "一句话说明"
+    },
+    "owner": {
+      "type": "string",
+      "description": "所属领域，如 newsroom、papers"
+    },
+    "runtime": {
+      "$ref": "CapabilityRuntime.json"
+    },
+    "tier": {
+      "$ref": "ModelTier.json"
+    },
+    "model": {
+      "type": "string",
+      "description": "档位当前映射到的模型（config/llm.yaml 的 tiers.<tier>.model）"
+    },
+    "reasoning": {
+      "$ref": "ReasoningEffort.json",
+      "description": "档位的推理强度（config/llm.yaml 的 tiers.<tier>.reasoning）"
+    },
+    "autonomy": {
+      "$ref": "AutonomyLevel.json"
+    },
+    "prompt": {
+      "type": "string",
+      "description": "提示词文件，如 prompts/news_ticker_digest.md"
+    },
+    "io": {
+      "$ref": "CapabilityIo.json"
+    },
+    "limits": {
+      "$ref": "CapabilityLimits.json"
+    },
+    "checks": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "确定性后置校验，按顺序执行（docs/10 第 5.2 节）"
+    },
+    "fallback": {
+      "type": "string",
+      "description": "失败时调用方怎么降级"
+    },
+    "params": {
+      "$ref": "#/$defs/RecordUnknown",
+      "description": "能力自己的参数（如 papers.author 的 repairRounds）"
+    },
+    "evals": {
+      "$ref": "CapabilityEvals.json"
+    },
+    "latestEval": {
+      "anyOf": [
+        {
+          "$ref": "EvalResult.json"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "description": "最近一次评测结果；还没有评测过时为 null"
+    }
+  },
+  "required": [
+    "id",
+    "version",
+    "summary",
+    "owner",
+    "runtime",
+    "tier",
+    "model",
+    "reasoning",
+    "autonomy",
+    "prompt",
+    "io",
+    "limits",
+    "checks",
+    "fallback",
+    "params",
+    "evals",
+    "latestEval"
+  ],
+  "description": "GET /v1/capabilities 的一项：能力清单 capabilities/<id>.yaml 的字段（docs/10 第 3 节），\n加上档位当前对应的模型与推理强度（config/llm.yaml），以及最近一次评测结果。",
+  "$defs": {
+    "RecordUnknown": {
+      "type": "object",
+      "properties": {},
+      "unevaluatedProperties": {}
+    }
+  }
+}

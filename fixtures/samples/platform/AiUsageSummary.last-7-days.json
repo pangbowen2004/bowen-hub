@@ -1,0 +1,136 @@
+{
+  "days": 7,
+  "total": {
+    "calls": 46,
+    "failedCalls": 2,
+    "inputTokens": 278186,
+    "outputTokens": 38520,
+    "costUsd": 0.121226
+  },
+  "byDay": [
+    {
+      "date": "2026-09-24",
+      "calls": 9,
+      "failedCalls": 0,
+      "inputTokens": 47434,
+      "outputTokens": 7820,
+      "costUsd": 0.023951
+    },
+    {
+      "date": "2026-09-25",
+      "calls": 9,
+      "failedCalls": 1,
+      "inputTokens": 55686,
+      "outputTokens": 9180,
+      "costUsd": 0.028111
+    },
+    {
+      "date": "2026-09-27",
+      "calls": 9,
+      "failedCalls": 0,
+      "inputTokens": 31451,
+      "outputTokens": 5185,
+      "costUsd": 0.01588
+    },
+    {
+      "date": "2026-09-28",
+      "calls": 9,
+      "failedCalls": 0,
+      "inputTokens": 43825,
+      "outputTokens": 7225,
+      "costUsd": 0.022125
+    },
+    {
+      "date": "2026-09-29",
+      "calls": 9,
+      "failedCalls": 1,
+      "inputTokens": 51560,
+      "outputTokens": 8500,
+      "costUsd": 0.026031
+    },
+    {
+      "date": "2026-09-30",
+      "calls": 1,
+      "failedCalls": 0,
+      "inputTokens": 48230,
+      "outputTokens": 610,
+      "costUsd": 0.005128
+    }
+  ],
+  "byCapability": [
+    {
+      "capability": "news.edition_lede",
+      "calls": 5,
+      "failedCalls": 0,
+      "inputTokens": 30550,
+      "outputTokens": 1695,
+      "costUsd": 0.07805
+    },
+    {
+      "capability": "news.brief",
+      "calls": 5,
+      "failedCalls": 0,
+      "inputTokens": 30641,
+      "outputTokens": 9544,
+      "costUsd": 0.007837
+    },
+    {
+      "capability": "news.us_rank",
+      "calls": 5,
+      "failedCalls": 0,
+      "inputTokens": 33361,
+      "outputTokens": 8117,
+      "costUsd": 0.007394
+    },
+    {
+      "capability": "news.earnings_card",
+      "calls": 5,
+      "failedCalls": 0,
+      "inputTokens": 42994,
+      "outputTokens": 4103,
+      "costUsd": 0.00635
+    },
+    {
+      "capability": "news.curate",
+      "calls": 5,
+      "failedCalls": 0,
+      "inputTokens": 23727,
+      "outputTokens": 6512,
+      "costUsd": 0.005629
+    },
+    {
+      "capability": "papers.qa",
+      "calls": 1,
+      "failedCalls": 0,
+      "inputTokens": 48230,
+      "outputTokens": 610,
+      "costUsd": 0.005128
+    },
+    {
+      "capability": "news.ticker_digest",
+      "calls": 10,
+      "failedCalls": 0,
+      "inputTokens": 26671,
+      "outputTokens": 3568,
+      "costUsd": 0.004451
+    },
+    {
+      "capability": "news.classify",
+      "calls": 5,
+      "failedCalls": 0,
+      "inputTokens": 18776,
+      "outputTokens": 4371,
+      "costUsd": 0.004063
+    },
+    {
+      "capability": "news.filing_digest",
+      "calls": 5,
+      "failedCalls": 2,
+      "inputTokens": 23236,
+      "outputTokens": 0,
+      "costUsd": 0.002324
+    }
+  ],
+  "monthCostUsd": 0.74257,
+  "monthlyBudgetUsd": 20
+}

@@ -1,0 +1,24 @@
+{
+  "$comment": "由 contracts 生成，勿手改（mise run gen）",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "AutonomyLevel.json",
+  "anyOf": [
+    {
+      "type": "string",
+      "const": "L0"
+    },
+    {
+      "type": "string",
+      "const": "L1"
+    },
+    {
+      "type": "string",
+      "const": "L2"
+    },
+    {
+      "type": "string",
+      "const": "L3"
+    }
+  ],
+  "description": "自治等级（docs/10 第 6 节）"
+}

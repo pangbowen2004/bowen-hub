@@ -1,0 +1,16 @@
+{
+  "$comment": "由 contracts 生成，勿手改（mise run gen）",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "EvalSchedule.json",
+  "anyOf": [
+    {
+      "type": "string",
+      "const": "weekly"
+    },
+    {
+      "type": "string",
+      "const": "on-change"
+    }
+  ],
+  "description": "评测时机：weekly 参加每周全量评测；on-change 只在改动时跑"
+}

@@ -1,0 +1,43 @@
+{
+  "$comment": "由 contracts 生成，勿手改（mise run gen）",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "ExportPage.json",
+  "type": "object",
+  "properties": {
+    "table": {
+      "$ref": "ExportTable.json",
+      "description": "导出的表"
+    },
+    "items": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/RecordUnknown"
+      },
+      "description": "本页的行：列名 → 值，保持数据库里的原样"
+    },
+    "nextCursor": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "description": "下一页的游标；没有下一页时为 null"
+    }
+  },
+  "required": [
+    "table",
+    "items",
+    "nextCursor"
+  ],
+  "description": "GET /v1/internal/export/{table} 的一页（hub export 每晚分页读出，写进数据仓库 bowen-hub-data，docs/09 第 5 节）",
+  "$defs": {
+    "RecordUnknown": {
+      "type": "object",
+      "properties": {},
+      "unevaluatedProperties": {}
+    }
+  }
+}

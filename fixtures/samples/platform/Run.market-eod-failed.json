@@ -1,0 +1,10 @@
+{
+  "id": "market-eod-2026-09-29-1290",
+  "job": "market-eod",
+  "date": "2026-09-29",
+  "status": "failed",
+  "startedAt": "2026-09-29T14:05:31Z",
+  "finishedAt": "2026-09-29T14:06:10Z",
+  "stats": {},
+  "error": "核心表未就绪：已过 22:00 截止时间，daily 仍没有 2026-09-29 的数据"
+}

@@ -1,0 +1,24 @@
+{
+  "$comment": "由 contracts 生成，勿手改（mise run gen）",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "WatchItemKind.json",
+  "anyOf": [
+    {
+      "type": "string",
+      "const": "stock"
+    },
+    {
+      "type": "string",
+      "const": "etf"
+    },
+    {
+      "type": "string",
+      "const": "leveraged_etf"
+    },
+    {
+      "type": "string",
+      "const": "crypto"
+    }
+  ],
+  "description": "自选股类型（docs/02 第 3 节）：stock 有自己的新闻和 SEC 公告；etf 按代码取新闻再加别名匹配；\nleveraged_etf 并入标的；crypto 用加密新闻和日线（日涨跌幅按 UTC 日计算）"
+}

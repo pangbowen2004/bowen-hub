@@ -1,0 +1,6 @@
+{
+  "symbol": "NVDA",
+  "name": "英伟达（Nvidia）",
+  "note": "价格从 $100 涨到 $120（+20%），\"翻倍\"了吗？$& $1 $$ 反斜杠 \\n 不是换行",
+  "snippet": "Revenue was $35.1 billion, up 94% from a year ago.\n第二行：原样保留 {{ name }} 这样的文字，不再当作占位符。\n  第三行前面有两个空格"
+}

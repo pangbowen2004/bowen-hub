@@ -1,0 +1,17 @@
+{
+  "name": "@bowen-hub/contracts-spec",
+  "private": true,
+  "type": "module",
+  "description": "TypeSpec 契约源（唯一事实源）；由 tools/gen 编译成 contracts/generated/",
+  "devDependencies": {
+    "@typespec/compiler": "1.16.0",
+    "@typespec/events": "0.86.0",
+    "@typespec/http": "1.16.0",
+    "@typespec/json-schema": "1.16.0",
+    "@typespec/openapi": "1.16.0",
+    "@typespec/openapi3": "1.16.0",
+    "@typespec/sse": "0.86.0",
+    "@typespec/streams": "0.86.0",
+    "@typespec/versioning": "0.86.0"
+  }
+}

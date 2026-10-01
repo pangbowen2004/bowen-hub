@@ -1,0 +1,1069 @@
+# 由 contracts 生成，勿手改（mise run gen）
+openapi: 3.1.0
+info:
+  title: bowen-hub API
+  version: 1.0.0
+  description: |-
+    Kevin 全部个人产品的唯一 API（docs/08、docs/09）。路径前缀 /v1，只做增量兼容的改动。
+    公开 /v1/public/*：无鉴权，只读；私有 /v1/*：会话 Cookie（服务令牌可读全部 GET）；
+    内部 /v1/internal/*：服务令牌；另有 /v1/health。错误一律 application/problem+json（RFC 9457）。
+tags: []
+paths:
+  /v1/ai/usage:
+    get:
+      operationId: PrivatePlatform_getAiUsage
+      description: AI 用量汇总（ai_calls 表的聚合）
+      parameters:
+        - name: days
+          in: query
+          required: false
+          description: 统计最近多少天（含今天）
+          schema:
+            type: integer
+            format: int32
+            minimum: 1
+          explode: false
+      responses:
+        '200':
+          description: The request has succeeded.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AiUsageSummary'
+        default:
+          description: 错误（application/problem+json，RFC 9457）
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+      security:
+        - SessionCookie: []
+        - ServiceToken: []
+      x-task: T02
+  /v1/capabilities:
+    get:
+      operationId: PrivatePlatform_listCapabilities
+      description: 能力清单（读 packages/ai 构建时生成的注册表）+ 各能力最近一次评测结果
+      parameters: []
+      responses:
+        '200':
+          description: The request has succeeded.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/CapabilityInfo'
+        default:
+          description: 错误（application/problem+json，RFC 9457）
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+      security:
+        - SessionCookie: []
+        - ServiceToken: []
+      x-task: T41
+  /v1/evals:
+    get:
+      operationId: PrivatePlatform_listEvals
+      description: 评测结果（eval_results 表），最新的在前
+      parameters:
+        - name: capability
+          in: query
+          required: false
+          description: 只看某个能力，如 news.ticker_digest
+          schema:
+            type: string
+          explode: false
+      responses:
+        '200':
+          description: The request has succeeded.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/EvalResult'
+        default:
+          description: 错误（application/problem+json，RFC 9457）
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+      security:
+        - SessionCookie: []
+        - ServiceToken: []
+      x-task: T02
+  /v1/health:
+    get:
+      operationId: HealthCheck_get
+      description: API 在线就返回 200
+      parameters: []
+      responses:
+        '200':
+          description: The request has succeeded.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Health'
+        default:
+          description: 错误（application/problem+json，RFC 9457）
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+      security:
+        - {}
+      x-task: T02
+  /v1/internal/ai-calls/batch:
+    post:
+      operationId: InternalPlatform_batchAiCalls
+      description: 批量写入 AI 调用记录
+      parameters: []
+      responses:
+        '204':
+          description: There is no content to send for this request, but the headers may be useful.
+        default:
+          description: 错误（application/problem+json，RFC 9457）
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: '#/components/schemas/AiCall'
+      security:
+        - ServiceToken: []
+      x-task: T02
+  /v1/internal/documents/{key}:
+    put:
+      operationId: InternalPlatform_putDocument
+      description: |-
+        写一份派生数据或参考资料（documents 表，按 key 覆盖）。
+        请求体就是文档本身，结构由 key 决定（见 Document.payload）；API 不解析重组，整块存入。
+      parameters:
+        - name: key
+          in: path
+          required: true
+          schema:
+            $ref: '#/components/schemas/DocumentKey'
+      responses:
+        '204':
+          description: There is no content to send for this request, but the headers may be useful.
+        default:
+          description: 错误（application/problem+json，RFC 9457）
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              unevaluatedProperties: {}
+      security:
+        - ServiceToken: []
+      x-task: T02
+  /v1/internal/evals/results/batch:
+    post:
+      operationId: InternalPlatform_batchEvalResults
+      description: 批量写入评测结果（每周评测）
+      parameters: []
+      responses:
+        '204':
+          description: There is no content to send for this request, but the headers may be useful.
+        default:
+          description: 错误（application/problem+json，RFC 9457）
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: '#/components/schemas/EvalResult'
+      security:
+        - ServiceToken: []
+      x-task: T02
+  /v1/internal/export/{table}:
+    get:
+      operationId: InternalPlatform_exportTable
+      description: 数据导出：分页读出一张表（hub export 每晚调用，docs/09 第 5 节）
+      parameters:
+        - name: table
+          in: path
+          required: true
+          schema:
+            $ref: '#/components/schemas/ExportTable'
+        - $ref: '#/components/parameters/HubHttp.CursorParams.cursor'
+        - $ref: '#/components/parameters/HubHttp.CursorParams.limit'
+      responses:
+        '200':
+          description: The request has succeeded.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ExportPage'
+        default:
+          description: 错误（application/problem+json，RFC 9457）
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+      security:
+        - ServiceToken: []
+      x-task: T42
+  /v1/internal/runs/{runId}:
+    put:
+      operationId: InternalPlatform_putRun
+      description: 写一条运行记录（任务开始和结束各写一次，按 runId 覆盖）；body.id 必须等于路径里的 runId
+      parameters:
+        - name: runId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
+          description: There is no content to send for this request, but the headers may be useful.
+        default:
+          description: 错误（application/problem+json，RFC 9457）
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Run'
+      security:
+        - ServiceToken: []
+      x-task: T02
+  /v1/internal/watchlist/batch:
+    post:
+      operationId: InternalWatchlist_batch
+      description: 自选股初始导入（hub migrate watchlist）：按代码覆盖写入
+      parameters: []
+      responses:
+        '204':
+          description: There is no content to send for this request, but the headers may be useful.
+        default:
+          description: 错误（application/problem+json，RFC 9457）
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: '#/components/schemas/WatchItem'
+      security:
+        - ServiceToken: []
+      x-task: T14
+  /v1/runs:
+    get:
+      operationId: PrivatePlatform_listRuns
+      description: 运行记录（runs 表），最新的在前
+      parameters:
+        - name: job
+          in: query
+          required: false
+          description: 只看某个任务，如 news-morning
+          schema:
+            type: string
+          explode: false
+        - $ref: '#/components/parameters/HubHttp.CursorParams.cursor'
+        - $ref: '#/components/parameters/HubHttp.CursorParams.limit'
+      responses:
+        '200':
+          description: The request has succeeded.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RunPage'
+        default:
+          description: 错误（application/problem+json，RFC 9457）
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+      security:
+        - SessionCookie: []
+        - ServiceToken: []
+      x-task: T02
+  /v1/watchlist:
+    get:
+      operationId: PrivateWatchlist_list
+      description: 全部自选股（含停用的）
+      parameters: []
+      responses:
+        '200':
+          description: The request has succeeded.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/WatchItem'
+        default:
+          description: 错误（application/problem+json，RFC 9457）
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+      security:
+        - SessionCookie: []
+        - ServiceToken: []
+      x-task: T14
+  /v1/watchlist/{symbol}:
+    put:
+      operationId: PrivateWatchlist_put
+      description: 新增或修改一只自选股（按代码覆盖）；body.symbol 必须等于路径里的 symbol
+      parameters:
+        - name: symbol
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: The request has succeeded.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/WatchItem'
+        default:
+          description: 错误（application/problem+json，RFC 9457）
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/WatchItem'
+      security:
+        - SessionCookie: []
+      x-task: T14
+    delete:
+      operationId: PrivateWatchlist_remove
+      description: 删除一只自选股
+      parameters:
+        - name: symbol
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
+          description: There is no content to send for this request, but the headers may be useful.
+        default:
+          description: 错误（application/problem+json，RFC 9457）
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+      security:
+        - SessionCookie: []
+      x-task: T14
+components:
+  parameters:
+    HubHttp.CursorParams.cursor:
+      name: cursor
+      in: query
+      required: false
+      description: 上一页返回的 nextCursor；取第一页时不传
+      schema:
+        type: string
+      explode: false
+    HubHttp.CursorParams.limit:
+      name: limit
+      in: query
+      required: false
+      description: 每页条数，1–100（docs/09 第 1 节：单页不超过 100 条）；不传时由服务端决定
+      schema:
+        type: integer
+        format: int32
+        minimum: 1
+        maximum: 100
+      explode: false
+  schemas:
+    AiCall:
+      type: object
+      required:
+        - capability
+        - version
+        - model
+        - inputTokens
+        - outputTokens
+        - costUsd
+        - durationMs
+        - ok
+        - runId
+        - at
+      properties:
+        capability:
+          type: string
+          description: 能力 ID，如 news.ticker_digest
+        version:
+          type: integer
+          format: int32
+          description: 能力清单的 version
+        model:
+          type: string
+          description: 实际调用的模型（供应商/模型），如 openai/gpt-6-luna
+        inputTokens:
+          type: integer
+          format: int32
+          description: 输入 token 数
+        outputTokens:
+          type: integer
+          format: int32
+          description: 输出 token 数
+        costUsd:
+          type: number
+          format: double
+          description: 费用（美元），按 config/llm.yaml 的单价计算
+        durationMs:
+          type: integer
+          format: int32
+          description: 耗时（毫秒）
+        ok:
+          type: boolean
+          description: 是否成功
+        runId:
+          anyOf:
+            - type: string
+            - type: 'null'
+          description: 所属运行（Run.id）；API 里的按需调用（如控制台问论文）没有运行记录，为 null
+        at:
+          type: string
+          format: date-time
+          description: 调用时间（按天统计用量要用）
+      description: 一次 AI 能力调用的记录（ai_calls 表，docs/09 第 3 节；运行时在 docs/10 第 5 节第 7 步回调写入）
+    AiUsageCapability:
+      type: object
+      required:
+        - capability
+        - calls
+        - failedCalls
+        - inputTokens
+        - outputTokens
+        - costUsd
+      properties:
+        capability:
+          type: string
+          description: 能力 ID
+        calls:
+          type: integer
+          format: int32
+          description: 调用次数
+        failedCalls:
+          type: integer
+          format: int32
+          description: 其中失败的次数
+        inputTokens:
+          type: integer
+          format: int32
+          description: 输入 token 合计
+        outputTokens:
+          type: integer
+          format: int32
+          description: 输出 token 合计
+        costUsd:
+          type: number
+          format: double
+          description: 费用合计（美元）
+      description: 某个能力的用量
+    AiUsageDay:
+      type: object
+      required:
+        - date
+        - calls
+        - failedCalls
+        - inputTokens
+        - outputTokens
+        - costUsd
+      properties:
+        date:
+          type: string
+          format: date
+        calls:
+          type: integer
+          format: int32
+          description: 调用次数
+        failedCalls:
+          type: integer
+          format: int32
+          description: 其中失败的次数
+        inputTokens:
+          type: integer
+          format: int32
+          description: 输入 token 合计
+        outputTokens:
+          type: integer
+          format: int32
+          description: 输出 token 合计
+        costUsd:
+          type: number
+          format: double
+          description: 费用合计（美元）
+      description: 某一天的用量
+    AiUsageStats:
+      type: object
+      required:
+        - calls
+        - failedCalls
+        - inputTokens
+        - outputTokens
+        - costUsd
+      properties:
+        calls:
+          type: integer
+          format: int32
+          description: 调用次数
+        failedCalls:
+          type: integer
+          format: int32
+          description: 其中失败的次数
+        inputTokens:
+          type: integer
+          format: int32
+          description: 输入 token 合计
+        outputTokens:
+          type: integer
+          format: int32
+          description: 输出 token 合计
+        costUsd:
+          type: number
+          format: double
+          description: 费用合计（美元）
+      description: 一组 AI 调用的合计
+    AiUsageSummary:
+      type: object
+      required:
+        - days
+        - total
+        - byDay
+        - byCapability
+        - monthCostUsd
+        - monthlyBudgetUsd
+      properties:
+        days:
+          type: integer
+          format: int32
+          description: 统计窗口：最近多少天（含今天）
+        total:
+          $ref: '#/components/schemas/AiUsageStats'
+          description: 窗口内的合计
+        byDay:
+          type: array
+          items:
+            $ref: '#/components/schemas/AiUsageDay'
+          description: 按天（日期升序；没有调用的日子不出现）
+        byCapability:
+          type: array
+          items:
+            $ref: '#/components/schemas/AiUsageCapability'
+          description: 按能力
+        monthCostUsd:
+          type: number
+          format: double
+          description: 本月累计费用（美元），与窗口无关
+        monthlyBudgetUsd:
+          type: number
+          format: double
+          description: 月度预算（美元，config/llm.yaml 的 monthlyBudgetUsd）
+      description: |-
+        GET /v1/ai/usage?days 的用量汇总（ai_calls 表的 SQL 聚合）。
+        控制台“运维”页显示用量与费用并对比月度预算，“今日”页显示本月 AI 费用（docs/05 第 6 节）。
+    AutonomyLevel:
+      type: string
+      enum:
+        - L0
+        - L1
+        - L2
+        - L3
+      description: 自治等级（docs/10 第 6 节）
+    CapabilityEvals:
+      type: object
+      required:
+        - dataset
+        - schedule
+        - thresholds
+      properties:
+        dataset:
+          type: string
+          description: 评测集目录，如 evals/news.ticker_digest/
+        schedule:
+          $ref: '#/components/schemas/EvalSchedule'
+          description: 清单没写时为 weekly
+        thresholds:
+          type: object
+          unevaluatedProperties:
+            type: number
+            format: double
+          description: 评测阈值（评分器名 → 最低分 0–1）
+      description: 能力的评测设置
+    CapabilityInfo:
+      type: object
+      required:
+        - id
+        - version
+        - summary
+        - owner
+        - runtime
+        - tier
+        - model
+        - reasoning
+        - autonomy
+        - prompt
+        - io
+        - limits
+        - checks
+        - fallback
+        - params
+        - evals
+        - latestEval
+      properties:
+        id:
+          type: string
+          description: 能力 ID，如 news.ticker_digest
+        version:
+          type: integer
+          format: int32
+          description: 清单版本：提示词、输入输出或校验变了就 +1
+        summary:
+          type: string
+          description: 一句话说明
+        owner:
+          type: string
+          description: 所属领域，如 newsroom、papers
+        runtime:
+          $ref: '#/components/schemas/CapabilityRuntime'
+        tier:
+          $ref: '#/components/schemas/ModelTier'
+        model:
+          type: string
+          description: 档位当前映射到的模型（config/llm.yaml 的 tiers.<tier>.model）
+        reasoning:
+          $ref: '#/components/schemas/ReasoningEffort'
+          description: 档位的推理强度（config/llm.yaml 的 tiers.<tier>.reasoning）
+        autonomy:
+          $ref: '#/components/schemas/AutonomyLevel'
+        prompt:
+          type: string
+          description: 提示词文件，如 prompts/news_ticker_digest.md
+        io:
+          $ref: '#/components/schemas/CapabilityIo'
+        limits:
+          $ref: '#/components/schemas/CapabilityLimits'
+        checks:
+          type: array
+          items:
+            type: string
+          description: 确定性后置校验，按顺序执行（docs/10 第 5.2 节）
+        fallback:
+          type: string
+          description: 失败时调用方怎么降级
+        params:
+          type: object
+          unevaluatedProperties: {}
+          description: 能力自己的参数（如 papers.author 的 repairRounds）
+        evals:
+          $ref: '#/components/schemas/CapabilityEvals'
+        latestEval:
+          anyOf:
+            - $ref: '#/components/schemas/EvalResult'
+            - type: 'null'
+          description: 最近一次评测结果；还没有评测过时为 null
+      description: |-
+        GET /v1/capabilities 的一项：能力清单 capabilities/<id>.yaml 的字段（docs/10 第 3 节），
+        加上档位当前对应的模型与推理强度（config/llm.yaml），以及最近一次评测结果。
+    CapabilityIo:
+      type: object
+      required:
+        - input
+        - output
+      properties:
+        input:
+          type: string
+        output:
+          type: string
+      description: 能力的输入输出模型名（contracts/capabilities.tsp 里的模型）
+    CapabilityLimits:
+      type: object
+      required:
+        - maxInputTokens
+        - maxOutputTokens
+        - timeoutSec
+      properties:
+        maxInputTokens:
+          type: integer
+          format: int32
+        maxOutputTokens:
+          type: integer
+          format: int32
+        timeoutSec:
+          type: integer
+          format: int32
+      description: 能力的调用上限
+    CapabilityRuntime:
+      type: string
+      enum:
+        - python
+        - typescript
+      description: 能力在哪一端运行
+    Document:
+      type: object
+      required:
+        - key
+        - payload
+        - updatedAt
+      properties:
+        key:
+          $ref: '#/components/schemas/DocumentKey'
+        payload:
+          type: object
+          unevaluatedProperties: {}
+          description: 文档内容，结构由 key 决定：markets.reference → MarketReference，papers.catalog.* → PapersCatalog，papers.graph.* → GraphData，papers.search.public → SearchIndex
+        updatedAt:
+          type: string
+          format: date-time
+          description: 最后写入时间
+      description: |-
+        通用的“单份文档”（documents 表，docs/09 第 3 节）。
+        写入用 PUT /v1/internal/documents/{key}，请求体就是 payload 本身；读取由各领域的接口完成
+        （如 GET /v1/public/markets/reference 返回 markets.reference 的 payload）。
+    DocumentKey:
+      type: string
+      enum:
+        - markets.reference
+        - papers.catalog.public
+        - papers.catalog.all
+        - papers.graph.public
+        - papers.graph.all
+        - papers.search.public
+      description: documents 表里的文档键（派生数据与参考资料；docs/03 第 2、7 节，docs/04 第 6 节）
+    EvalResult:
+      type: object
+      required:
+        - capability
+        - model
+        - datasetVersion
+        - scores
+        - passed
+        - at
+      properties:
+        capability:
+          type: string
+          description: 能力 ID
+        model:
+          type: string
+          description: 被评测的模型（供应商/模型）
+        datasetVersion:
+          type: string
+          description: 评测集版本
+        scores:
+          type: object
+          unevaluatedProperties:
+            type: number
+            format: double
+          description: 各评分器的得分（评分器名 → 0–1），如 schema_valid、judge_faithful
+        passed:
+          type: boolean
+          description: 是否达到清单里的全部阈值
+        at:
+          type: string
+          format: date-time
+          description: 评测时间
+        costUsd:
+          type: number
+          format: double
+          description: 这次评测的费用（美元）（运维页显示费用，docs/10 第 7.3 节）
+        durationMs:
+          type: integer
+          format: int32
+          description: 这次评测的耗时（毫秒）（运维页显示耗时，docs/10 第 7.3 节）
+      description: 一个能力的一次评测结果（eval_results 表，docs/09 第 3 节、docs/10 第 7 节）
+    EvalSchedule:
+      type: string
+      enum:
+        - weekly
+        - on-change
+      description: 评测时机：weekly 参加每周全量评测；on-change 只在改动时跑
+    ExportPage:
+      type: object
+      required:
+        - table
+        - items
+        - nextCursor
+      properties:
+        table:
+          $ref: '#/components/schemas/ExportTable'
+          description: 导出的表
+        items:
+          type: array
+          items:
+            type: object
+            unevaluatedProperties: {}
+          description: 本页的行：列名 → 值，保持数据库里的原样
+        nextCursor:
+          anyOf:
+            - type: string
+            - type: 'null'
+          description: 下一页的游标；没有下一页时为 null
+      description: GET /v1/internal/export/{table} 的一页（hub export 每晚分页读出，写进数据仓库 bowen-hub-data，docs/09 第 5 节）
+    ExportTable:
+      type: string
+      enum:
+        - news_sources
+        - articles
+        - filings
+        - insider_trades
+        - calendar_events
+        - earnings_cards
+        - editions
+        - edition_feedback
+        - watch_items
+        - market_days
+        - market_hypotheses
+        - market_weeklies
+        - market_events
+        - index_history
+        - papers
+        - paper_private
+        - paper_reviews
+        - paper_uploads
+        - documents
+        - runs
+        - ai_calls
+        - eval_results
+      description: 可以导出的表：docs/09 第 3 节除鉴权表和两张 FTS5 虚拟表以外的全部表
+    GeneratedBy:
+      type: object
+      required:
+        - capability
+        - version
+        - model
+        - at
+      properties:
+        capability:
+          type: string
+          description: 能力 ID，如 news.ticker_digest
+        version:
+          type: integer
+          format: int32
+          description: 能力清单的 version
+        model:
+          type: string
+          description: 实际调用的模型（供应商/模型），如 openai/gpt-6-luna
+        at:
+          type: string
+          format: date-time
+          description: 生成时间
+      description: AI 生成内容的出处（docs/08 第 4 节；运行时在 docs/10 第 5 节第 6 步盖上）
+    Health:
+      type: object
+      required:
+        - status
+      properties:
+        status:
+          type: string
+          enum:
+            - ok
+          description: API 在线时为 ok
+      description: GET /v1/health 的返回
+    ModelTier:
+      type: string
+      enum:
+        - fast
+        - balanced
+        - frontier
+      description: 模型档位（docs/10 第 4 节；档位 → 模型只在 config/llm.yaml 定义）
+    Problem:
+      type: object
+      required:
+        - type
+        - title
+        - status
+        - detail
+      properties:
+        type:
+          type: string
+          description: 错误类型的 URI；没有专门类型时为 about:blank
+        title:
+          type: string
+          description: 简短的错误标题，如“未实现”
+        status:
+          type: integer
+          format: int32
+          description: HTTP 状态码
+        detail:
+          type: string
+          description: 具体说明，如“未实现（任务 T14）”
+      description: |-
+        错误响应的正文（application/problem+json，RFC 9457）。
+        各接口统一用 HubHttp.ErrorResponse 声明错误（OpenAPI 里是 default 响应）。
+    ReasoningEffort:
+      type: string
+      enum:
+        - none
+        - low
+        - medium
+        - high
+        - xhigh
+        - max
+      description: 推理强度（config/llm.yaml 里各档位的 reasoning）
+    Run:
+      type: object
+      required:
+        - id
+        - job
+        - date
+        - status
+        - startedAt
+        - finishedAt
+        - stats
+        - error
+      properties:
+        id:
+          type: string
+          description: 运行 ID，由任务生成，如 news-morning-2026-09-30-<GitHub 运行号>
+        job:
+          type: string
+          description: 任务名，如 news-morning、market-eod、papers-ingest、data-export；月度预算超支提醒记为 budget-alert
+        date:
+          type: string
+          format: date
+          description: 这次运行处理的业务日期（如早报日期、A 股交易日）
+        status:
+          $ref: '#/components/schemas/RunStatus'
+        startedAt:
+          type: string
+          format: date-time
+          description: 开始时间
+        finishedAt:
+          anyOf:
+            - type: string
+              format: date-time
+            - type: 'null'
+          description: 结束时间；还在运行时为 null
+        stats:
+          type: object
+          unevaluatedProperties: {}
+          description: 统计：由各任务自己决定写什么（条目数、AI 调用数、校验删掉了什么等）
+        error:
+          anyOf:
+            - type: string
+            - type: 'null'
+          description: 错误摘要；没有出错时为 null
+      description: |-
+        计算任务的一次运行（runs 表，docs/09 第 3、7、9 节）。
+        任务开始和结束各写一次 PUT /v1/internal/runs/{runId}（同一 id 覆盖）。
+    RunPage:
+      type: object
+      required:
+        - items
+        - nextCursor
+      properties:
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/Run'
+          description: 本页条目
+        nextCursor:
+          anyOf:
+            - type: string
+            - type: 'null'
+          description: 下一页的游标，原样作为 ?cursor= 传回；没有下一页时为 null
+      description: GET /v1/runs 的一页
+    RunStatus:
+      type: string
+      enum:
+        - running
+        - succeeded
+        - failed
+      description: 运行状态：开始时写 running，结束时写 succeeded 或 failed
+    WatchItem:
+      type: object
+      required:
+        - symbol
+        - name
+        - kind
+        - group
+        - underlying
+        - sectorEtf
+        - aliases
+        - active
+      properties:
+        symbol:
+          type: string
+          description: 代码（主键）；加密资产用 BTC、XRP
+        name:
+          type: string
+          description: 中文名或常用名
+        kind:
+          $ref: '#/components/schemas/WatchItemKind'
+        group:
+          type: string
+          description: 分组（控制台和邮件里按组显示），如 半导体
+        underlying:
+          anyOf:
+            - type: string
+            - type: 'null'
+          description: 杠杆 ETF / 现货 ETF 并入的标的（新闻、公告都算在标的名下），如 TSMX → TSM；没有时为 null
+        sectorEtf:
+          anyOf:
+            - type: string
+            - type: 'null'
+          description: 判断“与板块同向”时对照的 ETF；为 null 时用 config/newsroom.yaml 的 defaultSectorEtf
+        aliases:
+          type: array
+          items:
+            type: string
+          description: 在 RSS 标题里匹配这只股票用的名字（英文按词边界匹配，不区分大小写）
+        active:
+          type: boolean
+          description: 是否启用
+      description: 一只自选股（watch_items 表，docs/09 第 3 节）
+    WatchItemKind:
+      type: string
+      enum:
+        - stock
+        - etf
+        - leveraged_etf
+        - crypto
+      description: |-
+        自选股类型（docs/02 第 3 节）：stock 有自己的新闻和 SEC 公告；etf 按代码取新闻再加别名匹配；
+        leveraged_etf 并入标的；crypto 用加密新闻和日线（日涨跌幅按 UTC 日计算）
+  securitySchemes:
+    SessionCookie:
+      type: apiKey
+      in: cookie
+      name: better-auth.session_token
+      description: 会话 Cookie：Kevin 在控制台用通行密钥登录后由 Better Auth 签发（docs/09 第 2 节）
+    ServiceToken:
+      type: http
+      scheme: Bearer
+      description: '服务令牌：计算任务用 HUB_SERVICE_TOKEN，请求头 Authorization: Bearer <令牌>（docs/09 第 2 节）'

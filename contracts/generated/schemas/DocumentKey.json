@@ -1,0 +1,32 @@
+{
+  "$comment": "由 contracts 生成，勿手改（mise run gen）",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "DocumentKey.json",
+  "anyOf": [
+    {
+      "type": "string",
+      "const": "markets.reference"
+    },
+    {
+      "type": "string",
+      "const": "papers.catalog.public"
+    },
+    {
+      "type": "string",
+      "const": "papers.catalog.all"
+    },
+    {
+      "type": "string",
+      "const": "papers.graph.public"
+    },
+    {
+      "type": "string",
+      "const": "papers.graph.all"
+    },
+    {
+      "type": "string",
+      "const": "papers.search.public"
+    }
+  ],
+  "description": "documents 表里的文档键（派生数据与参考资料；docs/03 第 2、7 节，docs/04 第 6 节）"
+}

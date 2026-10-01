@@ -1,0 +1,19 @@
+{
+  "$comment": "由 contracts 生成，勿手改（mise run gen）",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "CapabilityIo.json",
+  "type": "object",
+  "properties": {
+    "input": {
+      "type": "string"
+    },
+    "output": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "input",
+    "output"
+  ],
+  "description": "能力的输入输出模型名（contracts/capabilities.tsp 里的模型）"
+}

@@ -1,0 +1,34 @@
+{
+  "$comment": "由 contracts 生成，勿手改（mise run gen）",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "GeneratedBy.json",
+  "type": "object",
+  "properties": {
+    "capability": {
+      "type": "string",
+      "description": "能力 ID，如 news.ticker_digest"
+    },
+    "version": {
+      "type": "integer",
+      "minimum": -2147483648,
+      "maximum": 2147483647,
+      "description": "能力清单的 version"
+    },
+    "model": {
+      "type": "string",
+      "description": "实际调用的模型（供应商/模型），如 openai/gpt-6-luna"
+    },
+    "at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "生成时间"
+    }
+  },
+  "required": [
+    "capability",
+    "version",
+    "model",
+    "at"
+  ],
+  "description": "AI 生成内容的出处（docs/08 第 4 节；运行时在 docs/10 第 5 节第 6 步盖上）"
+}

@@ -1,0 +1,110 @@
+[
+  {
+    "capability": "news.classify",
+    "version": 1,
+    "model": "openai/gpt-6-luna",
+    "inputTokens": 4210,
+    "outputTokens": 980,
+    "costUsd": 0.000911,
+    "durationMs": 6120,
+    "ok": true,
+    "runId": "news-morning-2026-09-30-1287",
+    "at": "2026-09-29T23:13:02Z"
+  },
+  {
+    "capability": "news.brief",
+    "version": 1,
+    "model": "openai/gpt-6-luna",
+    "inputTokens": 6870,
+    "outputTokens": 2140,
+    "costUsd": 0.001757,
+    "durationMs": 11480,
+    "ok": true,
+    "runId": "news-morning-2026-09-30-1287",
+    "at": "2026-09-29T23:13:14Z"
+  },
+  {
+    "capability": "news.curate",
+    "version": 1,
+    "model": "openai/gpt-6-luna",
+    "inputTokens": 5320,
+    "outputTokens": 1460,
+    "costUsd": 0.001262,
+    "durationMs": 15230,
+    "ok": true,
+    "runId": "news-morning-2026-09-30-1287",
+    "at": "2026-09-29T23:13:30Z"
+  },
+  {
+    "capability": "news.us_rank",
+    "version": 1,
+    "model": "openai/gpt-6-luna",
+    "inputTokens": 7480,
+    "outputTokens": 1820,
+    "costUsd": 0.001658,
+    "durationMs": 17940,
+    "ok": true,
+    "runId": "news-morning-2026-09-30-1287",
+    "at": "2026-09-29T23:14:03Z"
+  },
+  {
+    "capability": "news.ticker_digest",
+    "version": 1,
+    "model": "openai/gpt-6-luna",
+    "inputTokens": 3120,
+    "outputTokens": 412,
+    "costUsd": 0.000518,
+    "durationMs": 5310,
+    "ok": true,
+    "runId": "news-morning-2026-09-30-1287",
+    "at": "2026-09-29T23:14:21Z"
+  },
+  {
+    "capability": "news.ticker_digest",
+    "version": 1,
+    "model": "openai/gpt-6-luna",
+    "inputTokens": 2860,
+    "outputTokens": 388,
+    "costUsd": 0.00048,
+    "durationMs": 4920,
+    "ok": true,
+    "runId": "news-morning-2026-09-30-1287",
+    "at": "2026-09-29T23:14:27Z"
+  },
+  {
+    "capability": "news.earnings_card",
+    "version": 1,
+    "model": "openai/gpt-6-luna",
+    "inputTokens": 9640,
+    "outputTokens": 920,
+    "costUsd": 0.001424,
+    "durationMs": 12760,
+    "ok": true,
+    "runId": "news-morning-2026-09-30-1287",
+    "at": "2026-09-29T23:15:02Z"
+  },
+  {
+    "capability": "news.filing_digest",
+    "version": 1,
+    "model": "openai/gpt-6-luna",
+    "inputTokens": 5210,
+    "outputTokens": 0,
+    "costUsd": 0.000521,
+    "durationMs": 45000,
+    "ok": false,
+    "runId": "news-morning-2026-09-30-1287",
+    "at": "2026-09-29T23:15:48Z"
+  },
+  {
+    "capability": "news.edition_lede",
+    "version": 1,
+    "model": "openai/gpt-6-sol",
+    "inputTokens": 6850,
+    "outputTokens": 380,
+    "costUsd": 0.0175,
+    "durationMs": 21330,
+    "ok": true,
+    "runId": "news-morning-2026-09-30-1287",
+    "at": "2026-09-29T23:16:40Z"
+  }
+]

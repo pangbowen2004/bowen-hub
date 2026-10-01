@@ -1,0 +1,14 @@
+{
+  "items": [
+    {
+      "id": "0",
+      "title": "EU agrees on new rules for AI chips exports",
+      "summary": "European Union ministers agreed on Tuesday to tighten export controls on advanced AI chips, citing security concerns."
+    },
+    {
+      "id": "1",
+      "title": "Hugging Face releases open model for speech",
+      "summary": "The model supports 40 languages and runs on a single GPU, the company said."
+    }
+  ]
+}

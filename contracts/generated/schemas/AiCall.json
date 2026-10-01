@@ -1,0 +1,77 @@
+{
+  "$comment": "由 contracts 生成，勿手改（mise run gen）",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "AiCall.json",
+  "type": "object",
+  "properties": {
+    "capability": {
+      "type": "string",
+      "description": "能力 ID，如 news.ticker_digest"
+    },
+    "version": {
+      "type": "integer",
+      "minimum": -2147483648,
+      "maximum": 2147483647,
+      "description": "能力清单的 version"
+    },
+    "model": {
+      "type": "string",
+      "description": "实际调用的模型（供应商/模型），如 openai/gpt-6-luna"
+    },
+    "inputTokens": {
+      "type": "integer",
+      "minimum": -2147483648,
+      "maximum": 2147483647,
+      "description": "输入 token 数"
+    },
+    "outputTokens": {
+      "type": "integer",
+      "minimum": -2147483648,
+      "maximum": 2147483647,
+      "description": "输出 token 数"
+    },
+    "costUsd": {
+      "type": "number",
+      "description": "费用（美元），按 config/llm.yaml 的单价计算"
+    },
+    "durationMs": {
+      "type": "integer",
+      "minimum": -2147483648,
+      "maximum": 2147483647,
+      "description": "耗时（毫秒）"
+    },
+    "ok": {
+      "type": "boolean",
+      "description": "是否成功"
+    },
+    "runId": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "description": "所属运行（Run.id）；API 里的按需调用（如控制台问论文）没有运行记录，为 null"
+    },
+    "at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "调用时间（按天统计用量要用）"
+    }
+  },
+  "required": [
+    "capability",
+    "version",
+    "model",
+    "inputTokens",
+    "outputTokens",
+    "costUsd",
+    "durationMs",
+    "ok",
+    "runId",
+    "at"
+  ],
+  "description": "一次 AI 能力调用的记录（ai_calls 表，docs/09 第 3 节；运行时在 docs/10 第 5 节第 7 步回调写入）"
+}
