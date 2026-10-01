@@ -245,6 +245,12 @@ tasks:
     difficulty: high
     owns: [capabilities/news.*.yaml, prompts/news_*.md, evals/news.*/**, py/packages/hub-newsroom/src/hub_newsroom/ai/**,
            py/packages/hub-newsroom/tests/ai/**]
+    sharedEdits:
+      - "config/llm.yaml：仅新增defaults.judgeMaxOutputTokens为4096，独立限制评审推理与评分输出，不改变正文能力预算、模型或质量阈值"
+      - "py/packages/hub-ai/src/hub_ai/gateway.py：仅适配既定PydanticAI包装的连接异常，转换安全传输错误并保留既有重试与用量统计"
+      - "py/packages/hub-ai/src/hub_ai/runtime.py：仅将judge硬编码512输出预算改为配置defaults.judgeMaxOutputTokens，保持balanced档、质量阈值与预算限制"
+      - "py/packages/hub-ai/src/hub_ai/evals/runner.py：仅提供能力、用例和阶段的安全错误分类，不输出供应商原始错误正文或密钥"
+      - "py/packages/hub-ai/tests/test_ai.py：仅补上述连接包装、评审预算与安全错误诊断回归，保留现有能力运行时断言"
     read: [docs/02 第 6–7、10 节, docs/10, capabilities/news.*.yaml, prompts/news_*.md]
     deliver:
       - 8 个 news.* 能力接入：从组版结果构造输入、把输出填回 Edition、每个能力的降级（docs/02 第 7 节）
@@ -523,7 +529,7 @@ tasks:
       - "services/api/migrations/**：只新增鉴权相关的迁移文件"
       - "services/api/src/lib/env.ts：仅补一次性首次注册口令绑定"
       - "services/api/vitest.config.ts：仅配置本地鉴权测试所需的假签名密钥、一次性口令和localhost可信来源，不改变生产变量或其他测试配置"
-      - "services/api/scripts/auth.config.ts：仅同步首次登记受限会话字段与固定/auth入口，保持官方CLI生成鉴权表一致"
+      - "services/api/scripts/auth.config.ts：仅同步首次登记完成标记、登记占用和受限会话字段与固定/auth入口，保持官方CLI生成鉴权表一致"
       - "services/api/scripts/test-contract.ts：仅在隔离测试数据库建立真实签名会话并按服务令牌与私有写入分组提供认证，保留所有契约检查和未授权断言"
       - "apps/console/vite.config.ts：仅补同源OAuth元数据与MCP本地开发代理，不改生产部署或其他插件"
       - "services/api/test/platform/lib.test.ts：仅移除T40鉴权已实现入口的占位断言，保留MCP占位、工具接线与日志断言"
