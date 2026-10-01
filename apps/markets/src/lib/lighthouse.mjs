@@ -14,6 +14,10 @@ const result = spawnSync(
     "lhci",
     "autorun",
     "--config=../../lighthouserc.json",
+    // CI仅审计本地静态样例；Ubuntu AppArmor不允许该Chromium使用用户命名空间。
+    ...(process.env.CI && (process.env.DATA_SOURCE ?? "fixtures") === "fixtures"
+      ? ["--collect.settings.chromeFlags=--no-sandbox"]
+      : []),
     ...paths.map((path) => `--collect.url=http://localhost${path}`),
   ],
   { stdio: "inherit" },
