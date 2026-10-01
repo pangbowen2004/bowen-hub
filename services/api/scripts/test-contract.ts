@@ -26,10 +26,42 @@ const environment = {
 };
 const port = 18878;
 const base = `http://127.0.0.1:${port}`;
+// 官方扩展为二进制媒体生成字节并注册serializer，保留PDF/PNG接口与全部检查。
+const binaryHook = join(dir, "binary_media.py");
+writeFileSync(
+  binaryHook,
+  [
+    "import schemathesis",
+    "from hypothesis import strategies as st",
+    'for media_type in ("application/pdf", "image/png"):',
+    "    schemathesis.openapi.media_type(media_type, st.binary(min_size=0, max_size=4096))",
+    "",
+  ].join("\n"),
+);
+// 临时入口只回放GitHub任务派发，其余外部网络拒绝；生产入口不修改。
+const entry = join(dir, "contract-worker.ts");
+writeFileSync(
+  entry,
+  [
+    `import { app } from ${JSON.stringify(resolve("src/app.ts"))};`,
+    "globalThis.fetch = async (input, init) => {",
+    '  const url = new URL(typeof input === "string" ? input : input instanceof URL ? input.href : input.url);',
+    '  const method = init?.method ?? (input instanceof Request ? input.method : "GET");',
+    '  if (method === "POST" && url.origin === "https://api.github.com" && url.pathname === "/repos/contract-test/offline/dispatches") return new Response(null, { status: 204 });',
+    '  throw new Error("离线契约验收禁止外部请求");',
+    "};",
+    "export default app;",
+    "",
+  ].join("\n"),
+);
 let worker: ReturnType<typeof spawn> | undefined;
 let workerLog = "";
 const run = (command: string, argv: string[], cwd = process.cwd()) => {
-  const result = spawnSync(command, argv, { stdio: "inherit", env: environment, cwd });
+  const result = spawnSync(command, argv, {
+    stdio: "inherit",
+    env: command === "uvx" ? { ...environment, SCHEMATHESIS_HOOKS: binaryHook } : environment,
+    cwd,
+  });
   if (result.error) throw result.error;
   if (result.status !== 0) throw new Error(`${command}退出码${result.status}`);
 };
@@ -65,6 +97,9 @@ try {
       "exec",
       "wrangler",
       "dev",
+      entry,
+      "--config",
+      resolve("wrangler.jsonc"),
       "--local",
       "--port",
       String(port),
@@ -74,6 +109,10 @@ try {
       dir,
       "--var",
       "APP_MODE:local",
+      "--var",
+      "GH_AUTOMATION_TOKEN:offline-contract-github-token",
+      "--var",
+      "GITHUB_REPO:contract-test/offline",
       "--var",
       `HUB_SERVICE_TOKEN:${token}`,
       "--var",
