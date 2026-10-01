@@ -1,0 +1,18 @@
+{
+  "origin": "真实 HTTP 验收录制",
+  "recordedAt": "2026-10-01T18:57:25.556649+00:00",
+  "request": {
+    "method": "GET",
+    "url": "https://api.tiingo.com/tiingo/daily/PANW/prices",
+    "params": {
+      "startDate": "2026-09-29",
+      "endDate": "2026-09-30"
+    }
+  },
+  "response": {
+    "status": 200,
+    "contentType": "application/json",
+    "location": null,
+    "text": "[{\"date\":\"2026-09-29T00:00:00.000Z\",\"close\":388.41,\"high\":391.75,\"low\":377.8001,\"open\":390.1,\"volume\":5104315,\"adjClose\":388.41,\"adjHigh\":391.75,\"adjLow\":377.8001,\"adjOpen\":390.1,\"adjVolume\":5104315,\"divCash\":0.0,\"splitFactor\":1.0},{\"date\":\"2026-09-30T00:00:00.000Z\",\"close\":397.31,\"high\":404.6879,\"low\":388.89,\"open\":391.36,\"volume\":6088372,\"adjClose\":397.31,\"adjHigh\":404.6879,\"adjLow\":388.89,\"adjOpen\":391.36,\"adjVolume\":6088372,\"divCash\":0.0,\"splitFactor\":1.0}]"
+  }
+}

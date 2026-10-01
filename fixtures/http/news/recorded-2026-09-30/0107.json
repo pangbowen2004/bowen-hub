@@ -1,0 +1,18 @@
+{
+  "origin": "真实 HTTP 验收录制",
+  "recordedAt": "2026-10-01T18:57:24.397128+00:00",
+  "request": {
+    "method": "GET",
+    "url": "https://api.tiingo.com/tiingo/daily/COIN/prices",
+    "params": {
+      "startDate": "2026-09-29",
+      "endDate": "2026-09-30"
+    }
+  },
+  "response": {
+    "status": 200,
+    "contentType": "application/json",
+    "location": null,
+    "text": "[{\"date\":\"2026-09-29T00:00:00.000Z\",\"close\":190.02,\"high\":197.63,\"low\":188.14,\"open\":197.53,\"volume\":5847549,\"adjClose\":190.02,\"adjHigh\":197.63,\"adjLow\":188.14,\"adjOpen\":197.53,\"adjVolume\":5847549,\"divCash\":0.0,\"splitFactor\":1.0},{\"date\":\"2026-09-30T00:00:00.000Z\",\"close\":186.41,\"high\":198.659,\"low\":184.29,\"open\":195.5,\"volume\":8412487,\"adjClose\":186.41,\"adjHigh\":198.659,\"adjLow\":184.29,\"adjOpen\":195.5,\"adjVolume\":8412487,\"divCash\":0.0,\"splitFactor\":1.0}]"
+  }
+}

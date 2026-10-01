@@ -1,0 +1,15 @@
+{
+  "origin": "真实 HTTP 验收录制",
+  "recordedAt": "2026-10-01T18:55:39.620356+00:00",
+  "request": {
+    "method": "GET",
+    "url": "https://feeds.marketwatch.com/marketwatch/topstories/",
+    "params": {}
+  },
+  "response": {
+    "status": 301,
+    "contentType": "text/plain; charset=utf-8",
+    "location": "https://feeds.content.dowjones.io/public/rss/mw_topstories?",
+    "text": null
+  }
+}

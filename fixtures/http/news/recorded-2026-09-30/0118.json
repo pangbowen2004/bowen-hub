@@ -1,0 +1,18 @@
+{
+  "origin": "真实 HTTP 验收录制",
+  "recordedAt": "2026-10-01T18:57:27.528438+00:00",
+  "request": {
+    "method": "GET",
+    "url": "https://api.tiingo.com/tiingo/daily/WMT/prices",
+    "params": {
+      "startDate": "2026-09-29",
+      "endDate": "2026-09-30"
+    }
+  },
+  "response": {
+    "status": 200,
+    "contentType": "application/json",
+    "location": null,
+    "text": "[{\"date\":\"2026-09-29T00:00:00.000Z\",\"close\":106.8,\"high\":107.9,\"low\":105.352,\"open\":107.75,\"volume\":27274919,\"adjClose\":106.8,\"adjHigh\":107.9,\"adjLow\":105.352,\"adjOpen\":107.75,\"adjVolume\":27274919,\"divCash\":0.0,\"splitFactor\":1.0},{\"date\":\"2026-09-30T00:00:00.000Z\",\"close\":103.92,\"high\":107.03,\"low\":103.92,\"open\":106.97,\"volume\":28152438,\"adjClose\":103.92,\"adjHigh\":107.03,\"adjLow\":103.92,\"adjOpen\":106.97,\"adjVolume\":28152438,\"divCash\":0.0,\"splitFactor\":1.0}]"
+  }
+}

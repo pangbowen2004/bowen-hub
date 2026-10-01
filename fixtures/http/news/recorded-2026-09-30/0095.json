@@ -1,0 +1,18 @@
+{
+  "origin": "真实 HTTP 验收录制",
+  "recordedAt": "2026-10-01T18:57:21.003227+00:00",
+  "request": {
+    "method": "GET",
+    "url": "https://api.tiingo.com/tiingo/daily/INTC/prices",
+    "params": {
+      "startDate": "2026-09-29",
+      "endDate": "2026-09-30"
+    }
+  },
+  "response": {
+    "status": 200,
+    "contentType": "application/json",
+    "location": null,
+    "text": "[{\"date\":\"2026-09-29T00:00:00.000Z\",\"close\":115.93,\"high\":118.75,\"low\":113.97,\"open\":116.7,\"volume\":88744533,\"adjClose\":115.93,\"adjHigh\":118.75,\"adjLow\":113.97,\"adjOpen\":116.7,\"adjVolume\":88744533,\"divCash\":0.0,\"splitFactor\":1.0},{\"date\":\"2026-09-30T00:00:00.000Z\",\"close\":120.23,\"high\":120.55,\"low\":115.995,\"open\":116.22,\"volume\":94917156,\"adjClose\":120.23,\"adjHigh\":120.55,\"adjLow\":115.995,\"adjOpen\":116.22,\"adjVolume\":94917156,\"divCash\":0.0,\"splitFactor\":1.0}]"
+  }
+}

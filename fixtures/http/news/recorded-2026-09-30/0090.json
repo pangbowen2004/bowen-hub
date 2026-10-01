@@ -1,0 +1,18 @@
+{
+  "origin": "真实 HTTP 验收录制",
+  "recordedAt": "2026-10-01T18:57:19.598737+00:00",
+  "request": {
+    "method": "GET",
+    "url": "https://api.tiingo.com/tiingo/daily/SMH/prices",
+    "params": {
+      "startDate": "2026-09-29",
+      "endDate": "2026-09-30"
+    }
+  },
+  "response": {
+    "status": 200,
+    "contentType": "application/json",
+    "location": null,
+    "text": "[{\"date\":\"2026-09-29T00:00:00.000Z\",\"close\":606.9,\"high\":613.27,\"low\":604.985,\"open\":609.0,\"volume\":5671544,\"adjClose\":606.9,\"adjHigh\":613.27,\"adjLow\":604.985,\"adjOpen\":609.0,\"adjVolume\":5671544,\"divCash\":0.0,\"splitFactor\":1.0},{\"date\":\"2026-09-30T00:00:00.000Z\",\"close\":609.0,\"high\":611.9499,\"low\":606.01,\"open\":609.76,\"volume\":4423627,\"adjClose\":609.0,\"adjHigh\":611.9499,\"adjLow\":606.01,\"adjOpen\":609.76,\"adjVolume\":4423627,\"divCash\":0.0,\"splitFactor\":1.0}]"
+  }
+}

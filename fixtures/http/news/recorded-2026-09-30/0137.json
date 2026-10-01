@@ -1,0 +1,15 @@
+{
+  "origin": "真实 HTTP 验收录制",
+  "recordedAt": "2026-10-01T18:59:03.410338+00:00",
+  "request": {
+    "method": "GET",
+    "url": "https://venturebeat.com/category/ai/feed/",
+    "params": {}
+  },
+  "response": {
+    "status": 429,
+    "contentType": "text/html; charset=utf-8",
+    "location": null,
+    "text": null
+  }
+}

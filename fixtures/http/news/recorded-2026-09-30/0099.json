@@ -1,0 +1,18 @@
+{
+  "origin": "真实 HTTP 验收录制",
+  "recordedAt": "2026-10-01T18:57:22.141073+00:00",
+  "request": {
+    "method": "GET",
+    "url": "https://api.tiingo.com/tiingo/daily/AVGX/prices",
+    "params": {
+      "startDate": "2026-09-29",
+      "endDate": "2026-09-30"
+    }
+  },
+  "response": {
+    "status": 200,
+    "contentType": "application/json",
+    "location": null,
+    "text": "[{\"date\":\"2026-09-29T00:00:00.000Z\",\"close\":38.6,\"high\":40.015,\"low\":38.4112,\"open\":38.87,\"volume\":553312,\"adjClose\":38.6,\"adjHigh\":40.015,\"adjLow\":38.4112,\"adjOpen\":38.87,\"adjVolume\":553312,\"divCash\":0.0,\"splitFactor\":1.0},{\"date\":\"2026-09-30T00:00:00.000Z\",\"close\":37.77,\"high\":39.1,\"low\":37.7,\"open\":39.0,\"volume\":465815,\"adjClose\":37.77,\"adjHigh\":39.1,\"adjLow\":37.7,\"adjOpen\":39.0,\"adjVolume\":465815,\"divCash\":0.0,\"splitFactor\":1.0}]"
+  }
+}

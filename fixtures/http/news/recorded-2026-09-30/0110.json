@@ -1,0 +1,18 @@
+{
+  "origin": "真实 HTTP 验收录制",
+  "recordedAt": "2026-10-01T18:57:25.231028+00:00",
+  "request": {
+    "method": "GET",
+    "url": "https://api.tiingo.com/tiingo/daily/CRCL/prices",
+    "params": {
+      "startDate": "2026-09-29",
+      "endDate": "2026-09-30"
+    }
+  },
+  "response": {
+    "status": 200,
+    "contentType": "application/json",
+    "location": null,
+    "text": "[{\"date\":\"2026-09-29T00:00:00.000Z\",\"close\":83.7,\"high\":87.8199,\"low\":82.99,\"open\":87.72,\"volume\":7538559,\"adjClose\":83.7,\"adjHigh\":87.8199,\"adjLow\":82.99,\"adjOpen\":87.72,\"adjVolume\":7538559,\"divCash\":0.0,\"splitFactor\":1.0},{\"date\":\"2026-09-30T00:00:00.000Z\",\"close\":82.17,\"high\":86.95,\"low\":82.11,\"open\":85.72,\"volume\":8712893,\"adjClose\":82.17,\"adjHigh\":86.95,\"adjLow\":82.11,\"adjOpen\":85.72,\"adjVolume\":8712893,\"divCash\":0.0,\"splitFactor\":1.0}]"
+  }
+}

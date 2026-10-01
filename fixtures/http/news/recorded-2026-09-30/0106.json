@@ -1,0 +1,18 @@
+{
+  "origin": "真实 HTTP 验收录制",
+  "recordedAt": "2026-10-01T18:57:24.103211+00:00",
+  "request": {
+    "method": "GET",
+    "url": "https://api.tiingo.com/tiingo/daily/IBIT/prices",
+    "params": {
+      "startDate": "2026-09-29",
+      "endDate": "2026-09-30"
+    }
+  },
+  "response": {
+    "status": 200,
+    "contentType": "application/json",
+    "location": null,
+    "text": "[{\"date\":\"2026-09-29T00:00:00.000Z\",\"close\":47.33,\"high\":47.83,\"low\":46.9,\"open\":47.759,\"volume\":26744688,\"adjClose\":47.33,\"adjHigh\":47.83,\"adjLow\":46.9,\"adjOpen\":47.759,\"adjVolume\":26744688,\"divCash\":0.0,\"splitFactor\":1.0},{\"date\":\"2026-09-30T00:00:00.000Z\",\"close\":47.34,\"high\":48.4563,\"low\":47.17,\"open\":48.23,\"volume\":36073040,\"adjClose\":47.34,\"adjHigh\":48.4563,\"adjLow\":47.17,\"adjOpen\":48.23,\"adjVolume\":36073040,\"divCash\":0.0,\"splitFactor\":1.0}]"
+  }
+}

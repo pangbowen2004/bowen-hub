@@ -1,0 +1,18 @@
+{
+  "origin": "真实 HTTP 验收录制",
+  "recordedAt": "2026-10-01T18:57:23.830030+00:00",
+  "request": {
+    "method": "GET",
+    "url": "https://api.tiingo.com/tiingo/daily/TSLA/prices",
+    "params": {
+      "startDate": "2026-09-29",
+      "endDate": "2026-09-30"
+    }
+  },
+  "response": {
+    "status": 200,
+    "contentType": "application/json",
+    "location": null,
+    "text": "[{\"date\":\"2026-09-29T00:00:00.000Z\",\"close\":352.84,\"high\":358.74,\"low\":351.67,\"open\":358.4,\"volume\":32492406,\"adjClose\":352.84,\"adjHigh\":358.74,\"adjLow\":351.67,\"adjOpen\":358.4,\"adjVolume\":32492406,\"divCash\":0.0,\"splitFactor\":1.0},{\"date\":\"2026-09-30T00:00:00.000Z\",\"close\":354.81,\"high\":355.219,\"low\":345.88,\"open\":352.11,\"volume\":39235838,\"adjClose\":354.81,\"adjHigh\":355.219,\"adjLow\":345.88,\"adjOpen\":352.11,\"adjVolume\":39235838,\"divCash\":0.0,\"splitFactor\":1.0}]"
+  }
+}

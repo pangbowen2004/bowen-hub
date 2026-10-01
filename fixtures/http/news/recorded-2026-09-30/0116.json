@@ -1,0 +1,18 @@
+{
+  "origin": "真实 HTTP 验收录制",
+  "recordedAt": "2026-10-01T18:57:26.965871+00:00",
+  "request": {
+    "method": "GET",
+    "url": "https://api.tiingo.com/tiingo/daily/MAR/prices",
+    "params": {
+      "startDate": "2026-09-29",
+      "endDate": "2026-09-30"
+    }
+  },
+  "response": {
+    "status": 200,
+    "contentType": "application/json",
+    "location": null,
+    "text": "[{\"date\":\"2026-09-29T00:00:00.000Z\",\"close\":361.62,\"high\":364.085,\"low\":355.17,\"open\":362.35,\"volume\":1466722,\"adjClose\":361.62,\"adjHigh\":364.085,\"adjLow\":355.17,\"adjOpen\":362.35,\"adjVolume\":1466722,\"divCash\":0.0,\"splitFactor\":1.0},{\"date\":\"2026-09-30T00:00:00.000Z\",\"close\":355.67,\"high\":363.69,\"low\":355.67,\"open\":363.69,\"volume\":1122365,\"adjClose\":355.67,\"adjHigh\":363.69,\"adjLow\":355.67,\"adjOpen\":363.69,\"adjVolume\":1122365,\"divCash\":0.0,\"splitFactor\":1.0}]"
+  }
+}

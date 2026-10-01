@@ -1,0 +1,18 @@
+{
+  "origin": "真实 HTTP 验收录制",
+  "recordedAt": "2026-10-01T18:57:18.453491+00:00",
+  "request": {
+    "method": "GET",
+    "url": "https://api.tiingo.com/tiingo/daily/SPY/prices",
+    "params": {
+      "startDate": "2026-09-29",
+      "endDate": "2026-09-30"
+    }
+  },
+  "response": {
+    "status": 200,
+    "contentType": "application/json",
+    "location": null,
+    "text": "[{\"date\":\"2026-09-29T00:00:00.000Z\",\"close\":764.2,\"high\":766.98,\"low\":762.35,\"open\":766.83,\"volume\":36910546,\"adjClose\":764.2,\"adjHigh\":766.98,\"adjLow\":762.35,\"adjOpen\":766.83,\"adjVolume\":36910546,\"divCash\":0.0,\"splitFactor\":1.0},{\"date\":\"2026-09-30T00:00:00.000Z\",\"close\":762.63,\"high\":769.41,\"low\":762.18,\"open\":766.45,\"volume\":62110041,\"adjClose\":762.63,\"adjHigh\":769.41,\"adjLow\":762.18,\"adjOpen\":766.45,\"adjVolume\":62110041,\"divCash\":0.0,\"splitFactor\":1.0}]"
+  }
+}

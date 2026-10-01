@@ -1,0 +1,15 @@
+{
+  "origin": "真实 HTTP 验收录制",
+  "recordedAt": "2026-10-01T18:58:55.542350+00:00",
+  "request": {
+    "method": "GET",
+    "url": "https://cdn.cboe.com/api/global/us_indices/daily_prices/VIX_History.csv",
+    "params": {}
+  },
+  "response": {
+    "status": 307,
+    "contentType": "text/html; charset=UTF-8",
+    "location": "https://cdn-api.cboe.com/api/global/us_indices/daily_prices/VIX_History.csv?",
+    "text": null
+  }
+}
