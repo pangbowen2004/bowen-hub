@@ -20,6 +20,35 @@ const baseUrl = {
 const fetchOverride = { includeHttpResponseReturnType: false, forceSuccessResponse: true };
 
 /**
+ * Orval 8.38 的 fetch 只把 text/plain 和 isBlob 正文视为原始正文，text/html 会被 JSON.stringify。
+ * 在官方 client 扩展点复用其生成器；isBlob 在这里是正文不序列化的开关，类型仍取原 schema。
+ * 同一设置用于普通客户端和 React Query 的 fetch，媒体类型、响应解析和 JSON 正文保持原样。
+ */
+type ClientFactory = Exclude<
+  NonNullable<NonNullable<Exclude<Options["output"], string>>["client"]>,
+  string
+>;
+
+export function rawBodyClient(kind: "fetch" | "react-query"): ClientFactory {
+  return (clients) => ({
+    ...clients[kind],
+    client: (verb, options, _outputClient, output) => {
+      const contentType = verb.body.contentType.split(";", 1)[0]?.trim().toLowerCase();
+      const raw =
+        contentType?.startsWith("text/") ||
+        contentType === "application/pdf" ||
+        contentType === "image/png";
+      return clients[kind].client(
+        raw ? { ...verb, body: { ...verb.body, isBlob: true } } : verb,
+        options,
+        kind,
+        output,
+      );
+    },
+  });
+}
+
+/**
  * OpenAPI 3.1 里 TypeSpec 用 contentMediaType（如 application/pdf、image/png）表示二进制正文，
  * 而 Orval 的模拟生成器只认 format: binary，会给 Blob 类型生成字符串、tsc 报错。
  * 这里在交给 Orval 的副本上补 type: string、format: binary（不改 contracts/generated/openapi.yaml）。
@@ -75,7 +104,7 @@ export function orvalProjects(): Record<string, Options> {
       input,
       output: {
         target: out("client.ts"),
-        client: "fetch",
+        client: rawBodyClient("fetch"),
         mode: "split",
         baseUrl,
         urlEncodeParameters: true,
@@ -87,7 +116,7 @@ export function orvalProjects(): Record<string, Options> {
       input,
       output: {
         target: out("hooks.ts"),
-        client: "react-query",
+        client: rawBodyClient("react-query"),
         httpClient: "fetch",
         mode: "split",
         baseUrl,
