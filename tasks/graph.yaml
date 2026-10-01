@@ -388,6 +388,11 @@ tasks:
     owns: [apps/markets/src/pages/**, apps/markets/src/components/**, apps/markets/e2e/**,
            apps/console/src/routes/markets/**, apps/console/src/features/markets/**, apps/console/src/mocks/markets/**,
            apps/console/e2e/markets/**]
+    sharedEdits:
+      - "apps/console/src/mocks/browser.ts：仅注册markets事件MSW handlers"
+      - "apps/console/playwright.config.ts：仅将testDir扩展到e2e包含业务测试"
+      - "apps/console/e2e/_setup/smoke.spec.ts：仅把事件路由旧占位断言换成真实事件内容"
+      - "apps/markets/playwright.config.ts：仅纳入e2e业务测试"
     read: [docs/03 第 4–8 节, docs/05]
     deliver:
       - docs/03 第 8 节全部页面，含 /archive/[date].md、/weekly/[date].md、/llms.txt
@@ -408,6 +413,10 @@ tasks:
            py/packages/hub-papers/src/hub_papers/ids/**, py/packages/hub-papers/tests/core/**, config/paper_*.yaml,
            py/packages/hub-papers/src/hub_papers/common/**, py/packages/hub-papers/src/hub_papers/__init__.py,
            py/packages/hub-papers/tests/conftest.py]
+    sharedEdits:
+      - "py/packages/hub-papers/pyproject.toml：仅声明既定PyMuPDF依赖"
+      - "py/uv.lock：仅锁定论文PDF依赖"
+      - "py/apps/hub-cli/tests/test_commands.py：仅移除papers check/derive旧占位断言，保留help及其他任务"
     read: [docs/04 第 2、5.1、5.2、6、7 节, docs/09 第 4 节, fixtures/papers/, fixtures/samples/]
     deliver:
       - PyMuPDF 抽页文本（pages.jsonl、pages.txt）与页图；论文 id 识别与 custom 短名规则（docs/04 第 5.1 节）
@@ -465,6 +474,12 @@ tasks:
     owns: [apps/papers/src/pages/**, apps/papers/src/components/**, apps/papers/e2e/**,
            packages/ui/src/**/PaperReader/**, packages/ui/src/**/EvidenceMark/**, packages/ui/src/**/GraphView/**,
            packages/ui/src/**/Universe3D/**]
+    sharedEdits:
+      - "packages/ui/package.json：仅声明既定图谱与类型依赖"
+      - "packages/ui/vitest.config.ts：仅纳入src领域组件测试"
+      - "apps/papers/package.json：仅纳入组件测试与Astro同源Markdown依赖"
+      - "apps/papers/playwright.config.ts：仅纳入e2e业务测试"
+      - "pnpm-lock.yaml：仅锁定论文前端既定依赖"
     read: [docs/04 第 2、3、6 节, docs/05]
     deliver: ["docs/04 第 3 节全部页面，含 /papers/[id].md 与 /llms.txt"]
     accept:
