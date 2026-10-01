@@ -11,6 +11,7 @@ editions:
   morning:
     start: "07:10"                 # 新加坡时间，开始生成
     sendBy: "07:30"
+    initialWindowHours: 24         # 首次无成功早报时采用文档中的通常24小时，不假定历史发送
     maxWindowHours: 72             # 覆盖上一期成功发送的早报以来（通常约 24 小时），最长 72 小时
     readingBudgetChars: 2500       # 约 6 分钟
   premarket:
@@ -45,6 +46,9 @@ scoring:                           # 规则打分（docs/02 第 5 节）；来�
   megaCap: 1                       # 涉及大市值公司
   paywall: { none: 0, metered: -1, hard: -3 }
   keywords:                        # 标题命中：high 每个 +2，medium 每个 +1，关键词加分合计最多 +4
+    highScore: 2
+    mediumScore: 1
+    maxScore: 4
     high: [earnings, guidance, outlook, forecast, downgrade, upgrade, FDA, SEC, DOJ, FTC, antitrust, probe,
            lawsuit, tariff, export control, sanction, merger, acquisition, acquire, buyback, offering, IPO,
            bankruptcy, layoffs, CEO, Fed, Powell, rate cut, rate hike, inflation, CPI, payrolls, jobs report,

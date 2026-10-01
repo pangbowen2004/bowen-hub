@@ -1,0 +1,122 @@
+{
+  "now": "2026-09-29T23:10:00+00:00",
+  "articles": [
+    {
+      "id": "nvidia",
+      "sourceId": "alpaca-news",
+      "kind": "news",
+      "title": "Nvidia announces synthetic test earnings",
+      "url": "https://example.test/nvidia",
+      "publishedAt": "2026-09-29T20:10:00Z",
+      "summary": "合成测试正文",
+      "lang": "en",
+      "tickers": [],
+      "topics": [],
+      "paywall": "none",
+      "clusterId": null
+    },
+    {
+      "id": "market",
+      "sourceId": "fed-monetary",
+      "kind": "news",
+      "title": "Fed synthetic policy announcement",
+      "url": "https://example.test/market",
+      "publishedAt": "2026-09-29T20:10:00Z",
+      "summary": "合成测试正文",
+      "lang": "en",
+      "tickers": [],
+      "topics": [],
+      "paywall": "none",
+      "clusterId": null
+    },
+    {
+      "id": "international",
+      "sourceId": "bbc-world",
+      "kind": "news",
+      "title": "Trump China synthetic tariff",
+      "url": "https://example.test/international",
+      "publishedAt": "2026-09-29T20:10:00Z",
+      "summary": "合成测试正文",
+      "lang": "en",
+      "tickers": [],
+      "topics": [],
+      "paywall": "none",
+      "clusterId": null
+    }
+  ],
+  "filings": [
+    {
+      "accession": "synthetic-001",
+      "cik": "0000000001",
+      "ticker": "NVDA",
+      "form": "8-K",
+      "filedAt": "2026-09-29T21:10:00Z",
+      "items": ["2.02", "5.02"],
+      "url": "https://example.test/synthetic-001",
+      "exhibits": [
+        {
+          "name": "EX-99.1",
+          "url": "https://example.test/synthetic-001/exhibit"
+        }
+      ]
+    }
+  ],
+  "insiders": [
+    {
+      "accession": "synthetic-form4",
+      "transactionIndex": 0,
+      "ticker": "NVDA",
+      "insider": "测试人",
+      "role": "测试职位",
+      "code": "P",
+      "shares": 100.0,
+      "priceUsd": 12.3456,
+      "valueUsd": null,
+      "filedAt": "2026-09-29T22:10:00Z",
+      "url": "https://example.test/form4"
+    }
+  ],
+  "events": [
+    {
+      "kind": "macro",
+      "date": "2026-09-30",
+      "fredReleaseId": 10,
+      "at": null,
+      "title": "Consumer Price Index",
+      "tickers": [],
+      "timing": null,
+      "importance": "high"
+    }
+  ],
+  "exhibit_texts": {
+    "https://example.test/synthetic-001/exhibit": "合成财报原文 123.456"
+  },
+  "filing_texts": {
+    "synthetic-001": "合成公告原文"
+  },
+  "snapshot": {
+    "indices": [
+      {
+        "symbol": "SMH",
+        "change": 0.02
+      }
+    ],
+    "watchlist": [
+      {
+        "symbol": "NVDA",
+        "change": 0.02999
+      },
+      {
+        "symbol": "TSM",
+        "change": 0.03
+      },
+      {
+        "symbol": "TEST",
+        "change": 0.02999
+      }
+    ],
+    "treasury10Year": null,
+    "vix": null
+  },
+  "snapshot_session": "2026-09-29"
+}
