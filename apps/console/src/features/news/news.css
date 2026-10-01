@@ -1,0 +1,118 @@
+.news-page {
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+.news-page .row {
+  flex-wrap: wrap;
+}
+.news-page nav {
+  gap: 16px 24px;
+}
+.news-archive {
+  margin-top: 32px;
+  display: grid;
+  gap: 0;
+  max-width: 900px;
+}
+.news-archive article,
+.news-result {
+  padding-block: 24px;
+  border-top: 1px solid var(--border);
+}
+.news-archive h2 {
+  font-size: 28px;
+  margin-block: 8px;
+}
+.news-controls {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: end;
+  gap: 16px;
+  margin-block: 28px;
+}
+.news-controls input,
+.news-controls select,
+.watch-editor input,
+.watch-editor select,
+.watch-editor textarea {
+  width: 100%;
+  min-width: 0;
+  padding: 12px;
+  background: var(--surface);
+  color: var(--text);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+}
+.news-controls label {
+  display: grid;
+  gap: 8px;
+  min-width: 0;
+  flex: 1 1 180px;
+}
+.news-feedback {
+  border-block: 1px solid var(--border);
+  padding-block: 20px;
+  margin-block: 28px;
+}
+.news-feedback button[aria-pressed="true"],
+.news-flags button[aria-pressed="true"] {
+  background: var(--accent);
+  color: var(--bg);
+}
+.news-flags {
+  gap: 12px;
+  padding-top: 16px;
+}
+.news-flags button {
+  font-size: 13px;
+}
+.watch-editor {
+  display: grid;
+  gap: 20px;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  padding: 28px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  margin-block: 24px;
+}
+.watch-editor label {
+  display: grid;
+  gap: 8px;
+}
+.watch-editor .wide {
+  grid-column: 1 / -1;
+}
+.watch-row {
+  padding-block: 24px;
+  border-top: 1px solid var(--border);
+}
+.watch-row h2 {
+  font-size: 26px;
+}
+.today-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr);
+  gap: 48px;
+}
+.today-reading {
+  border-top: 1px solid var(--border);
+  padding-block: 28px;
+}
+.today-reading h2 {
+  font-size: 32px;
+}
+.today-reading .lede {
+  font-family: var(--font-serif);
+  line-height: 1.85;
+  font-size: 22px;
+}
+@media (max-width: 767px) {
+  .today-grid {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 8px;
+  }
+  .watch-editor {
+    grid-template-columns: minmax(0, 1fr);
+    padding: 16px;
+  }
+}

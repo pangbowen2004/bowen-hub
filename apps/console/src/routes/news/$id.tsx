@@ -1,5 +1,8 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { Placeholder } from "../../lib/Placeholder";
+import { EditionPage } from "../../features/news/EditionPage";
 export const Route = createFileRoute("/news/$id")({
-  component: () => <Placeholder title="新闻一期" task="T15" />,
+  component: () => {
+    const { id } = Route.useParams();
+    return <EditionPage id={id} />;
+  },
 });
