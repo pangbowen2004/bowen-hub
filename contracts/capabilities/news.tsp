@@ -29,10 +29,12 @@ model FilingDigestInput { symbol: string; name: string; form: string; items: str
 model FilingDigestOutput { @maxChars(120) digest: string; generatedBy?: GeneratedBy; }
 model NewsTickerArticle extends NewsPromptItem { source: string; publishedAt: DateTime; }
 model NewsTickerFiling { id: string; form: string; items: string[]; digest: string | null; }
+/** 财报来源具有稳定条目 id，供 source_ids_exist 校验。 */
+model NewsTickerEarnings extends EarningsCard { id: string; }
 model TickerDigestInput {
   mode: "daily" | "weekly"; symbol: string; name: string; changeText: string | null;
   withSector: boolean | null; sectorEtf: string | null; articles: NewsTickerArticle[];
-  filings: NewsTickerFiling[]; earnings: EarningsCard[] | null;
+  filings: NewsTickerFiling[]; earnings: NewsTickerEarnings[] | null;
 }
 model TickerDigestOutput {
   @maxChars(80) whatHappened: string; @maxChars(60) whyItMatters: string | null;

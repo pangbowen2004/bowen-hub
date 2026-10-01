@@ -50,6 +50,38 @@ describe("新闻业务边界", () => {
     expect(validate("ItemFeedbackRequest", { ...base, reason: "other" })).toBe(false);
   });
 
+  it("国际栏目保留逐条规则分，旧归档允许规则分缺失", () => {
+    const article = readJson(join(SAMPLES, "news", "Article.synthetic.json"));
+    const digest = { article, summary: null, whyItMatters: null, topic: null, generatedBy: null };
+    const item = { id: "source-1", data: digest, ruleScore: 8, clusterId: null };
+    expect(
+      validate("NewsInternational", {
+        overview: "示例",
+        top5: [item],
+        briefs: [],
+        generatedBy: null,
+      }),
+    ).toBe(true);
+    expect(
+      validate("NewsInternational", {
+        overview: "示例",
+        top5: [digest],
+        briefs: [],
+        generatedBy: null,
+      }),
+    ).toBe(false);
+    expect(validate("NewsNewsArticleDigestItem", { id: "legacy-1", data: digest })).toBe(true);
+  });
+
+  it("个股摘要的财报输入必须具有可引用的来源 id", () => {
+    const card = readJson(join(SAMPLES, "news", "EarningsCard.synthetic.json")) as Record<
+      string,
+      unknown
+    >;
+    expect(validate("NewsTickerEarnings", card)).toBe(false);
+    expect(validate("NewsTickerEarnings", { ...card, id: "earnings-source-1" })).toBe(true);
+  });
+
   it("内部人交易必须具有accession和交易行序号", () => {
     const trade = readJson(join(SAMPLES, "news", "InsiderTrade.synthetic.json")) as Record<
       string,

@@ -52,7 +52,7 @@ model NewsCloseSnapshot {
   treasury10Year: float64 | null; vix: float64 | null;
 }
 model NewsInternational {
-  @maxChars(150) overview: string; top5: NewsArticleDigest[]; briefs: NewsArticleDigest[];
+  @maxChars(150) overview: string; top5: NewsNewsArticleDigestItem[]; briefs: NewsNewsArticleDigestItem[];
   generatedBy: GeneratedBy | null;
 }
 model NewsUnchangedTickers { symbols: string[]; }
