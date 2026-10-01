@@ -416,6 +416,8 @@ export interface CurateOutput {
  * DirectionPersistenceActual：市场观测台数据。
  */
 export interface DirectionPersistenceActual {
+  /** 结算日来源快照的完整成员代码；用于与已保存的基线成员集合核对。 */
+  memberCodes?: string[];
   relativeVsAllA: number;
   advanceShare: number;
   medianReturn1d: number;
@@ -428,6 +430,8 @@ export interface DirectionPersistenceActual {
  */
 export interface DirectionPersistenceBaseline {
   membershipAsOf: string;
+  /** 生成日来源快照的完整成员代码；只在可核实时保存，不从日期或成员数量推断。 */
+  memberCodes?: string[];
   return1d: number;
   advanceShare: number;
   amountShare: number;
@@ -1854,6 +1858,8 @@ export interface MarketDirection {
   name: string;
   sourceIndexCode: string;
   memberCount: number;
+  /** 来源快照的完整成员代码，用于核对假设生成日至结算日的成员变化；不可用行情覆盖子集替代。旧数据无法核实时省略。 */
+  memberCodes?: string[];
   coveredCount: number;
   return1d: number;
   medianReturn1d: number;

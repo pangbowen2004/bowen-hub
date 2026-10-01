@@ -15,6 +15,13 @@
       "minimum": -2147483648,
       "maximum": 2147483647
     },
+    "memberCodes": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "来源快照的完整成员代码，用于核对假设生成日至结算日的成员变化；不可用行情覆盖子集替代。旧数据无法核实时省略。"
+    },
     "coveredCount": {
       "type": "integer",
       "minimum": -2147483648,

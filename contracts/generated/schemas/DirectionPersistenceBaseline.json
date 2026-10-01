@@ -8,6 +8,13 @@
       "type": "string",
       "format": "date"
     },
+    "memberCodes": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "生成日来源快照的完整成员代码；只在可核实时保存，不从日期或成员数量推断。"
+    },
     "return1d": {
       "type": "number"
     },
