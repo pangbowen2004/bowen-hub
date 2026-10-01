@@ -65,7 +65,10 @@ export function effectiveConfig(root: string, sections: IniSection[]): Effective
   const rootPackages = listed.filter((name) => layout.sourceRoots.has(name));
 
   const exists = (module: string): boolean => {
-    const [top = "", ...rest] = module.split(".");
+    const parts = module.split(".");
+    const wildcard = parts.findIndex((part) => part === "*" || part === "**");
+    // 通配模式交给 import-linter 展开；这里只确认通配符前的包存在。
+    const [top = "", ...rest] = wildcard === -1 ? parts : parts.slice(0, wildcard);
     const sourceRoot = layout.sourceRoots.get(top);
     if (sourceRoot === undefined) return false;
     const base = join(sourceRoot, top, ...rest);
@@ -97,7 +100,16 @@ export function effectiveConfig(root: string, sections: IniSection[]): Effective
       notes.push(`暂时跳过“${label}”（涉及的模块还不存在）`);
       continue;
     }
-    kept.push({ name: section.name, entries: new Map([...section.entries, [field, modules]]) });
+    const entries = new Map([...section.entries, [field, modules]]);
+    if (type === "forbidden") {
+      // 内部子模块尚未建好时不把它当成外部子包（import-linter 不允许禁止外部子包）。
+      const forbidden = (entries.get("forbidden_modules") ?? []).filter((module) => {
+        const [top = ""] = module.split(".");
+        return !listed.includes(top) || !module.includes(".") || exists(module);
+      });
+      entries.set("forbidden_modules", forbidden);
+    }
+    kept.push({ name: section.name, entries });
   }
   const sourceRoots = [...new Set(rootPackages.map((name) => layout.sourceRoots.get(name) ?? ""))];
   return { sections: kept, rootPackages, sourceRoots, notes, problems: [...new Set(problems)] };

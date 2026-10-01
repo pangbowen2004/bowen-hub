@@ -13,7 +13,7 @@
 #   dev:markets / dev:papers     apps/markets / apps/papers 的 "dev" script（T05）
 #   storybook                    packages/ui 的 "storybook" script（T05）
 #   lighthouse                   apps/markets、apps/papers 的 "lighthouse" script（T05），阈值统一在 lighthouserc.json
-#   evals                        py/apps/hub-cli 建好后运行 uv run hub evals run（hub 由 T03 建，evals 由 T04 实现）
+#   evals                        py/apps/hub-cli + py/packages/hub-ai/src/hub_ai/evals/runner.py（T04 的实际评测入口）
 #   check:types / test:ts / e2e  每个工作区包自己的 "typecheck" / "test" / "e2e" script，经 turbo 自动接上
 #   test:py                      py/packages/*/tests、py/apps/*/tests 下的 pytest 测试自动发现
 #
@@ -26,6 +26,7 @@ node = "24.21.0"  # 当前 Active LTS
 pnpm = "12.8.1"
 python = "3.14.7"
 uv = "0.12.21"
+"github:oasdiff/oasdiff" = "1.32.1"  # T01 的契约兼容检查；官方稳定版
 
 [env]
 _.path = ["{{config_root}}/node_modules/.bin"]  # turbo、biome 等直接可用
@@ -148,6 +149,10 @@ usage = 'arg "[args]" var=#true help="传给 hub evals run 的参数"'
 run = """
 if [ ! -f apps/hub-cli/pyproject.toml ]; then
   echo "evals：尚未接入（hub 命令由 T03 在 py/apps/hub-cli 建，evals 子命令由 T04 实现），跳过。"
+  exit 0
+fi
+if [ ! -f packages/hub-ai/src/hub_ai/evals/runner.py ]; then
+  echo "evals：尚未接入（T04 在 py/packages/hub-ai/src/hub_ai/evals/runner.py 提供实际评测实现），跳过。"
   exit 0
 fi
 uv run hub evals run ${usage_args:-}

@@ -17,6 +17,12 @@
           }
         },
         {
+          "matchingUrlPattern": "^https?://[^/]+/(directions|validation)/(index\\.html)?$",
+          "assertions": {
+            "resource-summary:script:size": ["error", { "maxNumericValue": 122880 }]
+          }
+        },
+        {
           "matchingUrlPattern": "^https?://[^/]+/(?!universe/).*$",
           "assertions": {
             "resource-summary:script:size": ["error", { "maxNumericValue": 256000 }]

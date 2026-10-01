@@ -7,10 +7,12 @@
     "test": "vitest run --testTimeout=30000"
   },
   "devDependencies": {
+    "@astrojs/compiler": "4.0.0",
     "@bowen-hub/config": "workspace:*",
     "@types/node": "catalog:",
     "dependency-cruiser": "18.4.0",
     "typescript": "catalog:",
+    "typescript-parser": "npm:typescript@6.0.3",
     "vitest": "catalog:"
   }
 }

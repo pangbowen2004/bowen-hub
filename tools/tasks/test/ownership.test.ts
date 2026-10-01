@@ -206,11 +206,28 @@ describe("[C] 契约 PR", () => {
   });
 });
 
+describe("[编排] PR", () => {
+  it("规格、任务图、配置和已有 ADR 都豁免所有权检查", () => {
+    const changes = [
+      "docs/01-架构与技术栈.md",
+      "tasks/graph.yaml",
+      "config/llm.yaml",
+      "docs/adr/ADR-0001-多语言单仓.md",
+      "services/api/src/app.ts",
+    ];
+    expect(judge({ kind: "orchestrator" }, changes).every((verdict) => verdict.ok)).toBe(true);
+    expect(judge({ kind: "task", id: "T21" }, changes).every((verdict) => !verdict.ok)).toBe(true);
+  });
+});
+
 describe("任务号的来源", () => {
   it("PR 标题", () => {
     expect(subjectFromTitle("[T21] 市场指标计算")).toEqual({ kind: "task", id: "T21" });
     expect(subjectFromTitle("[T00] 仓库骨架与工具链 (#1)")).toEqual({ kind: "task", id: "T00" });
     expect(subjectFromTitle("[C] 给 Paper 加可选字段")).toEqual({ kind: "contract" });
+    expect(subjectFromTitle("[编排] 修订文档与任务图")).toEqual({ kind: "orchestrator" });
+    expect(subjectFromTitle("修订 [编排] 文档")).toBeUndefined();
+    expect(subjectFromTitle("[T21] [编排] 修改文档")).toEqual({ kind: "task", id: "T21" });
     expect(subjectFromTitle("修复市场指标")).toBeUndefined();
     expect(subjectFromTitle("市场指标 [T21]")).toBeUndefined();
   });
@@ -303,6 +320,29 @@ describe("check:ownership 在真实 git 仓库里", () => {
     expect(noId.output.join("\n")).toContain("没有可识别的任务号");
     const unknown = runOwnershipCheck(dir, "[T99] 不存在的任务");
     expect(unknown.code).toBe(1);
+  });
+
+  it("[编排] 标题通过命令行豁免文档和旧 ADR；任务标题仍拒绝", () => {
+    const dir = repoWithBase();
+    writeFiles(dir, { "docs/adr/ADR-0001-多语言单仓.md": "# 原决定\n" });
+    commitAll(dir, "docs: 添加原决定");
+    git(dir, "switch", "--quiet", "-c", "task/T21-market-compute");
+    writeFiles(dir, {
+      "docs/01-架构与技术栈.md": "# 修订架构\n",
+      "docs/adr/ADR-0001-多语言单仓.md": "# 原决定\n已被 ADR-0013 取代。\n",
+      "config/llm.yaml": "version: 1\n",
+    });
+    commitAll(dir, "docs: 修订决定");
+    git(dir, "switch", "--quiet", "--detach", "HEAD");
+    const result = runBin("check-ownership.ts", {
+      cwd: dir,
+      env: { PR_TITLE: "[编排] 修订文档、配置与旧决定" },
+    });
+    expect(result.code).toBe(0);
+    expect(result.stderr).toBe("");
+    expect(result.stdout).toContain("编排 PR [编排]");
+    expect(result.stdout).toContain("3 个改动文件，全部在允许范围内");
+    expect(runOwnershipCheck(dir, "[T21] [编排] 修订旧决定").code).toBe(1);
   });
 
   it("在 main 上、没有 PR 标题：跳过并说明", () => {

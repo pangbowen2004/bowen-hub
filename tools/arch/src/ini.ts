@@ -33,12 +33,21 @@ export function parseIni(text: string): IniSection[] {
   return sections;
 }
 
+// import-linter 仅把换行缩进的值读成列表；单元素列表也不能缩成单行字符串。
+const LIST_FIELDS = new Set([
+  "root_packages",
+  "source_modules",
+  "forbidden_modules",
+  "modules",
+  "ignore_imports",
+]);
+
 export function serializeIni(sections: IniSection[]): string {
   const blocks = sections.map((section) =>
     [
       `[${section.name}]`,
       ...[...section.entries].map(([key, values]) =>
-        values.length === 1
+        values.length === 1 && !LIST_FIELDS.has(key)
           ? `${key} = ${values[0]}`
           : [`${key} =`, ...values.map((v) => `    ${v}`)].join("\n"),
       ),

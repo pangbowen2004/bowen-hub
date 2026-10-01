@@ -19,7 +19,7 @@ export function runOwnershipCheck(root: string, prTitle: string | undefined): Ru
   if (title !== "") {
     subject = subjectFromTitle(title);
     if (subject === undefined) {
-      return fail(`PR 标题“${title}”里没有可识别的任务号：应以 [Txx] 或 [C] 开头`);
+      return fail(`PR 标题“${title}”里没有可识别的任务号：应以 [Txx]、[C] 或 [编排] 开头`);
     }
     source = `取自 PR 标题“${title}”`;
   } else {
@@ -58,7 +58,12 @@ export function runOwnershipCheck(root: string, prTitle: string | undefined): Ru
       ),
   });
 
-  const who = subject.kind === "contract" ? "契约 PR [C]" : subject.id;
+  const who =
+    subject.kind === "contract"
+      ? "契约 PR [C]"
+      : subject.kind === "orchestrator"
+        ? "编排 PR [编排]"
+        : subject.id;
   const header = `check:ownership：${who}（${source}），相对 ${ref} 的合并基点有 ${changes.length} 个改动文件`;
   const bad = verdicts.filter((verdict) => !verdict.ok);
   if (bad.length === 0) return { code: 0, output: [`${header}，全部在允许范围内。`] };

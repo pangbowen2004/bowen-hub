@@ -5,7 +5,7 @@
 #   - hub-cli 可以依赖全部 py/packages/*，没有要禁止的内部依赖；
 #   - 编排模块（eod、editions、render、ingest、revise、localtask、migrate、compare、pdf 和各 commands.py）
 #     可以用 hub-contracts、hub-ai、hub-core、hub-providers，由下面“领域包”两条规则约束；
-#   - “只能依赖 hub-core 的协议”要等 T03 定下 hub-core 的模块布局才能写成规则（见 docs/progress/T00.md）；
+#   - hub-core 的协议固定放在 hub_core.protocols；领域包的 common 也属于纯逻辑模块；
 #   - “不许手改生成目录”不是导入关系，由 CI 的“生成物一致”一步检查。
 
 [importlinter]
@@ -77,23 +77,81 @@ forbidden_modules =
 
 # 只查直接导入：纯逻辑模块可以调用 hub-ai，而 hub-ai 调模型本来就要联网，间接链路会误报。
 [importlinter:contract:pure-modules]
-name = 领域包的纯逻辑模块不许引用 hub-providers、httpx、smtplib
+name = 领域包的纯逻辑模块只用 hub-core 协议，不引用编排层和直接 IO
 type = forbidden
 source_modules =
+    hub_market.common
+    hub_market.common.**
     hub_market.compute
+    hub_market.compute.**
     hub_market.summary
+    hub_market.summary.**
     hub_market.hypotheses
+    hub_market.hypotheses.**
     hub_market.evolution
+    hub_market.evolution.**
     hub_market.weekly
+    hub_market.weekly.**
+    hub_newsroom.common
+    hub_newsroom.common.**
     hub_newsroom.pipeline
+    hub_newsroom.pipeline.**
     hub_newsroom.ai
+    hub_newsroom.ai.**
+    hub_papers.common
+    hub_papers.common.**
     hub_papers.check
+    hub_papers.check.**
     hub_papers.derive
+    hub_papers.derive.**
     hub_papers.excerpt
+    hub_papers.excerpt.**
     hub_papers.ai
+    hub_papers.ai.**
     hub_papers.ids
+    hub_papers.ids.**
 forbidden_modules =
+    hub_core
+    hub_core.**
     hub_providers
+    hub_providers.**
     httpx
     smtplib
+    hub_market.eod
+    hub_market.eod.**
+    hub_market.compare
+    hub_market.compare.**
+    hub_market.migrate
+    hub_market.migrate.**
+    hub_newsroom.editions
+    hub_newsroom.editions.**
+    hub_newsroom.render
+    hub_newsroom.render.**
+    hub_newsroom.migrate
+    hub_newsroom.migrate.**
+    hub_papers.pdf
+    hub_papers.pdf.**
+    hub_papers.ingest
+    hub_papers.ingest.**
+    hub_papers.revise
+    hub_papers.revise.**
+    hub_papers.localtask
+    hub_papers.localtask.**
+    hub_papers.migrate
+    hub_papers.migrate.**
+    hub_market.commands
+    hub_market.**.commands
+    hub_newsroom.commands
+    hub_newsroom.**.commands
+    hub_papers.commands
+    hub_papers.**.commands
+# 按单个模块判断，避免“纯逻辑包包含 commands.py”被当成允许导入自身而放行。
+as_packages = False
+ignore_imports =
+    ** -> hub_core.protocols
+    ** -> hub_core.protocols.**
+    **.commands -> **
+# commands.py 属于编排层，允许它调用 IO；纯逻辑导入 commands.py 本身仍会被拒绝。
+# 协议包或引用还不存在时不报错；一旦出现，只有协议路径能通过。
+unmatched_ignore_imports_alerting = none
 allow_indirect_imports = True

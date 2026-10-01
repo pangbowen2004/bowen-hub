@@ -15,7 +15,10 @@ export const GENERATED = [
 
 export const LOCK_FILES = ["pnpm-lock.yaml", "py/uv.lock"];
 
-export type Subject = { kind: "task"; id: string } | { kind: "contract" };
+export type Subject =
+  | { kind: "task"; id: string }
+  | { kind: "contract" }
+  | { kind: "orchestrator" };
 
 export type Verdict = { path: string; ok: boolean; reason: string };
 
@@ -56,6 +59,9 @@ export function parseSharedEdit(entry: string): { path: string; scope: string } 
 
 export function checkOwnership(input: OwnershipInput): Verdict[] {
   const { subject } = input;
+  if (subject.kind === "orchestrator") {
+    return input.changes.map(({ path }) => ({ path, ok: true, reason: "编排 PR：所有权豁免" }));
+  }
   if (subject.kind === "contract") {
     return input.changes.map(({ path }) =>
       matches("contracts/**", path) || matchesAny(GENERATED, path)
@@ -92,7 +98,7 @@ function judge(change: Change, task: Task, input: OwnershipInput): Verdict {
   if (matches("docs/adr/ADR-*.md", path)) {
     return change.status === "A"
       ? ok("新增的 ADR")
-      : no("已有的 ADR 只增不改（推翻旧决定请新写一条 ADR）");
+      : no("任务 PR 对 ADR 只增不改（推翻旧决定请新写一条 ADR，旧记录由 [编排] PR 注明已被取代）");
   }
   if (LOCK_FILES.includes(path)) return ok("锁文件");
   if (matches(`fixtures/samples/${task.id}/**`, path)) return ok("本任务的样例数据");
@@ -115,10 +121,11 @@ function judge(change: Change, task: Task, input: OwnershipInput): Verdict {
   return no("不在本任务的 owns、scaffolds、sharedEdits 和公共文件范围内");
 }
 
-/** 从 PR 标题里取任务号：[T21] … → T21；[C] … → 契约 PR；都不是返回 undefined。 */
+/** 从 PR 标题取身份：[T21] → 任务；[C] → 契约；[编排] → 编排者。 */
 export function subjectFromTitle(title: string): Subject | undefined {
-  const match = /^\s*\[(T\d+|C)\]/.exec(title);
+  const match = /^\s*\[(T\d+|C|编排)\]/.exec(title);
   if (match?.[1] === undefined) return undefined;
+  if (match[1] === "编排") return { kind: "orchestrator" };
   return match[1] === "C" ? { kind: "contract" } : { kind: "task", id: match[1] };
 }
 

@@ -54,7 +54,14 @@ describe("lighthouserc.json", () => {
     expect(limits(path)).toEqual({ minScores: scores, maxScriptBytes: 50 * 1024 });
   });
 
-  it.each(["/industries/", "/directions/", "/evolution/", "/validation/", "/archive/2026-08-28/"])(
+  it.each(["/directions/", "/directions/index.html", "/validation/", "/validation/index.html"])(
+    "交互表格页 %s：性能、可访问性 ≥ 90，首屏 JS ≤ 120 KB",
+    (path) => {
+      expect(limits(path)).toEqual({ minScores: scores, maxScriptBytes: 120 * 1024 });
+    },
+  );
+
+  it.each(["/industries/", "/evolution/", "/archive/2026-08-28/", "/other/"])(
     "其余页面 %s：性能、可访问性 ≥ 90，首屏 JS ≤ 250 KB",
     (path) => {
       expect(limits(path)).toEqual({ minScores: scores, maxScriptBytes: 250 * 1024 });
