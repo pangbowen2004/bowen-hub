@@ -6,6 +6,7 @@ requires-python = ">=3.14"
 dependencies = [
     "hub-core",
     "hub-contracts",
+    "hub-providers",
     "typer>=0.24,<1",
     "polars>=1,<2",
 ]
@@ -16,6 +17,7 @@ migrate = "hub_market.migrate.commands:register"
 [tool.uv.sources]
 hub-core = { workspace = true }
 hub-contracts = { workspace = true }
+hub-providers = { workspace = true }
 [build-system]
 requires = ["uv_build>=0.12.21,<0.13"]
 build-backend = "uv_build"
