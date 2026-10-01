@@ -1,0 +1,15 @@
+# 确定性规则来自docs04；页图144dpi是本地展示尺寸，不影响证据行号。
+pageImageDpi: 144
+articleHeadings:
+  - 先说结论
+  - 论文为什么要做这件事
+  - 核心方法到底怎么运转
+  - 实验怎样检验这个方法
+  - 结果说明了什么
+  - 这篇论文哪里最强，哪里最危险
+  - 代码从哪里读
+  - 读完后记住这三件事
+inferredMarkers: [解释性例子, 核查建议, 我的推断]
+customStopWords: [a, an, the, of, for, and, in, "on", with, to, via, from, by, at, as, is, are, be, or, into, using]
+customWords: 6
+customMaxLength: 40
