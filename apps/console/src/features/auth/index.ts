@@ -1,6 +1,8 @@
-// 登录守卫占位：只有开发模拟环境放行，真实认证由T40接入。
 import { redirect } from "@tanstack/react-router";
 import { useMocks } from "../../lib/environment";
-export function requireSession(path: string): void {
-  if (path !== "/login" && !useMocks) throw redirect({ to: "/login" });
+import { authClient } from "./client";
+export async function requireSession(path: string): Promise<void> {
+  if (path === "/login" || useMocks) return;
+  const { data } = await authClient.getSession();
+  if (!data || data.session.bootstrap) throw redirect({ to: "/login", search: { returnTo: path } });
 }

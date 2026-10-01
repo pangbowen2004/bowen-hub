@@ -6,6 +6,7 @@ import { app } from "../../src/app";
 import type { Bindings } from "../../src/lib/env";
 import { getAiUsage, getDocument } from "../../src/modules/platform/service";
 import { ROUTES } from "../../src/routes.gen";
+import { authenticatedCookie } from "../auth/fixture";
 
 beforeEach(async () => {
   await env.DB.batch(
@@ -15,12 +16,13 @@ beforeEach(async () => {
   );
 });
 const headers = { "Content-Type": "application/json", Authorization: "Bearer test-service-token" };
-const request = (
+const request = async (
   path: string,
   method = "GET",
   body?: unknown,
   bindings: Bindings = env,
   authorization = "Bearer test-service-token",
+  authenticated = false,
 ) =>
   app.request(
     `http://localhost${path}`,
@@ -28,6 +30,8 @@ const request = (
       method,
       headers: {
         "Content-Type": "application/json",
+        Origin: bindings.AUTH_BASE_URL,
+        ...(authenticated ? { Cookie: await authenticatedCookie() } : {}),
         ...(authorization ? { Authorization: authorization } : {}),
       },
       ...(body === undefined ? {} : { body: JSON.stringify(body) }),
@@ -257,7 +261,7 @@ describe("鉴权分流", () => {
     expect((await request("/v1/runs")).status).toBe(200);
     expect((await request("/v1/watchlist/AAPL", "PUT", {})).status).toBe(403);
   });
-  it("线上会话占位始终401；服务令牌只可读GET，本地无令牌会话放行", async () => {
+  it("未登录本地与线上均401，服务令牌和真实签名会话可读", async () => {
     const online = { ...env, APP_MODE: "production" };
     for (const route of ROUTES.filter(
       (r) =>
@@ -272,7 +276,8 @@ describe("鉴权分流", () => {
       ).toBe(401);
     }
     expect((await request("/v1/runs", "GET", undefined, online)).status).toBe(200);
-    expect((await request("/v1/runs", "GET", undefined, env, "")).status).toBe(200);
+    expect((await request("/v1/runs", "GET", undefined, env, "")).status).toBe(401);
+    expect((await request("/v1/runs", "GET", undefined, env, "", true)).status).toBe(200);
     expect((await request("/v1/news/editions", "GET", undefined, env, "Bearer wrong")).status).toBe(
       401,
     );
@@ -304,6 +309,7 @@ it("遍历完整OpenAPI，路由存在；未实现按x-task返回501", async () 
         method === "get" ? undefined : payload,
         env,
         url.startsWith("/v1/internal/") || method === "get" ? "Bearer test-service-token" : "",
+        !url.startsWith("/v1/internal/") && !url.startsWith("/v1/public/") && method !== "get",
       );
       if (response.status === 501) {
         expect(op["x-task"], op.operationId).not.toBe("T02");

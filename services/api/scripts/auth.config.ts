@@ -6,6 +6,16 @@ import { betterAuth } from "better-auth";
 import { jwt } from "better-auth/plugins";
 export const auth = betterAuth({
   baseURL: "https://bowen-console.pages.dev",
+  basePath: "/auth",
+  user: {
+    additionalFields: {
+      bootstrapCompleted: { type: "boolean", defaultValue: false, input: false },
+      bootstrapRegistrationSession: { type: "string", required: false, input: false },
+    },
+  },
+  session: {
+    additionalFields: { bootstrap: { type: "boolean", defaultValue: false, input: false } },
+  },
   plugins: [
     passkey(),
     jwt(),

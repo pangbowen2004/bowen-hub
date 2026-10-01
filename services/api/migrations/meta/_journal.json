@@ -15,6 +15,13 @@
       "when": 1790865848857,
       "tag": "0001_fts",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "6",
+      "when": 1790892762679,
+      "tag": "0002_shocking_deathbird",
+      "breakpoints": true
     }
   ]
 }

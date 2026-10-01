@@ -13,5 +13,6 @@ export interface Bindings {
   GH_AUTOMATION_TOKEN?: string;
   OPENAI_API_KEY?: string;
   BETTER_AUTH_SECRET?: string;
+  HUB_BOOTSTRAP_TOKEN?: string;
 }
 export type AppEnv = { Bindings: Bindings; Variables: { requestId: string } };
