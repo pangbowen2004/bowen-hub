@@ -51,8 +51,9 @@ def test_command_help_and_placeholder(args: list[str], task: str) -> None:
     help_result = runner.invoke(app, [*args, "--help"])
     assert help_result.exit_code == 0, help_result.output
     assert "Usage:" in help_result.output
-    if task == "T04":
-        return  # 已接线命令的退出与离线行为由 hub-ai 的功能测试验证。
+    if task in {"T04", "T10", "T10/T20"}:
+        # 已实现命令在这里验证帮助入口；领域测试负责真实退出码与离线行为。
+        return
     result = runner.invoke(app, args)
     assert result.exit_code == 2, result.output
     assert f"任务 {task}" in result.output
