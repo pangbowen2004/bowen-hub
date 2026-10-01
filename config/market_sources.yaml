@@ -1,0 +1,29 @@
+# 市场观测台 · 数据源与边界
+# 用途：收盘任务每次写进 markets.reference 的数据源部分（docs/03 第 2 节）；“方法与口径”页照此显示
+#       数据源和接口、做不到的事、免责声明（docs/03 第 8 节）。
+# 内容照 docs/03 第 3 节的数据源表和 docs/00 第 4.2 节的“不做”；口径以文档为准，文档改了同步改这里。
+# 字段：source 数据源 / api 接口 / usage 用途 / optional（true = 可选：失败时照常发布，置空规则见 docs/03 第 7 节）
+
+sources:
+  - { source: TuShare, api: trade_cal, usage: 交易日历、上一交易日, optional: false }
+  - { source: TuShare, api: daily, usage: 全 A 日线, optional: false }
+  - { source: TuShare, api: daily_basic, usage: 换手、估值、市值, optional: false }
+  - { source: TuShare, api: stk_limit, usage: 涨跌停价, optional: false }
+  - { source: TuShare, api: stock_basic, usage: 名称、上市日期, optional: false }
+  - { source: TuShare, api: index_member_all, usage: 申万 2021 一级行业点时成员, optional: false }
+  - { source: TuShare, api: index_daily, usage: 6 个指数日线, optional: false }
+  - { source: TuShare, api: limit_list_d, usage: 涨跌停明细（涨停 / 跌停 / 触板未封）, optional: true }
+  - { source: TuShare, api: moneyflow_dc, usage: 个股资金流分类代理, optional: true }
+  - { source: TuShare, api: moneyflow_mkt_dc, usage: 全市场资金流分类代理, optional: true }
+  - { source: TuShare, api: fund_basic, usage: ETF 名单, optional: true }
+  - { source: TuShare, api: fund_daily, usage: ETF 日线, optional: true }
+  - { source: TuShare, api: fund_share, usage: ETF 份额变动记录, optional: true }
+  - { source: TuShare, api: ths_member, usage: 16 个方向的当前成分, optional: true }
+  - { source: TuShare, api: ths_daily, usage: 16 个方向的官方板块日线, optional: true }
+
+# 做不到的事（docs/00 第 4.2 节）
+limitations:
+  - 需要分钟级、逐笔、席位、ETF 盘中申赎的数据：TuShare 日频拿不到，不做
+  - 实盘、下单、买卖建议、仓位建议、目标价：永远不做
+
+disclaimer: 研究辅助，不构成投资建议。只描述市场状态，不给买卖建议、仓位、目标价、概率或胜率。
