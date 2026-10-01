@@ -50,6 +50,7 @@ export function EChart({
           components.LegendComponent,
           components.DataZoomComponent,
           components.VisualMapComponent,
+          components.MarkLineComponent,
           renderers.CanvasRenderer,
         ]);
         const tokens = getComputedStyle(element);

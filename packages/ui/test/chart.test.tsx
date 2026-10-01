@@ -24,6 +24,7 @@ vi.mock("echarts/components", () => ({
   LegendComponent: "legend",
   DataZoomComponent: "zoom",
   VisualMapComponent: "visual",
+  MarkLineComponent: "markLine",
 }));
 vi.mock("echarts/renderers", () => ({ CanvasRenderer: "canvas" }));
 let enter: (entries: { isIntersecting: boolean }[]) => void;
