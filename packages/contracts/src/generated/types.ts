@@ -1409,6 +1409,22 @@ export interface IndexBar {
   amountCny: number;
 }
 
+export type InsiderTimelineItemKind = typeof InsiderTimelineItemKind[keyof typeof InsiderTimelineItemKind];
+
+
+export const InsiderTimelineItemKind = {
+  insider: 'insider',
+} as const;
+
+/**
+ * docs/05 的个股时间线包含内部人交易，保留每笔交易的自然键与事实。
+ */
+export interface InsiderTimelineItem {
+  kind: InsiderTimelineItemKind;
+  at: string;
+  insiderTrade: InsiderTrade;
+}
+
 export type ItemFeedbackRequestReason = typeof ItemFeedbackRequestReason[keyof typeof ItemFeedbackRequestReason];
 
 
@@ -2316,6 +2332,11 @@ export interface MarketReference {
   limitations: string[];
   disclaimer: string;
 }
+
+/**
+ * 新接口使用完整时间线，保留旧接口的返回类型，避免破坏已生成的客户端。
+ */
+export type NewsFullTimelineItem = ArticleTimelineItem | FilingTimelineItem | EarningsTimelineItem | InsiderTimelineItem;
 
 export type UsNewsTopic = typeof UsNewsTopic[keyof typeof UsNewsTopic];
 
@@ -3506,6 +3527,13 @@ since?: string;
 };
 
 export type PrivateNewsGetTimelineParams = {
+/**
+ * @minimum 1
+ */
+days?: number;
+};
+
+export type PrivateNewsGetFullTimelineParams = {
 /**
  * @minimum 1
  */

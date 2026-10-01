@@ -1,0 +1,20 @@
+{
+  "$comment": "由 contracts 生成，勿手改（mise run gen）",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "NewsFullTimelineItem.json",
+  "anyOf": [
+    {
+      "$ref": "ArticleTimelineItem.json"
+    },
+    {
+      "$ref": "FilingTimelineItem.json"
+    },
+    {
+      "$ref": "EarningsTimelineItem.json"
+    },
+    {
+      "$ref": "InsiderTimelineItem.json"
+    }
+  ],
+  "description": "新接口使用完整时间线，保留旧接口的返回类型，避免破坏已生成的客户端。"
+}

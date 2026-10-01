@@ -18,5 +18,8 @@ op listFeedback(@query since?: DateTime): Feedback[] | HubHttp.ErrorResponse;
 op searchArticles(@query q: string, @query ticker?: string, @query @minValue(1) days?: int32 = 30): Article[] | HubHttp.ErrorResponse;
 @task("T14") @get @route("/news/tickers/{symbol}/timeline")
 op getTimeline(@path symbol: string, @query @minValue(1) days?: int32 = 30): NewsTimelineItem[] | HubHttp.ErrorResponse;
+/** 完整个股时间线：新闻、公告、内部人交易、财报卡片。旧timeline接口保留。 */
+@task("T14") @get @route("/news/tickers/{symbol}/timeline/full")
+op getFullTimeline(@path symbol: string, @query @minValue(1) days?: int32 = 30): NewsFullTimelineItem[] | HubHttp.ErrorResponse;
 @task("T14") @get @route("/news/sources")
 op listSources(): NewsSourceHealth[] | HubHttp.ErrorResponse;
