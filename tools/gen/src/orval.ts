@@ -1,6 +1,8 @@
 // 第 2 步：Orval → packages/contracts/src/generated/ 的 types.ts、zod.ts、client.ts、hooks.ts、msw.ts。
+
 import { readdirSync, readFileSync, renameSync, rmSync, writeFileSync } from "node:fs";
 import { join } from "node:path";
+import { faker } from "@faker-js/faker";
 import { generate, type OpenApiDocument, type Options } from "orval";
 import { SLASH_HEADER } from "./notice.ts";
 import { PATHS, ROOT } from "./paths.ts";
@@ -137,7 +139,14 @@ export function orvalProjects(): Record<string, Options> {
         baseUrl,
         urlEncodeParameters: true,
         mock: { generators: [{ type: "msw" }] },
-        override: { header, fetch: fetchOverride },
+        override: {
+          header,
+          fetch: fetchOverride,
+          // Orval int32 默认 faker 不限范围，会超出 TypeSpec / JSON Schema 的32位整数。
+          mock: {
+            format: { int32: () => faker.number.int({ min: -2147483648, max: 2147483647 }) },
+          },
+        },
       },
     },
     hooks: {

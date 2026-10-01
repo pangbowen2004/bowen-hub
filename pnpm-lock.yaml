@@ -603,6 +603,9 @@ importers:
       '@bowen-hub/config':
         specifier: workspace:*
         version: link:../../packages/config
+      '@faker-js/faker':
+        specifier: 10.6.0
+        version: 10.6.0
       '@types/node':
         specifier: 'catalog:'
         version: 24.19.0
