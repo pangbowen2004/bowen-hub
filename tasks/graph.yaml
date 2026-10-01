@@ -316,6 +316,8 @@ tasks:
     dependsOn: [T06, T14]
     difficulty: low
     owns: [py/packages/hub-newsroom/src/hub_newsroom/migrate/**, py/packages/hub-newsroom/tests/migrate/**]
+    sharedEdits:
+      - "py/apps/hub-cli/tests/test_commands.py：仅将T16 migrate news-legacy/watchlist占位失败断言改为命令help发现检查，保留其他命令断言；实际迁移、dry-run/verify与失败退出码由T16领域测试验证"
     read: [docs/06 第 0–1、4 节, config/us_watchlist.yaml]
     deliver: ["`hub migrate news-legacy`、`hub migrate watchlist`（--dry-run、--verify），对线上 API 执行"]
     accept:

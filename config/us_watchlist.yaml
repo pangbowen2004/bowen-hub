@@ -20,7 +20,7 @@ items:
   - { symbol: NVDA, name: 英伟达, kind: stock, group: 半导体, sectorEtf: SMH, aliases: [Nvidia] }
   - { symbol: MU,   name: 美光科技, kind: stock, group: 半导体, sectorEtf: SMH, aliases: [Micron] }
   - { symbol: INTC, name: 英特尔, kind: stock, group: 半导体, sectorEtf: SMH, aliases: [Intel] }
-  - { symbol: SKHY, name: SK 海力士, kind: stock, group: 半导体, sectorEtf: SMH, aliases: [SK Hynix], verify: true }
+  - { symbol: SKHY, name: SK 海力士, kind: stock, group: 半导体, sectorEtf: SMH, aliases: [SK Hynix] }
   - { symbol: SOXX, name: 安硕半导体 ETF, kind: etf, group: 半导体 }
   - { symbol: TSMX, name: 台积电 2 倍做多 ETF, kind: leveraged_etf, group: 半导体, underlying: TSM }
   - { symbol: AVGX, name: 博通 2 倍做多 ETF, kind: leveraged_etf, group: 半导体, underlying: AVGO }
@@ -48,7 +48,7 @@ items:
 
   # ── 其他 ──
   - { symbol: RKLB, name: Rocket Lab, kind: stock, group: 其他, aliases: [Rocket Lab] }
-  - { symbol: SPCX, name: SpaceX, kind: etf, group: 其他, verify: true }
+  - { symbol: SPCX, name: SpaceX, kind: stock, group: 其他 }
   - { symbol: TLN,  name: Talen Energy, kind: stock, group: 其他, sectorEtf: SPY, aliases: [Talen Energy] }
   - { symbol: MAR,  name: 万豪国际, kind: stock, group: 其他, sectorEtf: SPY, aliases: [Marriott] }
   - { symbol: PFE,  name: 辉瑞, kind: stock, group: 其他, sectorEtf: SPY, aliases: [Pfizer] }
