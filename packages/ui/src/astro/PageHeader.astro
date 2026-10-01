@@ -1,0 +1,5 @@
+---
+interface Props { title: string; lead?: string; date?: string; }
+const { title, lead, date } = Astro.props;
+---
+<header class="page-header"><h1>{title}</h1>{lead && <p class="muted">{lead}</p>}{date && <p class="muted">数据日期：<time datetime={date}>{date}</time></p>}<slot /></header>

@@ -1,0 +1,5 @@
+---
+interface Props { text?: string; }
+const { text = "今日该部分数据未就绪" } = Astro.props;
+---
+<aside class="card callout" data-tone="missing"><p>{text}</p><slot /></aside>

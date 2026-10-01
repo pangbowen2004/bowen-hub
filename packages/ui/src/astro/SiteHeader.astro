@@ -1,0 +1,5 @@
+---
+interface Props { name: string; links: { label: string; href: string }[]; }
+const { name, links } = Astro.props;
+---
+<header class="site-header"><div class="container row"><a class="brand" href="/">{name}</a><nav class="desktop-nav row" aria-label="主导航">{links.map(link => <a href={link.href}>{link.label}</a>)}</nav><details class="mobile-nav"><summary>菜单</summary><nav class="stack" aria-label="手机导航">{links.map(link => <a href={link.href}>{link.label}</a>)}</nav></details></div></header>

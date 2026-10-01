@@ -1,0 +1,5 @@
+---
+interface Props { id: string; label: string; definition: string; formula: string; }
+const { id, label, definition, formula } = Astro.props;
+---
+<button class="formula-trigger" type="button" popovertarget={id} aria-label={`${label}的定义与公式`}>?</button><div id={id} popover><h3>{label}</h3><p>{definition}</p><code>{formula}</code></div>
