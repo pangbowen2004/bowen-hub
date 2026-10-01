@@ -149,9 +149,7 @@ export type EvalSchedule = zod.input<typeof EvalSchedule>;
 export const CapabilityEvals = zod.object({
   "dataset": zod.string().describe('评测集目录，如 evals/news.ticker_digest/'),
   "schedule": EvalSchedule.describe('清单没写时为 weekly'),
-  "thresholds": zod.looseObject({
-
-}).describe('评测阈值（评分器名 → 最低分 0–1）')
+  "thresholds": zod.record(zod.string(), zod.number()).describe('评测阈值（评分器名 → 最低分 0–1）')
 }).describe('能力的评测设置');
 
 export type CapabilityEvals = zod.input<typeof CapabilityEvals>;
@@ -187,9 +185,7 @@ export const EvalResult = zod.object({
   "capability": zod.string().describe('能力 ID'),
   "model": zod.string().describe('被评测的模型（供应商/模型）'),
   "datasetVersion": zod.string().describe('评测集版本'),
-  "scores": zod.looseObject({
-
-}).describe('各评分器的得分（评分器名 → 0–1），如 schema_valid、judge_faithful'),
+  "scores": zod.record(zod.string(), zod.number()).describe('各评分器的得分（评分器名 → 0–1），如 schema_valid、judge_faithful'),
   "passed": zod.boolean().describe('是否达到清单里的全部阈值'),
   "at": zod.iso.datetime({"offset":true}).describe('评测时间'),
   "costUsd": zod.number().optional().describe('这次评测的费用（美元）（运维页显示费用，docs/10 第 7.3 节）'),
