@@ -1,0 +1,23 @@
+{
+  "$comment": "由 contracts 生成，勿手改（mise run gen）",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "PaperPatch.json",
+  "type": "object",
+  "properties": {
+    "visibility": {
+      "$ref": "PaperVisibility.json"
+    },
+    "spaces": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "readingDepth": {
+      "$ref": "PaperReadingDepth.json"
+    },
+    "nextAction": {
+      "type": "string"
+    }
+  }
+}

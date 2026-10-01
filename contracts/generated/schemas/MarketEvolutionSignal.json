@@ -1,0 +1,27 @@
+{
+  "$comment": "由 contracts 生成，勿手改（mise run gen）",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "MarketEvolutionSignal.json",
+  "type": "object",
+  "properties": {
+    "name": {
+      "type": "string"
+    },
+    "currentState": {
+      "type": "string"
+    },
+    "confirmation": {
+      "type": "string"
+    },
+    "invalidation": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "name",
+    "currentState",
+    "confirmation",
+    "invalidation"
+  ],
+  "description": "MarketEvolutionSignal：市场观测台数据。"
+}

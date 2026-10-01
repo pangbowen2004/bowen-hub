@@ -1,0 +1,89 @@
+{
+  "$comment": "由 contracts 生成，勿手改（mise run gen）",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "PaperDraftMeta.json",
+  "type": "object",
+  "properties": {
+    "titleZh": {
+      "type": "string"
+    },
+    "authors": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "year": {
+      "type": "integer",
+      "minimum": -2147483648,
+      "maximum": 2147483647
+    },
+    "venue": {
+      "type": "string"
+    },
+    "version": {
+      "type": "string"
+    },
+    "paperType": {
+      "type": "string"
+    },
+    "paperKind": {
+      "$ref": "PaperKind.json"
+    },
+    "studyDesign": {
+      "type": "string"
+    },
+    "sourceUrl": {
+      "type": "string"
+    },
+    "doi": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "arxivId": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "anthologyId": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    }
+  },
+  "required": [
+    "titleZh",
+    "authors",
+    "year",
+    "venue",
+    "version",
+    "paperType",
+    "paperKind",
+    "studyDesign",
+    "sourceUrl",
+    "doi",
+    "arxivId",
+    "anthologyId"
+  ],
+  "allOf": [
+    {
+      "$ref": "PaperMeta.json"
+    }
+  ]
+}

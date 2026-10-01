@@ -1,0 +1,23 @@
+{
+  "$comment": "由 contracts 生成，勿手改（mise run gen）",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "PaperMethod.json",
+  "type": "object",
+  "properties": {
+    "thesis": {
+      "type": "string"
+    },
+    "pipeline": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "components": {
+      "type": "array",
+      "items": {
+        "$ref": "PaperMethodComponent.json"
+      }
+    }
+  }
+}

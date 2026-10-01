@@ -1,0 +1,49 @@
+{
+  "$comment": "由 contracts 生成，勿手改（mise run gen）",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "Filing.json",
+  "type": "object",
+  "properties": {
+    "accession": {
+      "type": "string"
+    },
+    "cik": {
+      "type": "string"
+    },
+    "ticker": {
+      "type": "string"
+    },
+    "form": {
+      "type": "string"
+    },
+    "filedAt": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "items": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "url": {
+      "type": "string"
+    },
+    "exhibits": {
+      "type": "array",
+      "items": {
+        "$ref": "FilingExhibit.json"
+      }
+    }
+  },
+  "required": [
+    "accession",
+    "cik",
+    "ticker",
+    "form",
+    "filedAt",
+    "items",
+    "url",
+    "exhibits"
+  ]
+}

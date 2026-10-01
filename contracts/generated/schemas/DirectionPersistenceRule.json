@@ -1,0 +1,28 @@
+{
+  "$comment": "由 contracts 生成，勿手改（mise run gen）",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "DirectionPersistenceRule.json",
+  "type": "object",
+  "properties": {
+    "type": {
+      "type": "string",
+      "const": "DIRECTION_PERSISTENCE"
+    },
+    "thresholds": {
+      "$ref": "DirectionPersistenceThresholds.json"
+    },
+    "baseline": {
+      "$ref": "DirectionPersistenceBaseline.json"
+    },
+    "entity": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "type",
+    "thresholds",
+    "baseline",
+    "entity"
+  ],
+  "description": "DirectionPersistenceRule：市场观测台数据。"
+}

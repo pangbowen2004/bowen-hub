@@ -1,0 +1,23 @@
+{
+  "$comment": "由 contracts 生成，勿手改（mise run gen）",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "MarketPersistenceActual.json",
+  "type": "object",
+  "properties": {
+    "advanceShare": {
+      "type": "number"
+    },
+    "aboveMa20Share": {
+      "type": "number"
+    },
+    "turnoverCny": {
+      "type": "number"
+    }
+  },
+  "required": [
+    "advanceShare",
+    "aboveMa20Share",
+    "turnoverCny"
+  ],
+  "description": "MarketPersistenceActual：市场观测台数据。"
+}

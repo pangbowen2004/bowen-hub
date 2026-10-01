@@ -41,20 +41,12 @@
       "costUsd": 0.022125
     },
     {
-      "date": "2026-09-29",
-      "calls": 9,
-      "failedCalls": 1,
-      "inputTokens": 51560,
-      "outputTokens": 8500,
-      "costUsd": 0.026031
-    },
-    {
       "date": "2026-09-30",
-      "calls": 1,
-      "failedCalls": 0,
-      "inputTokens": 48230,
-      "outputTokens": 610,
-      "costUsd": 0.005128
+      "calls": 10,
+      "failedCalls": 1,
+      "inputTokens": 99790,
+      "outputTokens": 9110,
+      "costUsd": 0.031159
     }
   ],
   "byCapability": [

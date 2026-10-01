@@ -1,0 +1,23 @@
+{
+  "$comment": "由 contracts 生成，勿手改（mise run gen）",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "PaperClaimKind.json",
+  "anyOf": [
+    {
+      "type": "string",
+      "const": "method"
+    },
+    {
+      "type": "string",
+      "const": "result"
+    },
+    {
+      "type": "string",
+      "const": "limitation"
+    },
+    {
+      "type": "string",
+      "const": "definition"
+    }
+  ]
+}

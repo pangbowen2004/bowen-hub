@@ -1,0 +1,79 @@
+{
+  "$comment": "由 contracts 生成，勿手改（mise run gen）",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "MarketEvent.json",
+  "type": "object",
+  "properties": {
+    "id": {
+      "type": "string"
+    },
+    "title": {
+      "type": "string"
+    },
+    "sourceLabel": {
+      "type": "string"
+    },
+    "sourceUrl": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "confirmation": {
+      "type": "string"
+    },
+    "invalidation": {
+      "type": "string"
+    },
+    "startDate": {
+      "type": "string",
+      "format": "date"
+    },
+    "endDate": {
+      "type": "string",
+      "format": "date"
+    },
+    "status": {
+      "anyOf": [
+        {
+          "type": "string",
+          "const": "confirmed"
+        },
+        {
+          "type": "string",
+          "const": "pending"
+        }
+      ]
+    },
+    "watchItems": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "aShareMappings": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    }
+  },
+  "required": [
+    "id",
+    "title",
+    "sourceLabel",
+    "sourceUrl",
+    "confirmation",
+    "invalidation",
+    "startDate",
+    "endDate",
+    "status",
+    "watchItems",
+    "aShareMappings"
+  ],
+  "description": "MarketEvent：市场观测台数据。"
+}

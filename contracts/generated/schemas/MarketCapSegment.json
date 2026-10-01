@@ -1,0 +1,33 @@
+{
+  "$comment": "由 contracts 生成，勿手改（mise run gen）",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "MarketCapSegment.json",
+  "type": "object",
+  "properties": {
+    "name": {
+      "type": "string"
+    },
+    "sampleCount": {
+      "type": "integer",
+      "minimum": -2147483648,
+      "maximum": 2147483647
+    },
+    "return1d": {
+      "type": "number"
+    },
+    "advanceShare": {
+      "type": "number"
+    },
+    "medianMarketCapCny": {
+      "type": "number"
+    }
+  },
+  "required": [
+    "name",
+    "sampleCount",
+    "return1d",
+    "advanceShare",
+    "medianMarketCapCny"
+  ],
+  "description": "MarketCapSegment：市场观测台数据。"
+}

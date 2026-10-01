@@ -1,0 +1,86 @@
+{
+  "$comment": "由 contracts 生成，勿手改（mise run gen）",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "Edition.json",
+  "type": "object",
+  "properties": {
+    "id": {
+      "type": "string"
+    },
+    "kind": {
+      "$ref": "EditionKind.json"
+    },
+    "date": {
+      "type": "string",
+      "format": "date"
+    },
+    "window": {
+      "$ref": "EditionWindow.json"
+    },
+    "generatedAt": {
+      "anyOf": [
+        {
+          "type": "string",
+          "format": "date-time"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "lede": {
+      "anyOf": [
+        {
+          "$ref": "EditionLede.json"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "sections": {
+      "type": "array",
+      "items": {
+        "$ref": "NewsSection.json"
+      }
+    },
+    "sources": {
+      "type": "array",
+      "items": {
+        "$ref": "NewsSourceHealth.json"
+      }
+    },
+    "aiUsage": {
+      "anyOf": [
+        {
+          "$ref": "EditionAiUsage.json"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "email": {
+      "anyOf": [
+        {
+          "$ref": "EditionEmail.json"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    }
+  },
+  "required": [
+    "id",
+    "kind",
+    "date",
+    "window",
+    "generatedAt",
+    "lede",
+    "sections",
+    "sources",
+    "aiUsage",
+    "email"
+  ]
+}

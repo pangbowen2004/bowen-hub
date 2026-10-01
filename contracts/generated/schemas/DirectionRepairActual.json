@@ -1,0 +1,32 @@
+{
+  "$comment": "由 contracts 生成，勿手改（mise run gen）",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "DirectionRepairActual.json",
+  "type": "object",
+  "properties": {
+    "relativeVsAllA": {
+      "type": "number"
+    },
+    "advanceShare": {
+      "type": "number"
+    },
+    "medianReturn1d": {
+      "type": "number"
+    },
+    "amountShare": {
+      "type": "number"
+    },
+    "membershipAsOf": {
+      "type": "string",
+      "format": "date"
+    }
+  },
+  "required": [
+    "relativeVsAllA",
+    "advanceShare",
+    "medianReturn1d",
+    "amountShare",
+    "membershipAsOf"
+  ],
+  "description": "DirectionRepairActual：市场观测台数据。"
+}

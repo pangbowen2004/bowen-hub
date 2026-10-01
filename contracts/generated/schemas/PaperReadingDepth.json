@@ -1,0 +1,23 @@
+{
+  "$comment": "由 contracts 生成，勿手改（mise run gen）",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "PaperReadingDepth.json",
+  "anyOf": [
+    {
+      "type": "string",
+      "const": "R0"
+    },
+    {
+      "type": "string",
+      "const": "R1"
+    },
+    {
+      "type": "string",
+      "const": "R2"
+    },
+    {
+      "type": "string",
+      "const": "R3"
+    }
+  ]
+}

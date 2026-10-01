@@ -1,0 +1,34 @@
+{
+  "$comment": "由 contracts 生成，勿手改（mise run gen）",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "NewsInternationalSection.json",
+  "type": "object",
+  "properties": {
+    "kind": {
+      "anyOf": [
+        {
+          "type": "string",
+          "const": "international"
+        },
+        {
+          "type": "string",
+          "const": "legacy_headlines"
+        }
+      ]
+    },
+    "title": {
+      "type": "string"
+    },
+    "items": {
+      "type": "array",
+      "items": {
+        "$ref": "NewsNewsInternationalItem.json"
+      }
+    }
+  },
+  "required": [
+    "kind",
+    "title",
+    "items"
+  ]
+}

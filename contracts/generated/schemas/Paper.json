@@ -1,0 +1,61 @@
+{
+  "$comment": "由 contracts 生成，勿手改（mise run gen）",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "Paper.json",
+  "type": "object",
+  "properties": {
+    "schemaVersion": {
+      "type": "number",
+      "const": 1
+    },
+    "id": {
+      "type": "string"
+    },
+    "meta": {
+      "$ref": "PaperMeta.json"
+    },
+    "status": {
+      "$ref": "PaperStatus.json"
+    },
+    "spaces": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "guide": {
+      "$ref": "PaperGuide.json"
+    },
+    "evidence": {
+      "$ref": "PaperEvidence.json"
+    },
+    "structure": {
+      "$ref": "PaperStructure.json"
+    },
+    "learning": {
+      "$ref": "PaperLearning.json"
+    },
+    "resources": {
+      "$ref": "PaperResources.json"
+    },
+    "citations": {
+      "$ref": "PaperCitations.json"
+    },
+    "relations": {
+      "type": "array",
+      "items": {
+        "$ref": "PaperRelation.json"
+      }
+    },
+    "generatedBy": {
+      "$ref": "GeneratedBy.json",
+      "description": "新 AI 草稿落库时带运行时出处；旧论文没有可靠出处时不补造。"
+    }
+  },
+  "required": [
+    "id",
+    "meta",
+    "status"
+  ],
+  "description": "单篇公开内容。私人笔记、解释卡、老阅读卡只存在 PaperPrivate。"
+}

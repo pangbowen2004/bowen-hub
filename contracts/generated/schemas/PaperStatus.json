@@ -1,0 +1,32 @@
+{
+  "$comment": "由 contracts 生成，勿手改（mise run gen）",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "PaperStatus.json",
+  "type": "object",
+  "properties": {
+    "visibility": {
+      "$ref": "PaperVisibility.json"
+    },
+    "review": {
+      "$ref": "PaperReviewStatus.json"
+    },
+    "readingDepth": {
+      "$ref": "PaperReadingDepth.json"
+    },
+    "nextAction": {
+      "type": "string"
+    },
+    "updatedAt": {
+      "type": "string",
+      "format": "date",
+      "description": "内容更新日期；迁移按 docs/06 的依次回退规则取日期部分。"
+    }
+  },
+  "required": [
+    "visibility",
+    "review",
+    "readingDepth",
+    "nextAction",
+    "updatedAt"
+  ]
+}

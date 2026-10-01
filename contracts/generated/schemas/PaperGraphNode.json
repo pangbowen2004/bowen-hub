@@ -1,0 +1,35 @@
+{
+  "$comment": "由 contracts 生成，勿手改（mise run gen）",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "PaperGraphNode.json",
+  "type": "object",
+  "properties": {
+    "id": {
+      "type": "string"
+    },
+    "kind": {
+      "anyOf": [
+        {
+          "type": "string",
+          "const": "paper"
+        },
+        {
+          "type": "string",
+          "const": "concept"
+        },
+        {
+          "type": "string",
+          "const": "space"
+        }
+      ]
+    },
+    "label": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "id",
+    "kind",
+    "label"
+  ]
+}

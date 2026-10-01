@@ -1,0 +1,37 @@
+{
+  "$comment": "由 contracts 生成，勿手改（mise run gen）",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "MarketEvolution.json",
+  "type": "object",
+  "properties": {
+    "rows": {
+      "type": "array",
+      "items": {
+        "$ref": "MarketDaySummary.json"
+      },
+      "minItems": 5,
+      "maxItems": 5,
+      "description": "固定最近五个交易日；缺方向时保留该日，不跨缺口比较。"
+    },
+    "edgeChanges": {
+      "$ref": "MarketEvolutionEdgeChanges.json"
+    },
+    "summary": {
+      "$ref": "MarketEvolutionSummary.json"
+    },
+    "transmission": {
+      "$ref": "MarketTransmission.json"
+    },
+    "signals": {
+      "$ref": "MarketEvolutionSignals.json"
+    }
+  },
+  "required": [
+    "rows",
+    "edgeChanges",
+    "summary",
+    "transmission",
+    "signals"
+  ],
+  "description": "MarketEvolution：市场观测台数据。"
+}

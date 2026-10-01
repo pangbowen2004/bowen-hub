@@ -28,3 +28,5 @@
 - **手写**：演化始终保留最近5个交易日；27日窗口为21/24/25/26/27日，28日为24/25/26/27/28日。缺完整快照的行复制当日市场展示数字，并改日期、标题；24日明确存在于旧周报from的advanceShare/aboveMa20Share/medianReturn1d/turnoverCny/涨跌停/封板率/最高板使用真实旧周报值。缺方向行topDirections与directionsRelative为null，不补造方向。
 - 演化edgeChanges、五日中位/区间、行业出现次数、传导与signals由上面混合展示行推导，故相关历史/窗口统计都属于**手写展示样例**，不做精确断言。方向出现次数仅统计有资料的天，coverage分别1/5和2/5；不跨缺口比较。当天缺方向时transmission.direction和signals.direction可为null（领域测试覆盖）。
 - 周报Markdown是从转换后的真实周报数据按新口径生成的文字版；没有复制旧版“16条Research Error”的错误统计。
+
+周内反复方向仍保留已知符号切换次数；最后交易日缺方向数据时 latestRelative=null，不用更早日期冒充最后一天。

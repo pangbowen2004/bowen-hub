@@ -28,7 +28,7 @@
     "topics": [
       "us_china"
     ],
-    "paywall": "none",
+    "paywall": "metered",
     "clusterId": null
   },
   {
@@ -44,7 +44,7 @@
     "topics": [
       "war_geopolitics"
     ],
-    "paywall": "none",
+    "paywall": "metered",
     "clusterId": null
   },
   {
@@ -60,7 +60,7 @@
     "topics": [
       "ai_tech"
     ],
-    "paywall": "none",
+    "paywall": "metered",
     "clusterId": null
   },
   {

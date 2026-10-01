@@ -1,0 +1,55 @@
+{
+  "$comment": "由 contracts 生成，勿手改（mise run gen）",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "MarketEvolutionSummary.json",
+  "type": "object",
+  "properties": {
+    "turnoverMedianCny": {
+      "type": "number"
+    },
+    "temperatureRange": {
+      "type": "array",
+      "items": {
+        "type": "number"
+      }
+    },
+    "advanceShareRange": {
+      "type": "array",
+      "items": {
+        "type": "number"
+      }
+    },
+    "directions": {
+      "type": "array",
+      "items": {
+        "$ref": "MarketAppearance.json"
+      }
+    },
+    "industries": {
+      "type": "array",
+      "items": {
+        "$ref": "MarketAppearance.json"
+      }
+    },
+    "directionCoverageDays": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 5,
+      "description": "有方向数据的交易日数量，页面显示覆盖 n/5。"
+    },
+    "windowDays": {
+      "type": "number",
+      "const": 5
+    }
+  },
+  "required": [
+    "turnoverMedianCny",
+    "temperatureRange",
+    "advanceShareRange",
+    "directions",
+    "industries",
+    "directionCoverageDays",
+    "windowDays"
+  ],
+  "description": "MarketEvolutionSummary：市场观测台数据。"
+}

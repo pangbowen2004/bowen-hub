@@ -1,0 +1,79 @@
+{
+  "$comment": "由 contracts 生成，勿手改（mise run gen）",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "MarketValidationCount.json",
+  "type": "object",
+  "properties": {
+    "ruleType": {
+      "anyOf": [
+        {
+          "$ref": "HypothesisRuleType.json"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "settledCount": {
+      "type": "integer",
+      "minimum": -2147483648,
+      "maximum": 2147483647
+    },
+    "confirmedCount": {
+      "type": "integer",
+      "minimum": -2147483648,
+      "maximum": 2147483647
+    },
+    "notConfirmedCount": {
+      "type": "integer",
+      "minimum": -2147483648,
+      "maximum": 2147483647
+    },
+    "inconclusiveCount": {
+      "type": "integer",
+      "minimum": -2147483648,
+      "maximum": 2147483647
+    },
+    "confirmedShare": {
+      "anyOf": [
+        {
+          "type": "number"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "notConfirmedShare": {
+      "anyOf": [
+        {
+          "type": "number"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "inconclusiveShare": {
+      "anyOf": [
+        {
+          "type": "number"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    }
+  },
+  "required": [
+    "ruleType",
+    "settledCount",
+    "confirmedCount",
+    "notConfirmedCount",
+    "inconclusiveCount",
+    "confirmedShare",
+    "notConfirmedShare",
+    "inconclusiveShare"
+  ],
+  "description": "MarketValidationCount：市场观测台数据。"
+}

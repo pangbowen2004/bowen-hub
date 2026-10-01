@@ -1,0 +1,64 @@
+{
+  "$comment": "由 contracts 生成，勿手改（mise run gen）",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "PaperGuide.json",
+  "type": "object",
+  "properties": {
+    "oneSentence": {
+      "type": "string"
+    },
+    "readingGoal": {
+      "type": "string"
+    },
+    "article": {
+      "type": "string"
+    },
+    "prerequisites": {
+      "type": "array",
+      "items": {
+        "$ref": "PaperPrerequisite.json"
+      }
+    },
+    "problem": {
+      "$ref": "PaperProblem.json"
+    },
+    "method": {
+      "$ref": "PaperMethod.json"
+    },
+    "experiment": {
+      "$ref": "PaperExperiment.json"
+    },
+    "findings": {
+      "type": "array",
+      "items": {
+        "$ref": "PaperFinding.json"
+      }
+    },
+    "bottomLine": {
+      "$ref": "PaperBottomLine.json"
+    },
+    "limitations": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "openQuestions": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "projectConnection": {
+      "anyOf": [
+        {
+          "$ref": "PaperProjectConnection.json"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    }
+  },
+  "description": "迁移导读允许只保留已有部分；新草稿的要求在 PaperDraftGuide 中收紧。"
+}

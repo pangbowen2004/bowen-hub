@@ -1,0 +1,48 @@
+{
+  "$comment": "由 contracts 生成，勿手改（mise run gen）",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "MarketStateSummary.json",
+  "type": "object",
+  "properties": {
+    "headline": {
+      "type": "string"
+    },
+    "text": {
+      "type": "string"
+    },
+    "support": {
+      "type": "string"
+    },
+    "counterEvidence": {
+      "type": "string"
+    },
+    "tags": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "risks": {
+      "type": "array",
+      "items": {
+        "$ref": "MarketQuestion.json"
+      }
+    },
+    "nextValidations": {
+      "type": "array",
+      "items": {
+        "$ref": "MarketQuestion.json"
+      }
+    }
+  },
+  "required": [
+    "headline",
+    "text",
+    "support",
+    "counterEvidence",
+    "tags",
+    "risks",
+    "nextValidations"
+  ],
+  "description": "MarketStateSummary：市场观测台数据。"
+}

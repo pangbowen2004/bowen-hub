@@ -1,0 +1,171 @@
+{
+  "$comment": "由 contracts 生成，勿手改（mise run gen）",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "MarketDirection.json",
+  "type": "object",
+  "properties": {
+    "name": {
+      "type": "string"
+    },
+    "sourceIndexCode": {
+      "type": "string"
+    },
+    "memberCount": {
+      "type": "integer",
+      "minimum": -2147483648,
+      "maximum": 2147483647
+    },
+    "coveredCount": {
+      "type": "integer",
+      "minimum": -2147483648,
+      "maximum": 2147483647
+    },
+    "return1d": {
+      "type": "number"
+    },
+    "medianReturn1d": {
+      "type": "number"
+    },
+    "advanceShare": {
+      "type": "number"
+    },
+    "aboveMa20Share": {
+      "type": "number"
+    },
+    "amountCny": {
+      "type": "number"
+    },
+    "amountShare": {
+      "type": "number"
+    },
+    "amount20dPercentile": {
+      "type": "number"
+    },
+    "relativeVsAllA": {
+      "type": "number"
+    },
+    "return5d": {
+      "anyOf": [
+        {
+          "type": "number"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "return20d": {
+      "anyOf": [
+        {
+          "type": "number"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "moneyflowProxyCny": {
+      "anyOf": [
+        {
+          "type": "number"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "moneyflowCoverage": {
+      "anyOf": [
+        {
+          "type": "number"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "minimum": 0,
+      "maximum": 1,
+      "description": "有资金流数据的成员数 / memberCount；无法核实股数时为空。"
+    },
+    "limitUpCount": {
+      "type": "integer",
+      "minimum": -2147483648,
+      "maximum": 2147483647
+    },
+    "limitDownCount": {
+      "type": "integer",
+      "minimum": -2147483648,
+      "maximum": 2147483647
+    },
+    "loss5Count": {
+      "type": "integer",
+      "minimum": -2147483648,
+      "maximum": 2147483647
+    },
+    "componentCrossCheck": {
+      "$ref": "MarketComponentCrossCheck.json"
+    },
+    "leaders": {
+      "type": "array",
+      "items": {
+        "$ref": "MarketDirectionLeader.json"
+      }
+    },
+    "laggards": {
+      "type": "array",
+      "items": {
+        "$ref": "MarketDirectionLaggard.json"
+      }
+    },
+    "state": {
+      "anyOf": [
+        {
+          "type": "string",
+          "const": "趋势扩散"
+        },
+        {
+          "type": "string",
+          "const": "高位分歧"
+        },
+        {
+          "type": "string",
+          "const": "低位修复"
+        },
+        {
+          "type": "string",
+          "const": "趋势转弱"
+        },
+        {
+          "type": "string",
+          "const": "方向待明"
+        }
+      ]
+    }
+  },
+  "required": [
+    "name",
+    "sourceIndexCode",
+    "memberCount",
+    "coveredCount",
+    "return1d",
+    "medianReturn1d",
+    "advanceShare",
+    "aboveMa20Share",
+    "amountCny",
+    "amountShare",
+    "amount20dPercentile",
+    "relativeVsAllA",
+    "return5d",
+    "return20d",
+    "moneyflowProxyCny",
+    "moneyflowCoverage",
+    "limitUpCount",
+    "limitDownCount",
+    "loss5Count",
+    "componentCrossCheck",
+    "leaders",
+    "laggards",
+    "state"
+  ],
+  "description": "MarketDirection：市场观测台数据。"
+}

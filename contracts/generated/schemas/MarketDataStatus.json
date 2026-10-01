@@ -1,0 +1,43 @@
+{
+  "$comment": "由 contracts 生成，勿手改（mise run gen）",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "MarketDataStatus.json",
+  "type": "object",
+  "properties": {
+    "complete": {
+      "type": "boolean"
+    },
+    "missing": {
+      "type": "array",
+      "items": {
+        "anyOf": [
+          {
+            "type": "string",
+            "const": "moneyflow"
+          },
+          {
+            "type": "string",
+            "const": "limitDetail"
+          },
+          {
+            "type": "string",
+            "const": "etfGroups"
+          },
+          {
+            "type": "string",
+            "const": "etfShares"
+          },
+          {
+            "type": "string",
+            "const": "directions"
+          }
+        ]
+      }
+    }
+  },
+  "required": [
+    "complete",
+    "missing"
+  ],
+  "description": "MarketDataStatus：市场观测台数据。"
+}

@@ -65,7 +65,10 @@ describe("样例处理器", () => {
       throw new Error(`OpenAPI 里没有 ${method.toUpperCase()} ${openapiPath}`);
     const schema = operation.responses["200"]?.content?.["application/json"]?.schema;
     if (schema === undefined) throw new Error(`${openapiPath} 没有 200 的 JSON 响应`);
-    const response = await fetch(`${BASE}${path.replace(/^\*/, "").replace(/:(\w+)/g, "x")}`);
+    const examplePath = path
+      .replace(/^\*/, "")
+      .replace(/:(\w+)/g, openapiPath === "/v1/public/papers/{id}" ? "arxiv-2505.07078" : "x");
+    const response = await fetch(`${BASE}${examplePath}`);
     expect(response.status).toBe(200);
     const validate = ajv.compile(toJsonSchema(schema) as object);
     const body: unknown = await response.json();
@@ -91,6 +94,16 @@ describe("用生成的客户端读样例", () => {
     expect((await internalPlatformExportTable("runs")).table).toBe("runs");
     expect((await internalPlatformExportTable("articles")).table).toBe("runs");
   });
+
+  it.each(["acl-2021.acl-long.500", "missing-paper"])(
+    "公开论文接口对私有或不存在的 %s 返回404",
+    async (id) => {
+      const response = await fetch(`${BASE}/v1/public/papers/${id}`);
+      expect(response.status).toBe(404);
+      expect(response.headers.get("content-type")).toContain("application/problem+json");
+      expect(await response.json()).toMatchObject({ status: 404 });
+    },
+  );
 
   it("单个对象的接口", async () => {
     expect(await healthCheckGet()).toEqual({ status: "ok" });

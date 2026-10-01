@@ -1,0 +1,19 @@
+{
+  "$comment": "由 contracts 生成，勿手改（mise run gen）",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "NewsBrief.json",
+  "type": "object",
+  "properties": {
+    "id": {
+      "type": "string"
+    },
+    "brief": {
+      "type": "string",
+      "x-max-chars": 120
+    }
+  },
+  "required": [
+    "id",
+    "brief"
+  ]
+}

@@ -1,0 +1,44 @@
+{
+  "$comment": "由 contracts 生成，勿手改（mise run gen）",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "PaperExplanation.json",
+  "type": "object",
+  "properties": {
+    "id": {
+      "type": "string"
+    },
+    "question": {
+      "type": "string"
+    },
+    "answer": {
+      "type": "string"
+    },
+    "pages": {
+      "type": "array",
+      "items": {
+        "type": "integer",
+        "minimum": -2147483648,
+        "maximum": 2147483647
+      }
+    },
+    "status": {
+      "$ref": "PaperMastery.json"
+    },
+    "createdAt": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "generatedBy": {
+      "$ref": "GeneratedBy.json",
+      "description": "保存 AI 回答时保留该次问答的运行时出处。"
+    }
+  },
+  "required": [
+    "id",
+    "question",
+    "answer",
+    "pages",
+    "status",
+    "createdAt"
+  ]
+}

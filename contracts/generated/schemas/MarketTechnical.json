@@ -1,0 +1,62 @@
+{
+  "$comment": "由 contracts 生成，勿手改（mise run gen）",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "MarketTechnical.json",
+  "type": "object",
+  "properties": {
+    "indexCode": {
+      "type": "string"
+    },
+    "asOf": {
+      "type": "string",
+      "format": "date"
+    },
+    "close": {
+      "type": "number"
+    },
+    "ma5": {
+      "type": "number"
+    },
+    "ma10": {
+      "type": "number"
+    },
+    "ma20": {
+      "type": "number"
+    },
+    "atr20": {
+      "type": "number"
+    },
+    "support": {
+      "type": "array",
+      "items": {
+        "$ref": "MarketTechnicalLevel.json"
+      }
+    },
+    "resistance": {
+      "type": "array",
+      "items": {
+        "$ref": "MarketTechnicalLevel.json"
+      }
+    },
+    "confirmationRule": {
+      "type": "string"
+    },
+    "confirmationNow": {
+      "type": "boolean"
+    }
+  },
+  "required": [
+    "indexCode",
+    "asOf",
+    "close",
+    "ma5",
+    "ma10",
+    "ma20",
+    "atr20",
+    "support",
+    "resistance",
+    "confirmationRule",
+    "confirmationNow"
+  ],
+  "description": "MarketTechnical：市场观测台数据。"
+}

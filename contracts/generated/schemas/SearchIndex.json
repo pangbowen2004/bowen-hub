@@ -1,0 +1,17 @@
+{
+  "$comment": "由 contracts 生成，勿手改（mise run gen）",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "SearchIndex.json",
+  "type": "object",
+  "properties": {
+    "papers": {
+      "type": "array",
+      "items": {
+        "$ref": "PaperSearchItem.json"
+      }
+    }
+  },
+  "required": [
+    "papers"
+  ]
+}

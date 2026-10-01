@@ -1,0 +1,27 @@
+{
+  "$comment": "由 contracts 生成，勿手改（mise run gen）",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "MarketReferenceSource.json",
+  "type": "object",
+  "properties": {
+    "source": {
+      "type": "string"
+    },
+    "api": {
+      "type": "string"
+    },
+    "usage": {
+      "type": "string"
+    },
+    "optional": {
+      "type": "boolean"
+    }
+  },
+  "required": [
+    "source",
+    "api",
+    "usage",
+    "optional"
+  ],
+  "description": "MarketReferenceSource：市场观测台数据。"
+}

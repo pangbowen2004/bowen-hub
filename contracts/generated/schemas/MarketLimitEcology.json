@@ -1,0 +1,164 @@
+{
+  "$comment": "由 contracts 生成，勿手改（mise run gen）",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "MarketLimitEcology.json",
+  "type": "object",
+  "properties": {
+    "limitUpCount": {
+      "type": "integer",
+      "minimum": -2147483648,
+      "maximum": 2147483647
+    },
+    "limitDownCount": {
+      "type": "integer",
+      "minimum": -2147483648,
+      "maximum": 2147483647
+    },
+    "touchedCount": {
+      "type": "integer",
+      "minimum": -2147483648,
+      "maximum": 2147483647
+    },
+    "failedCount": {
+      "type": "integer",
+      "minimum": -2147483648,
+      "maximum": 2147483647
+    },
+    "maxBoardHeight": {
+      "type": "integer",
+      "minimum": -2147483648,
+      "maximum": 2147483647
+    },
+    "firstBoardCount": {
+      "type": "integer",
+      "minimum": -2147483648,
+      "maximum": 2147483647
+    },
+    "multiBoardCount": {
+      "type": "integer",
+      "minimum": -2147483648,
+      "maximum": 2147483647
+    },
+    "previousLimitUpCount": {
+      "type": "integer",
+      "minimum": -2147483648,
+      "maximum": 2147483647
+    },
+    "advancementCount": {
+      "type": "integer",
+      "minimum": -2147483648,
+      "maximum": 2147483647
+    },
+    "largeLoss7Count": {
+      "type": "integer",
+      "minimum": -2147483648,
+      "maximum": 2147483647
+    },
+    "sealRate": {
+      "anyOf": [
+        {
+          "type": "number"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "advancementRate": {
+      "anyOf": [
+        {
+          "type": "number"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "previousLimitPremium": {
+      "anyOf": [
+        {
+          "type": "number"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "providerDetail": {
+      "anyOf": [
+        {
+          "$ref": "MarketProviderDetail.json"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "heightDistribution": {
+      "type": "array",
+      "items": {
+        "$ref": "MarketHeightDistribution.json"
+      }
+    },
+    "industryClusters": {
+      "type": "array",
+      "items": {
+        "$ref": "MarketIndustryCluster.json"
+      }
+    },
+    "progression": {
+      "type": "array",
+      "items": {
+        "$ref": "MarketProgression.json"
+      }
+    },
+    "failedPromotions": {
+      "type": "array",
+      "items": {
+        "$ref": "MarketProgression.json"
+      }
+    },
+    "leaders": {
+      "type": "array",
+      "items": {
+        "$ref": "MarketStock.json"
+      }
+    },
+    "limitDownSamples": {
+      "type": "array",
+      "items": {
+        "$ref": "MarketStock.json"
+      }
+    },
+    "largeLossSamples": {
+      "type": "array",
+      "items": {
+        "$ref": "MarketStock.json"
+      }
+    }
+  },
+  "required": [
+    "limitUpCount",
+    "limitDownCount",
+    "touchedCount",
+    "failedCount",
+    "maxBoardHeight",
+    "firstBoardCount",
+    "multiBoardCount",
+    "previousLimitUpCount",
+    "advancementCount",
+    "largeLoss7Count",
+    "sealRate",
+    "advancementRate",
+    "previousLimitPremium",
+    "providerDetail",
+    "heightDistribution",
+    "industryClusters",
+    "progression",
+    "failedPromotions",
+    "leaders",
+    "limitDownSamples",
+    "largeLossSamples"
+  ],
+  "description": "MarketLimitEcology：市场观测台数据。"
+}

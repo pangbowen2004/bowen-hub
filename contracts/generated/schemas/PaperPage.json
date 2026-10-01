@@ -1,0 +1,31 @@
+{
+  "$comment": "由 contracts 生成，勿手改（mise run gen）",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "PaperPage.json",
+  "type": "object",
+  "properties": {
+    "items": {
+      "type": "array",
+      "items": {
+        "$ref": "PaperSummary.json"
+      },
+      "description": "本页条目"
+    },
+    "nextCursor": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "description": "下一页的游标，原样作为 ?cursor= 传回；没有下一页时为 null"
+    }
+  },
+  "required": [
+    "items",
+    "nextCursor"
+  ],
+  "description": "游标分页的返回（docs/08 第 4 节），配 HubHttp.CursorParams 使用。\n用具名模型声明，如 `model RunPage is CursorPage<Run>;`，TS、Python 两边都会有这个类型。"
+}

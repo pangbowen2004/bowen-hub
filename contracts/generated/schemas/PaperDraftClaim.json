@@ -1,0 +1,57 @@
+{
+  "$comment": "由 contracts 生成，勿手改（mise run gen）",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "PaperDraftClaim.json",
+  "type": "object",
+  "properties": {
+    "metric": {
+      "type": "string"
+    },
+    "anchor": {
+      "type": "string"
+    },
+    "condition": {
+      "type": "string"
+    },
+    "pdfPage": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 2147483647
+    },
+    "sourceLines": {
+      "type": "array",
+      "items": {
+        "type": "integer",
+        "minimum": -2147483648,
+        "maximum": 2147483647
+      }
+    },
+    "claimOrigin": {
+      "$ref": "PaperClaimOrigin.json"
+    },
+    "interpretationBoundary": {
+      "type": "string"
+    },
+    "quantities": {
+      "type": "array",
+      "items": {
+        "$ref": "PaperQuantity.json"
+      }
+    }
+  },
+  "required": [
+    "metric",
+    "anchor",
+    "condition",
+    "pdfPage",
+    "sourceLines",
+    "claimOrigin",
+    "interpretationBoundary",
+    "quantities"
+  ],
+  "allOf": [
+    {
+      "$ref": "PaperClaim.json"
+    }
+  ]
+}

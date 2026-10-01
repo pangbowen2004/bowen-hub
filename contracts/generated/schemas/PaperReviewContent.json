@@ -1,0 +1,58 @@
+{
+  "$comment": "由 contracts 生成，勿手改（mise run gen）",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "PaperReviewContent.json",
+  "type": "object",
+  "properties": {
+    "decision": {
+      "$ref": "PaperReviewDecision.json"
+    },
+    "readerRestatement": {
+      "type": "string"
+    },
+    "independentSourceCheck": {
+      "$ref": "PaperIndependentSourceCheck.json"
+    },
+    "sampledClaimIds": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "checks": {
+      "$ref": "PaperReviewChecks.json"
+    },
+    "findings": {
+      "type": "array",
+      "items": {
+        "$ref": "PaperReviewFinding.json"
+      }
+    },
+    "pagesChecked": {
+      "type": "array",
+      "items": {
+        "type": "integer",
+        "minimum": -2147483648,
+        "maximum": 2147483647
+      }
+    },
+    "visualPagesChecked": {
+      "type": "array",
+      "items": {
+        "type": "integer",
+        "minimum": -2147483648,
+        "maximum": 2147483647
+      }
+    }
+  },
+  "required": [
+    "decision",
+    "readerRestatement",
+    "independentSourceCheck",
+    "sampledClaimIds",
+    "checks",
+    "findings",
+    "pagesChecked",
+    "visualPagesChecked"
+  ]
+}

@@ -1,0 +1,52 @@
+{
+  "$comment": "由 contracts 生成，勿手改（mise run gen）",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "MarketStock.json",
+  "type": "object",
+  "properties": {
+    "code": {
+      "type": "string"
+    },
+    "name": {
+      "type": "string"
+    },
+    "industry": {
+      "type": "string"
+    },
+    "board": {
+      "type": "string"
+    },
+    "return1d": {
+      "type": "number"
+    },
+    "boardHeight": {
+      "type": "integer",
+      "minimum": -2147483648,
+      "maximum": 2147483647
+    },
+    "amountCny": {
+      "type": "number"
+    },
+    "limitDetail": {
+      "anyOf": [
+        {
+          "$ref": "MarketLimitDetail.json"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    }
+  },
+  "required": [
+    "code",
+    "name",
+    "industry",
+    "board",
+    "return1d",
+    "boardHeight",
+    "amountCny",
+    "limitDetail"
+  ],
+  "description": "MarketStock：市场观测台数据。"
+}

@@ -1,0 +1,21 @@
+{
+  "$comment": "由 contracts 生成，勿手改（mise run gen）",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "PaperRelation.json",
+  "type": "object",
+  "properties": {
+    "target": {
+      "type": "string"
+    },
+    "type": {
+      "type": "string"
+    },
+    "note": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "target",
+    "type"
+  ]
+}

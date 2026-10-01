@@ -1,0 +1,33 @@
+{
+  "$comment": "由 contracts 生成，勿手改（mise run gen）",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "PaperIndependentSourceCheck.json",
+  "type": "object",
+  "properties": {
+    "pdfPage": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 2147483647
+    },
+    "sourceExcerpt": {
+      "type": "string",
+      "x-source-quote": true
+    },
+    "minimumClaim": {
+      "type": "string"
+    },
+    "counterexampleOrLimit": {
+      "type": "string"
+    },
+    "comparisonToArticle": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "pdfPage",
+    "sourceExcerpt",
+    "minimumClaim",
+    "counterexampleOrLimit",
+    "comparisonToArticle"
+  ]
+}

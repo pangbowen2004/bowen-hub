@@ -1,0 +1,130 @@
+{
+  "$comment": "由 contracts 生成，勿手改（mise run gen）",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "MarketIndustry.json",
+  "type": "object",
+  "properties": {
+    "name": {
+      "type": "string"
+    },
+    "sampleCount": {
+      "type": "integer",
+      "minimum": -2147483648,
+      "maximum": 2147483647
+    },
+    "return1d": {
+      "type": "number"
+    },
+    "medianReturn1d": {
+      "type": "number"
+    },
+    "advanceShare": {
+      "type": "number"
+    },
+    "aboveMa20Share": {
+      "type": "number"
+    },
+    "amountCny": {
+      "type": "number"
+    },
+    "amountShare": {
+      "type": "number"
+    },
+    "return5d": {
+      "anyOf": [
+        {
+          "type": "number"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "return20d": {
+      "anyOf": [
+        {
+          "type": "number"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "medianPeTtm": {
+      "anyOf": [
+        {
+          "type": "number"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "medianPb": {
+      "anyOf": [
+        {
+          "type": "number"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "limitUpCount": {
+      "type": "integer",
+      "minimum": -2147483648,
+      "maximum": 2147483647
+    },
+    "limitDownCount": {
+      "type": "integer",
+      "minimum": -2147483648,
+      "maximum": 2147483647
+    },
+    "lifecycle": {
+      "anyOf": [
+        {
+          "type": "string",
+          "const": "趋势扩散"
+        },
+        {
+          "type": "string",
+          "const": "高位分歧"
+        },
+        {
+          "type": "string",
+          "const": "修复延续"
+        },
+        {
+          "type": "string",
+          "const": "退潮观察"
+        },
+        {
+          "type": "string",
+          "const": "低位修复"
+        },
+        {
+          "type": "string",
+          "const": "方向待明"
+        }
+      ]
+    }
+  },
+  "required": [
+    "name",
+    "sampleCount",
+    "return1d",
+    "medianReturn1d",
+    "advanceShare",
+    "aboveMa20Share",
+    "amountCny",
+    "amountShare",
+    "return5d",
+    "return20d",
+    "medianPeTtm",
+    "medianPb",
+    "limitUpCount",
+    "limitDownCount",
+    "lifecycle"
+  ],
+  "description": "MarketIndustry：市场观测台数据。"
+}

@@ -1,0 +1,23 @@
+{
+  "$comment": "由 contracts 生成，勿手改（mise run gen）",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "HypothesisResult.json",
+  "anyOf": [
+    {
+      "type": "string",
+      "const": "PENDING"
+    },
+    {
+      "type": "string",
+      "const": "CONFIRMED"
+    },
+    {
+      "type": "string",
+      "const": "NOT_CONFIRMED"
+    },
+    {
+      "type": "string",
+      "const": "INCONCLUSIVE"
+    }
+  ]
+}

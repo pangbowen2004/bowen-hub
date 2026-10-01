@@ -1,0 +1,35 @@
+{
+  "$comment": "由 contracts 生成，勿手改（mise run gen）",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "MarketPersistenceThresholds.json",
+  "type": "object",
+  "properties": {
+    "advanceShareMin": {
+      "type": "number"
+    },
+    "aboveMa20ShareMin": {
+      "type": "number"
+    },
+    "turnoverCnyMin": {
+      "type": "number"
+    },
+    "advanceShareInvalid": {
+      "type": "number"
+    },
+    "turnoverRatioInvalid": {
+      "type": "number"
+    },
+    "aboveMa20DropInvalid": {
+      "type": "number"
+    }
+  },
+  "required": [
+    "advanceShareMin",
+    "aboveMa20ShareMin",
+    "turnoverCnyMin",
+    "advanceShareInvalid",
+    "turnoverRatioInvalid",
+    "aboveMa20DropInvalid"
+  ],
+  "description": "MarketPersistenceThresholds：市场观测台数据。"
+}

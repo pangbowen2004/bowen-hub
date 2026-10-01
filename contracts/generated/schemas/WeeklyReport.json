@@ -1,0 +1,67 @@
+{
+  "$comment": "由 contracts 生成，勿手改（mise run gen）",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "WeeklyReport.json",
+  "type": "object",
+  "properties": {
+    "sessions": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "format": "date"
+      },
+      "minItems": 5,
+      "maxItems": 5
+    },
+    "previousJudgmentVerification": {
+      "$ref": "WeeklyVerification.json"
+    },
+    "threeStructuralChanges": {
+      "type": "array",
+      "items": {
+        "$ref": "WeeklyStructuralChange.json"
+      }
+    },
+    "lifecycle": {
+      "$ref": "WeeklyLifecycle.json"
+    },
+    "researchErrors": {
+      "$ref": "WeeklyResearchErrors.json"
+    },
+    "nextWeekQuestions": {
+      "type": "array",
+      "items": {
+        "anyOf": [
+          {
+            "$ref": "WeeklyQuestion.json"
+          },
+          {
+            "type": "null"
+          }
+        ]
+      }
+    },
+    "dataAndMethodHealth": {
+      "$ref": "WeeklyDataHealth.json"
+    },
+    "markdown": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "sessions",
+    "previousJudgmentVerification",
+    "threeStructuralChanges",
+    "lifecycle",
+    "researchErrors",
+    "nextWeekQuestions",
+    "dataAndMethodHealth",
+    "markdown"
+  ],
+  "allOf": [
+    {
+      "$ref": "WeeklySummary.json"
+    }
+  ],
+  "description": "WeeklyReport：市场观测台数据。"
+}

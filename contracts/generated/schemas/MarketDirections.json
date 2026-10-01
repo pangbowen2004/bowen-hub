@@ -1,0 +1,23 @@
+{
+  "$comment": "由 contracts 生成，勿手改（mise run gen）",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "MarketDirections.json",
+  "type": "object",
+  "properties": {
+    "membershipAsOf": {
+      "type": "string",
+      "format": "date"
+    },
+    "items": {
+      "type": "array",
+      "items": {
+        "$ref": "MarketDirection.json"
+      }
+    }
+  },
+  "required": [
+    "membershipAsOf",
+    "items"
+  ],
+  "description": "MarketDirections：市场观测台数据。"
+}

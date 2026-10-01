@@ -1,0 +1,34 @@
+{
+  "$comment": "由 contracts 生成，勿手改（mise run gen）",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "PaperEvidence.json",
+  "type": "object",
+  "properties": {
+    "readerCheck": {
+      "anyOf": [
+        {
+          "$ref": "PaperReaderCheck.json"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "claims": {
+      "type": "array",
+      "items": {
+        "$ref": "PaperClaim.json"
+      }
+    },
+    "articleBlocks": {
+      "type": "array",
+      "items": {
+        "$ref": "PaperArticleBlock.json"
+      }
+    },
+    "legacyAnchors": {
+      "type": "boolean",
+      "description": "旧文本抽取的行号不再逐行核验；重写后整个 evidence 换为 false。"
+    }
+  }
+}

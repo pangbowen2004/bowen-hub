@@ -1,0 +1,27 @@
+{
+  "$comment": "由 contracts 生成，勿手改（mise run gen）",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "MarketStyle.json",
+  "type": "object",
+  "properties": {
+    "version": {
+      "type": "string",
+      "const": "transparent-style-v1"
+    },
+    "groups": {
+      "type": "array",
+      "items": {
+        "$ref": "MarketStyleGroup.json"
+      }
+    },
+    "trendStrongShare": {
+      "type": "number"
+    }
+  },
+  "required": [
+    "version",
+    "groups",
+    "trendStrongShare"
+  ],
+  "description": "MarketStyle：市场观测台数据。"
+}

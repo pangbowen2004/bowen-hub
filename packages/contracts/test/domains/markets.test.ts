@@ -91,6 +91,15 @@ describe("市场领域契约", () => {
     d.evolution.signals.direction = null;
     expect(ajv.getSchema("MarketDay.json")?.(d)).toBe(true);
   });
+  it("反复方向最后日缺数据时保留切换次数，最新相对收益可为空", () => {
+    expect(
+      ajv.getSchema("WeeklyOscillatingDirection.json")?.({
+        name: "示例方向",
+        signChanges: 2,
+        latestRelative: null,
+      }),
+    ).toBe(true);
+  });
   it("固定五个交易日，缺方向保留行并标记覆盖2/5，资金流不足用null", () => {
     expect(day.evolution.rows.map((row) => row.date)).toEqual([
       "2026-08-24",

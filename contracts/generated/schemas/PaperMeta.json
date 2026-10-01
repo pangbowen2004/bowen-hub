@@ -1,0 +1,80 @@
+{
+  "$comment": "由 contracts 生成，勿手改（mise run gen）",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "PaperMeta.json",
+  "type": "object",
+  "properties": {
+    "title": {
+      "type": "string"
+    },
+    "titleZh": {
+      "type": "string"
+    },
+    "authors": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "year": {
+      "type": "integer",
+      "minimum": -2147483648,
+      "maximum": 2147483647
+    },
+    "venue": {
+      "type": "string"
+    },
+    "version": {
+      "type": "string"
+    },
+    "paperType": {
+      "type": "string"
+    },
+    "paperKind": {
+      "$ref": "PaperKind.json"
+    },
+    "studyDesign": {
+      "type": "string"
+    },
+    "doi": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "arxivId": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "anthologyId": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "sourceUrl": {
+      "type": "string"
+    },
+    "pdfUrl": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "title"
+  ],
+  "description": "书目信息：老档案只有英文标题是必填，未提供的字段可以缺省。"
+}

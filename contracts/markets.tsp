@@ -804,7 +804,8 @@ model WeeklyStructuralChange {
 model WeeklyOscillatingDirection {
   name: string;
   signChanges: int32;
-  latestRelative: float64;
+  /** 最后交易日缺该方向数据时为空，不回填更早日期。 */
+  latestRelative: float64 | null;
 }
 
 /** WeeklyLifecycle：市场观测台数据。 */

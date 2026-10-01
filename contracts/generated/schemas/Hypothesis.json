@@ -1,0 +1,128 @@
+{
+  "$comment": "由 contracts 生成，勿手改（mise run gen）",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "Hypothesis.json",
+  "type": "object",
+  "properties": {
+    "id": {
+      "type": "string"
+    },
+    "createdOn": {
+      "type": "string",
+      "format": "date"
+    },
+    "dueOn": {
+      "type": "string",
+      "format": "date"
+    },
+    "mode": {
+      "anyOf": [
+        {
+          "type": "string",
+          "const": "realtime"
+        },
+        {
+          "type": "string",
+          "const": "backfill"
+        }
+      ]
+    },
+    "engineVersion": {
+      "type": "string"
+    },
+    "title": {
+      "type": "string"
+    },
+    "confirmation": {
+      "type": "string"
+    },
+    "invalidation": {
+      "type": "string"
+    },
+    "risk": {
+      "type": "string"
+    },
+    "counterEvidence": {
+      "type": "string"
+    },
+    "resultNote": {
+      "type": "string"
+    },
+    "scope": {
+      "anyOf": [
+        {
+          "type": "string",
+          "const": "market"
+        },
+        {
+          "type": "string",
+          "const": "direction"
+        },
+        {
+          "type": "string",
+          "const": "theme"
+        },
+        {
+          "type": "string",
+          "const": "sector"
+        },
+        {
+          "type": "string",
+          "const": "index"
+        }
+      ]
+    },
+    "rule": {
+      "anyOf": [
+        {
+          "$ref": "HypothesisRule.json"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "result": {
+      "$ref": "HypothesisResult.json"
+    },
+    "settledOn": {
+      "anyOf": [
+        {
+          "type": "string",
+          "format": "date"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "actual": {
+      "anyOf": [
+        {
+          "$ref": "HypothesisActual.json"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    }
+  },
+  "required": [
+    "id",
+    "createdOn",
+    "dueOn",
+    "mode",
+    "title",
+    "confirmation",
+    "invalidation",
+    "risk",
+    "counterEvidence",
+    "resultNote",
+    "scope",
+    "rule",
+    "result",
+    "settledOn",
+    "actual"
+  ],
+  "description": "Hypothesis：市场观测台数据。"
+}

@@ -1,0 +1,41 @@
+{
+  "$comment": "由 contracts 生成，勿手改（mise run gen）",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "PaperGraphEdge.json",
+  "type": "object",
+  "properties": {
+    "source": {
+      "type": "string"
+    },
+    "target": {
+      "type": "string"
+    },
+    "type": {
+      "anyOf": [
+        {
+          "type": "string",
+          "const": "discusses"
+        },
+        {
+          "type": "string",
+          "const": "belongs_to"
+        },
+        {
+          "type": "string",
+          "const": "relation"
+        }
+      ]
+    },
+    "relationType": {
+      "type": "string"
+    },
+    "note": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "source",
+    "target",
+    "type"
+  ]
+}

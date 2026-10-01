@@ -1,0 +1,113 @@
+{
+  "$comment": "由 contracts 生成，勿手改（mise run gen）",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "MarketOverview.json",
+  "type": "object",
+  "properties": {
+    "sampleCount": {
+      "type": "integer",
+      "minimum": -2147483648,
+      "maximum": 2147483647
+    },
+    "advanceCount": {
+      "type": "integer",
+      "minimum": -2147483648,
+      "maximum": 2147483647
+    },
+    "declineCount": {
+      "type": "integer",
+      "minimum": -2147483648,
+      "maximum": 2147483647
+    },
+    "flatCount": {
+      "type": "integer",
+      "minimum": -2147483648,
+      "maximum": 2147483647
+    },
+    "newHigh20Count": {
+      "type": "integer",
+      "minimum": -2147483648,
+      "maximum": 2147483647
+    },
+    "newLow20Count": {
+      "type": "integer",
+      "minimum": -2147483648,
+      "maximum": 2147483647
+    },
+    "advanceShare": {
+      "type": "number"
+    },
+    "medianReturn1d": {
+      "type": "number"
+    },
+    "aboveMa20Share": {
+      "type": "number"
+    },
+    "turnoverCny": {
+      "type": "number"
+    },
+    "turnoverPrevCny": {
+      "type": "number"
+    },
+    "turnoverChange": {
+      "type": "number"
+    },
+    "turnoverMedian20Cny": {
+      "type": "number"
+    },
+    "totalMarketCapCny": {
+      "type": "number"
+    },
+    "medianTurnoverRate": {
+      "anyOf": [
+        {
+          "type": "number"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "description": "换手率为0–1小数，旧数据百分数除以100。"
+    },
+    "medianPeTtm": {
+      "anyOf": [
+        {
+          "type": "number"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "medianPb": {
+      "anyOf": [
+        {
+          "type": "number"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    }
+  },
+  "required": [
+    "sampleCount",
+    "advanceCount",
+    "declineCount",
+    "flatCount",
+    "newHigh20Count",
+    "newLow20Count",
+    "advanceShare",
+    "medianReturn1d",
+    "aboveMa20Share",
+    "turnoverCny",
+    "turnoverPrevCny",
+    "turnoverChange",
+    "turnoverMedian20Cny",
+    "totalMarketCapCny",
+    "medianTurnoverRate",
+    "medianPeTtm",
+    "medianPb"
+  ],
+  "description": "MarketOverview：市场观测台数据。"
+}

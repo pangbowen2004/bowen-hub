@@ -59,7 +59,7 @@
                     "topics": [
                       "us_china"
                     ],
-                    "paywall": "none",
+                    "paywall": "metered",
                     "clusterId": null
                   },
                   "summary": "黄仁勋再次谈到中美 AI 竞争，称双方需要改善沟通、加强合作，并更充分地拥抱技术，以降低 AI 相关风险。他强调，中美虽是竞争对手，但仍可以协作。",
@@ -84,7 +84,7 @@
                     "topics": [
                       "war_geopolitics"
                     ],
-                    "paywall": "none",
+                    "paywall": "metered",
                     "clusterId": null
                   },
                   "summary": "报道称，美国和伊朗官员周一分别通过调停方进行会谈，推动停火进程。与此同时，中东原油出口回升至战时高位，显示能源供应与冲突局势仍在交织。",
@@ -109,7 +109,7 @@
                     "topics": [
                       "ai_tech"
                     ],
-                    "paywall": "none",
+                    "paywall": "metered",
                     "clusterId": null
                   },
                   "summary": "印度正准备投入 250 亿美元发展深科技，以减少对外国技术的依赖，并追赶中国和美国。报道显示，印度希望借此扶持本土初创公司和关键技术能力。",

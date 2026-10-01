@@ -1,5 +1,6 @@
 // 公开处理器只登记公开论文；私有处理器使用全部档案。
 
+import { HttpResponse, http } from "msw";
 import allGraph from "../../../../../fixtures/samples/papers/GraphData.all.json" with {
   type: "json",
 };
@@ -56,7 +57,20 @@ export const papersSamples: SampleRoute[] = [
   sampleRoute(getPublicPapersGetCatalogMockHandler, [publicCatalog], { shape: "one" }),
   sampleRoute(getPublicPapersGetGraphMockHandler, [publicGraph], { shape: "one" }),
   sampleRoute(getPublicPapersGetSearchIndexMockHandler, [search], { shape: "one" }),
-  sampleRoute(getPublicPapersGetPaperMockHandler, [arxiv], { shape: "one" }),
+  {
+    build: () => {
+      const path = getPublicPapersGetPaperMockHandler().info.path;
+      if (typeof path !== "string") throw new Error("公开论文处理器必须使用字符串路径");
+      return http.get(path, ({ params }) =>
+        params.id === arxiv.id
+          ? HttpResponse.json(arxiv)
+          : HttpResponse.json(
+              { type: "about:blank", title: "论文不存在", status: 404 },
+              { status: 404, headers: { "Content-Type": "application/problem+json" } },
+            ),
+      );
+    },
+  },
   sampleRoute(getPrivatePapersListPapersMockHandler, [summaries], { shape: "page" }),
   sampleRoute(getPrivatePapersListUploadsMockHandler, [ready, failed], { shape: "list" }),
   sampleRoute(getPrivatePapersGetGraphMockHandler, [allGraph], { shape: "one" }),

@@ -1,0 +1,27 @@
+{
+  "$comment": "由 contracts 生成，勿手改（mise run gen）",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "DirectionSpreadActual.json",
+  "type": "object",
+  "properties": {
+    "spread": {
+      "type": "number"
+    },
+    "strongRelative": {
+      "type": "number"
+    },
+    "weakRelative": {
+      "type": "number"
+    },
+    "weakAdvanceShare": {
+      "type": "number"
+    }
+  },
+  "required": [
+    "spread",
+    "strongRelative",
+    "weakRelative",
+    "weakAdvanceShare"
+  ],
+  "description": "DirectionSpreadActual：市场观测台数据。"
+}

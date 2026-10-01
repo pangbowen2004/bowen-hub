@@ -1,0 +1,51 @@
+{
+  "$comment": "由 contracts 生成，勿手改（mise run gen）",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "EarningsFigure.json",
+  "type": "object",
+  "properties": {
+    "name": {
+      "type": "string"
+    },
+    "value": {
+      "type": "string"
+    },
+    "yoy": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "basis": {
+      "anyOf": [
+        {
+          "type": "string",
+          "const": "gaap"
+        },
+        {
+          "type": "string",
+          "const": "adjusted"
+        },
+        {
+          "type": "string",
+          "const": "other"
+        }
+      ]
+    },
+    "quote": {
+      "type": "string",
+      "x-source-quote": true
+    }
+  },
+  "required": [
+    "name",
+    "value",
+    "yoy",
+    "basis",
+    "quote"
+  ]
+}

@@ -1,0 +1,44 @@
+{
+  "$comment": "由 contracts 生成，勿手改（mise run gen）",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "IndexBar.json",
+  "type": "object",
+  "properties": {
+    "date": {
+      "type": "string",
+      "format": "date"
+    },
+    "open": {
+      "type": "number"
+    },
+    "high": {
+      "type": "number"
+    },
+    "low": {
+      "type": "number"
+    },
+    "close": {
+      "type": "number"
+    },
+    "preClose": {
+      "type": "number"
+    },
+    "return1d": {
+      "type": "number"
+    },
+    "amountCny": {
+      "type": "number"
+    }
+  },
+  "required": [
+    "date",
+    "open",
+    "high",
+    "low",
+    "close",
+    "preClose",
+    "return1d",
+    "amountCny"
+  ],
+  "description": "IndexBar：市场观测台数据。"
+}
