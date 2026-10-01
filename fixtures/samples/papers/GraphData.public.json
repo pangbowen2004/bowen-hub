@@ -1,0 +1,173 @@
+{
+  "nodes": [
+    {
+      "id": "space:agent-systems",
+      "kind": "space",
+      "label": "Harness 与智能体"
+    },
+    {
+      "id": "space:quant-finance",
+      "kind": "space",
+      "label": "量化金融"
+    },
+    {
+      "id": "space:general-research",
+      "kind": "space",
+      "label": "通用研究"
+    },
+    {
+      "id": "arxiv-2505.07078",
+      "kind": "paper",
+      "label": "基于大语言模型的金融投资策略能否长期跑赢市场？"
+    },
+    {
+      "id": "concept:选择性评估",
+      "kind": "concept",
+      "label": "选择性评估"
+    },
+    {
+      "id": "concept:历史成分股",
+      "kind": "concept",
+      "label": "历史成分股"
+    },
+    {
+      "id": "concept:两阶段投资流程",
+      "kind": "concept",
+      "label": "两阶段投资流程"
+    },
+    {
+      "id": "concept:滚动评估",
+      "kind": "concept",
+      "label": "滚动评估"
+    },
+    {
+      "id": "concept:风险调整表现",
+      "kind": "concept",
+      "label": "风险调整表现"
+    },
+    {
+      "id": "concept:评测协议敏感性",
+      "kind": "concept",
+      "label": "评测协议敏感性"
+    }
+  ],
+  "edges": [
+    {
+      "source": "arxiv-2505.07078",
+      "target": "concept:选择性评估",
+      "type": "discusses"
+    },
+    {
+      "source": "arxiv-2505.07078",
+      "target": "concept:历史成分股",
+      "type": "discusses"
+    },
+    {
+      "source": "arxiv-2505.07078",
+      "target": "concept:两阶段投资流程",
+      "type": "discusses"
+    },
+    {
+      "source": "arxiv-2505.07078",
+      "target": "concept:滚动评估",
+      "type": "discusses"
+    },
+    {
+      "source": "arxiv-2505.07078",
+      "target": "concept:风险调整表现",
+      "type": "discusses"
+    },
+    {
+      "source": "arxiv-2505.07078",
+      "target": "concept:评测协议敏感性",
+      "type": "discusses"
+    },
+    {
+      "source": "arxiv-2505.07078",
+      "target": "space:quant-finance",
+      "type": "belongs_to"
+    },
+    {
+      "source": "arxiv-2505.07078",
+      "target": "space:agent-systems",
+      "type": "belongs_to"
+    }
+  ],
+  "cooccurrence": [
+    {
+      "source": "concept:两阶段投资流程",
+      "target": "concept:历史成分股",
+      "count": 1
+    },
+    {
+      "source": "concept:两阶段投资流程",
+      "target": "concept:滚动评估",
+      "count": 1
+    },
+    {
+      "source": "concept:两阶段投资流程",
+      "target": "concept:评测协议敏感性",
+      "count": 1
+    },
+    {
+      "source": "concept:两阶段投资流程",
+      "target": "concept:选择性评估",
+      "count": 1
+    },
+    {
+      "source": "concept:两阶段投资流程",
+      "target": "concept:风险调整表现",
+      "count": 1
+    },
+    {
+      "source": "concept:历史成分股",
+      "target": "concept:滚动评估",
+      "count": 1
+    },
+    {
+      "source": "concept:历史成分股",
+      "target": "concept:评测协议敏感性",
+      "count": 1
+    },
+    {
+      "source": "concept:历史成分股",
+      "target": "concept:选择性评估",
+      "count": 1
+    },
+    {
+      "source": "concept:历史成分股",
+      "target": "concept:风险调整表现",
+      "count": 1
+    },
+    {
+      "source": "concept:滚动评估",
+      "target": "concept:评测协议敏感性",
+      "count": 1
+    },
+    {
+      "source": "concept:滚动评估",
+      "target": "concept:选择性评估",
+      "count": 1
+    },
+    {
+      "source": "concept:滚动评估",
+      "target": "concept:风险调整表现",
+      "count": 1
+    },
+    {
+      "source": "concept:评测协议敏感性",
+      "target": "concept:选择性评估",
+      "count": 1
+    },
+    {
+      "source": "concept:评测协议敏感性",
+      "target": "concept:风险调整表现",
+      "count": 1
+    },
+    {
+      "source": "concept:选择性评估",
+      "target": "concept:风险调整表现",
+      "count": 1
+    }
+  ]
+}

@@ -1,0 +1,9 @@
+{
+  "id": "sample-failed",
+  "filename": null,
+  "arxivUrl": "https://arxiv.org/abs/2505.07078",
+  "status": "failed",
+  "error": "离线演示：抽取失败。",
+  "createdAt": "2026-10-01T00:00:00Z",
+  "updatedAt": "2026-10-01T00:00:00Z"
+}

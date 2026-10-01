@@ -1,0 +1,41 @@
+[
+  {
+    "id": "acl-2021.acl-long.500",
+    "title": "OpenMEVA: A Benchmark for Evaluating Open-ended Story Generation Metrics",
+    "titleZh": "OpenMEVA: 开放式故事生成评估指标基准测试",
+    "year": 2021,
+    "venue": "ACL",
+    "oneSentence": "测试不只看原始数据上的相关性。作者还让可学习指标跨数据集使用，并构造改变故事质量的扰动，观察指标是否能识别问题。这样可以区分“在熟悉分布上与人评分相关”和“换一种故事或错误类型后仍可靠”。这两件事不能用同一个相关系数替代。",
+    "spaces": [
+      "general-research"
+    ],
+    "readingDepth": "R1",
+    "paperKind": "empirical",
+    "paperType": "conference",
+    "visibility": "private",
+    "review": "passed",
+    "updatedAt": "2026-10-01",
+    "hasCode": false,
+    "conceptCount": 2
+  },
+  {
+    "id": "arxiv-2505.07078",
+    "title": "Can LLM-based Financial Investing Strategies Outperform the Market in Long Run?",
+    "titleZh": "基于大语言模型的金融投资策略能否长期跑赢市场？",
+    "year": 2026,
+    "venue": "KDD 2026, Datasets & Benchmarks Track (Oral)",
+    "oneSentence": "FINSABER 把 LLM 交易策略放进 2004–2024 的历史成分股与滚动评估中，发现它们偶有高绝对收益，但没有形成稳定的风险调整优势，说明评测范围和数据可得性会决定我们看到的‘能力’。",
+    "spaces": [
+      "quant-finance",
+      "agent-systems"
+    ],
+    "readingDepth": "R1",
+    "paperKind": null,
+    "paperType": "评测框架与长期实证基准",
+    "visibility": "public",
+    "review": "passed",
+    "updatedAt": "2026-08-18",
+    "hasCode": true,
+    "conceptCount": 6
+  }
+]

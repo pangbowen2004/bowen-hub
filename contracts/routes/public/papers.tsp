@@ -1,8 +1,12 @@
-// 公开接口 /v1/public 下的论文接口（docs/08 第 5.1 节，x-task T32）。
-// 由 T01 的对应分段填写（约定见 contracts/README.md）：只写操作，不声明具名模型；每个操作标 @task("T32")。
 import "@typespec/http";
 import "../../http.tsp";
-
 using Http;
-
 namespace BowenHub.Routes.Public.PublicPapers;
+@task("T32") @get @route("/papers/catalog")
+op getCatalog(): PapersCatalog | HubHttp.ErrorResponse;
+@task("T32") @get @route("/papers/{id}")
+op getPaper(@path id: string): Paper | HubHttp.ErrorResponse;
+@task("T32") @get @route("/papers/graph")
+op getGraph(): GraphData | HubHttp.ErrorResponse;
+@task("T32") @get @route("/papers/search-index")
+op getSearchIndex(): SearchIndex | HubHttp.ErrorResponse;

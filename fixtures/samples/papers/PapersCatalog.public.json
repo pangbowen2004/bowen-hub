@@ -1,0 +1,69 @@
+{
+  "stats": {
+    "paperCount": 1,
+    "spaceCount": 3,
+    "conceptCount": 6,
+    "edgeCount": 8
+  },
+  "spaces": [
+    {
+      "id": "agent-systems",
+      "label": "Harness 与智能体",
+      "shortLabel": "Agent",
+      "color": "#46d7c2",
+      "description": "LLM、Agent、Harness、技能、工具使用与智能体评测",
+      "aliases": [
+        "agent-systems",
+        "custom-agent-systems",
+        "Harness 与智能体"
+      ],
+      "paperCount": 1
+    },
+    {
+      "id": "quant-finance",
+      "label": "量化金融",
+      "shortLabel": "Quant",
+      "color": "#f4c65d",
+      "description": "因子、交易、投资组合、金融预测、回测与风险",
+      "aliases": [
+        "量化金融",
+        "quant-finance"
+      ],
+      "paperCount": 1
+    },
+    {
+      "id": "general-research",
+      "label": "通用研究",
+      "shortLabel": "General",
+      "color": "#95a8d8",
+      "description": "尚未归入特定领域的跨学科研究",
+      "aliases": [
+        "通用研究",
+        "general-research"
+      ],
+      "paperCount": 0
+    }
+  ],
+  "papers": [
+    {
+      "id": "arxiv-2505.07078",
+      "title": "Can LLM-based Financial Investing Strategies Outperform the Market in Long Run?",
+      "titleZh": "基于大语言模型的金融投资策略能否长期跑赢市场？",
+      "year": 2026,
+      "venue": "KDD 2026, Datasets & Benchmarks Track (Oral)",
+      "oneSentence": "FINSABER 把 LLM 交易策略放进 2004–2024 的历史成分股与滚动评估中，发现它们偶有高绝对收益，但没有形成稳定的风险调整优势，说明评测范围和数据可得性会决定我们看到的‘能力’。",
+      "spaces": [
+        "quant-finance",
+        "agent-systems"
+      ],
+      "readingDepth": "R1",
+      "paperKind": null,
+      "paperType": "评测框架与长期实证基准",
+      "visibility": "public",
+      "review": "passed",
+      "updatedAt": "2026-08-18",
+      "hasCode": true,
+      "conceptCount": 6
+    }
+  ]
+}
