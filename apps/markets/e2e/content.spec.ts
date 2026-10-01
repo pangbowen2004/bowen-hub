@@ -76,3 +76,28 @@ test("历史页不泄露后一天才结算的结果", async ({ page }) => {
     page.getByText("截至该归档日尚未结算；后续结果请到验证中心查看。").first(),
   ).toBeVisible();
 });
+
+test("历史全文在无JS和打印时保留末尾与折叠明细", async ({ browser, baseURL }) => {
+  const context = await browser.newContext({ javaScriptEnabled: false });
+  const page = await context.newPage();
+  await page.goto(`${baseURL}/archive/2026-08-27/`);
+  const last = page.locator('[data-hypothesis][data-date="2026-08-27"]').last();
+  await last.scrollIntoViewIfNeeded();
+  await expect(last).toBeVisible();
+  await expect(last).toHaveAttribute("data-result", "PENDING");
+  await page.emulateMedia({ media: "print" });
+  const detail = page.locator("main details").first();
+  await expect(detail).not.toHaveAttribute("open", "");
+  await expect(detail.locator(":scope > :not(summary)").first()).toBeVisible();
+  await expect(last).toBeVisible();
+  const table = page
+    .locator("table")
+    .filter({ has: page.locator("caption", { hasText: "ETF八组" }) });
+  await expect(table.locator("thead button").last()).toBeVisible();
+  const tableBounds = await table.evaluate((el) => ({
+    width: el.getBoundingClientRect().width,
+    scrollWidth: el.scrollWidth,
+  }));
+  expect(tableBounds.scrollWidth).toBeLessThanOrEqual(Math.ceil(tableBounds.width) + 1);
+  await context.close();
+});
