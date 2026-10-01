@@ -1,0 +1,47 @@
+{
+  "$schema": "./node_modules/turbo/schema.json",
+  "agentGuidance": false,
+  "cacheDir": ".turbo/cache",
+  "ui": "stream",
+  "envMode": "loose",
+  "globalDependencies": ["tsconfig.base.json", "packages/config/tsconfig/**"],
+  "globalEnv": ["DATA_SOURCE", "HUB_API_URL", "VITE_USE_MOCKS"],
+  "tasks": {
+    "build": {
+      "dependsOn": ["^build"],
+      "inputs": [
+        "$TURBO_DEFAULT$",
+        "$TURBO_ROOT$/capabilities/**",
+        "$TURBO_ROOT$/config/**",
+        "$TURBO_ROOT$/fixtures/samples/**",
+        "$TURBO_ROOT$/prompts/**"
+      ],
+      "outputs": ["dist/**"]
+    },
+    "typecheck": {
+      "dependsOn": ["^build"]
+    },
+    "test": {
+      "dependsOn": ["^build"],
+      "cache": false
+    },
+    "e2e": {
+      "dependsOn": ["build"],
+      "cache": false
+    },
+    "dev": {
+      "dependsOn": ["^build"],
+      "cache": false,
+      "persistent": true
+    },
+    "storybook": {
+      "dependsOn": ["^build"],
+      "cache": false,
+      "persistent": true
+    },
+    "lighthouse": {
+      "dependsOn": ["build"],
+      "cache": false
+    }
+  }
+}

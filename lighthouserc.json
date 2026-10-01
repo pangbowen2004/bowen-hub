@@ -1,0 +1,44 @@
+{
+  "ci": {
+    "collect": {
+      "staticDistDir": "dist",
+      "numberOfRuns": 3,
+      "settings": {
+        "onlyCategories": ["performance", "accessibility"]
+      }
+    },
+    "assert": {
+      "assertMatrix": [
+        {
+          "matchingUrlPattern": "^https?://[^/]+/(?!(graph|universe)/).*$",
+          "assertions": {
+            "categories:performance": ["error", { "minScore": 0.9 }],
+            "categories:accessibility": ["error", { "minScore": 0.9 }]
+          }
+        },
+        {
+          "matchingUrlPattern": "^https?://[^/]+/(directions|validation)/(index\\.html)?$",
+          "assertions": {
+            "resource-summary:script:size": ["error", { "maxNumericValue": 122880 }]
+          }
+        },
+        {
+          "matchingUrlPattern": "^https?://[^/]+/(?!universe/).*$",
+          "assertions": {
+            "resource-summary:script:size": ["error", { "maxNumericValue": 256000 }]
+          }
+        },
+        {
+          "matchingUrlPattern": "^https?://[^/]+/((index\\.html)?|papers/[^/]+/(index\\.html)?|spaces/.*|about/.*|methods/.*|weekly/.*|archive/(index\\.html)?)$",
+          "assertions": {
+            "resource-summary:script:size": ["error", { "maxNumericValue": 51200 }]
+          }
+        }
+      ]
+    },
+    "upload": {
+      "target": "filesystem",
+      "outputDir": ".lighthouseci/reports"
+    }
+  }
+}

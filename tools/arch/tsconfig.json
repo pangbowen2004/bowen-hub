@@ -1,0 +1,4 @@
+{
+  "extends": "@bowen-hub/config/tsconfig/node.json",
+  "include": ["bin", "src", "test"]
+}
