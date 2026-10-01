@@ -1,4 +1,10 @@
 ---
-import Placeholder from "../layouts/Placeholder.astro";
+import { hypotheses } from "../components/data";
+import MarketPage from "../components/MarketPage.astro";
+import ValidationView from "../components/ValidationView.astro";
+import { getDay } from "../lib/data";
+
+const day = await getDay();
+const rows = await hypotheses();
 ---
-<Placeholder title="验证中心" lead="到期问题，必须结算，或者明确说明证据缺口。"></Placeholder>
+<MarketPage title="验证中心" lead="每一个问题，都有确认、失效与证据边界。" day={day}><ValidationView day={day} hypotheses={rows}/></MarketPage>

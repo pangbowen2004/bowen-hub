@@ -1,0 +1,15 @@
+---
+import type { MarketDay } from "@bowen-hub/contracts";
+import MissingData from "@bowen-hub/ui/astro/MissingData";
+import { cny, pct } from "@bowen-hub/ui/format";
+import MarketTable from "./MarketTable.astro";
+
+interface Props {
+  day: MarketDay;
+}
+const { day } = Astro.props;
+---
+{day.directions ? <><p>成分快照日期：{day.directions.membershipAsOf}。官方收益与成员等权交叉核对分开显示；资金流为供应商订单分类代理，不等于真实主体资金。</p><MarketTable caption="方向矩阵" columns={['方向','状态','成员/覆盖','官方1日','官方5日','官方20日','成员1日','成员5日','成员20日','交叉差值','上涨覆盖','MA20上方','成交额','成交占比','20日分位','相对全A','涨停','跌停','资金代理','资金覆盖'].map((label,i)=>({label,numeric:i>1}))} rows={day.directions.items.map(x=>({cells:[x.name,x.state,`${x.memberCount}/${x.coveredCount}`,pct(x.return1d),pct(x.return5d),pct(x.return20d),pct(x.componentCrossCheck.return1d),pct(x.componentCrossCheck.return5d),pct(x.componentCrossCheck.return20d),pct(x.componentCrossCheck.delta1dVsOfficial),pct(x.advanceShare,{sign:false}),pct(x.aboveMa20Share,{sign:false}),cny(x.amountCny),pct(x.amountShare,{sign:false}),pct(x.amount20dPercentile,{sign:false}),pct(x.relativeVsAllA),x.limitUpCount,x.limitDownCount,cny(x.moneyflowProxyCny),pct(x.moneyflowCoverage,{sign:false})],sort:[x.name,x.state,x.memberCount,x.return1d,x.return5d,x.return20d,x.componentCrossCheck.return1d,x.componentCrossCheck.return5d,x.componentCrossCheck.return20d,x.componentCrossCheck.delta1dVsOfficial,x.advanceShare,x.aboveMa20Share,x.amountCny,x.amountShare,x.amount20dPercentile,x.relativeVsAllA,x.limitUpCount,x.limitDownCount,x.moneyflowProxyCny,x.moneyflowCoverage]}))}/><section><h2>领涨与领跌，回到具体成员</h2>{day.directions.items.map(x=><details><summary>{x.name} · {x.state}</summary><p>领涨：{x.leaders.map(s=>`${s.name}（${s.code}）${pct(s.return1d)}`).join('、')}</p><p>领跌：{x.laggards.map(s=>`${s.name}（${s.code}）${pct(s.return1d)}`).join('、')}</p></details>)}</section></> : <MissingData text="今日方向数据未就绪"/>}
+{day.etfGroups ? <><h2>ETF轮动</h2><p class="muted">份额是变动记录；缺记录不代表份额不变，分组可以重叠。</p><MarketTable caption="ETF八组" columns={['组别','样本','成交加权1日','中位1日','中位5日','中位20日','成交额','份额覆盖','增加/减少','代表'].map((label,i)=>({label,numeric:i>0&&i<9}))} rows={day.etfGroups.groups.map(x=>({cells:[x.name,x.sampleCount,pct(x.amountWeightedReturn1d),pct(x.medianReturn1d),pct(x.medianReturn5d),pct(x.medianReturn20d),cny(x.amountCny),pct(x.shareCoverage,{sign:false}),`${x.shareIncreaseCount}/${x.shareDecreaseCount}`,x.representative?`${x.representative.name} · ${pct(x.representative.shareDelta)}`:'—']}))}/></> : <MissingData text="今日ETF数据未就绪"/>}
+<MarketTable caption="主题八篮子 · 申万行业样本数加权" columns={['主题','成员行业','样本','1日','5日','20日','上涨覆盖','MA20上方','成交占比','涨停','跌停'].map((label,i)=>({label,numeric:i>1}))} rows={day.themes.map(x=>({cells:[x.name,x.members.join('、'),x.sampleCount,pct(x.return1d),pct(x.return5d),pct(x.return20d),pct(x.advanceShare,{sign:false}),pct(x.aboveMa20Share,{sign:false}),pct(x.amountShare,{sign:false}),x.limitUpCount,x.limitDownCount]}))}/>
+<style>details{padding:1rem 0;border-bottom:1px solid var(--border)}summary{cursor:pointer;min-height:44px}p{overflow-wrap:anywhere}</style>

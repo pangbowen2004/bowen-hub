@@ -25,7 +25,11 @@ for (const path of [
     await page.goto(path);
     await expect(page.locator("h1")).toBeVisible();
     await expect(page.locator("body")).not.toContainText(/Bowen/i);
-    await expect(page.getByRole("status")).toContainText("样例连接成功");
+    if (path === "/markets/events") {
+      await expect(page.getByRole("heading", { name: "样例：产业应用验证窗口" })).toBeVisible();
+    } else {
+      await expect(page.getByRole("status")).toContainText("样例连接成功");
+    }
     expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(
       true,
     );

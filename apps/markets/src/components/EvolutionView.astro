@@ -1,0 +1,65 @@
+---
+import type { MarketDay, MarketDaySummary, MarketEvent } from "@bowen-hub/contracts";
+import ScoreBreakdown from "@bowen-hub/ui/astro/ScoreBreakdown";
+import { EChart } from "@bowen-hub/ui/charts";
+import { cny, pct } from "@bowen-hub/ui/format";
+import MarketTable from "./MarketTable.astro";
+
+interface Props {
+  day: MarketDay;
+  history: MarketDaySummary[];
+  events: MarketEvent[];
+}
+const { day, history, events } = Astro.props;
+const evolution = day.evolution;
+const rows = history
+  .filter((x) => x.date <= day.date)
+  .sort((a, b) => a.date.localeCompare(b.date))
+  .slice(-60);
+const edgeNames: Record<string, string> = {
+  turnover: "成交额",
+  advanceShare: "上涨覆盖",
+  limitUpCount: "涨停家数",
+  maxBoard: "最高连板",
+};
+const countOption = {
+  tooltip: { trigger: "axis" },
+  legend: { data: ["涨停", "跌停", "最高板"] },
+  grid: { left: 48, right: 48, bottom: 52 },
+  xAxis: { type: "category", data: rows.map((x) => x.date) },
+  yAxis: [
+    { type: "value", name: "家数" },
+    { type: "value", name: "连板" },
+  ],
+  series: [
+    { name: "涨停", type: "line", data: rows.map((x) => x.limitUpCount) },
+    { name: "跌停", type: "line", data: rows.map((x) => x.limitDownCount) },
+    { name: "最高板", type: "line", yAxisIndex: 1, data: rows.map((x) => x.maxBoard) },
+  ],
+};
+const volumeOption = {
+  tooltip: { trigger: "axis" },
+  grid: { left: 64, right: 20, bottom: 52 },
+  xAxis: { type: "category", data: rows.map((x) => x.date) },
+  yAxis: { type: "value", name: "成交额（亿元）" },
+  series: [{ name: "成交额", type: "bar", data: rows.map((x) => x.turnoverCny / 1e8) }],
+};
+const option = {
+  tooltip: { trigger: "axis" },
+  legend: { data: ["温度", "情绪", "上涨覆盖", "MA20上方"] },
+  grid: { left: 48, right: 20, bottom: 52 },
+  xAxis: { type: "category", data: rows.map((x) => x.date) },
+  yAxis: { type: "value", min: 0, max: 100 },
+  series: [
+    { name: "温度", type: "line", data: rows.map((x) => x.temperature) },
+    { name: "情绪", type: "line", data: rows.map((x) => x.sentiment) },
+    { name: "上涨覆盖", type: "line", data: rows.map((x) => x.advanceShare * 100) },
+    { name: "MA20上方", type: "line", data: rows.map((x) => x.aboveMa20Share * 100) },
+  ],
+};
+---
+{evolution ? <><MarketTable caption="近五个交易日" columns={['日期','温度','情绪','上涨覆盖','成交额','涨停','最高板'].map((label,i)=>({label,numeric:i>0}))} rows={evolution.rows.map(x=>({cells:[x.date,x.temperature,x.sentiment,pct(x.advanceShare,{sign:false}),cny(x.turnoverCny),x.limitUpCount,x.maxBoard]}))}/><section><h2>边际变化</h2>{Object.entries(evolution.edgeChanges).map(([key,x])=><p>{edgeNames[key]??key}：{x?`${x.state} · ${key==='turnover'||key==='advanceShare'?pct(x.change):x.change}`:'数据未就绪'}</p>)}<p>五日成交中位：{cny(evolution.summary.turnoverMedianCny)} · 温度区间：{evolution.summary.temperatureRange.join('–')} · 方向覆盖 {evolution.summary.directionCoverageDays}/5。</p><h3>持续出现</h3><p>方向：{evolution.summary.directions.map(x=>`${x.name} ${x.top3Appearances}次`).join('、')||'数据未就绪'}</p><p>行业：{evolution.summary.industries.map(x=>`${x.name} ${x.top3Appearances}次`).join('、')}</p><h3>传导链</h3>{Object.values(evolution.transmission).map(x=>x?<p><strong>{x.name}</strong> · {x.text}</p>:<p>方向数据未就绪</p>)}<h3>下一交易日：乐观与悲观并列</h3>{Object.values(evolution.signals).map(x=>x?<article><h4>{x.name} · {x.currentState}</h4><p>确认：{x.confirmation}</p><p>失效：{x.invalidation}</p></article>:<p>方向信号数据未就绪</p>)}</section></> : <p>五日演化数据未就绪。</p>}
+<section><h2>六十日观察窗口</h2><p class="muted">当前有 {rows.length} 个交易日摘要；缺失日期不填造。分别显示状态与覆盖、成交额及涨跌停生态，避免不同量纲混在同一坐标轴。</p><EChart option={option} label="市场状态历史趋势" source="TuShare日频；状态分值不代表概率或交易建议。" client:visible/><EChart option={volumeOption} types={["bar"]} label="历史成交额趋势" source="成交额单位：亿元。" client:visible/><EChart option={countOption} label="涨跌停与连板高度趋势" source="家数与连板高度使用独立坐标轴。" client:visible/><MarketTable caption="趋势原始值" columns={['日期','温度','情绪','上涨覆盖','成交额','涨停','最高板'].map((label,i)=>({label,numeric:i>0}))} rows={rows.map(x=>({cells:[x.date,x.temperature,x.sentiment,pct(x.advanceShare,{sign:false}),cny(x.turnoverCny),x.limitUpCount,x.maxBoard]}))}/></section>
+<ScoreBreakdown title="情绪九维" score={day.sentiment.value} items={day.sentiment.dimensions.map(x=>({label:x.label,value:x.score,max:x.weight,formula:x.formula,input:JSON.stringify(x.input)+" "+x.unit}))}/><MarketTable caption="市场风格分布" columns={["状态","家数","占比","平均收益","中位收益"].map((label,i)=>({label,numeric:i>0}))} rows={day.style.groups.map(x=>({cells:[x.name,x.count,pct(x.share,{sign:false}),pct(x.meanReturn1d),pct(x.medianReturn1d)]}))}/><section><h2>涨停晋级</h2><p>昨日涨停 {day.limitEcology.previousLimitUpCount} 家 · 今日晋级 {day.limitEcology.advancementCount} 家 · 晋级率 {pct(day.limitEcology.advancementRate,{sign:false})}</p><MarketTable caption="晋级名单" columns={["名称","代码","行业","连板","涨跌"].map((label,i)=>({label,numeric:i>2}))} rows={day.limitEcology.progression.map(x=>({cells:[x.name,x.code,x.industry,x.boardHeight,pct(x.return1d)]}))}/></section>
+<section><h2>事件日历</h2><p>事件是可核对的观察条件，不从政策名称推导市场结论。</p>{events.map(x=><details><summary>{x.startDate}–{x.endDate} · {x.title} · {x.status==='confirmed'?'已确认':'待核实'}</summary><p><a href={x.sourceUrl} rel="noopener noreferrer">{x.sourceLabel} →</a></p><h3>确认条件</h3><p>{x.confirmation}</p><h3>失效条件</h3><p>{x.invalidation}</p><ul>{x.watchItems.map(text=><li>{text}</li>)}</ul><p>A股观察：{x.aShareMappings.join('、')}</p></details>)}</section>
+<style>section{padding-block:1.5rem;border-top:1px solid var(--border)}summary{cursor:pointer;min-height:44px}details{padding:1rem 0}</style>

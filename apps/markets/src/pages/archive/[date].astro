@@ -1,9 +1,21 @@
 ---
-import Placeholder from "../../layouts/Placeholder.astro";
-import { listDays } from "../../lib/data";
+import DayOverview from "../../components/DayOverview.astro";
+import DirectionsView from "../../components/DirectionsView.astro";
+import { events, hypotheses, hypothesesAsOf, indexBars } from "../../components/data";
+import EvolutionView from "../../components/EvolutionView.astro";
+import IndexChart from "../../components/IndexChart.astro";
+import IndustriesView from "../../components/IndustriesView.astro";
+import MarketPage from "../../components/MarketPage.astro";
+import ValidationView from "../../components/ValidationView.astro";
+import { getDay, listDays } from "../../lib/data";
 export async function getStaticPaths() {
   return (await listDays()).map((row) => ({ params: { date: row.date } }));
 }
-const { date } = Astro.params;
+const day = await getDay(Astro.params.date!);
+const bars = await indexBars(day.date);
+const history = await listDays();
+const calendar = await events();
+const rows = hypothesesAsOf(await hypotheses(), day.date);
 ---
-<Placeholder title="历史详情" lead="历史内容准备中" date={date}/>
+<MarketPage title="历史详情" lead="完整日度状态与当时的证据边界。" day={day}><a href={`/archive/${day.date}.md`}>下载摘要 Markdown →</a><DayOverview day={day}/><IndexChart day={day} bars={bars}/><IndustriesView day={day}/><DirectionsView day={day}/><EvolutionView day={day} history={history} events={calendar}/><p class="muted">假设按归档日投影，隐藏之后结算的结果；事件日历为当前维护资料。</p><ValidationView day={day} hypotheses={rows}/></MarketPage>
+<style is:global>@media print{header nav,button,canvas,[data-hypothesis-filter]{display:none!important}main{max-width:none!important;font-size:10pt}section,article,table{break-inside:avoid}.table-wrap{overflow:visible!important}table{font-size:8pt}details> *{display:block}a{color:inherit;text-decoration:none}}</style>

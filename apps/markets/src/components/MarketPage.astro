@@ -1,0 +1,34 @@
+---
+import type { MarketDay } from "@bowen-hub/contracts";
+import DateNav from "@bowen-hub/ui/astro/DateNav";
+import MissingData from "@bowen-hub/ui/astro/MissingData";
+import PageHeader from "@bowen-hub/ui/astro/PageHeader";
+import BaseLayout from "../layouts/BaseLayout.astro";
+import { listDays } from "../lib/data";
+
+interface Props {
+  title: string;
+  lead: string;
+  day: MarketDay;
+}
+const { title, lead, day } = Astro.props;
+const missingLabels: Record<string, string> = {
+  moneyflow: "资金流",
+  directions: "方向",
+  etfGroups: "ETF轮动",
+  limitDetail: "涨跌停明细",
+};
+const days = (await listDays()).sort((a, b) => b.date.localeCompare(a.date));
+const index = days.findIndex((row) => row.date === day.date);
+const previous = days[index + 1];
+const next = index > 0 ? days[index - 1] : undefined;
+---
+<BaseLayout title={title} description={lead} date={day.date}>
+<PageHeader title={title} lead={lead} date={day.date}/>
+<DateNav previous={previous?{href:`/archive/${previous.date}/`,label:previous.date}:undefined} next={next?{href:`/archive/${next.date}/`,label:next.date}:undefined}/>
+{day.dataStatus.missing.length>0 && <MissingData text={"数据尚不完整："+day.dataStatus.missing.map(key=>missingLabels[key]??key).join("、")}/>}
+<slot/>
+<p class="muted">数据生成于 {day.generatedAt}。方向采用成分快照，历史重算须核对成员采集日期。</p>
+</BaseLayout>
+
+<style is:global>main.stack{grid-template-columns:minmax(0,1fr)}main.stack> *{min-width:0}.filters input,.filters select{max-width:100%}</style>

@@ -1,4 +1,9 @@
 ---
-import Placeholder from "../layouts/Placeholder.astro";
+import IndustriesView from "../components/IndustriesView.astro";
+import IndustryTreemap from "../components/IndustryTreemap.astro";
+import MarketPage from "../components/MarketPage.astro";
+import { getDay } from "../lib/data";
+
+const day = await getDay();
 ---
-<Placeholder title="行业与涨停" lead="行业状态不是涨幅榜，而是一组等待验证的结构线索。"></Placeholder>
+<MarketPage title="行业与涨停" lead="行情背后的扩散、分歧与负反馈。" day={day}><IndustriesView day={day}/><IndustryTreemap day={day}/></MarketPage>

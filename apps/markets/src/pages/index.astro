@@ -1,28 +1,17 @@
 ---
-import { cny, pct } from "@bowen-hub/ui/format";
-import Placeholder from "../layouts/Placeholder.astro";
+import DayOverview from "../components/DayOverview.astro";
+import { hypotheses, indexBars } from "../components/data";
+import IndexChart from "../components/IndexChart.astro";
+import MarketPage from "../components/MarketPage.astro";
+import RankingPreview from "../components/RankingPreview.astro";
+import ValidationView from "../components/ValidationView.astro";
 import { getDay } from "../lib/data";
 
 const day = await getDay();
+const bars = await indexBars(day.date);
+const todays = (await hypotheses()).filter(
+  (row) =>
+    day.validation?.createdToday.includes(row.id) || day.validation?.settledToday.includes(row.id),
+);
 ---
-<Placeholder title="驾驶舱" lead="当日市场状态摘要">
-  <div class="editorial-grid">
-    <section class="editorial-lead surface-panel">
-      <p class="eyebrow">A 股收盘观察</p>
-      <h2 class="editorial-title">{day.summary.headline}</h2>
-      <div class="stat-row">
-        <p><span class="muted">成交额</span><strong>{cny(day.market.turnoverCny)}</strong></p>
-        <p><span class="muted">上涨覆盖</span><strong>{pct(day.market.advanceShare)}</strong></p>
-      </div>
-    </section>
-    <nav aria-label="观察入口">
-      <p class="eyebrow">沿着证据，继续观察</p>
-      <ul class="editorial-list">
-        <li><a class="editorial-link" href="/industries/">行业与涨停 <span aria-hidden="true">↗</span></a></li>
-        <li><a class="editorial-link" href="/directions/">方向与 ETF <span aria-hidden="true">↗</span></a></li>
-        <li><a class="editorial-link" href="/validation/">验证中心 <span aria-hidden="true">↗</span></a></li>
-        <li><a class="editorial-link" href="/methods/">方法与口径 <span aria-hidden="true">↗</span></a></li>
-      </ul>
-    </nav>
-  </div>
-</Placeholder>
+<MarketPage title="驾驶舱" lead="先看结构，再沿着证据验证。" day={day}><DayOverview day={day}/><RankingPreview day={day}/><IndexChart day={day} bars={bars}/><ValidationView day={day} hypotheses={todays}/><nav aria-label="继续观察"><a href="/directions/">方向与ETF →</a> · <a href="/industries/">行业与涨停 →</a> · <a href="/validation/">验证中心 →</a></nav></MarketPage>

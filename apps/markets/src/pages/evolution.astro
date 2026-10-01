@@ -1,4 +1,11 @@
 ---
-import Placeholder from "../layouts/Placeholder.astro";
+import { events } from "../components/data";
+import EvolutionView from "../components/EvolutionView.astro";
+import MarketPage from "../components/MarketPage.astro";
+import { getDay, listDays } from "../lib/data";
+
+const day = await getDay();
+const history = await listDays();
+const calendar = await events();
 ---
-<Placeholder title="演化与事件" lead="不只看今天涨了什么，还要看结构如何迁移。"></Placeholder>
+<MarketPage title="演化与事件" lead="看结构如何迁移，也看结论何时失效。" day={day}><EvolutionView day={day} history={history} events={calendar}/></MarketPage>

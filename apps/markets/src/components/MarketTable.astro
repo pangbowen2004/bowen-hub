@@ -1,0 +1,50 @@
+---
+interface Props {
+  caption: string;
+  columns: { label: string; numeric?: boolean }[];
+  rows: {
+    cells: (string | number | null | undefined)[];
+    sort?: (string | number | null | undefined)[];
+  }[];
+}
+const { caption, columns, rows } = Astro.props;
+function sortValue(row: Props["rows"][number], index: number) {
+  if (row.sort) return row.sort[index] ?? "";
+  const value = row.cells[index];
+  if (value == null || value === "—") return "";
+  if (!columns[index]?.numeric || typeof value === "number") return value;
+  const text = value.replaceAll(",", "").trim();
+  const match = /^([+-]?\d+(?:\.\d+)?)\s*(万亿|亿|万|%|个百分点)?$/.exec(text);
+  if (!match) return value;
+  const factors: Record<string, number> = { 万亿: 1e12, 亿: 1e8, 万: 1e4, "%": 0.01, 百分点: 0.01 };
+  return Number(match[1]) * (factors[match[2] ?? ""] ?? 1);
+}
+---
+<div class="table-wrap" data-market-table>
+<table><caption>{caption}</caption><thead><tr>{columns.map((column,i) => <th scope="col" class:list={[column.numeric && "number"]} aria-sort="none"><button type="button" data-column={i}>{column.label}<span aria-hidden="true"> ↕</span></button></th>)}</tr></thead><tbody>{rows.map(row => <tr>{row.cells.map((cell,i) => <td class:list={[columns[i]?.numeric && "number", typeof cell==="string" && /^[+]\d.*%$/.test(cell) && /收益|涨幅|涨跌|当日|日$|相对|差值/.test(columns[i]?.label??"") && "up", typeof cell==="string" && /^-\d.*%$/.test(cell) && "down"]} data-sort={sortValue(row,i)}>{cell ?? "—"}</td>)}</tr>)}</tbody></table>
+</div>
+<script>
+for (const wrapper of document.querySelectorAll<HTMLElement>("[data-market-table]")) {
+  const body = wrapper.querySelector("tbody");
+  if (!body) continue;
+  for (const button of wrapper.querySelectorAll<HTMLButtonElement>("button[data-column]")) {
+    button.addEventListener("click", () => {
+      const index = Number(button.dataset.column);
+      const heading = button.closest("th");
+      const ascending = heading?.getAttribute("aria-sort") !== "ascending";
+      wrapper.querySelectorAll("th").forEach(th => th.setAttribute("aria-sort","none"));
+      heading?.setAttribute("aria-sort",ascending ? "ascending" : "descending");
+      const rows = Array.from(body.rows);
+      rows.sort((left,right) => {
+        const a = left.cells[index]?.dataset.sort ?? "";
+        const b = right.cells[index]?.dataset.sort ?? "";
+        if (!a || !b) return !a && !b ? 0 : !a ? 1 : -1;
+        const delta = Number.isFinite(Number(a)) && Number.isFinite(Number(b)) ? Number(a)-Number(b) : a.localeCompare(b,"zh-CN");
+        return ascending ? delta : -delta;
+      });
+      body.append(...rows);
+    });
+  }
+}
+</script>
+<style>caption{text-align:left;padding-block:.75rem;line-height:1.6}th,td{white-space:nowrap}.table-wrap th:first-child,.table-wrap td:first-child{min-width:6rem}th button{font:inherit;color:inherit;background:none;border:0;padding:.45rem 0;cursor:pointer;min-height:44px;text-align:inherit}th button:focus-visible{outline:2px solid var(--accent);outline-offset:3px}</style>

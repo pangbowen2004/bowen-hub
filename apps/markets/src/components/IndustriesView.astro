@@ -1,0 +1,22 @@
+---
+import type { MarketDay } from "@bowen-hub/contracts";
+import { cny, num, pct } from "@bowen-hub/ui/format";
+import MarketTable from "./MarketTable.astro";
+
+interface Props {
+  day: MarketDay;
+}
+const { day } = Astro.props;
+const stocks = [
+  { title: "连续晋级与首板", rows: day.limitEcology.progression },
+  { title: "晋级未完成（最多16只）", rows: day.limitEcology.failedPromotions },
+  { title: "跌停样本", rows: day.limitEcology.limitDownSamples },
+  { title: "大跌样本", rows: day.limitEcology.largeLossSamples },
+  { title: "涨幅居前", rows: day.stocks.top },
+  { title: "跌幅居前", rows: day.stocks.bottom },
+];
+---
+<MarketTable caption="申万一级行业 · 点时成员等权聚合，不是行业指数收益" columns={['行业','阶段','样本','当日','5日','20日','中位涨幅','上涨覆盖','MA20上方','成交额','成交占比','涨停','跌停','PE','PB'].map((label,i)=>({label,numeric:i>=2}))} rows={day.industries.map(x=>({cells:[x.name,x.lifecycle,x.sampleCount,pct(x.return1d),pct(x.return5d),pct(x.return20d),pct(x.medianReturn1d),pct(x.advanceShare,{sign:false}),pct(x.aboveMa20Share,{sign:false}),cny(x.amountCny),pct(x.amountShare,{sign:false}),x.limitUpCount,x.limitDownCount,num(x.medianPeTtm,2),num(x.medianPb,2)],sort:[x.name,x.lifecycle,x.sampleCount,x.return1d,x.return5d,x.return20d,x.medianReturn1d,x.advanceShare,x.aboveMa20Share,x.amountCny,x.amountShare,x.limitUpCount,x.limitDownCount,x.medianPeTtm,x.medianPb]}))}/>
+<section><h2>涨停生态</h2><p>首板 {day.limitEcology.firstBoardCount} 家 · 多板 {day.limitEcology.multiBoardCount} 家 · 昨日涨停 {day.limitEcology.previousLimitUpCount} 家 · 今日晋级 {day.limitEcology.advancementCount} 家 · 晋级率 {pct(day.limitEcology.advancementRate,{sign:false})}</p>{day.limitEcology.heightDistribution.map(x=><p>{x.height} 板 · {x.count} 家 · {x.names.join('、')}</p>)}<h3>行业聚类</h3>{day.limitEcology.industryClusters.map(x=><p>{x.industry} · {x.count} 家 · 最高 {x.maxBoardHeight} 板 · {x.names.join('、')}</p>)}</section>
+{stocks.map(group=><MarketTable caption={group.title} columns={['名称','代码','行业','涨跌','连板','成交额','上市板','首次封板','最后封板','开板次数','涨停统计','封单金额'].map((label,i)=>({label,numeric:i===3||i===4||i===5}))} rows={group.rows.map(x=>({cells:[x.name,x.code,x.industry,pct(x.return1d),x.boardHeight,cny(x.amountCny),x.board,x.limitDetail?.firstTime??"—",x.limitDetail?.lastTime??"—",x.limitDetail?.openTimes??"—",x.limitDetail?.upStat??"—",cny(x.limitDetail?.sealedAmountCny)],sort:[x.name,x.code,x.industry,x.return1d,x.boardHeight,x.amountCny,x.board,x.limitDetail?.firstTime??null,x.limitDetail?.lastTime??null,x.limitDetail?.openTimes??null,x.limitDetail?.upStat??null,x.limitDetail?.sealedAmountCny??null]}))}/>)}
+{day.segments && <><MarketTable caption="上市板分层" columns={['上市板','样本','等权收益','上涨覆盖','MA20上方','中位换手'].map((label,i)=>({label,numeric:i>0}))} rows={day.segments.boards.map(x=>({cells:[x.name,x.sampleCount,pct(x.return1d),pct(x.advanceShare,{sign:false}),pct(x.aboveMa20Share,{sign:false}),pct(x.turnoverRateMedian)]}))}/><MarketTable caption="市值分层" columns={['分层','样本','等权收益','上涨覆盖','市值中位'].map((label,i)=>({label,numeric:i>0}))} rows={day.segments.marketCap.map(x=>({cells:[x.name,x.sampleCount,pct(x.return1d),pct(x.advanceShare,{sign:false}),cny(x.medianMarketCapCny)]}))}/></>}

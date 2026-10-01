@@ -1,7 +1,9 @@
 ---
-import Placeholder from "../../layouts/Placeholder.astro";
-import { listWeeklies } from "../../lib/data";
+import MarketPage from "../../components/MarketPage.astro";
+import { getDay, listWeeklies } from "../../lib/data";
 
+const day = await getDay();
 const rows = await listWeeklies();
 ---
-<Placeholder title="周报" lead="周报列表"><ul>{rows.map(row=><li><a href={`/weekly/${row.date}/`}>{row.date} · {row.title}</a></li>)}</ul></Placeholder>
+<MarketPage title="周报" lead="沿着五个交易日，复核结构和判断。" day={day}><p><a href="/weekly/latest.md">最新 Markdown →</a> · <a href="/weekly/latest.json">最新结构化数据 →</a></p>{rows.map(row=><article><p class="eyebrow">{row.date}</p><h2><a href={`/weekly/${row.date}/`}>{row.title}</a></h2><p>{row.sentence}</p><p>已结算 {row.settledCount} · 未确认 {row.researchErrorCount} · 证据不足 {row.inconclusiveCount}</p></article>)}</MarketPage>
+<style>article{border-top:1px solid var(--border);padding-block:1.5rem}</style>

@@ -1,9 +1,12 @@
 ---
-import Placeholder from "../../layouts/Placeholder.astro";
-import { listWeeklies } from "../../lib/data";
+import MarketPage from "../../components/MarketPage.astro";
+import WeeklyView from "../../components/WeeklyView.astro";
+import { getDay, getWeekly, listWeeklies } from "../../lib/data";
 export async function getStaticPaths() {
   return (await listWeeklies()).map((row) => ({ params: { date: row.date } }));
 }
-const { date } = Astro.params;
+const date = Astro.params.date!;
+const report = await getWeekly(date);
+const day = await getDay(date);
 ---
-<Placeholder title="周报详情" lead="周报内容准备中" date={date}/>
+<MarketPage title="周报详情" lead={report.sentence} day={day}><WeeklyView report={report}/></MarketPage>
