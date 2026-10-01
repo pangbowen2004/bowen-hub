@@ -3,8 +3,8 @@ import { spawn, spawnSync } from "node:child_process";
 import { mkdtempSync, readFileSync, rmSync, writeFileSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { join, resolve } from "node:path";
-import { Problem } from "@bowen-hub/contracts/zod";
 import { parse, stringify } from "yaml";
+import { isDeclaredResourceMissing } from "./probe-response.ts";
 
 const SCHEMATHESIS_VERSION = "4.28.0";
 const args = process.argv.slice(2);
@@ -136,11 +136,7 @@ try {
         continue;
       }
       // 空库的资源不存在应是契约Problem，而非未挂载路由的404。
-      const declaredNotFound =
-        response.status === 404 &&
-        ("404" in operation.responses || "default" in operation.responses) &&
-        response.headers.get("content-type")?.includes("application/problem+json") &&
-        Problem.safeParse(await response.clone().json()).success;
+      const declaredNotFound = await isDeclaredResourceMissing(response, operation.responses);
       if (
         [401, 403, 500].includes(response.status) ||
         (response.status === 404 && !declaredNotFound)
