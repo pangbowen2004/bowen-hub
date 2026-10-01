@@ -1,4 +1,5 @@
 import type { APIRoute } from "astro";
+import { paperMarkdown } from "../../components/paper";
 import { getCatalog, getPaper } from "../../lib/data";
 export async function getStaticPaths() {
   return (await getCatalog()).papers
@@ -7,7 +8,7 @@ export async function getStaticPaths() {
 }
 export const GET: APIRoute = async ({ params }) => {
   const paper = await getPaper(params.id!);
-  return new Response(paper.guide?.article ?? `# ${paper.meta.title}`, {
+  return new Response(paperMarkdown(paper), {
     headers: { "Content-Type": "text/markdown; charset=utf-8" },
   });
 };

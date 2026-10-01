@@ -1,7 +1,9 @@
 ---
-import Placeholder from "../layouts/Placeholder.astro";
-import { getGraph } from "../lib/data";
+import { GraphView } from "@bowen-hub/ui/react/GraphView";
+import { publicGraph } from "../components/paper";
+import BaseLayout from "../layouts/BaseLayout.astro";
+import { getCatalog, getGraph } from "../lib/data";
 
-const graph = await getGraph();
+const data = publicGraph(await getGraph(), (await getCatalog()).papers);
 ---
-<Placeholder title="论文图谱" lead="论文图谱内容准备中"><p>样例图谱包含 {graph.nodes.length} 个节点。</p></Placeholder>
+<BaseLayout title="知识图谱" description="探索论文、概念与研究空间之间的明确关系"><header class="stack"><p class="eyebrow">关系与共现</p><h1 class="editorial-title">知识图谱</h1><p>从一个概念，走向另一篇论文。</p></header><GraphView data={data} client:visible/></BaseLayout>
