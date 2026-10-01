@@ -31,32 +31,29 @@ function Root() {
       <a className="sr-only" href="#content">
         跳到正文
       </a>
-      <aside className="sidebar">
+      <header className="console-masthead">
         <a className="brand" href="/">
-          Bowen 控制台
+          控制台
         </a>
-        <nav aria-label="主导航" className="stack">
+        <nav aria-label="主导航" className="console-nav">
           {desktop.map((item) => (
             <Link key={item.to} to={item.to} activeProps={{ "aria-current": "page" }}>
               {item.label}
             </Link>
           ))}
         </nav>
-      </aside>
+        <Button className="theme-button" onClick={changeTheme}>
+          主题：{theme === "system" ? "跟随系统" : theme === "dark" ? "深色" : "浅色"}
+        </Button>
+      </header>
       <div className="console-content">
-        <header className="console-toolbar">
-          <span>私人工作台</span>
-          <Button onClick={changeTheme}>
-            主题：{theme === "system" ? "跟随系统" : theme === "dark" ? "深色" : "浅色"}
-          </Button>
-        </header>
         <main id="content" className="container">
           <Outlet />
         </main>
       </div>
       <nav className="bottom-nav" aria-label="手机标签栏">
         {mobile.map((item) => (
-          <Link key={item.to} to={item.to}>
+          <Link key={item.to} to={item.to} activeProps={{ "aria-current": "page" }}>
             {item.label}
           </Link>
         ))}
