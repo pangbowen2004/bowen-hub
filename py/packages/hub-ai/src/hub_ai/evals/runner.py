@@ -3,6 +3,7 @@
 import fnmatch
 import hashlib
 import json
+import re
 import subprocess
 from dataclasses import dataclass
 from datetime import UTC, datetime
@@ -225,7 +226,59 @@ async def evaluate(
         task, max_concurrency=1, progress=False, retry_task=None, retry_evaluators=None
     )
     if report.failures or any(case.evaluator_failures for case in report.cases):
-        raise ValueError("评测失败：用例或评分器未准备；未生成通过报告")
+        # 供应商异常可能含密钥/正文，只输出标识、已知异常类和固定安全分类。
+        def identifier(value: str) -> str:
+            return re.sub(r"[^a-zA-Z0-9_.:-]", "_", value)[:80]
+
+        def error_label(message: str, error_type: str | None = None) -> str:
+            for reason in (
+                "超过 token 上限",
+                "评审输出结构失败",
+                "离线主观评分需显式假评审适配器",
+                "用例缺少元数据",
+                "用例缺少 labels",
+                "用例未准备评分期望",
+                "未知或未准备评分器",
+            ):
+                if reason in message:
+                    return reason
+            name = error_type or message.partition(":")[0]
+            return (
+                name
+                if name
+                in {
+                    "ValueError",
+                    "ValidationError",
+                    "TransportError",
+                    "StructureError",
+                    "TokenLimitError",
+                    "FileNotFoundError",
+                    "OSError",
+                    "TimeoutError",
+                    "ModelAPIError",
+                    "TypeError",
+                    "KeyError",
+                    "StopIteration",
+                }
+                else "Error"
+            )
+
+        failures = [
+            f"case={identifier(failure.name)} stage=task error={error_label(failure.error_message)}"
+            for failure in report.failures
+        ]
+        failures.extend(
+            f"case={identifier(case.name)} stage=scorer scorer={identifier(failure.name)} "
+            f"error={error_label(failure.error_message, failure.error_type)}"
+            for case in report.cases
+            for failure in case.evaluator_failures
+        )
+        cost = sum(call.costUsd for call in calls)
+        raise ValueError(
+            f"评测执行失败：{identifier(capability_id)}；"
+            + "; ".join(failures[:10])
+            + f"；失败项={len(failures)}；已记录费用 USD {cost:.6f}；未生成通过报告"
+        )
     scores = {
         name: sum(float(case.scores[name].value) for case in report.cases) / len(cases)
         for name in cap["evals"]["thresholds"]

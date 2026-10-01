@@ -648,11 +648,16 @@ def test_images_attached_by_page_and_prompt_numbers() -> None:
 
 
 @pytest.mark.parametrize("adapter_raises", [False, True])
-def test_judge_token_limit_records_failed_call(adapter_raises: bool) -> None:
+@pytest.mark.parametrize("limit_kind", ["input", "output"])
+def test_judge_token_limit_records_failed_call(adapter_raises: bool, limit_kind: str) -> None:
     from hub_ai.evals.runner import JudgeScore
 
     registry = Registry(ROOT)
-    used = Usage(input_tokens=20001, output_tokens=513, cached_input_tokens=10)
+    used = Usage(
+        input_tokens=20001 if limit_kind == "input" else 100,
+        output_tokens=4097 if limit_kind == "output" else 100,
+        cached_input_tokens=10,
+    )
     calls: list[Any] = []
 
     class LimitAdapter:
@@ -672,6 +677,93 @@ def test_judge_token_limit_records_failed_call(adapter_raises: bool) -> None:
         )
     assert len(calls) == 1
     assert not calls[0].ok
-    assert calls[0].inputTokens == 20001
-    assert calls[0].outputTokens == 513
+    assert calls[0].inputTokens == used.input_tokens
+    assert calls[0].outputTokens == used.output_tokens
     assert calls[0].costUsd > 0
+
+
+def test_judge_independent_budget_accepts_reasoning_usage() -> None:
+    from hub_ai.evals.runner import JudgeScore
+
+    registry = Registry(ROOT)
+    adapter = FakeAdapter([Response({"score": 0.9}, Usage(100, 1200))])
+    score = asyncio.run(
+        Runtime(registry, adapter).judge(
+            "news.filing_digest", {"system": "评分", "user": "原文事实"}, JudgeScore
+        )
+    )
+    assert JudgeScore.model_validate(score).score == 0.9
+    assert adapter.requests[0].max_output_tokens == 4096
+    assert registry.capabilities["news.filing_digest"]["limits"]["maxOutputTokens"] == 300
+    assert adapter.requests[0].reasoning == registry.llm["tiers"]["balanced"]["reasoning"]
+
+
+def test_gateway_model_api_error_retries_without_provider_details(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    from pydantic_ai.exceptions import ModelAPIError
+
+    import hub_ai.gateway as gateway
+    from hub_core.settings import Settings
+
+    attempts: list[int] = []
+    waits: list[float] = []
+
+    class FailedAgent:
+        def __init__(self, *args: Any, **kwargs: Any) -> None:
+            attempts.append(1)
+
+        def iter(self, *args: Any, **kwargs: Any) -> Any:
+            raise ModelAPIError(model_name="fixture", message="private-provider-token-do-not-log")
+
+    async def sleep(seconds: float) -> None:
+        waits.append(seconds)
+
+    monkeypatch.setattr(gateway, "Agent", FailedAgent)
+    registry = Registry(ROOT)
+    adapter = gateway.GatewayAdapter(registry, Settings(), model_override=TestModel())
+    result = asyncio.run(Runtime(registry, adapter, sleep=sleep).run("news.filing_digest", INPUT))
+    assert not result.ok
+    assert result.reason == "模型传输失败"
+    assert len(attempts) == 3
+    assert waits == [1, 2]
+    assert "private-provider-token" not in str(result)
+
+
+def test_eval_failure_identifies_case_and_safe_stage(tmp_path: Path) -> None:
+    import yaml
+
+    root = prepare(tmp_path)
+    path = root / "capabilities/fixture.summary.yaml"
+    cap = yaml.safe_load(path.read_text())
+    cap["evals"]["thresholds"]["judge_faithful"] = 0.8
+    path.write_text(yaml.safe_dump(cap))
+    directory = root / "evals/fixture.summary"
+    (directory / "judge_faithful.md").write_text("只核原文忠实程度")
+    llm_path = root / "config/llm.yaml"
+    llm = yaml.safe_load(llm_path.read_text())
+    llm["tiers"]["balanced"] = llm["tiers"]["fast"]
+    llm["defaults"]["judgeMaxOutputTokens"] = 4096
+    llm_path.write_text(yaml.safe_dump(llm))
+
+    class FailedJudgeAdapter:
+        async def generate(self, request: Request) -> Response:
+            if request.output_model.__name__ == "JudgeScore":
+                raise TransportError("private-provider-token-do-not-log")
+            return Response({"digest": "收入增长1.2%。"}, Usage(100, 10))
+
+    async def sleep(seconds: float) -> None:
+        return None
+
+    with pytest.raises(ValueError, match="评测执行失败") as failure:
+        asyncio.run(
+            evaluate(Runtime(Registry(root), FailedJudgeAdapter(), sleep=sleep), "fixture.summary")
+        )
+    text = str(failure.value)
+    assert "fixture.summary" in text
+    assert "case=" in text
+    assert "stage=scorer" in text
+    assert "error=TransportError" in text
+    assert "已记录费用 USD" in text
+    assert "未生成通过报告" in text
+    assert "private-provider-token" not in text

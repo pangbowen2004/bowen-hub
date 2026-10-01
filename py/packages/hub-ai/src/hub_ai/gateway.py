@@ -5,7 +5,12 @@ from typing import Any, cast
 from httpx import HTTPError
 from openai import APIConnectionError, APITimeoutError, AsyncOpenAI
 from pydantic_ai import Agent, BinaryContent, ImageUrl, NativeOutput, ToolOutput, UsageLimits
-from pydantic_ai.exceptions import ModelHTTPError, UnexpectedModelBehavior, UsageLimitExceeded
+from pydantic_ai.exceptions import (
+    ModelAPIError,
+    ModelHTTPError,
+    UnexpectedModelBehavior,
+    UsageLimitExceeded,
+)
 from pydantic_ai.models import Model
 from pydantic_ai.models.openai import OpenAIChatModel, OpenAIChatModelSettings
 from pydantic_ai.providers.openai import OpenAIProvider
@@ -100,7 +105,7 @@ class GatewayAdapter:
                 ):
                     continue
                 raise TransportError("网关请求失败") from None
-            except HTTPError, TimeoutError, APIConnectionError, APITimeoutError:
+            except ModelAPIError, HTTPError, TimeoutError, APIConnectionError, APITimeoutError:
                 raise TransportError("网关传输失败") from None
             except UsageLimitExceeded:
                 raise TokenLimitError(used) from None
