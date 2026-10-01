@@ -1,5 +1,3 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { Placeholder } from "../../lib/Placeholder";
-export const Route = createFileRoute("/news/search")({
-  component: () => <Placeholder title="新闻搜索" task="T15" />,
-});
+import { SearchPage } from "../../features/news/SearchPage";
+export const Route = createFileRoute("/news/search")({ component: SearchPage });

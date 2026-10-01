@@ -31,6 +31,8 @@ for (const path of [
       await expect(page.getByRole("button", { name: "使用通行密钥登录" })).toBeVisible();
     } else if (path === "/settings") {
       await expect(page.getByText("样例：本机通行密钥")).toBeVisible();
+    } else if (path === "/" || path.startsWith("/news") || path === "/watchlist") {
+      await expect(page.locator("body")).not.toContainText("内容准备中");
     } else {
       await expect(page.getByRole("status")).toContainText("样例连接成功");
     }

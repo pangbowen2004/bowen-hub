@@ -1,5 +1,8 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { Placeholder } from "../../../lib/Placeholder";
+import { TimelinePage } from "../../../features/news/TimelinePage";
 export const Route = createFileRoute("/news/tickers/$symbol")({
-  component: () => <Placeholder title="个股时间线" task="T15" />,
+  component: () => {
+    const { symbol } = Route.useParams();
+    return <TimelinePage symbol={symbol} />;
+  },
 });
