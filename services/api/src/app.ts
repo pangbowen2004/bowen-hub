@@ -1,6 +1,6 @@
 import { timingSafeEqual } from "node:crypto";
 import { Hono } from "hono";
-import { authRoutes, sessionMiddleware } from "./lib/auth";
+import { authMetadataRoutes, authRoutes, sessionMiddleware } from "./lib/auth";
 import type { AppEnv } from "./lib/env";
 import { ApiError, problem } from "./lib/problem";
 import { mcpHandler } from "./modules/mcp/server";
@@ -45,7 +45,8 @@ app.use("/v1/*", async (c, next) => {
   if (path.startsWith("/v1/internal/")) return problem(c, 401, "需要服务令牌");
   return sessionMiddleware(c, next);
 });
-app.route("/api/auth", authRoutes);
+app.route("/auth", authRoutes);
+app.route("/.well-known", authMetadataRoutes);
 app.all("/mcp", mcpHandler);
 registerRoutes(app);
 app.notFound((c) => problem(c, 404, "接口不存在"));

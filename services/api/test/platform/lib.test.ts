@@ -73,11 +73,8 @@ describe("存储和GitHub薄封装", () => {
       logs.mockRestore();
     }
   });
-  it("固定鉴权/MCP入口是任务占位，领域工具已接线", async () => {
-    for (const [path, task] of [
-      ["/api/auth/sign-in", "T40"],
-      ["/mcp", "T41"],
-    ]) {
+  it("MCP入口仍是任务占位，领域工具已接线", async () => {
+    for (const [path, task] of [["/mcp", "T41"]]) {
       const response = await app.request(`http://localhost${path}`, { method: "POST" }, env);
       expect(response.status).toBe(501);
       expect(schemas.Problem.parse(await response.json()).detail).toBe(`未实现（任务 ${task}）`);

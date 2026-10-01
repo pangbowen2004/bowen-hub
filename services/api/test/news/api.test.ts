@@ -12,6 +12,7 @@ import { beforeEach, expect, it } from "vitest";
 import { app } from "../../src/app";
 import { tools } from "../../src/modules/news/mcp";
 import * as service from "../../src/modules/news/service";
+import { authenticatedCookie } from "../auth/fixture";
 
 const now = new Date().toISOString();
 const day = now.slice(0, 10);
@@ -76,13 +77,15 @@ const earnings: EarningsCard = {
   publishedAt: now,
   generatedBy: null,
 };
-const request = (path: string, method = "GET", data?: unknown, token?: string) =>
+const request = async (path: string, method = "GET", data?: unknown, token?: string) =>
   app.request(
     `http://localhost${path}`,
     {
       method,
       headers: {
         "Content-Type": "application/json",
+        Origin: env.AUTH_BASE_URL,
+        ...(!token ? { Cookie: await authenticatedCookie() } : {}),
         ...(token ? { Authorization: `Bearer ${token}` } : {}),
       },
       ...(data === undefined ? {} : { body: JSON.stringify(data) }),

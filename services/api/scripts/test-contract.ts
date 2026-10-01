@@ -4,6 +4,7 @@ import { mkdtempSync, readFileSync, rmSync, writeFileSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { join, resolve } from "node:path";
 import { parse, stringify } from "yaml";
+import { contractFixture } from "../test/auth/contract-fixture.ts";
 import { isDeclaredResourceMissing } from "./probe-response.ts";
 
 const SCHEMATHESIS_VERSION = "4.28.0";
@@ -16,6 +17,8 @@ if (taskIndex >= 0) {
 }
 const dir = mkdtempSync(join(tmpdir(), "bowen-hub-contract-"));
 const token = "offline-contract-service-token";
+const secret = "offline-contract-auth-secret-only";
+const fixture = await contractFixture(secret);
 const environment = {
   ...process.env,
   WRANGLER_SEND_METRICS: "false",
@@ -42,6 +45,20 @@ try {
     "--persist-to",
     dir,
   ]);
+  const fixturePath = join(dir, "auth-fixture.sql");
+  writeFileSync(fixturePath, fixture.sql);
+  run("pnpm", [
+    "exec",
+    "wrangler",
+    "d1",
+    "execute",
+    "bowen-hub",
+    "--local",
+    "--persist-to",
+    dir,
+    "--file",
+    fixturePath,
+  ]);
   worker = spawn(
     "pnpm",
     [
@@ -59,6 +76,14 @@ try {
       "APP_MODE:local",
       "--var",
       `HUB_SERVICE_TOKEN:${token}`,
+      "--var",
+      `BETTER_AUTH_SECRET:${secret}`,
+      "--var",
+      `AUTH_BASE_URL:${base}`,
+      "--var",
+      "AUTH_RP_ID:127.0.0.1",
+      "--var",
+      `AUTH_TRUSTED_ORIGINS:${base}`,
       "--log-level",
       "error",
     ],
@@ -119,9 +144,13 @@ try {
         );
       });
       const headers: Record<string, string> = {};
-      // 服务令牌可读所有GET、可写内部接口；本地私有写依会话占位放行。
+      // 服务令牌用于GET和内部写；私有写使用真实签名测试会话与可信来源。
       if (method === "get" || path.startsWith("/v1/internal/"))
         headers.Authorization = `Bearer ${token}`;
+      else {
+        headers.Cookie = fixture.cookie;
+        headers.Origin = base;
+      }
       const hasBody = operation.requestBody !== undefined;
       if (hasBody)
         headers["Content-Type"] =
@@ -149,35 +178,58 @@ try {
       selected++;
     }
   if (selected === 0) throw new Error(`任务${task ?? "全部"}没有已实现接口；跳过${skipped}个占位`);
-  const schemaPath = join(dir, "implemented.yaml");
-  writeFileSync(schemaPath, stringify({ ...spec, paths }));
   console.log(
     `Schemathesis ${SCHEMATHESIS_VERSION}：已实现${selected}个，跳过501占位${skipped}个${task ? `，任务${task}` : ""}`,
   );
-  run(
-    "uvx",
-    [
-      `schemathesis==${SCHEMATHESIS_VERSION}`,
-      "run",
-      schemaPath,
-      "--url",
-      base,
-      "--phases",
-      "fuzzing",
-      "--max-examples",
-      "20",
-      "--generation-database",
-      "none",
-      "--generation-with-security-parameters",
-      "false",
-      "--checks",
-      "not_a_server_error,status_code_conformance,content_type_conformance,response_schema_conformance",
-      "--header",
-      `Authorization: Bearer ${token}`,
-      ...args,
-    ],
-    dir,
-  );
+  // 保留未授权边界：本地模式和服务令牌都不能绕过私有写会话。
+  const deniedHeaders: Record<string, string>[] = [{}, { Authorization: `Bearer ${token}` }];
+  for (const headers of deniedHeaders) {
+    const denied = await fetch(`${base}/v1/watchlist/contract-probe`, {
+      method: "DELETE",
+      headers,
+    });
+    if (![401, 403].includes(denied.status)) throw new Error("未授权私有写入边界失效");
+  }
+  const groups: { name: string; paths: typeof spec.paths; headers: string[] }[] = [
+    { name: "service", paths: {}, headers: [`Authorization: Bearer ${token}`] },
+    { name: "session", paths: {}, headers: [`Cookie: ${fixture.cookie}`, `Origin: ${base}`] },
+  ];
+  for (const [path, methods] of Object.entries(paths))
+    for (const [method, operation] of Object.entries(methods)) {
+      const group = groups[method === "get" || path.startsWith("/v1/internal/") ? 0 : 1];
+      if (!group) throw new Error("认证分组失败");
+      const methods = group.paths[path] ?? {};
+      group.paths[path] = methods;
+      methods[method] = operation;
+    }
+  for (const group of groups) {
+    if (!Object.keys(group.paths).length) continue;
+    const schemaPath = join(dir, `implemented-${group.name}.yaml`);
+    writeFileSync(schemaPath, stringify({ ...spec, paths: group.paths }));
+    run(
+      "uvx",
+      [
+        `schemathesis==${SCHEMATHESIS_VERSION}`,
+        "run",
+        schemaPath,
+        "--url",
+        base,
+        "--phases",
+        "fuzzing",
+        "--max-examples",
+        "20",
+        "--generation-database",
+        "none",
+        "--generation-with-security-parameters",
+        "false",
+        "--checks",
+        "not_a_server_error,status_code_conformance,content_type_conformance,response_schema_conformance",
+        ...group.headers.flatMap((header) => ["--header", header]),
+        ...args,
+      ],
+      dir,
+    );
+  }
 } catch (error) {
   console.error(error instanceof Error ? error.message : "契约测试失败");
   process.exitCode = 1;

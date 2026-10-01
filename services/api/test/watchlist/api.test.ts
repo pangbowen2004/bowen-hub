@@ -3,6 +3,7 @@ import * as schemas from "@bowen-hub/contracts/zod";
 import { beforeEach, expect, it } from "vitest";
 import { app } from "../../src/app";
 import { tools } from "../../src/modules/watchlist/mcp";
+import { authenticatedCookie } from "../auth/fixture";
 
 beforeEach(async () => {
   await env.DB.prepare("DELETE FROM watch_items").run();
@@ -17,13 +18,15 @@ const item = {
   aliases: ["Nvidia"],
   active: true,
 };
-const request = (path: string, method = "GET", data?: unknown, token = "") =>
+const request = async (path: string, method = "GET", data?: unknown, token = "") =>
   app.request(
     `http://localhost${path}`,
     {
       method,
       headers: {
         "Content-Type": "application/json",
+        Origin: env.AUTH_BASE_URL,
+        ...(!token ? { Cookie: await authenticatedCookie() } : {}),
         ...(token ? { Authorization: `Bearer ${token}` } : {}),
       },
       ...(data === undefined ? {} : { body: JSON.stringify(data) }),

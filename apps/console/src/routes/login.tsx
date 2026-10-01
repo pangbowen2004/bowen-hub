@@ -1,5 +1,8 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { Placeholder } from "../lib/Placeholder";
+import { LoginPage } from "../features/auth/LoginPage";
 export const Route = createFileRoute("/login")({
-  component: () => <Placeholder title="登录" task="T40" />,
+  validateSearch: (search: Record<string, unknown>) => ({
+    returnTo: typeof search.returnTo === "string" ? search.returnTo : "/",
+  }),
+  component: LoginPage,
 });

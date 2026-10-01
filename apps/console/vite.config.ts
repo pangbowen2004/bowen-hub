@@ -10,6 +10,11 @@ export default defineConfig({
   ],
   server: {
     port: 5173,
-    proxy: { "/v1": "http://localhost:8787", "/auth": "http://localhost:8787" },
+    proxy: {
+      "/v1": "http://localhost:8787",
+      "/auth": "http://localhost:8787",
+      "/.well-known": "http://localhost:8787",
+      "/mcp": "http://localhost:8787",
+    },
   },
 });
