@@ -1,0 +1,15 @@
+id: fixture.summary
+version: 1
+summary: 仅框架离线验收
+owner: fixture
+runtime: python
+tier: fast
+autonomy: L2
+prompt: prompts/fixture_summary.md
+io: {input: FilingDigestInput, output: FilingDigestOutput}
+limits: {maxInputTokens: 2000, maxOutputTokens: 300, timeoutSec: 5}
+checks: [numbers_in_sources, no_advice, length_within]
+fallback: fail
+evals:
+  dataset: evals/fixture.summary/
+  thresholds: {schema_valid: 1, numbers_in_sources: 1, no_advice: 1, length_within: 1, must_include: 1, must_exclude: 1}

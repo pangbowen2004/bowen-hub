@@ -1,0 +1,123 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "summary",
+    "owner",
+    "fallback",
+    "id",
+    "version",
+    "runtime",
+    "tier",
+    "autonomy",
+    "prompt",
+    "io",
+    "limits",
+    "checks",
+    "evals"
+  ],
+  "properties": {
+    "summary": {
+      "type": "string",
+      "minLength": 1
+    },
+    "owner": {
+      "type": "string",
+      "minLength": 1
+    },
+    "fallback": {
+      "type": "string",
+      "minLength": 1
+    },
+    "id": {
+      "type": "string",
+      "pattern": "^[a-z][a-z0-9_]*\\.[a-z][a-z0-9_]*$"
+    },
+    "version": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "runtime": {
+      "enum": ["python", "typescript"]
+    },
+    "tier": {
+      "enum": ["fast", "balanced", "frontier"]
+    },
+    "autonomy": {
+      "enum": ["L0", "L1", "L2"]
+    },
+    "prompt": {
+      "type": "string",
+      "pattern": "^prompts/[a-z0-9_]+\\.md$"
+    },
+    "io": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["input", "output"],
+      "properties": {
+        "input": {
+          "type": "string",
+          "minLength": 1
+        },
+        "output": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    },
+    "limits": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["maxInputTokens", "maxOutputTokens", "timeoutSec"],
+      "properties": {
+        "maxInputTokens": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "maxOutputTokens": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "timeoutSec": {
+          "type": "integer",
+          "minimum": 1
+        }
+      }
+    },
+    "checks": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "params": {
+      "type": "object"
+    },
+    "evals": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["dataset", "thresholds"],
+      "properties": {
+        "dataset": {
+          "type": "string",
+          "pattern": "^evals/[a-z][a-z0-9_.-]+/$"
+        },
+        "schedule": {
+          "enum": ["weekly", "on-change"]
+        },
+        "thresholds": {
+          "type": "object",
+          "minProperties": 1,
+          "additionalProperties": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 1
+          }
+        }
+      }
+    }
+  }
+}

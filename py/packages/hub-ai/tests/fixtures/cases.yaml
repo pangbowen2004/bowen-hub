@@ -1,0 +1,8 @@
+- id: basic
+  input: {symbol: TEST, name: 测试, form: 8-K, items: ['5.02'], text: '收入同比增长1.2%，达到12亿。'}
+  expect: {must_include: ['1.2%'], must_exclude: ['建议买入']}
+  tags: [fixture]
+- id: dates
+  input: {symbol: TEST, name: 测试, form: 8-K, items: ['5.02'], text: '收入达到1.2 billion。'}
+  expect: {must_include: ['12亿'], must_exclude: ['建议买入']}
+  tags: [edge]
