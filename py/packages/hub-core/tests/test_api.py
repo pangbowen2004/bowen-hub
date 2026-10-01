@@ -8,7 +8,7 @@ import httpx
 import pytest
 from pydantic import SecretStr
 
-from hub_contracts import AiCall, NewsSourceHealth, Run
+from hub_contracts import AiCall, EvalResult, NewsSourceHealth, Run
 from hub_core.api import ApiClient
 from hub_core.http import HttpClient
 from hub_core.settings import Settings
@@ -71,6 +71,8 @@ def test_write_run_and_ai_calls() -> None:
         )
         payloads: list[Any] = [json.loads(request.content) for request in requests]
         assert payloads[0]["status"] == "running"
+        assert payloads[0]["finishedAt"] is None
+        assert payloads[0]["error"] is None
         assert payloads[1]["status"] == "failed"
         assert payloads[1]["finishedAt"].endswith("Z")
         assert payloads[2][0]["inputTokens"] == 2
@@ -96,3 +98,31 @@ def test_get_validates_generated_model_and_list() -> None:
         )
         assert api.get("/single", NewsSourceHealth) == record
         assert api.get_list("/list", NewsSourceHealth) == [record]
+
+
+def test_omitted_optional_fields_are_not_sent_as_null() -> None:
+    requests: list[httpx.Request] = []
+
+    def handler(request: httpx.Request) -> httpx.Response:
+        requests.append(request)
+        return httpx.Response(204)
+
+    result = EvalResult(
+        capability="test.cap",
+        model="fake/model",
+        datasetVersion="v1",
+        scores={"schema_valid": 1.0},
+        passed=True,
+        at=datetime.now(UTC),
+    )
+    with httpx.Client(transport=httpx.MockTransport(handler)) as transport:
+        api = ApiClient(
+            Settings(hub_service_token=SecretStr("test-invalid-token")),
+            HttpClient(client=transport),
+        )
+        api.put("/fixture", result)
+        api.post_batch("/v1/internal/evals/results/batch", [result])
+    for payload in (json.loads(requests[0].content), json.loads(requests[1].content)[0]):
+        assert "costUsd" not in payload
+        assert "durationMs" not in payload
+        assert payload["scores"] == {"schema_valid": 1.0}

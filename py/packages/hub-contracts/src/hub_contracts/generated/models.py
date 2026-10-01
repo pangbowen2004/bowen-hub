@@ -205,6 +205,10 @@ class DirectionPersistenceActual(BaseModel):
     DirectionPersistenceActual：市场观测台数据。
     """
 
+    memberCodes: list[str] | None = None
+    """
+    结算日来源快照的完整成员代码；用于与已保存的基线成员集合核对。
+    """
     relativeVsAllA: float
     advanceShare: float
     medianReturn1d: float
@@ -218,6 +222,10 @@ class DirectionPersistenceBaseline(BaseModel):
     """
 
     membershipAsOf: date_aliased
+    memberCodes: list[str] | None = None
+    """
+    生成日来源快照的完整成员代码；只在可核实时保存，不从日期或成员数量推断。
+    """
     return1d: float
     advanceShare: float
     amountShare: float
@@ -2040,6 +2048,10 @@ class MarketDirection(BaseModel):
     name: str
     sourceIndexCode: str
     memberCount: int
+    memberCodes: list[str] | None = None
+    """
+    来源快照的完整成员代码，用于核对假设生成日至结算日的成员变化；不可用行情覆盖子集替代。旧数据无法核实时省略。
+    """
     coveredCount: int
     return1d: float
     medianReturn1d: float
