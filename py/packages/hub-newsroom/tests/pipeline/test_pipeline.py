@@ -865,8 +865,14 @@ def test_six_k_is_candidate_not_confirmed_earnings(
     result = build_edition("morning", NOW, data, settings, watchlist, calendar)
     assert result.edition is not None
     assert not any(isinstance(s, NewsEarningsSection) for s in result.edition.sections)
-    assert result.earnings_candidates["earnings:synthetic-001"].confirmed is False
-    assert result.earnings_inputs["earnings:synthetic-001"].sourceText == "合成普通业务公告 123"
+    assert (
+        result.earnings_candidates["earnings:synthetic-001:" + foreign.exhibits[0].url].confirmed
+        is False
+    )
+    assert (
+        result.earnings_inputs["earnings:synthetic-001:" + foreign.exhibits[0].url].sourceText
+        == "合成普通业务公告 123"
+    )
     assert result.lede_input is not None
     assert not any("已发布财报" in f.text for f in result.lede_input.facts)
     assert "TSM" in result.ticker_inputs  # 有公告，因此仍在自选股动态。
@@ -888,3 +894,61 @@ def test_source_failure_is_preserved_and_empty_calendar(
     assert result.edition.sections[-1].title == "今晚没有重要日程"
     quiet = next(s for s in result.edition.sections if isinstance(s, NewsQuietSection))
     assert "TSMX" in quiet.items[0].data.symbols
+
+
+def test_six_k_retains_all_exhibits_for_later_earnings_confirmation(
+    settings: Settings, watchlist: list[WatchItem]
+) -> None:
+    foreign = filing("6-K", symbol="TSM").model_copy(
+        update={
+            "exhibits": [
+                FilingExhibit(name="EX-99.1", url="https://example.test/ordinary"),
+                FilingExhibit(name="EX-99.2", url="https://example.test/earnings"),
+            ]
+        }
+    )
+    facts = earnings_facts(
+        [foreign],
+        {
+            "https://example.test/ordinary": "普通业务",
+            "https://example.test/earnings": "完整财报原文",
+        },
+        [],
+        watchlist,
+        settings,
+    )
+    assert len(facts) == 2
+    assert len({fact.id for fact in facts}) == 2
+    assert {fact.prompt.sourceText for fact in facts} == {"普通业务", "完整财报原文"}
+    assert all(not fact.confirmed for fact in facts)
+    assert all(fact.card.sourceAccession == foreign.accession for fact in facts)
+
+
+def test_weekly_merges_same_event_with_different_daily_report_ids(
+    settings: Settings, calendar: NyseCalendar, watchlist: list[WatchItem]
+) -> None:
+    editions: list[Edition] = []
+    for i, at in enumerate([NOW - timedelta(days=1), NOW]):
+        report = article(
+            id=f"bbc-{i}",
+            title="Synthetic lunar mission test",
+            source="bbc-world",
+            at=at - timedelta(hours=1),
+            url="https://example.test/same-event",
+        )
+        edition = build_edition(
+            "morning", at, PipelineInput(articles=[report]), settings, watchlist, calendar
+        ).edition
+        assert edition is not None
+        editions.append(edition)
+    result = build_edition(
+        "weekly", NOW + timedelta(days=3), PipelineInput(), settings, watchlist, calendar, editions
+    )
+    assert result.edition is not None
+    section = next(
+        s
+        for s in result.edition.sections
+        if isinstance(s, NewsArticlesSection) and s.kind == "international_weekly"
+    )
+    assert len(section.items) == 1
+    assert section.items[0].data.article.url == "https://example.test/same-event"

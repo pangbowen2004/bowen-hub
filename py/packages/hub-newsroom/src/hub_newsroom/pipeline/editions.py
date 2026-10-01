@@ -172,7 +172,17 @@ def _weekly_items(
                         old = international.get(key)
                         if old is None or (item.ruleScore or 0) > (old.ruleScore or 0):
                             international[key] = item
-    ordered = sorted(international.values(), key=lambda i: (-(i.ruleScore or 0), i.id))
+    # 单期clusterId不是跨期稳定键；重新聚类整周原始报道，避免同URL占多个位置。
+    candidates = list(international.values())
+    groups = cluster_articles(
+        [item.data.article for item in candidates], settings, international=True
+    )
+    selected: list[NewsNewsArticleDigestItem] = []
+    for group in groups:
+        ids = {article.id for article in (group.representative, *group.other_reports)}
+        matches = [item for item in candidates if item.data.article.id in ids]
+        selected.append(min(matches, key=lambda item: (-(item.ruleScore or 0), item.id)))
+    ordered = sorted(selected, key=lambda i: (-(i.ruleScore or 0), i.id))
     limit = settings.newsroom.editions["weekly"].internationalTop
     if limit is None:
         raise ValueError("周报缺少国际大事条数配置")

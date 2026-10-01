@@ -152,7 +152,8 @@ def earnings_facts(
                         form != settings.newsroom.filings.sixK,
                     )
                 )
-                break
+                if form == settings.newsroom.filings.eightK:
+                    break
     # 同一股票已有原始新闻稿则不用新闻替代；多次SEC发布保留自然键，不凭标题合并。
     official = {r.symbol for r in releases if r.confirmed}
     releases.extend(r for r in news if r.symbol in allowed and r.symbol not in official and r.text)
@@ -161,7 +162,11 @@ def earnings_facts(
         if release.source_kind not in {"press_release", "news"}:
             raise ValueError("财报原文类型必须是 press_release 或 news")
         source_kind = "press_release" if release.source_kind == "press_release" else "news"
-        key = release.accession or release.url
+        key = (
+            f"{release.accession}:{release.url}"
+            if release.accession and not release.confirmed
+            else release.accession or release.url
+        )
         card = EarningsCard(
             symbol=release.symbol,
             period="",
