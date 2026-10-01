@@ -338,6 +338,8 @@ tasks:
     difficulty: high
     owns: [py/packages/hub-market/src/hub_market/compute/**, py/packages/hub-market/src/hub_market/summary/**,
            py/packages/hub-market/src/hub_market/compare/**, py/packages/hub-market/tests/compute/**, config/market*.yaml]
+    sharedEdits:
+      - "py/apps/hub-cli/tests/test_commands.py：仅将T21 market compare占位失败断言改为命令help发现检查，保留其他命令断言；实际计算和差异退出码由T21领域测试验证"
     read: [docs/03 第 4、7 节, docs/07 第 4 节, config/market*.yaml, fixtures/market/]
     deliver:
       - docs/03 第 4 节全部计算（纯函数 + 单元测试）、状态摘要（4.16）
@@ -517,6 +519,7 @@ tasks:
       - "services/api/src/db/schema/auth.*：只改鉴权表定义"
       - "services/api/migrations/**：只新增鉴权相关的迁移文件"
       - "services/api/src/lib/env.ts：仅补一次性首次注册口令绑定"
+      - "services/api/vitest.config.ts：仅配置本地鉴权测试所需的假签名密钥、一次性口令和localhost可信来源，不改变生产变量或其他测试配置"
       - "services/api/test/platform/lib.test.ts：仅移除T40鉴权已实现入口的占位断言，保留MCP占位、工具接线与日志断言"
       - "services/api/test/platform/api.test.ts：仅将本地会话占位断言改为真实鉴权断言，并为路由遍历提供真实测试会话，不弱化契约断言"
       - "services/api/test/news/api.test.ts：仅给现有私有接口请求提供真实测试会话，保留全部业务断言"
