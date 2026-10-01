@@ -569,6 +569,7 @@ name = "hub-newsroom"
 version = "0.1.0"
 source = { editable = "packages/hub-newsroom" }
 dependencies = [
+    { name = "hub-ai" },
     { name = "hub-contracts" },
     { name = "hub-core" },
     { name = "typer" },
@@ -576,6 +577,7 @@ dependencies = [
 
 [package.metadata]
 requires-dist = [
+    { name = "hub-ai", editable = "packages/hub-ai" },
     { name = "hub-contracts", editable = "packages/hub-contracts" },
     { name = "hub-core", editable = "packages/hub-core" },
     { name = "typer", specifier = ">=0.24,<1" },

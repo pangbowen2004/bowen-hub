@@ -1,0 +1,212 @@
+ticker-00:
+  output:
+    whatHappened: 合成公司SYN的对中国芯片出口许可须新增最终用途说明。
+    whyItMatters: null
+    sourceIds:
+    - edge-0
+    points:
+    - text: 合成公司SYN的对中国芯片出口许可须新增最终用途说明。
+      sourceIds:
+      - edge-0
+  usage:
+    input_tokens: 0
+    output_tokens: 0
+ticker-01:
+  output:
+    whatHappened: 合成公司SYN运营所在地区恢复停火谈判，尚未达成协议。
+    whyItMatters: null
+    sourceIds:
+    - edge-1
+    points: []
+  usage:
+    input_tokens: 0
+    output_tokens: 0
+ticker-02:
+  output:
+    whatHappened: 合成公司SYN融资基准所在央行维持利率不变，通胀仍需观察。
+    whyItMatters: null
+    sourceIds:
+    - edge-2
+    points: []
+  usage:
+    input_tokens: 0
+    output_tokens: 0
+ticker-03:
+  output:
+    whatHappened: 合成公司SYN实验室发布开源人工智能模型，未公布商业收入。
+    whyItMatters: null
+    sourceIds:
+    - edge-3
+    points: []
+  usage:
+    input_tokens: 0
+    output_tokens: 0
+ticker-04:
+  output:
+    whatHappened: 合成云服务公司SYN获得政府服务合同，金额未披露。
+    whyItMatters: null
+    sourceIds:
+    - edge-4
+    points:
+    - text: 合成云服务公司SYN获得政府服务合同，金额未披露。
+      sourceIds:
+      - edge-4
+  usage:
+    input_tokens: 0
+    output_tokens: 0
+ticker-05:
+  output:
+    whatHappened: 合成公司SYN的政府合同预算议案推迟投票，尚未通过。
+    whyItMatters: null
+    sourceIds:
+    - edge-5
+    points: []
+  usage:
+    input_tokens: 0
+    output_tokens: 0
+ticker-06:
+  output:
+    whatHappened: 合成商业航天公司SYN完成卫星地面测试，尚未发射。
+    whyItMatters: null
+    sourceIds:
+    - edge-6
+    points: []
+  usage:
+    input_tokens: 0
+    output_tokens: 0
+ticker-07:
+  output:
+    whatHappened: 合成公司SYN运营的博物馆开放古代交通主题新展览。
+    whyItMatters: null
+    sourceIds:
+    - edge-7
+    points: []
+  usage:
+    input_tokens: 0
+    output_tokens: 0
+ticker-08:
+  output:
+    whatHappened: 合成公司SYN适用的商品关税豁免获延长，不包含芯片。
+    whyItMatters: null
+    sourceIds:
+    - edge-8
+    points:
+    - text: 合成公司SYN适用的商品关税豁免获延长，不包含芯片。
+      sourceIds:
+      - edge-8
+  usage:
+    input_tokens: 0
+    output_tokens: 0
+ticker-09:
+  output:
+    whatHappened: 合成公司SYN使用的港口因地区冲突停运，恢复时间未知。
+    whyItMatters: null
+    sourceIds:
+    - edge-9
+    points: []
+  usage:
+    input_tokens: 0
+    output_tokens: 0
+ticker-10:
+  output:
+    whatHappened: 合成公司SYN公布员工人数增速放缓，没有修订前期数据。
+    whyItMatters: null
+    sourceIds:
+    - edge-10
+    points: []
+  usage:
+    input_tokens: 0
+    output_tokens: 0
+ticker-11:
+  output:
+    whatHappened: 合成半导体公司SYN完成新芯片验证，尚未量产。
+    whyItMatters: null
+    sourceIds:
+    - edge-11
+    points: []
+  usage:
+    input_tokens: 0
+    output_tokens: 0
+ticker-12:
+  output:
+    whatHappened: 合成搜索公司SYN被法院要求提交材料，尚未判定责任。
+    whyItMatters: null
+    sourceIds:
+    - edge-12
+    points:
+    - text: 合成搜索公司SYN被法院要求提交材料，尚未判定责任。
+      sourceIds:
+      - edge-12
+  usage:
+    input_tokens: 0
+    output_tokens: 0
+ticker-13:
+  output:
+    whatHappened: 合成公司SYN员工所在美国州讨论提前投票，选举日期未变。
+    whyItMatters: null
+    sourceIds:
+    - edge-13
+    points: []
+  usage:
+    input_tokens: 0
+    output_tokens: 0
+ticker-14:
+  output:
+    whatHappened: 合成电池公司SYN披露回收工艺，未宣布扩产计划。
+    whyItMatters: null
+    sourceIds:
+    - edge-14
+    points: []
+  usage:
+    input_tokens: 0
+    output_tokens: 0
+ticker-15:
+  output:
+    whatHappened: 合成公司SYN运营的体育联盟公布下季赛程，没有财务数据。
+    whyItMatters: null
+    sourceIds:
+    - edge-15
+    points: []
+  usage:
+    input_tokens: 0
+    output_tokens: 0
+ticker-16:
+  output:
+    whatHappened: 与板块（QQQ）同步上涨
+    whyItMatters: null
+    sourceIds: []
+    points:
+    - text: 与板块（QQQ）同步上涨
+      sourceIds: []
+  usage:
+    input_tokens: 0
+    output_tokens: 0
+ticker-17:
+  output:
+    whatHappened: 未找到直接相关消息
+    whyItMatters: null
+    sourceIds: []
+    points: []
+  usage:
+    input_tokens: 0
+    output_tokens: 0
+ticker-18:
+  output:
+    whatHappened: 合成公司SYN被要求说明并购安排，交易尚未获批。
+    whyItMatters: null
+    sourceIds:
+    - edge-18
+    points: []
+  usage:
+    input_tokens: 0
+    output_tokens: 0
+ticker-19:
+  output:
+    whatHappened: 合成芯片研究公司SYN与海外实验室交流方法，未宣布订单。
+    whyItMatters: null
+    sourceIds:
+    - edge-19
+    points: []
+  usage:
+    input_tokens: 0
+    output_tokens: 0

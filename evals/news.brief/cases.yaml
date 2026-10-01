@@ -1,0 +1,110 @@
+- id: brief-00
+  input:
+    items:
+    - id: edge-10
+      title: Employment release
+      summary: The test statistics office reported slowing job growth. It did not
+        revise earlier data.
+  expect:
+    reference: 测试统计局公布就业增速放缓，没有修订前期数据。
+  tags:
+  - edge
+- id: brief-01
+  input:
+    items:
+    - id: edge-11
+      title: Chip qualification
+      summary: A synthetic chipmaker completed chip qualification. Mass production
+        has not started.
+  expect:
+    reference: 测试半导体企业完成新芯片验证，尚未量产。
+  tags:
+  - edge
+- id: brief-02
+  input:
+    items:
+    - id: edge-12
+      title: Search lawsuit
+      summary: A synthetic court requested documents from the search company. Liability
+        has not been decided.
+  expect:
+    reference: 测试法院要求搜索公司提交材料，尚未判定责任。
+  tags:
+  - edge
+- id: brief-03
+  input:
+    items:
+    - id: edge-13
+      title: Election procedures
+      summary: A test legislature discussed early voting procedures without changing
+        election dates.
+  expect:
+    reference: 测试州议会讨论提前投票程序，没有改变选举日期。
+  tags:
+  - edge
+- id: brief-04
+  input:
+    items:
+    - id: edge-14
+      title: Battery recycling
+      summary: A synthetic Chinese battery company disclosed a recycling process without
+        expansion plans.
+  expect:
+    reference: 测试中国电池企业披露回收工艺，未宣布扩产计划。
+  tags:
+  - edge
+- id: brief-05
+  input:
+    items:
+    - id: edge-15
+      title: League calendar
+      summary: A fictional sports league released next season fixtures. No financial
+        figures were provided.
+  expect:
+    reference: 测试体育联盟公布下季赛程，没有财务数据。
+  tags:
+  - edge
+- id: brief-06
+  input:
+    items:
+    - id: edge-16
+      title: Quarterly sales
+      summary: A test company reported quarterly sales growth and did not provide
+        earnings per share.
+  expect:
+    reference: 测试企业公布季度营收增长，未提供每股收益。
+  tags:
+  - edge
+- id: brief-07
+  input:
+    items:
+    - id: edge-17
+      title: Withdrawals halted
+      summary: A synthetic crypto exchange paused withdrawals without disclosing a
+        balance sheet shortfall.
+  expect:
+    reference: 测试加密交易平台暂停提款，未披露资产缺口。
+  tags:
+  - edge
+- id: brief-08
+  input:
+    items:
+    - id: edge-18
+      title: Merger inquiry
+      summary: A test regulator requested merger terms. The transaction has not been
+        approved.
+  expect:
+    reference: 测试监管机构要求公司说明并购条款，尚未批准交易。
+  tags:
+  - edge
+- id: brief-09
+  input:
+    items:
+    - id: edge-19
+      title: Chip research
+      summary: A synthetic Chinese company partnered with an overseas lab for chip
+        research. No commercial orders were signed.
+  expect:
+    reference: 测试中国公司与海外实验室合作芯片研究，未签商业订单。
+  tags:
+  - edge

@@ -23,6 +23,8 @@
 
 输出 JSON：`{"period": "…", "figures": [{"name": "…", "value": "…", "yoy": "…或 null", "basis": "gaap", "quote": "…"}], "guidance": {"text": "…", "quote": "…"} 或 null, "takeaway": "…"}`
 
+补充边界：原文没有每股收益时 figures 不补造该项；期数或指引未给出时不从常识猜测。材料不属于明确财务业绩发布时，period 为空、figures 为空、guidance 为 null、takeaway 为空，不把普通附件当财报。
+
 ## user
 
 公司：{{ symbol }} {{ name }}

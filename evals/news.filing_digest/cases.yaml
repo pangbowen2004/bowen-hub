@@ -1,0 +1,120 @@
+- id: filing-00
+  input:
+    symbol: SYN
+    name: 合成测试公司
+    form: 8-K
+    items:
+    - '5.02'
+    text: The chief financial officer resigned. The board appointed an interim officer.
+  expect:
+    reference: 首席财务官辞任，董事会任命临时负责人。
+  tags:
+  - edge
+- id: filing-01
+  input:
+    symbol: SYN
+    name: 合成测试公司
+    form: 8-K
+    items:
+    - '1.01'
+    text: The company signed a supply agreement for $20 million.
+  expect:
+    reference: 公司签订金额$20 million的供货协议。
+  tags:
+  - edge
+- id: filing-02
+  input:
+    symbol: SYN
+    name: 合成测试公司
+    form: 8-K
+    items:
+    - '2.02'
+    text: The company announced quarterly financial results. Full figures are in Exhibit 99.1.
+  expect:
+    reference: 公司公布季度业绩，完整数字见附件。
+  tags:
+  - edge
+- id: filing-03
+  input:
+    symbol: SYN
+    name: 合成测试公司
+    form: 8-K
+    items:
+    - '8.01'
+    text: The board approved a stock repurchase authorization. No amount was disclosed.
+  expect:
+    reference: 董事会批准回购授权，未披露金额。
+  tags:
+  - edge
+- id: filing-04
+  input:
+    symbol: SYN
+    name: 合成测试公司
+    form: 8-K
+    items:
+    - '7.01'
+    text: The company shared an investor presentation. It did not update guidance.
+  expect:
+    reference: 公司公布投资者演示材料，没有更新指引。
+  tags:
+  - edge
+- id: filing-05
+  input:
+    symbol: SYN
+    name: 合成测试公司
+    form: 8-K
+    items:
+    - '5.07'
+    text: Shareholders approved the director nominees at the annual meeting.
+  expect:
+    reference: 年度会议通过董事候选人。
+  tags:
+  - edge
+- id: filing-06
+  input:
+    symbol: SYN
+    name: 合成测试公司
+    form: 8-K
+    items:
+    - '1.02'
+    text: A distribution agreement was terminated by mutual consent.
+  expect:
+    reference: 双方同意终止分销协议。
+  tags:
+  - edge
+- id: filing-07
+  input:
+    symbol: SYN
+    name: 合成测试公司
+    form: 8-K
+    items:
+    - '2.01'
+    text: The company completed acquisition of a software business for $15 million.
+  expect:
+    reference: 公司完成金额$15 million的软件业务收购。
+  tags:
+  - edge
+- id: filing-08
+  input:
+    symbol: SYN
+    name: 合成测试公司
+    form: 8-K
+    items:
+    - '2.05'
+    text: A restructuring plan includes closing one facility. Costs are not estimated.
+  expect:
+    reference: 重组计划包括关闭一处设施，费用尚未估算。
+  tags:
+  - edge
+- id: filing-09
+  input:
+    symbol: SYN
+    name: 合成测试公司
+    form: 8-K
+    items:
+    - '3.01'
+    text: The company received a listing compliance notice. No delisting decision has been made.
+  expect:
+    reference: 公司收到上市合规通知，尚未作出退市决定。
+  tags:
+  - edge

@@ -1,0 +1,150 @@
+- id: lede-00
+  input:
+    mode: morning
+    date: '2026-09-30'
+    facts:
+    - id: fact-0
+      text: 测试国调整芯片出口许可流程，要求新增最终用途说明。
+    - id: fact-5
+      text: 测试国会预算委员会推迟投票，议案尚未通过。
+    - id: fact-10
+      text: 测试统计局公布就业增速放缓，没有修订前期数据。
+  expect:
+    reference: 仅依据三条事实，保留未知与尚未完成边界；不预测或建议交易。
+  tags:
+  - edge
+- id: lede-01
+  input:
+    mode: premarket
+    date: '2026-09-30'
+    facts:
+    - id: fact-1
+      text: 测试双方同意恢复停火谈判，尚未达成协议。
+    - id: fact-6
+      text: 测试中国商业航天公司完成卫星地面测试，尚未发射。
+    - id: fact-11
+      text: 测试半导体企业完成新芯片验证，尚未量产。
+  expect:
+    reference: 仅依据三条事实，保留未知与尚未完成边界；不预测或建议交易。
+  tags:
+  - edge
+- id: lede-02
+  input:
+    mode: weekly
+    date: '2026-09-30'
+    facts:
+    - id: fact-2
+      text: 测试央行维持利率不变，声明指出通胀仍需观察。
+    - id: fact-7
+      text: 测试博物馆开放新展览，展品主题为古代交通。
+    - id: fact-12
+      text: 测试法院要求搜索公司提交材料，尚未判定责任。
+  expect:
+    reference: 仅依据三条事实，保留未知与尚未完成边界；不预测或建议交易。
+  tags:
+  - edge
+- id: lede-03
+  input:
+    mode: morning
+    date: '2026-09-30'
+    facts:
+    - id: fact-3
+      text: 测试实验室发布开源模型，披露训练方法而未公布商业收入。
+    - id: fact-8
+      text: 测试贸易部门延长部分商品关税豁免，范围不包含芯片。
+    - id: fact-13
+      text: 测试州议会讨论提前投票程序，没有改变选举日期。
+  expect:
+    reference: 仅依据三条事实，保留未知与尚未完成边界；不预测或建议交易。
+  tags:
+  - edge
+- id: lede-04
+  input:
+    mode: premarket
+    date: '2026-09-30'
+    facts:
+    - id: fact-4
+      text: 测试云服务商获得政府服务合同，条款未披露金额。
+    - id: fact-9
+      text: 测试港口因地区冲突暂停运作，恢复时间未知。
+    - id: fact-14
+      text: 测试中国电池企业披露回收工艺，未宣布扩产计划。
+  expect:
+    reference: 仅依据三条事实，保留未知与尚未完成边界；不预测或建议交易。
+  tags:
+  - edge
+- id: lede-05
+  input:
+    mode: weekly
+    date: '2026-09-30'
+    facts:
+    - id: fact-5
+      text: 测试国会预算委员会推迟投票，议案尚未通过。
+    - id: fact-10
+      text: 测试统计局公布就业增速放缓，没有修订前期数据。
+    - id: fact-15
+      text: 测试体育联盟公布下季赛程，没有财务数据。
+  expect:
+    reference: 仅依据三条事实，保留未知与尚未完成边界；不预测或建议交易。
+  tags:
+  - edge
+- id: lede-06
+  input:
+    mode: morning
+    date: '2026-09-30'
+    facts:
+    - id: fact-6
+      text: 测试中国商业航天公司完成卫星地面测试，尚未发射。
+    - id: fact-11
+      text: 测试半导体企业完成新芯片验证，尚未量产。
+    - id: fact-16
+      text: 测试企业公布季度营收增长，未提供每股收益。
+  expect:
+    reference: 仅依据三条事实，保留未知与尚未完成边界；不预测或建议交易。
+  tags:
+  - edge
+- id: lede-07
+  input:
+    mode: premarket
+    date: '2026-09-30'
+    facts:
+    - id: fact-7
+      text: 测试博物馆开放新展览，展品主题为古代交通。
+    - id: fact-12
+      text: 测试法院要求搜索公司提交材料，尚未判定责任。
+    - id: fact-17
+      text: 测试加密交易平台暂停提款，未披露资产缺口。
+  expect:
+    reference: 仅依据三条事实，保留未知与尚未完成边界；不预测或建议交易。
+  tags:
+  - edge
+- id: lede-08
+  input:
+    mode: weekly
+    date: '2026-09-30'
+    facts:
+    - id: fact-8
+      text: 测试贸易部门延长部分商品关税豁免，范围不包含芯片。
+    - id: fact-13
+      text: 测试州议会讨论提前投票程序，没有改变选举日期。
+    - id: fact-18
+      text: 测试监管机构要求公司说明并购条款，尚未批准交易。
+  expect:
+    reference: 仅依据三条事实，保留未知与尚未完成边界；不预测或建议交易。
+  tags:
+  - edge
+- id: lede-09
+  input:
+    mode: morning
+    date: '2026-09-30'
+    facts:
+    - id: fact-9
+      text: 测试港口因地区冲突暂停运作，恢复时间未知。
+    - id: fact-14
+      text: 测试中国电池企业披露回收工艺，未宣布扩产计划。
+    - id: fact-19
+      text: 测试中国公司与海外实验室合作芯片研究，未签商业订单。
+  expect:
+    reference: 仅依据三条事实，保留未知与尚未完成边界；不预测或建议交易。
+  tags:
+  - edge

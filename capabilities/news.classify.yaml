@@ -1,7 +1,7 @@
 # 国际与科技栏目：给每条新闻分到 8 个主题之一
 # 格式说明见 docs/10 第 3 节；输入输出模型在 contracts/capabilities.tsp
 id: news.classify
-version: 1
+version: 2
 summary: 国际与科技栏目：给每条新闻分到 8 个主题之一
 owner: newsroom
 runtime: python

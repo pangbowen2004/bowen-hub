@@ -1,0 +1,190 @@
+earnings-00:
+  output:
+    period: Q1 2026
+    figures:
+    - name: 营收
+      value: $12 million
+      yoy: up 5%
+      basis: other
+      quote: Revenue was $12 million, up 5%.
+    - name: 每股收益
+      value: $0.21
+      yoy: null
+      basis: gaap
+      quote: GAAP earnings per share were $0.21.
+    guidance: null
+    takeaway: 公司发布Q1 2026财务业绩。
+  usage:
+    input_tokens: 0
+    output_tokens: 0
+earnings-01:
+  output:
+    period: Q2 2026
+    figures:
+    - name: 营收
+      value: $18 million
+      yoy: null
+      basis: other
+      quote: Revenue was $18 million.
+    - name: 每股收益
+      value: $0.30
+      yoy: null
+      basis: gaap
+      quote: GAAP earnings per share were $0.30
+    - name: 每股收益
+      value: $0.41
+      yoy: null
+      basis: adjusted
+      quote: Adjusted earnings per share were $0.41.
+    guidance: null
+    takeaway: 公司发布Q2 2026财务业绩。
+  usage:
+    input_tokens: 0
+    output_tokens: 0
+earnings-02:
+  output:
+    period: Q3 2026
+    figures:
+    - name: 营收
+      value: $9 million
+      yoy: down 8%
+      basis: other
+      quote: Revenue was $9 million, down 8%.
+    - name: 每股收益
+      value: $0.11
+      yoy: null
+      basis: gaap
+      quote: GAAP loss per share was $0.11.
+    guidance: null
+    takeaway: 公司发布Q3 2026财务业绩。
+  usage:
+    input_tokens: 0
+    output_tokens: 0
+earnings-03:
+  output:
+    period: FY2025
+    figures:
+    - name: 营收
+      value: $100 million
+      yoy: null
+      basis: other
+      quote: Annual revenue was $100 million.
+    - name: 每股收益
+      value: $1.02
+      yoy: null
+      basis: gaap
+      quote: GAAP earnings per share were $1.02.
+    guidance: null
+    takeaway: 公司发布FY2025财务业绩。
+  usage:
+    input_tokens: 0
+    output_tokens: 0
+earnings-04:
+  output:
+    period: Q4 2025
+    figures:
+    - name: 营收
+      value: $21 million
+      yoy: null
+      basis: other
+      quote: Revenue was $21 million.
+    - name: 每股收益
+      value: $0.65
+      yoy: null
+      basis: adjusted
+      quote: Adjusted earnings per share were $0.65.
+    guidance: null
+    takeaway: 公司发布Q4 2025财务业绩。
+  usage:
+    input_tokens: 0
+    output_tokens: 0
+earnings-05:
+  output:
+    period: Q1 2025
+    figures:
+    - name: 营收
+      value: $5 million
+      yoy: null
+      basis: other
+      quote: Revenue was $5 million.
+    - name: 每股收益
+      value: $0.05
+      yoy: null
+      basis: gaap
+      quote: GAAP earnings per share were $0.05.
+    guidance: null
+    takeaway: 公司发布Q1 2025财务业绩。
+  usage:
+    input_tokens: 0
+    output_tokens: 0
+earnings-06:
+  output:
+    period: Q2 2025
+    figures:
+    - name: 营收
+      value: $37 million
+      yoy: up 12%
+      basis: other
+      quote: Revenue was $37 million, up 12%.
+    - name: 每股收益
+      value: $0.48
+      yoy: null
+      basis: gaap
+      quote: GAAP earnings per share were $0.48.
+    guidance: null
+    takeaway: 公司发布Q2 2025财务业绩。
+  usage:
+    input_tokens: 0
+    output_tokens: 0
+earnings-07:
+  output:
+    period: Q3 2025
+    figures:
+    - name: 营收
+      value: $46 million
+      yoy: null
+      basis: other
+      quote: Revenue was $46 million.
+    - name: 每股收益
+      value: $0.72
+      yoy: null
+      basis: gaap
+      quote: GAAP earnings per share were $0.72.
+    guidance: null
+    takeaway: 公司发布Q3 2025财务业绩。
+  usage:
+    input_tokens: 0
+    output_tokens: 0
+earnings-08:
+  output:
+    period: Q4 2026
+    figures:
+    - name: 营收
+      value: $50 million
+      yoy: null
+      basis: other
+      quote: Revenue was $50 million.
+    - name: 每股收益
+      value: $0.90
+      yoy: null
+      basis: gaap
+      quote: GAAP earnings per share were $0.90.
+    guidance: null
+    takeaway: 公司发布Q4 2026财务业绩。
+  usage:
+    input_tokens: 0
+    output_tokens: 0
+earnings-09:
+  output:
+    period: FY2026
+    figures:
+    - name: 营收
+      value: $200 million
+      yoy: null
+      basis: other
+      quote: Revenue was $200 million.
+    guidance: null
+    takeaway: 公司发布FY2026财务业绩。
+  usage:
+    input_tokens: 0
+    output_tokens: 0

@@ -19,7 +19,8 @@
 规则：
 1. 一条新闻只能归一个 topic，选最主要的。
 2. 如果同时涉及中国和美国（如 Trump 访华、Xi 见 Trump），归 us_china。
-3. AI 公司之间的纠纷（如 OpenAI 起诉 Apple）归 ai_tech，不归 big_tech。
+3. 输入明确指出中国公司时，按 china_business 规则优先；美国大型科技企业非 AI 业务归 big_tech；美国对中国贸易措施归 us_china。不得仅凭泛称“测试国/公司”猜地区或规模；信息不足时按已明确的事件分类。
+4. AI 公司之间的纠纷（如 OpenAI 起诉 Apple）归 ai_tech，不归 big_tech。
 4. 必须返回严格的 JSON，格式如下：
 {"classifications": [{"id": "0", "topic": "us_china"}, {"id": "1", "topic": "ai_tech"}]}
 

@@ -1,7 +1,7 @@
 # 从财报新闻稿原文里摘出关键数字（带原文片段）、指引和一句话要点
 # 格式说明见 docs/10 第 3 节；输入输出模型在 contracts/capabilities.tsp
 id: news.earnings_card
-version: 1
+version: 2
 summary: 从财报新闻稿原文里摘出关键数字（带原文片段）、指引和一句话要点
 owner: newsroom
 runtime: python

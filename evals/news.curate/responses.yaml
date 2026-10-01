@@ -1,0 +1,205 @@
+curate-00:
+  output:
+    overview: 本组材料涉及贸易许可、停火谈判、央行决议、开源模型、云服务合同，事件仍应依各自披露边界阅读。
+    top5:
+    - id: edge-0
+      summary: 测试国调整芯片出口许可流程，要求新增最终用途说明。
+      whyItMatters: 材料说明贸易许可的当前进展，不能据此推断未披露结果。
+    - id: edge-1
+      summary: 测试双方同意恢复停火谈判，尚未达成协议。
+      whyItMatters: 材料说明停火谈判的当前进展，不能据此推断未披露结果。
+    - id: edge-2
+      summary: 测试央行维持利率不变，声明指出通胀仍需观察。
+      whyItMatters: 材料说明央行决议的当前进展，不能据此推断未披露结果。
+    - id: edge-3
+      summary: 测试实验室发布开源模型，披露训练方法而未公布商业收入。
+      whyItMatters: 材料说明开源模型的当前进展，不能据此推断未披露结果。
+    - id: edge-4
+      summary: 测试云服务商获得政府服务合同，条款未披露金额。
+      whyItMatters: 材料说明云服务合同的当前进展，不能据此推断未披露结果。
+  usage:
+    input_tokens: 0
+    output_tokens: 0
+curate-01:
+  output:
+    overview: 本组材料涉及停火谈判、央行决议、开源模型、云服务合同、预算争议，事件仍应依各自披露边界阅读。
+    top5:
+    - id: edge-1
+      summary: 测试双方同意恢复停火谈判，尚未达成协议。
+      whyItMatters: 材料说明停火谈判的当前进展，不能据此推断未披露结果。
+    - id: edge-2
+      summary: 测试央行维持利率不变，声明指出通胀仍需观察。
+      whyItMatters: 材料说明央行决议的当前进展，不能据此推断未披露结果。
+    - id: edge-3
+      summary: 测试实验室发布开源模型，披露训练方法而未公布商业收入。
+      whyItMatters: 材料说明开源模型的当前进展，不能据此推断未披露结果。
+    - id: edge-4
+      summary: 测试云服务商获得政府服务合同，条款未披露金额。
+      whyItMatters: 材料说明云服务合同的当前进展，不能据此推断未披露结果。
+    - id: edge-5
+      summary: 测试国会预算委员会推迟投票，议案尚未通过。
+      whyItMatters: 材料说明预算争议的当前进展，不能据此推断未披露结果。
+  usage:
+    input_tokens: 0
+    output_tokens: 0
+curate-02:
+  output:
+    overview: 本组材料涉及央行决议、开源模型、云服务合同、预算争议、国产卫星，事件仍应依各自披露边界阅读。
+    top5:
+    - id: edge-2
+      summary: 测试央行维持利率不变，声明指出通胀仍需观察。
+      whyItMatters: 材料说明央行决议的当前进展，不能据此推断未披露结果。
+    - id: edge-3
+      summary: 测试实验室发布开源模型，披露训练方法而未公布商业收入。
+      whyItMatters: 材料说明开源模型的当前进展，不能据此推断未披露结果。
+    - id: edge-4
+      summary: 测试云服务商获得政府服务合同，条款未披露金额。
+      whyItMatters: 材料说明云服务合同的当前进展，不能据此推断未披露结果。
+    - id: edge-5
+      summary: 测试国会预算委员会推迟投票，议案尚未通过。
+      whyItMatters: 材料说明预算争议的当前进展，不能据此推断未披露结果。
+    - id: edge-6
+      summary: 测试中国商业航天公司完成卫星地面测试，尚未发射。
+      whyItMatters: 材料说明国产卫星的当前进展，不能据此推断未披露结果。
+  usage:
+    input_tokens: 0
+    output_tokens: 0
+curate-03:
+  output:
+    overview: 本组材料涉及开源模型、云服务合同、预算争议、国产卫星、博物馆，事件仍应依各自披露边界阅读。
+    top5:
+    - id: edge-3
+      summary: 测试实验室发布开源模型，披露训练方法而未公布商业收入。
+      whyItMatters: 材料说明开源模型的当前进展，不能据此推断未披露结果。
+    - id: edge-4
+      summary: 测试云服务商获得政府服务合同，条款未披露金额。
+      whyItMatters: 材料说明云服务合同的当前进展，不能据此推断未披露结果。
+    - id: edge-5
+      summary: 测试国会预算委员会推迟投票，议案尚未通过。
+      whyItMatters: 材料说明预算争议的当前进展，不能据此推断未披露结果。
+    - id: edge-6
+      summary: 测试中国商业航天公司完成卫星地面测试，尚未发射。
+      whyItMatters: 材料说明国产卫星的当前进展，不能据此推断未披露结果。
+    - id: edge-7
+      summary: 测试博物馆开放新展览，展品主题为古代交通。
+      whyItMatters: 材料说明博物馆的当前进展，不能据此推断未披露结果。
+  usage:
+    input_tokens: 0
+    output_tokens: 0
+curate-04:
+  output:
+    overview: 本组材料涉及云服务合同、预算争议、国产卫星、博物馆、关税豁免，事件仍应依各自披露边界阅读。
+    top5:
+    - id: edge-4
+      summary: 测试云服务商获得政府服务合同，条款未披露金额。
+      whyItMatters: 材料说明云服务合同的当前进展，不能据此推断未披露结果。
+    - id: edge-5
+      summary: 测试国会预算委员会推迟投票，议案尚未通过。
+      whyItMatters: 材料说明预算争议的当前进展，不能据此推断未披露结果。
+    - id: edge-6
+      summary: 测试中国商业航天公司完成卫星地面测试，尚未发射。
+      whyItMatters: 材料说明国产卫星的当前进展，不能据此推断未披露结果。
+    - id: edge-7
+      summary: 测试博物馆开放新展览，展品主题为古代交通。
+      whyItMatters: 材料说明博物馆的当前进展，不能据此推断未披露结果。
+    - id: edge-8
+      summary: 测试贸易部门延长部分商品关税豁免，范围不包含芯片。
+      whyItMatters: 材料说明关税豁免的当前进展，不能据此推断未披露结果。
+  usage:
+    input_tokens: 0
+    output_tokens: 0
+curate-05:
+  output:
+    overview: 本组材料涉及预算争议、国产卫星、博物馆、关税豁免、海运风险，事件仍应依各自披露边界阅读。
+    top5:
+    - id: edge-5
+      summary: 测试国会预算委员会推迟投票，议案尚未通过。
+      whyItMatters: 材料说明预算争议的当前进展，不能据此推断未披露结果。
+    - id: edge-6
+      summary: 测试中国商业航天公司完成卫星地面测试，尚未发射。
+      whyItMatters: 材料说明国产卫星的当前进展，不能据此推断未披露结果。
+    - id: edge-7
+      summary: 测试博物馆开放新展览，展品主题为古代交通。
+      whyItMatters: 材料说明博物馆的当前进展，不能据此推断未披露结果。
+    - id: edge-8
+      summary: 测试贸易部门延长部分商品关税豁免，范围不包含芯片。
+      whyItMatters: 材料说明关税豁免的当前进展，不能据此推断未披露结果。
+    - id: edge-9
+      summary: 测试港口因地区冲突暂停运作，恢复时间未知。
+      whyItMatters: 材料说明海运风险的当前进展，不能据此推断未披露结果。
+  usage:
+    input_tokens: 0
+    output_tokens: 0
+curate-06:
+  output:
+    overview: 本组材料涉及国产卫星、博物馆、关税豁免、海运风险、就业数据，事件仍应依各自披露边界阅读。
+    top5:
+    - id: edge-6
+      summary: 测试中国商业航天公司完成卫星地面测试，尚未发射。
+      whyItMatters: 材料说明国产卫星的当前进展，不能据此推断未披露结果。
+    - id: edge-7
+      summary: 测试博物馆开放新展览，展品主题为古代交通。
+      whyItMatters: 材料说明博物馆的当前进展，不能据此推断未披露结果。
+    - id: edge-8
+      summary: 测试贸易部门延长部分商品关税豁免，范围不包含芯片。
+      whyItMatters: 材料说明关税豁免的当前进展，不能据此推断未披露结果。
+    - id: edge-9
+      summary: 测试港口因地区冲突暂停运作，恢复时间未知。
+      whyItMatters: 材料说明海运风险的当前进展，不能据此推断未披露结果。
+    - id: edge-10
+      summary: 测试统计局公布就业增速放缓，没有修订前期数据。
+      whyItMatters: 材料说明就业数据的当前进展，不能据此推断未披露结果。
+  usage:
+    input_tokens: 0
+    output_tokens: 0
+curate-07:
+  output:
+    overview: 本组材料涉及博物馆、关税豁免、海运风险、就业数据、芯片验证，事件仍应依各自披露边界阅读。
+    top5:
+    - id: edge-7
+      summary: 测试博物馆开放新展览，展品主题为古代交通。
+      whyItMatters: 材料说明博物馆的当前进展，不能据此推断未披露结果。
+    - id: edge-8
+      summary: 测试贸易部门延长部分商品关税豁免，范围不包含芯片。
+      whyItMatters: 材料说明关税豁免的当前进展，不能据此推断未披露结果。
+    - id: edge-9
+      summary: 测试港口因地区冲突暂停运作，恢复时间未知。
+      whyItMatters: 材料说明海运风险的当前进展，不能据此推断未披露结果。
+    - id: edge-10
+      summary: 测试统计局公布就业增速放缓，没有修订前期数据。
+      whyItMatters: 材料说明就业数据的当前进展，不能据此推断未披露结果。
+    - id: edge-11
+      summary: 测试半导体企业完成新芯片验证，尚未量产。
+      whyItMatters: 材料说明芯片验证的当前进展，不能据此推断未披露结果。
+  usage:
+    input_tokens: 0
+    output_tokens: 0
+curate-08:
+  output:
+    overview: 本组材料涉及关税豁免、海运风险、就业数据、芯片验证、搜索诉讼，事件仍应依各自披露边界阅读。
+    top5:
+    - id: edge-8
+      summary: 测试贸易部门延长部分商品关税豁免，范围不包含芯片。
+      whyItMatters: 材料说明关税豁免的当前进展，不能据此推断未披露结果。
+    - id: edge-9
+      summary: 测试港口因地区冲突暂停运作，恢复时间未知。
+      whyItMatters: 材料说明海运风险的当前进展，不能据此推断未披露结果。
+    - id: edge-10
+      summary: 测试统计局公布就业增速放缓，没有修订前期数据。
+      whyItMatters: 材料说明就业数据的当前进展，不能据此推断未披露结果。
+    - id: edge-11
+      summary: 测试半导体企业完成新芯片验证，尚未量产。
+      whyItMatters: 材料说明芯片验证的当前进展，不能据此推断未披露结果。
+    - id: edge-12
+      summary: 测试法院要求搜索公司提交材料，尚未判定责任。
+      whyItMatters: 材料说明搜索诉讼的当前进展，不能据此推断未披露结果。
+  usage:
+    input_tokens: 0
+    output_tokens: 0
+curate-09:
+  output:
+    overview: ''
+    top5: []
+  usage:
+    input_tokens: 0
+    output_tokens: 0

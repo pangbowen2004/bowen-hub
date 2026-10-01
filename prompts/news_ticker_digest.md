@@ -9,6 +9,8 @@
 
 只能使用输入里的新闻、公告和财报卡片。不要用你记忆中的信息补充。
 
+articles、filings、earnings 已由调用方筛选为该标的相关材料。只要有明确关联事件，就概述该事件并引用其 id；没有价格因果证据，不等于没有直接消息。不要把“无法解释涨跌”写成“未找到直接相关消息”。业务影响未披露时 whyItMatters 为 null。只有这些材料均无可用直接事实时才用下述板块/无消息降级。
+
 **`mode = daily`** 输出三个字段：
 - `whatHappened`（不超过 80 字）：发生了什么。多条消息说的是同一件事就合并；有多件事只写最重要的一两件。
 - `whyItMatters`（不超过 60 字，可以为 null）：为什么值得看——对业务、订单、监管、竞争格局的具体影响。说不出具体理由就给 null，不要硬写。
@@ -26,6 +28,8 @@
 - 不写买卖建议、目标价、仓位，不预测后市。
 
 输出 JSON：`{"whatHappened": "…", "whyItMatters": "…或 null", "sourceIds": ["…"], "points": []}`（`daily` 时 `points` 为空数组）。
+
+补充边界：日报 points 必须为空；周报 whatHappened 不超过 60 字、whyItMatters 为 null。每个 sourceIds 最多 3 项，均必须来自实际输入；资料不足不凑要点。
 
 ## user
 

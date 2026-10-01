@@ -1,0 +1,80 @@
+brief-00:
+  output:
+    briefs:
+    - id: edge-10
+      brief: 测试统计局公布就业增速放缓，没有修订前期数据。
+  usage:
+    input_tokens: 0
+    output_tokens: 0
+brief-01:
+  output:
+    briefs:
+    - id: edge-11
+      brief: 测试半导体企业完成新芯片验证，尚未量产。
+  usage:
+    input_tokens: 0
+    output_tokens: 0
+brief-02:
+  output:
+    briefs:
+    - id: edge-12
+      brief: 测试法院要求搜索公司提交材料，尚未判定责任。
+  usage:
+    input_tokens: 0
+    output_tokens: 0
+brief-03:
+  output:
+    briefs:
+    - id: edge-13
+      brief: 测试州议会讨论提前投票程序，没有改变选举日期。
+  usage:
+    input_tokens: 0
+    output_tokens: 0
+brief-04:
+  output:
+    briefs:
+    - id: edge-14
+      brief: 测试中国电池企业披露回收工艺，未宣布扩产计划。
+  usage:
+    input_tokens: 0
+    output_tokens: 0
+brief-05:
+  output:
+    briefs:
+    - id: edge-15
+      brief: 测试体育联盟公布下季赛程，没有财务数据。
+  usage:
+    input_tokens: 0
+    output_tokens: 0
+brief-06:
+  output:
+    briefs:
+    - id: edge-16
+      brief: 测试企业公布季度营收增长，未提供每股收益。
+  usage:
+    input_tokens: 0
+    output_tokens: 0
+brief-07:
+  output:
+    briefs:
+    - id: edge-17
+      brief: 测试加密交易平台暂停提款，未披露资产缺口。
+  usage:
+    input_tokens: 0
+    output_tokens: 0
+brief-08:
+  output:
+    briefs:
+    - id: edge-18
+      brief: 测试监管机构要求公司说明并购条款，尚未批准交易。
+  usage:
+    input_tokens: 0
+    output_tokens: 0
+brief-09:
+  output:
+    briefs:
+    - id: edge-19
+      brief: 测试中国公司与海外实验室合作芯片研究，未签商业订单。
+  usage:
+    input_tokens: 0
+    output_tokens: 0
