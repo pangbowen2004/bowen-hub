@@ -2,49 +2,107 @@
 @import "@bowen-hub/ui/styles/tokens.css";
 @import "@bowen-hub/ui/styles/base.css";
 .console-shell {
-  display: flex;
   min-height: 100vh;
 }
-.sidebar {
-  position: sticky;
-  top: 0;
-  height: 100vh;
-  width: 240px;
-  flex: none;
-  padding: 32px 24px;
-  border-right: 1px solid var(--border);
-  background: var(--surface);
+.console-masthead {
+  max-width: 1200px;
+  margin-inline: auto;
+  padding: 20px 32px;
+  min-height: 88px;
+  display: flex;
+  align-items: center;
+  gap: 28px;
+  border-bottom: 1px solid var(--border);
 }
-.sidebar nav {
-  margin-top: 32px;
+.console-masthead .brand {
+  margin-right: 16px;
+  white-space: nowrap;
+}
+.console-nav {
+  display: flex;
+  gap: 24px;
+  align-items: center;
+  flex: 1;
+}
+.console-nav a {
+  color: var(--muted);
+  text-decoration: none;
+  white-space: nowrap;
+  padding-block: 12px;
+}
+.console-nav a[aria-current="page"] {
+  color: var(--text);
+  text-decoration: underline;
+  text-underline-offset: 12px;
+}
+:root .console-masthead .theme-button {
+  font-size: 13px;
+  background: transparent;
+  color: var(--text);
+  white-space: nowrap;
+}
+:root .console-masthead .theme-button:hover {
+  background: var(--text);
+  color: var(--bg);
 }
 .console-content {
   min-width: 0;
-  flex: 1;
 }
-.console-toolbar {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 16px;
-  padding: 16px 32px;
-  border-bottom: 1px solid var(--border);
+.console-content .container {
+  width: 100%;
+  padding-top: 48px;
 }
 .bottom-nav {
   display: none;
 }
-.console-content .container {
-  width: 100%;
+.console-intro {
+  padding-block: 16px 40px;
+  border-bottom: 1px solid var(--border);
 }
-a[aria-current="page"] {
-  font-weight: 700;
+.console-intro h1 {
+  line-height: 1.2;
+}
+.console-intro .intro-title {
+  display: block;
+  margin-top: 16px;
+}
+.console-intro p {
+  color: var(--muted);
+  max-width: 42ch;
+}
+@media (min-width: 768px) and (max-width: 1100px) {
+  .console-masthead {
+    flex-wrap: wrap;
+    gap: 12px 24px;
+  }
+  .console-nav {
+    order: 3;
+    width: 100%;
+    flex-basis: 100%;
+    justify-content: space-between;
+    gap: 12px;
+  }
+  :root .console-masthead .theme-button {
+    margin-left: auto;
+  }
 }
 @media (max-width: 767px) {
-  .sidebar {
+  .console-masthead {
+    padding: 16px;
+    min-height: 76px;
+    gap: 12px;
+  }
+  .console-masthead .brand {
+    margin-right: auto;
+  }
+  .console-nav {
     display: none;
   }
-  .console-toolbar {
-    padding: 12px 16px;
+  .console-content {
+    padding-bottom: 88px;
+  }
+  .console-content .container {
+    padding-top: 24px;
   }
   .bottom-nav {
     display: flex;
@@ -54,11 +112,22 @@ a[aria-current="page"] {
     right: 0;
     justify-content: space-around;
     padding: 16px 4px calc(16px + env(safe-area-inset-bottom));
-    background: var(--surface);
+    background: var(--bg);
     border-top: 1px solid var(--border);
     z-index: 50;
   }
-  .console-content {
-    padding-bottom: 88px;
+  .bottom-nav a {
+    color: var(--muted);
+    text-decoration: none;
+    min-height: 44px;
+    min-width: 44px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .bottom-nav a[aria-current="page"] {
+    color: var(--text);
+    text-decoration: underline;
+    text-underline-offset: 8px;
   }
 }

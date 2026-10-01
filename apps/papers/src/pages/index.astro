@@ -3,5 +3,15 @@ import Placeholder from "../layouts/Placeholder.astro";
 import { getCatalog } from "../lib/data";
 
 const catalog = await getCatalog();
+const featured = catalog.papers[0];
 ---
-<Placeholder title="论文阅读馆" lead="中文导读与原文证据"><p>公开论文 {catalog.stats.paperCount} 篇 · 研究空间 {catalog.stats.spaceCount} 个</p><section class="stack">{catalog.papers.map(paper=><article class="card"><h2><a href={`/papers/${paper.id}/`}>{paper.titleZh??paper.title}</a></h2><p>{paper.oneSentence}</p></article>)}</section></Placeholder>
+<Placeholder title="论文阅读馆" lead="中文导读与原文证据">
+  <p class="eyebrow">公开论文 {catalog.stats.paperCount} 篇 · 研究空间 {catalog.stats.spaceCount} 个</p>
+  {featured && <section class="paper-feature">
+    <div class="paper-cover" aria-hidden="true"><small>论文阅读馆</small><div class="paper-cover-title">{featured.title}</div><small>原文 · 导读 · 证据</small></div>
+    <article><p class="eyebrow">从摘要进入，沿着证据读下去</p><h2 class="editorial-title">{featured.titleZh??featured.title}</h2><p class="muted">{featured.oneSentence}</p><a class="editorial-link" href={`/papers/${featured.id}/`}>阅读论文 <span aria-hidden="true">↗</span></a></article>
+  </section>}
+  <section class="stack paper-list" aria-label="公开论文">
+    {catalog.papers.map(paper=><article class="card"><h2><a href={`/papers/${paper.id}/`}>{paper.titleZh??paper.title}</a></h2><p class="muted">{paper.oneSentence}</p></article>)}
+  </section>
+</Placeholder>
