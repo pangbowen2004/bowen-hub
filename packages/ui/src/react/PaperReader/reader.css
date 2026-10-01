@@ -1,0 +1,123 @@
+.paper-reader {
+  max-width: 720px;
+  margin-inline: auto;
+  line-height: 1.85;
+  width: 100%;
+  min-width: 0;
+}
+.paper-reader .reading-section {
+  padding-block: 2rem;
+  border-bottom: 1px solid var(--border);
+  overflow-wrap: anywhere;
+}
+.paper-reader .reading-lede {
+  font-size: 1.15rem;
+}
+.paper-reader h2 {
+  font-family: var(--font-display);
+  font-size: 1.8rem;
+}
+.paper-reader h3 {
+  margin-top: 1.5rem;
+}
+.paper-reader dt {
+  font-weight: 600;
+  margin-top: 1rem;
+}
+.paper-reader dd {
+  margin: 0;
+}
+.paper-reader summary {
+  cursor: pointer;
+  min-height: 44px;
+  padding-block: 0.6rem;
+}
+.paper-reader .appendix > summary {
+  font-family: var(--font-display);
+  font-size: 1.5rem;
+}
+.paper-reader .table-scroll {
+  max-width: 100%;
+  overflow: auto;
+  margin-block: 1rem;
+}
+.paper-reader table {
+  border-collapse: collapse;
+  font-size: 0.875rem;
+  min-width: 680px;
+}
+.paper-reader th,
+.paper-reader td {
+  text-align: left;
+  vertical-align: top;
+  border-bottom: 1px solid var(--border);
+  padding: 0.7rem;
+}
+.paper-reader th {
+  color: var(--muted);
+}
+.paper-reader select {
+  min-height: 44px;
+  background: var(--bg);
+  color: var(--text);
+  border: 1px solid var(--border);
+  padding: 0.5rem;
+}
+.paper-reader blockquote {
+  border-left: 2px solid var(--accent);
+  margin-inline: 0;
+  padding-inline-start: 1rem;
+}
+.paper-reader p {
+  margin-block: 1rem;
+}
+.paper-reader pre {
+  overflow: auto;
+  max-width: 100%;
+}
+.paper-reader img {
+  max-width: 100%;
+}
+.paper-reader .article-content table {
+  min-width: 0;
+  max-width: 100%;
+  display: block;
+  overflow: auto;
+}
+.paper-reader .evidence-mark {
+  display: inline-block;
+  margin: 0.5rem 0 1rem;
+  font-size: 0.875rem;
+}
+.paper-reader .evidence-mark button {
+  color: var(--accent);
+  cursor: pointer;
+  min-height: 44px;
+  border: 0;
+  background: transparent;
+  padding: 0.5rem;
+  font: inherit;
+}
+.paper-reader .evidence-popover {
+  color: var(--text);
+  padding: 1.5rem;
+  border: 1px solid var(--border);
+  background: var(--bg);
+  box-shadow: 0 12px 40px #0002;
+  width: min(600px, calc(100vw - 32px));
+  max-height: calc(100dvh - 48px);
+  overflow: auto;
+  line-height: 1.85;
+}
+.paper-reader .evidence-popover::backdrop {
+  background: #0002;
+}
+.paper-reader .close {
+  display: block;
+  margin-left: auto;
+}
+.paper-reader .evidence-popover section + section {
+  border-top: 1px solid var(--border);
+  margin-top: 1rem;
+  padding-top: 1rem;
+}

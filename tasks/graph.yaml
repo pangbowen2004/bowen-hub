@@ -294,6 +294,9 @@ tasks:
     owns: [apps/console/src/routes/index.tsx, apps/console/src/routes/news/**, apps/console/src/routes/watchlist/**,
            apps/console/src/features/today/**, apps/console/src/features/news/**, apps/console/src/features/watchlist/**,
            apps/console/src/mocks/news/**, apps/console/e2e/news/**, packages/ui/src/**/EditionView/**]
+    sharedEdits:
+      - "apps/console/src/mocks/browser.ts：仅注册news与watchlist MSW handlers"
+      - "apps/console/e2e/_setup/smoke.spec.ts：仅将T15页面占位断言改为真实页面内容，保留导航与其他任务断言"
     read: [docs/05 第 5–7 节, docs/02 第 6、8、9 节]
     deliver: [docs/05 第 6 节中负责任务为 T15 的页面]
     accept:
@@ -477,7 +480,7 @@ tasks:
     sharedEdits:
       - "packages/ui/package.json：仅声明既定图谱与类型依赖"
       - "packages/ui/vitest.config.ts：仅纳入src领域组件测试"
-      - "apps/papers/package.json：仅纳入组件测试与Astro同源Markdown依赖"
+      - "apps/papers/package.json：仅纳入组件测试、Astro同源Markdown依赖与MiniSearch本地搜索依赖"
       - "apps/papers/playwright.config.ts：仅纳入e2e业务测试"
       - "pnpm-lock.yaml：仅锁定论文前端既定依赖"
     read: [docs/04 第 2、3、6 节, docs/05]
@@ -507,7 +510,21 @@ tasks:
     owns: [services/api/src/lib/auth/**, services/api/test/auth/**, apps/console/src/routes/login/**,
            apps/console/src/routes/settings/**, apps/console/src/features/auth/**, apps/console/src/mocks/auth/**,
            apps/console/e2e/auth/**]
-    sharedEdits: ["services/api/src/db/schema/auth.*：只改鉴权表定义", "services/api/migrations/**：只新增鉴权相关的迁移文件"]
+    sharedEdits:
+      - "services/api/src/db/schema/auth.*：只改鉴权表定义"
+      - "services/api/migrations/**：只新增鉴权相关的迁移文件"
+      - "services/api/src/lib/env.ts：仅补一次性首次注册口令绑定"
+      - "services/api/test/platform/lib.test.ts：仅移除T40鉴权已实现入口的占位断言，保留MCP占位、工具接线与日志断言"
+      - "services/api/test/platform/api.test.ts：仅将本地会话占位断言改为真实鉴权断言，并为路由遍历提供真实测试会话，不弱化契约断言"
+      - "services/api/test/news/api.test.ts：仅给现有私有接口请求提供真实测试会话，保留全部业务断言"
+      - "services/api/test/watchlist/api.test.ts：仅给现有私有接口请求提供真实测试会话，保留全部业务及令牌断言"
+      - "services/api/src/app.ts：仅挂载同源/auth与OAuth元数据入口，不改业务路由或服务令牌分流"
+      - "apps/console/src/routes/consent.tsx：仅OAuth授权确认页"
+      - "apps/console/src/mocks/browser.ts：仅注册auth MSW handlers"
+      - "apps/console/package.json：仅声明既定Better Auth客户端依赖与纳入auth领域测试"
+      - "apps/console/playwright.config.ts：仅纳入真实鉴权虚拟认证器验收配置"
+      - "apps/console/e2e/_setup/smoke.spec.ts：仅将T40页面占位断言改为真实页面内容，保留其他任务断言"
+      - "pnpm-lock.yaml：仅锁定既定Better Auth客户端依赖"
     read: [docs/09 第 2 节, docs/12 第 4、6 节, docs/01 第 5 节]
     deliver:
       - Better Auth：通行密钥插件、一次性口令首次注册、会话 Cookie；替换 T02 的会话占位中间件

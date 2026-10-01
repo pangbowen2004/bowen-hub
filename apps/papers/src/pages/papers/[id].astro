@@ -1,11 +1,47 @@
 ---
-import Placeholder from "../../layouts/Placeholder.astro";
-import { getCatalog, getPaper } from "../../lib/data";
+import { PaperReader } from "@bowen-hub/ui/react/PaperReader";
+import { paperResourceLinks } from "../../components/links";
+import {
+  articleParagraphs,
+  coverageRatio,
+  publicGraph,
+  relatedPapers,
+} from "../../components/paper";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import { getCatalog, getGraph, getPaper } from "../../lib/data";
 export async function getStaticPaths() {
   return (await getCatalog()).papers
     .filter((p) => p.visibility === "public")
     .map((p) => ({ params: { id: p.id } }));
 }
+const catalog = await getCatalog();
 const paper = await getPaper(Astro.params.id!);
+const { meta, guide, structure, resources } = paper;
+const links = paperResourceLinks(paper);
+const paragraphs = await articleParagraphs(paper);
+const coverage = coverageRatio(structure?.coverage);
+const related = relatedPapers(
+  paper,
+  await Promise.all(
+    catalog.papers.filter((p) => p.visibility === "public").map((p) => getPaper(p.id)),
+  ),
+  catalog.papers,
+  publicGraph(await getGraph(), catalog.papers),
+);
 ---
-<Placeholder title={paper.meta.titleZh??paper.meta.title} lead={paper.guide?.oneSentence??'论文导读准备中'} date={paper.status.updatedAt}><p>{paper.meta.title}</p><a href={`/papers/${paper.id}.md`}>Markdown</a></Placeholder>
+<BaseLayout title={meta.titleZh??meta.title} description={guide?.oneSentence??meta.title} date={paper.status.updatedAt}>
+<header class="reading-header stack">
+ <p class="eyebrow">论文导读 · {paper.status.readingDepth}</p><h1 class="editorial-title">{meta.titleZh??meta.title}</h1>
+ {meta.titleZh && <p class="original-title">{meta.title}</p>}
+ {meta.authors?.length && <p class="muted">{meta.authors.join(' · ')}</p>}
+ <p class="muted">{[meta.venue,meta.year,meta.version].filter(Boolean).join(' · ')}</p>
+ <p>{[meta.paperType,meta.studyDesign].filter(Boolean).join(' · ')}</p>
+ <div class="tag-row">{paper.spaces?.map(space=><a class="badge" href={`/spaces/${space}/`}>{catalog.spaces.find(s=>s.id===space)?.label??space}</a>)}{resources?.code && <span class="badge">代码：{{verified:'已核查',unverified:'待核查',not_found:'未找到'}[resources.code.status]}</span>}</div>
+ <nav class="reading-links" aria-label="论文资源">{links.source && <a href={links.source}>原文主页 ↗</a>}{links.code && <a href={links.code}>代码 ↗</a>}<a href={`/papers/${paper.id}.md`}>Markdown</a><a href="#evidence">原文证据</a></nav>
+</header>
+<PaperReader paper={paper} paragraphs={paragraphs} coverage={coverage} related={related}/>
+</BaseLayout>
+<script>document.getElementById('claim-filter')?.addEventListener('change',(event)=>{const kind=(event.target as HTMLSelectElement).value;document.querySelectorAll<HTMLElement>('[data-claim-kind]').forEach(row=>{row.hidden=kind!=='all'&&row.dataset.claimKind!==kind;});});</script>
+<style>
+.reading-header{max-width:960px;padding-block:2rem 3rem;border-bottom:1px solid var(--border);margin-bottom:2rem}.reading-header h1{font-size:clamp(2rem,4vw,3.4rem);line-height:1.3}.original-title{font-family:var(--font-display);font-size:1.4rem}.tag-row,.reading-links{display:flex;flex-wrap:wrap;gap:.75rem}.reading-links a{min-height:44px;display:flex;align-items:center}
+</style>

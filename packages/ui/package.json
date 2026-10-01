@@ -20,7 +20,11 @@
   "dependencies": {
     "radix-ui": "1.6.7",
     "echarts": "6.1.0",
-    "minisearch": "7.2.0"
+    "minisearch": "7.2.0",
+    "@bowen-hub/contracts": "workspace:*",
+    "sigma": "3.0.3",
+    "graphology": "0.26.0",
+    "3d-force-graph": "1.80.1"
   },
   "peerDependencies": {
     "react": "19.3.0",
