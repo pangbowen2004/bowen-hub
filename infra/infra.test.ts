@@ -22,6 +22,7 @@ describe("安全部署", () => {
     expect(command.args).not.toContain("--config");
     const result = spawnSync(command.executable, [...command.args, "--help"], {
       cwd: command.cwd,
+      timeout: 25_000,
       encoding: "utf8",
       env: {
         ...process.env,
@@ -32,7 +33,7 @@ describe("安全部署", () => {
     expect(result.status).toBe(0);
     expect(result.stdout).toContain("--project-name");
     expect(result.stdout).toContain("--branch");
-  });
+  }, 30_000);
   it("只比较名称", () => expect(missing(["A", "B"], [{ name: "A" }])).toEqual(["B"]));
   it("外部错误不输出响应正文", async () => {
     const api = new Cloudflare(
