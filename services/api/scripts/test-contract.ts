@@ -4,6 +4,7 @@ import { mkdtempSync, readFileSync, rmSync, writeFileSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { join, resolve } from "node:path";
 import { parse, stringify } from "yaml";
+import { isDeclaredResourceMissing } from "./probe-response.ts";
 
 const SCHEMATHESIS_VERSION = "4.28.0";
 const args = process.argv.slice(2);
@@ -88,6 +89,7 @@ try {
           operationId: string;
           "x-task": string;
           requestBody?: { content: Record<string, unknown> };
+          responses: Record<string, unknown>;
           parameters?: { name: string; in: string; schema?: { enum?: string[]; $ref?: string } }[];
         }
       >
@@ -133,7 +135,12 @@ try {
         skipped++;
         continue;
       }
-      if ([401, 403, 404, 500].includes(response.status))
+      // 空库的资源不存在应是契约Problem，而非未挂载路由的404。
+      const declaredNotFound = await isDeclaredResourceMissing(response, operation.responses);
+      if (
+        [401, 403, 500].includes(response.status) ||
+        (response.status === 404 && !declaredNotFound)
+      )
         throw new Error(`接口探测失败${operation.operationId}：${response.status}`);
       if (!paths[path]) paths[path] = {};
       const operations = paths[path];

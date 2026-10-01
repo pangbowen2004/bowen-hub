@@ -5,4 +5,24 @@ import { getDay } from "../lib/data";
 
 const day = await getDay();
 ---
-<Placeholder title="驾驶舱" lead="当日市场状态摘要"><section class="card"><h2>{day.summary.headline}</h2><p>成交额：{cny(day.market.turnoverCny)} · 上涨覆盖：{pct(day.market.advanceShare)}</p></section></Placeholder>
+<Placeholder title="驾驶舱" lead="当日市场状态摘要">
+  <div class="editorial-grid">
+    <section class="editorial-lead surface-panel">
+      <p class="eyebrow">A 股收盘观察</p>
+      <h2 class="editorial-title">{day.summary.headline}</h2>
+      <div class="stat-row">
+        <p><span class="muted">成交额</span><strong>{cny(day.market.turnoverCny)}</strong></p>
+        <p><span class="muted">上涨覆盖</span><strong>{pct(day.market.advanceShare)}</strong></p>
+      </div>
+    </section>
+    <nav aria-label="观察入口">
+      <p class="eyebrow">沿着证据，继续观察</p>
+      <ul class="editorial-list">
+        <li><a class="editorial-link" href="/industries/">行业与涨停 <span aria-hidden="true">↗</span></a></li>
+        <li><a class="editorial-link" href="/directions/">方向与 ETF <span aria-hidden="true">↗</span></a></li>
+        <li><a class="editorial-link" href="/validation/">验证中心 <span aria-hidden="true">↗</span></a></li>
+        <li><a class="editorial-link" href="/methods/">方法与口径 <span aria-hidden="true">↗</span></a></li>
+      </ul>
+    </nav>
+  </div>
+</Placeholder>
