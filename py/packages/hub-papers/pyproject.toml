@@ -1,0 +1,19 @@
+[project]
+name = "hub-papers"
+version = "0.1.0"
+description = "领域预接线，业务由后续任务实现"
+requires-python = ">=3.14"
+dependencies = ["hub-core", "hub-contracts", "typer>=0.24,<1"]
+[project.entry-points."hub.commands"]
+ingest = "hub_papers.ingest.commands:register"
+revise = "hub_papers.revise.commands:register"
+check = "hub_papers.check.commands:register"
+derive = "hub_papers.derive.commands:register"
+localtask = "hub_papers.localtask.commands:register"
+migrate = "hub_papers.migrate.commands:register"
+[tool.uv.sources]
+hub-core = { workspace = true }
+hub-contracts = { workspace = true }
+[build-system]
+requires = ["uv_build>=0.12.21,<0.13"]
+build-backend = "uv_build"

@@ -1,0 +1,9 @@
+{
+  "extends": "@bowen-hub/config/tsconfig/base.json",
+  "compilerOptions": {
+    "lib": ["es2024"],
+    "types": ["@cloudflare/workers-types", "@cloudflare/vitest-plugin/types", "node"],
+    "allowImportingTsExtensions": true
+  },
+  "include": ["src", "scripts", "test", "vitest.config.ts"]
+}
