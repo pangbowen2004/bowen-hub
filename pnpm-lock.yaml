@@ -424,6 +424,9 @@ importers:
       '@types/node':
         specifier: 'catalog:'
         version: 24.19.0
+      ajv:
+        specifier: 8.20.0
+        version: 8.20.0
       typescript:
         specifier: 'catalog:'
         version: 7.0.2

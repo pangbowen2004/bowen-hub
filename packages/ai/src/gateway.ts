@@ -7,7 +7,7 @@ import {
   NoObjectGeneratedError,
   streamText,
 } from "ai";
-import type { LlmConfig } from "./registry";
+import type { LlmConfig, Schema } from "./registry";
 import {
   type Adapter,
   type Request,
@@ -24,6 +24,32 @@ function usage(value: LanguageModelUsage): Usage {
     outputTokens: value.outputTokens ?? 0,
     cachedInputTokens: value.inputTokenDetails.cacheReadTokens ?? 0,
   };
+}
+/** 只转换供应商传输格式；业务校验仍用生成 Zod，不把运行时注解交给模型服务。 */
+export function strictOutputSchema(schema: Schema): Schema {
+  const clean = (value: unknown, root = false): unknown => {
+    if (Array.isArray(value)) return value.map((item) => clean(item));
+    if (!value || typeof value !== "object") return value;
+    const node = value as Schema;
+    const result: Schema = Object.fromEntries(
+      Object.entries(node)
+        .filter(([key]) => !key.startsWith("x-") && !["$id", "$schema", "$comment"].includes(key))
+        .map(([key, item]) => [key, clean(item)]),
+    );
+    if (node.properties) {
+      const properties = { ...(result.properties as Record<string, Schema>) };
+      if (root) delete properties.generatedBy;
+      const required = (node.required ?? []) as string[];
+      for (const [key, property] of Object.entries(properties))
+        if (!required.includes(key) && key !== "generatedBy")
+          properties[key] = { anyOf: [property, { type: "null" }] };
+      result.properties = properties;
+      result.required = Object.keys(properties);
+      result.additionalProperties = false;
+    }
+    return result;
+  };
+  return clean(schema, true) as Schema;
 }
 export function createGatewayAdapter(
   config: LlmConfig,
@@ -58,10 +84,8 @@ export function createGatewayAdapter(
       try {
         const result = await generateObject({
           ...options(request),
-          schema: jsonSchema<Record<string, unknown>>(request.schema),
+          schema: jsonSchema<Record<string, unknown>>(strictOutputSchema(request.schema)),
         });
-        if ((result.usage.inputTokens ?? 0) > request.maxInputTokens)
-          throw new StructureError(usage(result.usage));
         return { output: result.object, usage: usage(result.usage) };
       } catch (error) {
         if (NoObjectGeneratedError.isInstance(error))
@@ -74,7 +98,11 @@ export function createGatewayAdapter(
       const result = streamText({ ...options(request), onError: () => {} });
       const text = (async function* () {
         try {
-          for await (const chunk of result.textStream) yield chunk;
+          for await (const part of result.fullStream) {
+            if (part.type === "error" || part.type === "abort")
+              throw new TransportError("网关流失败");
+            if (part.type === "text-delta") yield part.text;
+          }
         } catch {
           throw new TransportError("网关流失败");
         }

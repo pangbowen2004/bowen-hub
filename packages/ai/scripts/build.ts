@@ -2,10 +2,15 @@
 import { readdir, readFile, writeFile } from "node:fs/promises";
 import { dirname, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
+import Ajv2020 from "ajv/dist/2020.js";
 import { parse } from "yaml";
+import type { Capability } from "../src/registry";
 
 const root = resolve(dirname(fileURLToPath(import.meta.url)), "../../..");
 const read = async (path: string) => readFile(resolve(root, path), "utf8");
+const validateManifest = new Ajv2020().compile<Capability>(
+  JSON.parse(await read("capabilities/_schema.json")),
+);
 const schemas: Record<string, unknown> = {};
 for (const file of (await readdir(resolve(root, "contracts/generated/schemas"))).sort()) {
   if (file.endsWith(".json"))
@@ -16,6 +21,8 @@ const prompts: Record<string, string> = {};
 for (const file of (await readdir(resolve(root, "capabilities"))).sort()) {
   if (!file.endsWith(".yaml")) continue;
   const cap = parse(await read(`capabilities/${file}`));
+  if (!validateManifest(cap) || cap.id !== file.slice(0, -5))
+    throw new Error(`能力清单不合格：${file}`);
   capabilities[cap.id] = cap;
   prompts[cap.id] = await read(cap.prompt);
 }

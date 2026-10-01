@@ -63,7 +63,7 @@ class Scorers(Evaluator[dict[str, Any], Result, EvalCase]):
             raise ValueError("用例缺少元数据")
         scores: dict[str, float] = {"schema_valid": float(result.schema_valid)}
         raw = result.raw_output
-        if raw is None:
+        if raw is None or not result.schema_valid:
             return dict.fromkeys(self.capability["evals"]["thresholds"], 0.0)
         context = CheckContext(
             case.input,
@@ -234,7 +234,12 @@ async def evaluate(
     return EvalResult(
         capability=capability_id,
         model=model,
-        datasetVersion=hashlib.sha256(path.read_bytes()).hexdigest()[:16],
+        datasetVersion=hashlib.sha256(
+            b"\n".join(
+                file.name.encode() + b"\n" + file.read_bytes()
+                for file in [*sorted(directory.glob("*.md")), path]
+            )
+        ).hexdigest()[:16],
         scores=scores,
         passed=all(scores[name] >= minimum for name, minimum in cap["evals"]["thresholds"].items()),
         at=datetime.now(UTC),

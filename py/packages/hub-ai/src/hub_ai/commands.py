@@ -40,6 +40,8 @@ def run(
     try:
         registry = Registry(root or find_root())
         ids = select_capabilities(registry, capability, changed=changed, weekly=weekly)
+        if not ids and capability is not None and not changed:
+            raise ValueError("没有匹配的能力")
         if not ids:
             typer.echo("受影响能力：0；没有运行产品评测。")
             return

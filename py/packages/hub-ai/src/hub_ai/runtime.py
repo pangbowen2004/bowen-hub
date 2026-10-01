@@ -35,6 +35,12 @@ class StructureError(Exception):
         super().__init__("模型输出结构不合格")
 
 
+class TokenLimitError(Exception):
+    def __init__(self, usage: Usage) -> None:
+        self.usage = usage
+        super().__init__("超过 token 上限")
+
+
 class TransportError(Exception):
     """仅安全分类；不把供应商正文泄漏给调用方。"""
 
@@ -160,6 +166,11 @@ class Runtime:
                     if response is None:
                         raise TransportError("模型传输失败")
                     add_usage(response.usage)
+                    if (
+                        response.usage.input_tokens > request.max_input_tokens
+                        or response.usage.output_tokens > request.max_output_tokens
+                    ):
+                        raise ValueError("超过 token 上限")
                     validated = request.output_model.model_validate(response.output)
                     schema_valid = repair == 0
                     raw = validated.model_dump(mode="json", exclude_unset=True)
@@ -200,6 +211,9 @@ class Runtime:
             ok = True
         except ValidationError:
             reason = "输入或输出契约不合格"
+        except TokenLimitError as error:
+            add_usage(error.usage)
+            reason = "超过 token 上限"
         except StructureError:
             reason = "结构修复后仍不合格"
         except TransportError:
@@ -208,7 +222,9 @@ class Runtime:
             text = str(error)
             reason = (
                 text
-                if text.startswith(("缺少真实", "领域校验未注册", "图片页码缺少", "确定性校验后"))
+                if text.startswith(
+                    ("缺少真实", "领域校验未注册", "图片页码缺少", "确定性校验后", "超过 token")
+                )
                 else "校验执行失败"
             )
         except Exception:

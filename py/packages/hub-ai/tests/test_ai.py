@@ -351,3 +351,261 @@ def test_cli_offline_threshold_exit(tmp_path: Path) -> None:
     failed = runner.invoke(create_app(), ["evals", "run", "--root", str(root), "--offline"])
     assert failed.exit_code == 1
     assert "失败" in failed.output
+
+
+def test_quote_draft_cannot_self_verify() -> None:
+    schema: dict[str, Any] = {
+        "properties": {
+            "guidance": {
+                "anyOf": [{"properties": {"quote": {"x-source-quote": True}}}, {"type": "null"}]
+            }
+        }
+    }
+    out, reports = CheckRegistry().run(
+        ["quotes_in_sources"],
+        {"guidance": {"quote": "草稿伪造"}},
+        CheckContext({"pages": "原文", "paper": {"text": "草稿伪造"}}, schema),
+    )
+    assert out["guidance"] is None
+    assert not reports[0].failed
+
+
+def test_token_limit_no_structure_repair() -> None:
+    adapter = FakeAdapter([Response({"digest": "事实。"}, Usage(20001, 2))])
+    result = asyncio.run(Runtime(Registry(ROOT), adapter).run("news.filing_digest", INPUT))
+    assert not result.ok
+    assert result.reason == "超过 token 上限"
+    assert len(adapter.requests) == 1
+    assert result.call.inputTokens == 20001
+
+
+def test_harvest_reuses_saved_article_and_keeps_unresolved() -> None:
+    from typing import cast
+
+    from hub_ai.evals.harvest import harvest_feedback
+    from hub_contracts import Edition, Feedback
+    from hub_core.api import ApiClient
+
+    article: dict[str, Any] = {
+        "id": "a1",
+        "sourceId": "source",
+        "kind": "news",
+        "title": "事实标题",
+        "url": "https://example.test/article",
+        "publishedAt": "2026-10-01T00:00:00Z",
+        "summary": "原始摘要",
+        "lang": "en",
+        "tickers": ["TEST"],
+        "topics": [],
+        "paywall": "none",
+        "clusterId": None,
+    }
+    edition = Edition.model_validate(
+        {
+            "id": "e1",
+            "kind": "morning",
+            "date": "2026-10-01",
+            "window": {"fromAt": None, "toAt": None},
+            "generatedAt": None,
+            "lede": None,
+            "sources": [],
+            "aiUsage": None,
+            "email": None,
+            "sections": [
+                {
+                    "kind": "us_news",
+                    "title": "新闻",
+                    "items": [
+                        {
+                            "id": "a1",
+                            "data": {
+                                "article": article,
+                                "summary": "中文摘要",
+                                "whyItMatters": None,
+                                "topic": None,
+                                "generatedBy": None,
+                            },
+                        }
+                    ],
+                },
+                {
+                    "kind": "ticker_digests",
+                    "title": "动态",
+                    "items": [
+                        {
+                            "id": "item1",
+                            "data": {
+                                "symbol": "TEST",
+                                "change": None,
+                                "withSector": None,
+                                "whatHappened": "事实",
+                                "whyItMatters": None,
+                                "sourceIds": ["a1", "old-missing"],
+                                "points": [],
+                                "generatedBy": {
+                                    "capability": "news.ticker_digest",
+                                    "version": 1,
+                                    "model": "fixture/model",
+                                    "at": "2026-10-01T00:00:00Z",
+                                },
+                            },
+                        }
+                    ],
+                },
+            ],
+        }
+    )
+
+    class FakeApi:
+        def get_list(self, *args: Any, **kwargs: Any) -> list[Feedback]:
+            return [
+                Feedback.model_validate(
+                    {
+                        "kind": "item",
+                        "id": "f1",
+                        "editionId": "e1",
+                        "itemId": "item1",
+                        "reason": "incorrect",
+                        "createdAt": "2026-10-01T00:00:00Z",
+                    }
+                )
+            ]
+
+        def get(self, *args: Any, **kwargs: Any) -> Edition:
+            return edition
+
+    drafts = harvest_feedback(cast(ApiClient, FakeApi()))
+    assert drafts[0]["sources"][0]["id"] == "a1"
+    assert drafts[0]["input"] is None
+    assert drafts[0]["partialInput"]["articles"][0]["summary"] == "原始摘要"
+    assert drafts[0]["unresolvedSourceIds"] == ["old-missing"]
+
+
+def test_timeout_retry_and_limits() -> None:
+    registry = Registry(ROOT)
+    registry.capabilities["news.filing_digest"]["limits"]["timeoutSec"] = 0.001
+    calls: list[Request] = []
+    waits: list[float] = []
+
+    class SlowAdapter:
+        async def generate(self, request: Request) -> Response:
+            calls.append(request)
+            await asyncio.sleep(1)
+            raise AssertionError("不应到达")
+
+    async def sleep(seconds: float) -> None:
+        waits.append(seconds)
+
+    result = asyncio.run(
+        Runtime(registry, SlowAdapter(), sleep=sleep).run("news.filing_digest", INPUT)
+    )
+    assert not result.ok
+    assert len(calls) == 3
+    assert waits == [1, 2]
+    assert calls[0].max_output_tokens == 300
+    assert calls[0].reasoning == registry.llm["tiers"]["fast"]["reasoning"]
+
+
+def test_labels_scorer_first_pass(tmp_path: Path) -> None:
+    import yaml
+
+    root = prepare(tmp_path)
+    cap_path = root / "capabilities/fixture.summary.yaml"
+    cap = yaml.safe_load(cap_path.read_text())
+    cap["io"] = {"input": "ClassifyInput", "output": "ClassifyOutput"}
+    cap["checks"] = ["source_ids_exist"]
+    cap["evals"]["thresholds"] = {"schema_valid": 1, "labels_match": 1, "source_ids_exist": 1}
+    cap_path.write_text(yaml.safe_dump(cap))
+    directory = root / "evals/fixture.summary"
+    cases = [
+        {
+            "id": "labels",
+            "input": {"items": [{"id": "s1", "title": "事实", "summary": None}]},
+            "expect": {"labels": {"s1": "ai_tech"}},
+            "tags": ["edge"],
+        }
+    ]
+    (directory / "cases.yaml").write_text(yaml.safe_dump(cases))
+    (directory / "responses.yaml").write_text(
+        yaml.safe_dump(
+            {"labels": {"output": {"classifications": [{"id": "s1", "topic": "other"}]}}}
+        )
+    )
+    result = asyncio.run(
+        evaluate(Runtime(Registry(root), FakeAdapter([])), "fixture.summary", offline=True)
+    )
+    assert result.scores["labels_match"] == 0
+    assert result.scores["source_ids_exist"] == 1
+    assert not result.passed
+
+
+def test_compare_candidate_decline_exit(tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> None:
+    import yaml
+    from typer.testing import CliRunner
+
+    from hub_ai import commands
+    from hub_cli.main import create_app
+
+    root = prepare(tmp_path)
+    config_path = root / "config/llm.yaml"
+    config = yaml.safe_load(config_path.read_text())
+    config["candidates"] = ["fixture/candidate"]
+    config["prices"]["fixture/candidate"] = config["prices"]["fixture/model"]
+    config_path.write_text(yaml.safe_dump(config))
+    models: list[str] = []
+
+    class CompareAdapter:
+        async def generate(self, request: Request) -> Response:
+            models.append(request.model)
+            text = (
+                "收入900%。"
+                if request.model == "fixture/candidate"
+                else "收入12亿。"
+                if "billion" in request.prompt["user"]
+                else "收入同比增长1.2%。"
+            )
+            return Response({"digest": text}, Usage(100, 10))
+
+    def adapter_factory(*_args: Any) -> CompareAdapter:
+        return CompareAdapter()
+
+    monkeypatch.setattr(commands, "GatewayAdapter", adapter_factory)
+    result = CliRunner().invoke(
+        create_app(), ["evals", "compare", "--candidate", "fixture/candidate", "--root", str(root)]
+    )
+    assert result.exit_code == 1
+    assert models == ["fixture/model", "fixture/model", "fixture/candidate", "fixture/candidate"]
+    assert "fixture/candidate" in result.output
+    assert "失败" in result.output
+
+
+def test_images_attached_by_page_and_prompt_numbers() -> None:
+    registry = Registry(ROOT)
+    cap = registry.capabilities["news.filing_digest"]
+    cap["io"]["input"] = "PaperReviewInput"
+    cap["prompt"] = "prompts/paper_review.md"
+    inputs: dict[str, Any] = {
+        "paperId": "p",
+        "paper": {
+            "id": "p",
+            "meta": {"title": "论文"},
+            "status": {
+                "updatedAt": "2026-10-01",
+                "visibility": "private",
+                "review": "draft",
+                "readingDepth": "R0",
+                "nextAction": "阅读",
+            },
+        },
+        "pages": "原文事实",
+        "pageImages": [1, 3],
+    }
+    adapter = FakeAdapter([Response({"digest": "事实。"})])
+    result = asyncio.run(
+        Runtime(registry, adapter).run(
+            "news.filing_digest", inputs, images={1: b"png1", 3: b"png3"}
+        )
+    )
+    assert result.ok
+    assert adapter.requests[0].images == [b"png1", b"png3"]
+    assert "[\n  1,\n  3\n]" in adapter.requests[0].prompt["user"]

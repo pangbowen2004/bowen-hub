@@ -11,7 +11,7 @@ from pydantic_ai.models.openai import OpenAIChatModel, OpenAIChatModelSettings
 from pydantic_ai.providers.openai import OpenAIProvider
 
 from hub_ai.registry import Registry
-from hub_ai.runtime import Request, Response, StructureError, TransportError, Usage
+from hub_ai.runtime import Request, Response, StructureError, TokenLimitError, TransportError, Usage
 from hub_core.settings import Settings
 
 
@@ -102,6 +102,8 @@ class GatewayAdapter:
                 raise TransportError("网关请求失败") from None
             except HTTPError, TimeoutError, APIConnectionError, APITimeoutError:
                 raise TransportError("网关传输失败") from None
-            except UnexpectedModelBehavior, UsageLimitExceeded:
+            except UsageLimitExceeded:
+                raise TokenLimitError(used) from None
+            except UnexpectedModelBehavior:
                 raise StructureError(used) from None
         raise StructureError()

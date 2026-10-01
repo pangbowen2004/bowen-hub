@@ -161,12 +161,13 @@ export class Runtime {
       };
       if (emit) {
         if (!this.adapter.stream) throw new Error("适配器没有流式入口");
-        // 只在流尚未建立时重试；一旦流返回，不重复任何已输出块。
+        // 尚未输出内容时可重试；发送第一块后不重复流。
         let text = "";
         for (let attempt = 0; ; attempt++) {
           let emitted = false;
           try {
             const response = await this.adapter.stream(request);
+            let used: Usage = { inputTokens: 0, outputTokens: 0, cachedInputTokens: 0 };
             try {
               for await (const chunk of response.text) {
                 emitted = true;
@@ -174,8 +175,14 @@ export class Runtime {
                 await emit(chunk);
               }
             } finally {
-              add(await response.usage);
+              used = await response.usage;
+              add(used);
             }
+            if (
+              used.inputTokens > request.maxInputTokens ||
+              used.outputTokens > request.maxOutputTokens
+            )
+              throw new Error("超过 token 上限");
             break;
           } catch (error) {
             if (
@@ -203,6 +210,11 @@ export class Runtime {
           try {
             const response = await retry(() => this.adapter.generate(request));
             add(response.usage);
+            if (
+              response.usage.inputTokens > request.maxInputTokens ||
+              response.usage.outputTokens > request.maxOutputTokens
+            )
+              throw new Error("超过 token 上限");
             const validated = validator(cap.io.output).safeParse(response.output);
             if (!validated.success) throw new StructureError();
             schemaValid = repair === 0;
@@ -239,7 +251,7 @@ export class Runtime {
           : error instanceof StructureError
             ? "结构修复后仍不合格"
             : error instanceof Error &&
-                /^(缺少真实|领域校验未注册|图片页码缺少|确定性校验后|适配器没有)/.test(
+                /^(缺少真实|领域校验未注册|图片页码缺少|确定性校验后|适配器没有|超过 token)/.test(
                   error.message,
                 )
               ? error.message

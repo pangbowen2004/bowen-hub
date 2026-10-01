@@ -156,7 +156,8 @@ def length_within(output: dict[str, Any], ctx: CheckContext) -> CheckReport:
 
 def quotes_in_sources(output: dict[str, Any], ctx: CheckContext) -> CheckReport:
     report = CheckReport("quotes_in_sources")
-    source = re.sub(r"\s+", "", re.sub(r"(?m)^L\d+:\s*", "", "\n".join(_strings(ctx.inputs))))
+    original = ctx.inputs.get("pages", ctx.inputs.get("sourceText", ctx.inputs))
+    source = re.sub(r"\s+", "", re.sub(r"(?m)^L\d+:\s*", "", "\n".join(_strings(original))))
 
     def valid(item: Any, schema: dict[str, Any], path: str) -> bool:
         if isinstance(item, str) and schema.get("x-source-quote"):
@@ -168,21 +169,29 @@ def quotes_in_sources(output: dict[str, Any], ctx: CheckContext) -> CheckReport:
             props = schema.get("properties", {})
             for branch in schema.get("anyOf", []) + schema.get("allOf", []):
                 props = {**props, **branch.get("properties", {})}
-            if any(
-                not valid(child, props.get(key, {}), f"{path}.{key}")
-                for key, child in cast(dict[str, Any], item).items()
-            ):
-                return False
+            node = cast(dict[str, Any], item)
+            for key, child in list(node.items()):
+                child_schema = props.get(key, {})
+                if not valid(child, child_schema, f"{path}.{key}"):
+                    if any(
+                        branch.get("type") == "null" for branch in child_schema.get("anyOf", [])
+                    ):
+                        node[key] = None
+                    else:
+                        return False
         if isinstance(item, list):
             values = cast(list[Any], item)
+            before = len(values)
             values[:] = [
                 child
                 for i, child in enumerate(values)
                 if valid(child, schema.get("items", {}), f"{path}[{i}]")
             ]
+            report.failed |= bool(before) and not values
         return True
 
-    report.failed = not valid(output, ctx.schema, "$")
+    root_valid = valid(output, ctx.schema, "$")
+    report.failed = report.failed or not root_valid
     return report
 
 

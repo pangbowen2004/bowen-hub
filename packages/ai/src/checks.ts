@@ -144,7 +144,7 @@ export const lengthWithin: Check = (output, ctx) => {
 };
 export const quotesInSources: Check = (output, ctx) => {
   const report = { name: "quotes_in_sources", changes: [] as string[], failed: false };
-  const source = strings(ctx.inputs)
+  const source = strings(ctx.inputs.pages ?? ctx.inputs.sourceText ?? ctx.inputs)
     .join("\n")
     .replace(/^L\d+:\s*/gm, "")
     .replace(/\s+/g, "");
@@ -158,15 +158,23 @@ export const quotesInSources: Check = (output, ctx) => {
       const kept = item.filter((child, i) =>
         valid(child, (schema.items ?? {}) as Schema, `${path}[${i}]`),
       );
+      report.failed ||= item.length > 0 && kept.length === 0;
       item.splice(0, item.length, ...kept);
     } else if (item && typeof item === "object") {
       const properties = props(schema);
-      for (const [key, child] of Object.entries(item))
-        if (!valid(child, properties[key] ?? {}, `${path}.${key}`)) return false;
+      for (const [key, child] of Object.entries(item)) {
+        const childSchema = properties[key] ?? {};
+        if (!valid(child, childSchema, `${path}.${key}`)) {
+          if (((childSchema.anyOf ?? []) as Schema[]).some((branch) => branch.type === "null"))
+            (item as Record<string, unknown>)[key] = null;
+          else return false;
+        }
+      }
     }
     return true;
   }
-  report.failed = !valid(output, ctx.schema, "$");
+  const rootValid = valid(output, ctx.schema, "$");
+  report.failed = report.failed || !rootValid;
   return report;
 };
 export const sourceIdsExist: Check = (output, ctx) => {
