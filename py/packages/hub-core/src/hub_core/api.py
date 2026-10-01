@@ -27,7 +27,7 @@ class ApiClient:
             self.base_url + path,
             source="hub-api",
             headers=self._headers,
-            json=model.model_dump(mode="json"),
+            json=model.model_dump(mode="json", exclude_unset=True),
         )
 
     def post_batch(self, path: str, models: Sequence[BaseModel]) -> None:
@@ -36,7 +36,7 @@ class ApiClient:
             self.base_url + path,
             source="hub-api",
             headers=self._headers,
-            json=[model.model_dump(mode="json") for model in models],
+            json=[model.model_dump(mode="json", exclude_unset=True) for model in models],
             retry=False,
         )
 
