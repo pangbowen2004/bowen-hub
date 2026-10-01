@@ -1,0 +1,13 @@
+---
+import type { Paper, PaperSummary, SearchIndex } from "@bowen-hub/contracts";
+
+interface Props {
+  papers: PaperSummary[];
+  details?: Paper[];
+  searchIndex?: SearchIndex;
+  spaceLabels?: Record<string, string>;
+}
+const { papers, details = [], searchIndex, spaceLabels = {} } = Astro.props;
+---
+<section class="stack paper-list" aria-label="公开论文" id="paper-list">{papers.filter(p=>p.visibility==='public').map(paper=><article class="card" data-paper-card data-id={paper.id} data-search-document={JSON.stringify({id:paper.id,title:[paper.title,paper.titleZh].filter(Boolean).join(" "),authors:details.find(p=>p.id===paper.id)?.meta.authors?.join(" ")??"",oneSentence:paper.oneSentence??"",concepts:details.find(p=>p.id===paper.id)?.structure?.concepts?.map(c=>c.name).join(" ")??"",spaces:[...paper.spaces,...(searchIndex?.papers.find(p=>p.id===paper.id)?.spaces??[]),...paper.spaces.map(space=>spaceLabels[space]??space)].join(" ")})} data-year={paper.year??''} data-space={paper.spaces.join(' ')} data-kind={paper.paperKind??''} data-depth={paper.readingDepth} data-updated={paper.updatedAt}><p class="eyebrow">{paper.readingDepth} · {[paper.venue,paper.year].filter(Boolean).join(' · ')}</p><h2><a href={`/papers/${paper.id}/`}>{paper.titleZh??paper.title}</a></h2>{paper.titleZh&&<p class="muted">{paper.title}</p>}{paper.oneSentence&&<p>{paper.oneSentence}</p>}<div class="tags">{paper.spaces.map(space=><a href={`/spaces/${space}/`}>{spaceLabels[space]??space}</a>)}</div></article>)}</section>
+<style>.tags{display:flex;flex-wrap:wrap;gap:1rem}.tags a{min-height:44px;display:flex;align-items:center}.card h2{font-family:var(--font-display)}.card{overflow-wrap:anywhere}</style>

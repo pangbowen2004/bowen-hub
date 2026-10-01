@@ -1,4 +1,13 @@
 ---
-import Placeholder from "../layouts/Placeholder.astro";
+import BaseLayout from "../layouts/BaseLayout.astro";
+import { getCatalog } from "../lib/data";
+
+const catalog = await getCatalog();
+const updated = catalog.papers
+  .filter((p) => p.visibility === "public")
+  .map((p) => p.updatedAt)
+  .sort()
+  .at(-1);
 ---
-<Placeholder title="关于论文馆" lead="关于论文馆内容准备中"></Placeholder>
+<BaseLayout title="关于阅读馆" description="阅读深度与原文证据规则" date={updated}><header class="stack"><p class="eyebrow">阅读方法</p><h1 class="editorial-title">读懂，也保留边界</h1><p>论文阅读馆把中文导读、原文主张与核查位置放在一起。导读帮助理解，结论仍需回到论文证据。</p></header><section class="card stack"><h2>四种阅读深度</h2><dl><dt>R0 · 初筛</dt><dd>确认问题、主题与阅读价值。</dd><dt>R1 · 结构化导读</dt><dd>建立问题、机制、主要结果与边界的完整阅读地图。</dd><dt>R2 · 深读与核查</dt><dd>核查关键主张、公式、实验设置与原文证据。</dd><dt>R3 · 复现与应用</dt><dd>实际验证方法，记录复現条件与适用边界。</dd></dl><h2>证据规则</h2><p>原文支持、解释性推断和来源导航分别标记。点击证据可以查看原文定位、已有摘录与解释边界；没有可靠页码或摘录时不补造。阅读覆盖率只说明阅读工作覆盖了哪些维度，不是论文质量分数。</p><p>二手材料不等同于原文；代码“已核查”也不代表所有实验都已独立复现。</p><h2>公开内容边界</h2><p>这里仅展示公开论文与公开阅读内容。私人笔记、解释卡和私有 PDF 不进入静态站点。</p>{updated&&<p class="muted">内容最近更新：<time datetime={updated}>{updated}</time></p>}</section></BaseLayout>
+<style>header{padding-block:2rem}dt{font-weight:600;margin-top:1rem}dd{margin:0}</style>

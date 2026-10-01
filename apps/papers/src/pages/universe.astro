@@ -1,4 +1,9 @@
 ---
-import Placeholder from "../layouts/Placeholder.astro";
+import { Universe3D } from "@bowen-hub/ui/react/Universe3D";
+import { publicGraph } from "../components/paper";
+import BaseLayout from "../layouts/BaseLayout.astro";
+import { getCatalog, getGraph } from "../lib/data";
+
+const data = publicGraph(await getGraph(), (await getCatalog()).papers);
 ---
-<Placeholder title="知识宇宙" lead="知识宇宙内容准备中"><p>在电脑上体验更好。<a href="/graph/">查看 2D 图谱</a></p></Placeholder>
+<BaseLayout title="论文宇宙" description="在三维空间探索公开论文"><header class="stack"><p class="eyebrow">空间中的阅读线索</p><h1 class="editorial-title">论文宇宙</h1><p>把论文、概念与研究空间放在同一张地图上。</p></header><Universe3D data={data} client:visible/></BaseLayout>
