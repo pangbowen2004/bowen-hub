@@ -1,0 +1,31 @@
+{
+  "now": "2026-10-03T01:10:00+00:00",
+  "articles": [
+    {
+      "id": "fresh",
+      "sourceId": "alpaca-news",
+      "kind": "news",
+      "title": "Nvidia synthetic contract",
+      "url": "https://example.test/fresh",
+      "publishedAt": "2026-10-03T00:10:00Z",
+      "summary": "合成测试正文",
+      "lang": "en",
+      "tickers": [],
+      "topics": [],
+      "paywall": "none",
+      "clusterId": null
+    }
+  ],
+  "events": [
+    {
+      "kind": "macro",
+      "date": "2026-10-07",
+      "fredReleaseId": 10,
+      "at": null,
+      "title": "Consumer Price Index",
+      "tickers": [],
+      "timing": null,
+      "importance": "high"
+    }
+  ]
+}

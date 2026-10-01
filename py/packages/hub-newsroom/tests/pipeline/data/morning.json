@@ -1,0 +1,272 @@
+{
+  "id": "morning-2026-09-30",
+  "kind": "morning",
+  "date": "2026-09-30",
+  "window": {
+    "fromAt": "2026-09-28T23:10:00Z",
+    "toAt": "2026-09-29T23:10:00Z"
+  },
+  "generatedAt": "2026-09-29T23:10:00Z",
+  "lede": null,
+  "sections": [
+    {
+      "kind": "close_snapshot",
+      "title": "收盘快照",
+      "items": [
+        {
+          "id": "snapshot",
+          "data": {
+            "indices": [
+              {
+                "symbol": "SMH",
+                "change": 0.02
+              }
+            ],
+            "watchlist": [
+              {
+                "symbol": "TSM",
+                "change": 0.03
+              },
+              {
+                "symbol": "NVDA",
+                "change": 0.02999
+              },
+              {
+                "symbol": "TEST",
+                "change": 0.02999
+              }
+            ],
+            "treasury10Year": null,
+            "vix": null
+          },
+          "ruleScore": null,
+          "clusterId": null
+        }
+      ]
+    },
+    {
+      "kind": "ticker_digests",
+      "title": "自选股动态",
+      "items": [
+        {
+          "id": "ticker:NVDA",
+          "data": {
+            "symbol": "NVDA",
+            "change": 0.02999,
+            "withSector": true,
+            "whatHappened": "",
+            "whyItMatters": null,
+            "sourceIds": [],
+            "points": [],
+            "generatedBy": null
+          },
+          "ruleScore": 10.0,
+          "clusterId": null
+        },
+        {
+          "id": "ticker:TSM",
+          "data": {
+            "symbol": "TSM",
+            "change": 0.03,
+            "withSector": true,
+            "whatHappened": "未找到直接相关消息",
+            "whyItMatters": null,
+            "sourceIds": [],
+            "points": [],
+            "generatedBy": null
+          },
+          "ruleScore": null,
+          "clusterId": null
+        }
+      ]
+    },
+    {
+      "kind": "unchanged_tickers",
+      "title": "无重要消息",
+      "items": [
+        {
+          "id": "quiet",
+          "data": {
+            "symbols": ["AAPL", "TEST", "BTC"]
+          },
+          "ruleScore": null,
+          "clusterId": null
+        }
+      ]
+    },
+    {
+      "kind": "us_news",
+      "title": "美股要闻",
+      "items": [
+        {
+          "id": "market",
+          "data": {
+            "article": {
+              "id": "market",
+              "sourceId": "fed-monetary",
+              "kind": "news",
+              "title": "Fed synthetic policy announcement",
+              "url": "https://example.test/market",
+              "publishedAt": "2026-09-29T20:10:00Z",
+              "summary": "合成测试正文",
+              "lang": "en",
+              "tickers": [],
+              "topics": [],
+              "paywall": "none",
+              "clusterId": "event:market"
+            },
+            "summary": null,
+            "whyItMatters": null,
+            "topic": null,
+            "generatedBy": null
+          },
+          "ruleScore": 7.0,
+          "clusterId": "event:market"
+        }
+      ]
+    },
+    {
+      "kind": "earnings",
+      "title": "财报",
+      "items": [
+        {
+          "id": "earnings:synthetic-001",
+          "data": {
+            "symbol": "NVDA",
+            "period": "",
+            "figures": [],
+            "guidance": null,
+            "takeaway": "",
+            "sourceUrl": "https://example.test/synthetic-001/exhibit",
+            "sourceAccession": "synthetic-001",
+            "publishedAt": "2026-09-29T21:10:00Z",
+            "generatedBy": null
+          },
+          "ruleScore": null,
+          "clusterId": null
+        }
+      ]
+    },
+    {
+      "kind": "filings",
+      "title": "公告",
+      "items": [
+        {
+          "id": "synthetic-001",
+          "data": {
+            "filing": {
+              "accession": "synthetic-001",
+              "cik": "0000000001",
+              "ticker": "NVDA",
+              "form": "8-K",
+              "filedAt": "2026-09-29T21:10:00Z",
+              "items": ["2.02", "5.02"],
+              "url": "https://example.test/synthetic-001",
+              "exhibits": [
+                {
+                  "name": "EX-99.1",
+                  "url": "https://example.test/synthetic-001/exhibit"
+                }
+              ]
+            },
+            "digest": null,
+            "generatedBy": null
+          },
+          "ruleScore": null,
+          "clusterId": null
+        }
+      ]
+    },
+    {
+      "kind": "insider_trades",
+      "title": "内部人交易",
+      "items": [
+        {
+          "id": "synthetic-form4:0",
+          "data": {
+            "accession": "synthetic-form4",
+            "transactionIndex": 0,
+            "ticker": "NVDA",
+            "insider": "测试人",
+            "role": "测试职位",
+            "code": "P",
+            "shares": 100.0,
+            "priceUsd": 12.3456,
+            "valueUsd": null,
+            "filedAt": "2026-09-29T22:10:00Z",
+            "url": "https://example.test/form4"
+          },
+          "ruleScore": null,
+          "clusterId": null
+        }
+      ]
+    },
+    {
+      "kind": "calendar",
+      "title": "今晚日程",
+      "items": [
+        {
+          "id": "calendar:macro:2026-09-30:CPI:",
+          "data": {
+            "kind": "macro",
+            "date": "2026-09-30",
+            "fredReleaseId": 10,
+            "at": "2026-09-30T20:30:00+08:00",
+            "title": "CPI",
+            "tickers": [],
+            "timing": null,
+            "importance": "high"
+          },
+          "ruleScore": null,
+          "clusterId": null
+        }
+      ]
+    },
+    {
+      "kind": "international",
+      "title": "国际与科技",
+      "items": [
+        {
+          "id": "international",
+          "data": {
+            "overview": "今日新闻主线集中在 中美关系。",
+            "top5": [
+              {
+                "id": "international",
+                "data": {
+                  "article": {
+                    "id": "international",
+                    "sourceId": "bbc-world",
+                    "kind": "news",
+                    "title": "Trump China synthetic tariff",
+                    "url": "https://example.test/international",
+                    "publishedAt": "2026-09-29T20:10:00Z",
+                    "summary": "合成测试正文",
+                    "lang": "en",
+                    "tickers": [],
+                    "topics": [],
+                    "paywall": "none",
+                    "clusterId": "event:international"
+                  },
+                  "summary": null,
+                  "whyItMatters": null,
+                  "topic": "us_china",
+                  "generatedBy": null
+                },
+                "ruleScore": 12.0,
+                "clusterId": "event:international"
+              }
+            ],
+            "briefs": [],
+            "generatedBy": null
+          },
+          "ruleScore": null,
+          "clusterId": null
+        }
+      ]
+    }
+  ],
+  "sources": [],
+  "aiUsage": null,
+  "email": null
+}

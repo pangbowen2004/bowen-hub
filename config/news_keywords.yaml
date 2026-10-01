@@ -22,6 +22,7 @@ paywallPenalty:
 
 # 标题关键词加分：high 每命中一个 +3，medium 每命中一个 +1
 # 英文清单沿用老系统（已在生产中用了 4 个月）
+keywordScores: { high: 3, medium: 1 }
 scoreKeywords:
   high:
     en: [china, chinese, beijing, xi,
