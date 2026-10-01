@@ -1,5 +1,5 @@
 /** 将配置与提示词编入模块；Worker 不读取文件。此文件是生成源。 */
-import { readdir, readFile, writeFile } from "node:fs/promises";
+import { mkdir, readdir, readFile, writeFile } from "node:fs/promises";
 import { dirname, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 import Ajv2020 from "ajv/dist/2020.js";
@@ -28,7 +28,9 @@ for (const file of (await readdir(resolve(root, "capabilities"))).sort()) {
 }
 const llm = parse(await read("config/llm.yaml"));
 const adviceWords = parse(await read("config/newsroom.yaml")).adviceWords;
+const generatedDirectory = resolve(root, "packages/ai/src/generated");
+await mkdir(generatedDirectory, { recursive: true });
 await writeFile(
-  resolve(root, "packages/ai/src/generated/registry.ts"),
+  resolve(generatedDirectory, "registry.ts"),
   `// 由 scripts/build.ts 生成，勿手改；构建时更新。\nexport const registryData = ${JSON.stringify({ capabilities, prompts, llm, schemas, adviceWords }, null, 2)};\n`,
 );
