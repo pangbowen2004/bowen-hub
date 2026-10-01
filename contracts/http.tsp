@@ -26,9 +26,9 @@ model CursorParams {
   /** 上一页返回的 nextCursor；取第一页时不传 */
   @query cursor?: string;
 
-  /** 每页条数，1–100（docs/09 第 1 节：单页不超过 100 条）；不传时由服务端决定 */
+  /** 每页条数，1–100（docs/09 第 1 节：单页不超过 100 条）；不传时默认 20 */
   @query
   @minValue(1)
   @maxValue(100)
-  limit?: int32;
+  limit?: int32 = 20;
 }

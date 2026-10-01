@@ -1,0 +1,4 @@
+{
+  "system": "布尔值使用小写 JSON 文本；顶层空对象和缺失字段表示无材料。",
+  "user": "启用：true\n关闭：false\n空对象：（无）\n缺失：（无）\n嵌套：{\n  \"empty\": {},\n  \"flag\": false\n}"
+}

@@ -154,7 +154,7 @@ class AiUsageSummary(BaseModel):
     """
     byDay: list[AiUsageDay]
     """
-    按天（日期升序；没有调用的日子不出现）
+    按 Asia/Singapore（UTC+8）日期统计（日期升序；没有调用的日子不出现）
     """
     byCapability: list[AiUsageCapability]
     """
@@ -162,7 +162,7 @@ class AiUsageSummary(BaseModel):
     """
     monthCostUsd: float
     """
-    本月累计费用（美元），与窗口无关
+    按 Asia/Singapore（UTC+8）月份统计的本月累计费用（美元），与窗口无关
     """
     monthlyBudgetUsd: float
     """

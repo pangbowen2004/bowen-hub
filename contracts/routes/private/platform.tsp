@@ -23,8 +23,8 @@ op listRuns(
 @get
 @route("/ai/usage")
 op getAiUsage(
-  /** 统计最近多少天（含今天） */
-  @query @minValue(1) days?: int32,
+  /** 统计最近多少天（含今天），默认 30，按 Asia/Singapore（UTC+8）计 */
+  @query @minValue(1) days?: int32 = 30,
 ): AiUsageSummary | HubHttp.ErrorResponse;
 
 /** 评测结果（eval_results 表），最新的在前 */

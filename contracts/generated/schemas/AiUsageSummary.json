@@ -19,7 +19,7 @@
       "items": {
         "$ref": "AiUsageDay.json"
       },
-      "description": "按天（日期升序；没有调用的日子不出现）"
+      "description": "按 Asia/Singapore（UTC+8）日期统计（日期升序；没有调用的日子不出现）"
     },
     "byCapability": {
       "type": "array",
@@ -30,7 +30,7 @@
     },
     "monthCostUsd": {
       "type": "number",
-      "description": "本月累计费用（美元），与窗口无关"
+      "description": "按 Asia/Singapore（UTC+8）月份统计的本月累计费用（美元），与窗口无关"
     },
     "monthlyBudgetUsd": {
       "type": "number",

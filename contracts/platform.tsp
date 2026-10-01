@@ -123,13 +123,13 @@ model AiUsageSummary {
   /** 窗口内的合计 */
   total: AiUsageStats;
 
-  /** 按天（日期升序；没有调用的日子不出现） */
+  /** 按 Asia/Singapore（UTC+8）日期统计（日期升序；没有调用的日子不出现） */
   byDay: AiUsageDay[];
 
   /** 按能力 */
   byCapability: AiUsageCapability[];
 
-  /** 本月累计费用（美元），与窗口无关 */
+  /** 按 Asia/Singapore（UTC+8）月份统计的本月累计费用（美元），与窗口无关 */
   monthCostUsd: float64;
 
   /** 月度预算（美元，config/llm.yaml 的 monthlyBudgetUsd） */

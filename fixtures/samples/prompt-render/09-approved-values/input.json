@@ -1,0 +1,9 @@
+{
+  "enabled": true,
+  "disabled": false,
+  "emptyObject": {},
+  "nested": {
+    "empty": {},
+    "flag": false
+  }
+}

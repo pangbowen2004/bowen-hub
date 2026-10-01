@@ -55,9 +55,9 @@ export type AiUsageStatsOutput = zod.output<typeof AiUsageStats>;
 export const AiUsageSummary = zod.object({
   "days": zod.int().describe('统计窗口：最近多少天（含今天）'),
   "total": AiUsageStats.describe('窗口内的合计'),
-  "byDay": zod.array(AiUsageDay).describe('按天（日期升序；没有调用的日子不出现）'),
+  "byDay": zod.array(AiUsageDay).describe('按 Asia/Singapore（UTC+8）日期统计（日期升序；没有调用的日子不出现）'),
   "byCapability": zod.array(AiUsageCapability).describe('按能力'),
-  "monthCostUsd": zod.number().describe('本月累计费用（美元），与窗口无关'),
+  "monthCostUsd": zod.number().describe('按 Asia/Singapore（UTC+8）月份统计的本月累计费用（美元），与窗口无关'),
   "monthlyBudgetUsd": zod.number().describe('月度预算（美元，config/llm.yaml 的 monthlyBudgetUsd）')
 }).describe('GET /v1/ai/usage?days 的用量汇总（ai_calls 表的 SQL 聚合）。\n控制台“运维”页显示用量与费用并对比月度预算，“今日”页显示本月 AI 费用（docs/05 第 6 节）。');
 
@@ -267,11 +267,12 @@ export type WatchItemOutput = zod.output<typeof WatchItem>;
 /**
  * AI 用量汇总（ai_calls 表的聚合）
  */
+export const privatePlatformGetAiUsageQueryDaysDefault = 30;
 
 
 
 export const PrivatePlatformGetAiUsageQueryParams = zod.object({
-  "days": zod.coerce.number().int().min(1).optional().describe('统计最近多少天（含今天）')
+  "days": zod.coerce.number().int().min(1).default(privatePlatformGetAiUsageQueryDaysDefault).describe('统计最近多少天（含今天），默认 30，按 Asia/Singapore（UTC+8）计')
 })
 
 export const PrivatePlatformGetAiUsageResponse = AiUsageSummary
@@ -341,13 +342,14 @@ export const InternalPlatformExportTableParams = zod.object({
   "table": zod.enum(['news_sources', 'articles', 'filings', 'insider_trades', 'calendar_events', 'earnings_cards', 'editions', 'edition_feedback', 'watch_items', 'market_days', 'market_hypotheses', 'market_weeklies', 'market_events', 'index_history', 'papers', 'paper_private', 'paper_reviews', 'paper_uploads', 'documents', 'runs', 'ai_calls', 'eval_results']).describe('可以导出的表：docs/09 第 3 节除鉴权表和两张 FTS5 虚拟表以外的全部表')
 })
 
+export const internalPlatformExportTableQueryLimitDefault = 20;
 export const internalPlatformExportTableQueryLimitMax = 100;
 
 
 
 export const InternalPlatformExportTableQueryParams = zod.object({
   "cursor": zod.string().optional().describe('上一页返回的 nextCursor；取第一页时不传'),
-  "limit": zod.coerce.number().int().min(1).max(internalPlatformExportTableQueryLimitMax).optional().describe('每页条数，1–100（docs/09 第 1 节：单页不超过 100 条）；不传时由服务端决定')
+  "limit": zod.coerce.number().int().min(1).max(internalPlatformExportTableQueryLimitMax).default(internalPlatformExportTableQueryLimitDefault).describe('每页条数，1–100（docs/09 第 1 节：单页不超过 100 条）；不传时默认 20')
 })
 
 export const InternalPlatformExportTableResponse = ExportPage
@@ -377,6 +379,7 @@ export const InternalWatchlistBatchResponse = zod.void()
 /**
  * 运行记录（runs 表），最新的在前
  */
+export const privatePlatformListRunsQueryLimitDefault = 20;
 export const privatePlatformListRunsQueryLimitMax = 100;
 
 
@@ -384,7 +387,7 @@ export const privatePlatformListRunsQueryLimitMax = 100;
 export const PrivatePlatformListRunsQueryParams = zod.object({
   "job": zod.string().optional().describe('只看某个任务，如 news-morning'),
   "cursor": zod.string().optional().describe('上一页返回的 nextCursor；取第一页时不传'),
-  "limit": zod.coerce.number().int().min(1).max(privatePlatformListRunsQueryLimitMax).optional().describe('每页条数，1–100（docs/09 第 1 节：单页不超过 100 条）；不传时由服务端决定')
+  "limit": zod.coerce.number().int().min(1).max(privatePlatformListRunsQueryLimitMax).default(privatePlatformListRunsQueryLimitDefault).describe('每页条数，1–100（docs/09 第 1 节：单页不超过 100 条）；不传时默认 20')
 })
 
 export const PrivatePlatformListRunsResponse = RunPage

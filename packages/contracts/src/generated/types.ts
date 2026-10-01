@@ -85,11 +85,11 @@ export interface AiUsageSummary {
   days: number;
   /** 窗口内的合计 */
   total: AiUsageStats;
-  /** 按天（日期升序；没有调用的日子不出现） */
+  /** 按 Asia/Singapore（UTC+8）日期统计（日期升序；没有调用的日子不出现） */
   byDay: AiUsageDay[];
   /** 按能力 */
   byCapability: AiUsageCapability[];
-  /** 本月累计费用（美元），与窗口无关 */
+  /** 按 Asia/Singapore（UTC+8）月份统计的本月累计费用（美元），与窗口无关 */
   monthCostUsd: number;
   /** 月度预算（美元，config/llm.yaml 的 monthlyBudgetUsd） */
   monthlyBudgetUsd: number;
@@ -473,13 +473,13 @@ export interface WatchItem {
 export type HubHttpCursorParamsCursorParameter = string;
 
 /**
- * 每页条数，1–100（docs/09 第 1 节：单页不超过 100 条）；不传时由服务端决定
+ * 每页条数，1–100（docs/09 第 1 节：单页不超过 100 条）；不传时默认 20
  */
 export type HubHttpCursorParamsLimitParameter = number;
 
 export type PrivatePlatformGetAiUsageParams = {
 /**
- * 统计最近多少天（含今天）
+ * 统计最近多少天（含今天），默认 30，按 Asia/Singapore（UTC+8）计
  * @minimum 1
  */
 days?: number;
@@ -500,7 +500,7 @@ export type InternalPlatformExportTableParams = {
  */
 cursor?: HubHttpCursorParamsCursorParameter;
 /**
- * 每页条数，1–100（docs/09 第 1 节：单页不超过 100 条）；不传时由服务端决定
+ * 每页条数，1–100（docs/09 第 1 节：单页不超过 100 条）；不传时默认 20
  * @minimum 1
  * @maximum 100
  */
@@ -517,7 +517,7 @@ job?: string;
  */
 cursor?: HubHttpCursorParamsCursorParameter;
 /**
- * 每页条数，1–100（docs/09 第 1 节：单页不超过 100 条）；不传时由服务端决定
+ * 每页条数，1–100（docs/09 第 1 节：单页不超过 100 条）；不传时默认 20
  * @minimum 1
  * @maximum 100
  */
