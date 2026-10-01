@@ -479,6 +479,34 @@ def test_harvest_reuses_saved_article_and_keeps_unresolved() -> None:
     assert drafts[0]["input"] is None
     assert drafts[0]["partialInput"]["articles"][0]["summary"] == "原始摘要"
     assert drafts[0]["unresolvedSourceIds"] == ["old-missing"]
+    # 非文章能力仍需保留对象自身来源链接，不能依赖 sourceIds 才有链接。
+    data = edition.model_dump(mode="json")
+    data["sections"] = [
+        {
+            "kind": "earnings",
+            "title": "财报",
+            "items": [
+                {
+                    "id": "item1",
+                    "data": {
+                        "symbol": "TEST",
+                        "period": "Q3",
+                        "figures": [],
+                        "guidance": None,
+                        "takeaway": "事实",
+                        "sourceUrl": "https://example.test/earnings",
+                        "sourceAccession": None,
+                        "publishedAt": "2026-10-01T00:00:00Z",
+                        "generatedBy": None,
+                    },
+                }
+            ],
+        }
+    ]
+    edition = Edition.model_validate(data)
+    assert harvest_feedback(cast(ApiClient, FakeApi()))[0]["sourceLinks"] == [
+        "https://example.test/earnings"
+    ]
 
 
 def test_timeout_retry_and_limits() -> None:

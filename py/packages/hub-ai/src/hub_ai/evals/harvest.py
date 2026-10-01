@@ -63,6 +63,20 @@ def harvest_feedback(api: ApiClient, *, since: str | None = None) -> list[dict[s
                             for source in sources
                         ],
                     }
+                links = [source["url"] for source in sources if "url" in source]
+
+                def source_links(value: Any, target: list[str]) -> None:
+                    if isinstance(value, list):
+                        for child in cast(list[Any], value):
+                            source_links(child, target)
+                    elif isinstance(value, dict):
+                        for key, child in cast(dict[str, Any], value).items():
+                            if key in {"url", "sourceUrl"} and isinstance(child, str):
+                                target.append(child)
+                            else:
+                                source_links(child, target)
+
+                source_links(output, links)
                 drafts.append(
                     {
                         "id": item.id,
@@ -75,7 +89,7 @@ def harvest_feedback(api: ApiClient, *, since: str | None = None) -> list[dict[s
                             source_id for source_id in ids if source_id not in evidence
                         ],
                         "sourceIds": ids,
-                        "sourceLinks": [source["url"] for source in sources if "url" in source],
+                        "sourceLinks": list(dict.fromkeys(links)),
                         "expect": {},
                         "tags": ["feedback"],
                         "unresolved": [
