@@ -1,0 +1,142 @@
+{
+  "id": "legacy-2026-09-29",
+  "kind": "legacy",
+  "date": "2026-09-29",
+  "window": {
+    "fromAt": null,
+    "toAt": null
+  },
+  "generatedAt": null,
+  "lede": null,
+  "sections": [
+    {
+      "kind": "legacy_headlines",
+      "title": "今日要闻",
+      "items": [
+        {
+          "id": "legacy-overview",
+          "data": {
+            "overview": "今天的焦点仍集中在中美科技博弈、AI产业与全球地缘风险三条主线。Nvidia在中国市场的前景、黄仁勋对中美AI竞争的表态，以及OpenAI、Anthropic等公司的新动向，勾勒出AI产业的竞争与监管压力；与此同时，中东局势、英美基地安全事件和贸易战升级也在加剧外部不确定性。",
+            "top5": [
+              {
+                "article": {
+                  "id": "https://arstechnica.com/tech-policy/2026/09/nvidia-may-sell-more-chips-in-china-as-jensen-huangs-influence-over-trump-grows",
+                  "sourceId": "ars-technica",
+                  "kind": "news",
+                  "title": "Experts worry about Nvidia's AI chip sales in China and influence over Trump",
+                  "url": "https://arstechnica.com/tech-policy/2026/09/nvidia-may-sell-more-chips-in-china-as-jensen-huangs-influence-over-trump-grows",
+                  "publishedAt": "2026-09-28T21:49:10+00:00",
+                  "summary": "报道聚焦 Nvidia 的中国业务前景：有消息称中国正在考虑允许字节跳动和阿里巴巴购买被禁的 Nvidia 芯片。标题同时指出，外界也在担心 Nvidia 的 AI 芯片销售，以及它对特朗普的影响力。",
+                  "lang": "en",
+                  "tickers": [],
+                  "topics": [
+                    "us_china"
+                  ],
+                  "paywall": "none",
+                  "clusterId": null
+                },
+                "summary": "报道聚焦 Nvidia 的中国业务前景：有消息称中国正在考虑允许字节跳动和阿里巴巴购买被禁的 Nvidia 芯片。标题同时指出，外界也在担心 Nvidia 的 AI 芯片销售，以及它对特朗普的影响力。",
+                "whyItMatters": "这直接关系到全球 AI 芯片供应链和中美科技限制的实际执行效果。若相关政策松动，将影响 Nvidia、字节和阿里等公司的算力布局。",
+                "topic": "us_china",
+                "generatedBy": null
+              },
+              {
+                "article": {
+                  "id": "https://www.scmp.com/news/us/diplomacy/article/3369150/important-and-consequential-nvidias-jensen-huang-us-china-ai-race-risk-management",
+                  "sourceId": "scmp-china",
+                  "kind": "news",
+                  "title": "‘Important and consequential’: Nvidia’s Jensen Huang on US-China AI race, risk management",
+                  "url": "https://www.scmp.com/news/us/diplomacy/article/3369150/important-and-consequential-nvidias-jensen-huang-us-china-ai-race-risk-management",
+                  "publishedAt": "2026-09-29T05:20:17+00:00",
+                  "summary": "黄仁勋再次谈到中美 AI 竞争，称双方需要改善沟通、加强合作，并更充分地拥抱技术，以降低 AI 相关风险。他强调，中美虽是竞争对手，但仍可以协作。",
+                  "lang": "en",
+                  "tickers": [],
+                  "topics": [
+                    "us_china"
+                  ],
+                  "paywall": "none",
+                  "clusterId": null
+                },
+                "summary": "黄仁勋再次谈到中美 AI 竞争，称双方需要改善沟通、加强合作，并更充分地拥抱技术，以降低 AI 相关风险。他强调，中美虽是竞争对手，但仍可以协作。",
+                "whyItMatters": "这是理解全球 AI 竞赛基调的重要信号，尤其来自 Nvidia 这样处于芯片与算力核心位置的公司。它也反映出行业领袖对监管、竞争与合作边界的判断。",
+                "topic": "us_china",
+                "generatedBy": null
+              },
+              {
+                "article": {
+                  "id": "https://www.cnbc.com/2026/09/29/us-iran-war-trump-hormuz-.html",
+                  "sourceId": "cnbc-top",
+                  "kind": "news",
+                  "title": "U.S., Iran hold separate mediator talks as Mideast oil exports hit war-time high",
+                  "url": "https://www.cnbc.com/2026/09/29/us-iran-war-trump-hormuz-.html",
+                  "publishedAt": "2026-09-29T04:02:47+00:00",
+                  "summary": "报道称，美国和伊朗官员周一分别通过调停方进行会谈，推动停火进程。与此同时，中东原油出口回升至战时高位，显示能源供应与冲突局势仍在交织。",
+                  "lang": "en",
+                  "tickers": [],
+                  "topics": [
+                    "war_geopolitics"
+                  ],
+                  "paywall": "none",
+                  "clusterId": null
+                },
+                "summary": "报道称，美国和伊朗官员周一分别通过调停方进行会谈，推动停火进程。与此同时，中东原油出口回升至战时高位，显示能源供应与冲突局势仍在交织。",
+                "whyItMatters": "这类进展会影响中东局势走向，也会传导到全球油价和风险资产定价。对关注宏观与能源市场的读者尤其重要。",
+                "topic": "war_geopolitics",
+                "generatedBy": null
+              },
+              {
+                "article": {
+                  "id": "https://www.cnbc.com/2026/09/29/india-investment-billions-tech-ai-us-china.html",
+                  "sourceId": "cnbc-top",
+                  "kind": "news",
+                  "title": "India readies $25 billion for Deep Tech investment as U.S. and China race ahead",
+                  "url": "https://www.cnbc.com/2026/09/29/india-investment-billions-tech-ai-us-china.html",
+                  "publishedAt": "2026-09-29T05:12:10+00:00",
+                  "summary": "印度正准备投入 250 亿美元发展深科技，以减少对外国技术的依赖，并追赶中国和美国。报道显示，印度希望借此扶持本土初创公司和关键技术能力。",
+                  "lang": "en",
+                  "tickers": [],
+                  "topics": [
+                    "ai_tech"
+                  ],
+                  "paywall": "none",
+                  "clusterId": null
+                },
+                "summary": "印度正准备投入 250 亿美元发展深科技，以减少对外国技术的依赖，并追赶中国和美国。报道显示，印度希望借此扶持本土初创公司和关键技术能力。",
+                "whyItMatters": "这反映出全球科技竞争正在从中美扩展到更多大国的产业政策竞赛。对芯片、AI、硬科技投资和供应链布局都有参考价值。",
+                "topic": "ai_tech",
+                "generatedBy": null
+              },
+              {
+                "article": {
+                  "id": "https://www.npr.org/2026/09/28/nx-s1-5918509/car-fuel-efficiency-cafe-standards-rollback",
+                  "sourceId": "npr-business",
+                  "kind": "news",
+                  "title": "The Trump administration weakens fuel efficiency standards for new cars",
+                  "url": "https://www.npr.org/2026/09/28/nx-s1-5918509/car-fuel-efficiency-cafe-standards-rollback",
+                  "publishedAt": "2026-09-28T12:07:15-04:00",
+                  "summary": "特朗普政府宣布放松新车燃油效率标准，称这样可以让汽车更便宜。批评者则认为事情没那么简单，政策可能对环境带来额外成本。",
+                  "lang": "en",
+                  "tickers": [],
+                  "topics": [
+                    "us_politics"
+                  ],
+                  "paywall": "none",
+                  "clusterId": null
+                },
+                "summary": "特朗普政府宣布放松新车燃油效率标准，称这样可以让汽车更便宜。批评者则认为事情没那么简单，政策可能对环境带来额外成本。",
+                "whyItMatters": "这是一项会影响美国汽车产业、消费者成本和减排政策的监管变化。对宏观经济、能源转型和美国政治走向都有关联。",
+                "topic": "us_politics",
+                "generatedBy": null
+              }
+            ],
+            "briefs": [],
+            "generatedBy": null
+          }
+        }
+      ]
+    }
+  ],
+  "sources": [],
+  "aiUsage": null,
+  "email": null
+}

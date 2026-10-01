@@ -1,0 +1,21 @@
+{
+  "kind": "filing",
+  "at": "2026-09-29T22:00:00Z",
+  "filing": {
+    "accession": "0000000000-26-000001",
+    "cik": "0000000000",
+    "ticker": "NVDA",
+    "form": "8-K",
+    "filedAt": "2026-09-29T22:00:00Z",
+    "items": [
+      "2.02"
+    ],
+    "url": "https://example.com/filing",
+    "exhibits": [
+      {
+        "name": "EX-99.1",
+        "url": "https://example.com/nvda-earnings"
+      }
+    ]
+  }
+}

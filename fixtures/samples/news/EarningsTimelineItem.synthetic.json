@@ -1,0 +1,35 @@
+{
+  "kind": "earnings",
+  "at": "2026-09-29T22:00:00Z",
+  "earnings": {
+    "symbol": "NVDA",
+    "period": "示例财年第二季度",
+    "figures": [
+      {
+        "name": "营收",
+        "value": "$35.1 billion",
+        "yoy": "10%",
+        "basis": "gaap",
+        "quote": "Revenue was $35.1 billion, up 10%."
+      },
+      {
+        "name": "每股收益",
+        "value": "$1.00",
+        "yoy": null,
+        "basis": "gaap",
+        "quote": "GAAP earnings per share were $1.00."
+      }
+    ],
+    "guidance": null,
+    "takeaway": "公司披露本季营收及每股收益。",
+    "sourceUrl": "https://example.com/nvda-earnings",
+    "sourceAccession": "0000000000-26-000001",
+    "publishedAt": "2026-09-29T22:00:00Z",
+    "generatedBy": {
+      "capability": "news.earnings_card",
+      "version": 1,
+      "model": "fixture/fake",
+      "at": "2026-09-30T00:00:00Z"
+    }
+  }
+}

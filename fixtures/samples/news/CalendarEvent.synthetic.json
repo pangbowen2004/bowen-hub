@@ -1,0 +1,10 @@
+{
+  "kind": "macro",
+  "date": "2026-09-30",
+  "fredReleaseId": 10,
+  "at": "2026-09-30T12:30:00Z",
+  "title": "示例宏观数据发布",
+  "tickers": [],
+  "timing": "08:30 America/New_York",
+  "importance": "high"
+}
