@@ -7,6 +7,13 @@ const projects = {
   markets: "bowen-market-observatory",
   papers: "bowen-paper-library",
 } as const;
+export function pagesCommand(site: keyof typeof projects, branch: string) {
+  return {
+    executable: fileURLToPath(new URL("./node_modules/.bin/wrangler", import.meta.url)),
+    cwd: fileURLToPath(new URL(`../apps/${site}`, import.meta.url)),
+    args: ["pages", "deploy", "dist", "--project-name", projects[site], "--branch", branch],
+  };
+}
 export function deploymentBranch(
   site: keyof typeof projects,
   target: string,
@@ -38,24 +45,13 @@ if (process.argv[1] === fileURLToPath(import.meta.url)) {
       metadata.production_branch,
       process.env.SITES_LIVE,
     );
-    execFileSync(
-      fileURLToPath(new URL("./node_modules/.bin/wrangler", import.meta.url)),
-      [
-        "pages",
-        "deploy",
-        "dist",
-        "--project-name",
-        project,
-        "--branch",
-        branch,
-        ...(site === "console" ? ["--config", "wrangler.jsonc"] : []),
-      ],
-      {
-        cwd: fileURLToPath(new URL(`../apps/${site}`, import.meta.url)),
-        stdio: "inherit",
-        env: { ...process.env, CLOUDFLARE_LOAD_DEV_VARS_FROM_DOT_ENV: "false" },
-      },
-    );
+    const command = pagesCommand(key, branch);
+    // Pages不接受自定义--config；在站点cwd自动读取wrangler.jsonc与functions。
+    execFileSync(command.executable, command.args, {
+      cwd: command.cwd,
+      stdio: "inherit",
+      env: { ...process.env, CLOUDFLARE_LOAD_DEV_VARS_FROM_DOT_ENV: "false" },
+    });
   } catch (error) {
     console.error(
       error instanceof Error && !("status" in error)

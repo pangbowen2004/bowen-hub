@@ -5,7 +5,7 @@ import { isProxyPath, onRequest } from "../apps/console/functions/_middleware.ts
 import { bootstrap } from "./bootstrap.ts";
 import { missing, missingVars, workerVars } from "./check-secrets.ts";
 import { Cloudflare } from "./cloudflare.ts";
-import { deploymentBranch } from "./deploy-pages.ts";
+import { deploymentBranch, pagesCommand } from "./deploy-pages.ts";
 import { verify } from "./verify.ts";
 
 describe("安全部署", () => {
@@ -15,6 +15,23 @@ describe("安全部署", () => {
     expect(deploymentBranch("markets", "preview", "main", "false")).toBe("preview");
     expect(deploymentBranch("papers", "production", "main", "true")).toBe("main");
     expect(deploymentBranch("console", "production", "main", "false")).toBe("main");
+  });
+  it("Pages在站点cwd自动读配置，真实CLI接受发布选项", () => {
+    const command = pagesCommand("console", "preview");
+    expect(command.cwd).toBe(fileURLToPath(new URL("../apps/console", import.meta.url)));
+    expect(command.args).not.toContain("--config");
+    const result = spawnSync(command.executable, [...command.args, "--help"], {
+      cwd: command.cwd,
+      encoding: "utf8",
+      env: {
+        ...process.env,
+        CLOUDFLARE_LOAD_DEV_VARS_FROM_DOT_ENV: "false",
+        WRANGLER_SEND_METRICS: "false",
+      },
+    });
+    expect(result.status).toBe(0);
+    expect(result.stdout).toContain("--project-name");
+    expect(result.stdout).toContain("--branch");
   });
   it("只比较名称", () => expect(missing(["A", "B"], [{ name: "A" }])).toEqual(["B"]));
   it("外部错误不输出响应正文", async () => {
