@@ -28,6 +28,8 @@ jobs:
           version: 2026.9.15
       - name: 安装冻结依赖
         run: mise install && mise run setup
+      - name: 构建Worker的AI能力注册表
+        run: mise exec -- pnpm --filter @bowen-hub/ai build
       - name: 迁移线上D1
         run: mise run db:migrate:remote
       - name: 发布API
