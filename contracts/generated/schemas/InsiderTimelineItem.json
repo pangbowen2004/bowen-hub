@@ -1,0 +1,25 @@
+{
+  "$comment": "由 contracts 生成，勿手改（mise run gen）",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "InsiderTimelineItem.json",
+  "type": "object",
+  "properties": {
+    "kind": {
+      "type": "string",
+      "const": "insider"
+    },
+    "at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "insiderTrade": {
+      "$ref": "InsiderTrade.json"
+    }
+  },
+  "required": [
+    "kind",
+    "at",
+    "insiderTrade"
+  ],
+  "description": "docs/05 的个股时间线包含内部人交易，保留每笔交易的自然键与事实。"
+}

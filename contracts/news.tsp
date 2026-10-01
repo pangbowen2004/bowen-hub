@@ -89,7 +89,11 @@ union Feedback { EditionFeedback, ItemFeedback }
 model ArticleTimelineItem { kind: "article"; at: DateTime; article: Article; }
 model FilingTimelineItem { kind: "filing"; at: DateTime; filing: Filing; }
 model EarningsTimelineItem { kind: "earnings"; at: DateTime; earnings: EarningsCard; }
+/** docs/05 的个股时间线包含内部人交易，保留每笔交易的自然键与事实。 */
+model InsiderTimelineItem { kind: "insider"; at: DateTime; insiderTrade: InsiderTrade; }
 union NewsTimelineItem { ArticleTimelineItem, FilingTimelineItem, EarningsTimelineItem }
+/** 新接口使用完整时间线，保留旧接口的返回类型，避免破坏已生成的客户端。 */
+union NewsFullTimelineItem { ArticleTimelineItem, FilingTimelineItem, EarningsTimelineItem, InsiderTimelineItem }
 
 model NewsCalendarEventItem is NewsSectionItem<CalendarEvent>;
 model NewsEarningsCardItem is NewsSectionItem<EarningsCard>;

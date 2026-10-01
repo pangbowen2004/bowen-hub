@@ -36,6 +36,7 @@ import type {
   MarketDayWrite,
   MarketEvent,
   MarketReference,
+  NewsFullTimelineItem,
   NewsSourceHealth,
   NewsTimelineItem,
   Paper,
@@ -52,6 +53,7 @@ import type {
   PaperUploadPatch,
   PaperWrite,
   PapersCatalog,
+  PrivateNewsGetFullTimelineParams,
   PrivateNewsGetTimelineParams,
   PrivateNewsListEditionsParams,
   PrivateNewsListFeedbackParams,
@@ -2157,6 +2159,53 @@ export const privateNewsGetTimeline = async (symbol: string,
     throw err;
   }
   const data: NewsTimelineItem[] = body ? JSON.parse(body) : {}
+  return data
+}
+
+
+
+export const getPrivateNewsGetFullTimelineUrl = (symbol: string,
+    params?: PrivateNewsGetFullTimelineParams,) => {
+  const normalizedParams = new URLSearchParams();
+
+  Object.entries(params || {}).forEach(([key, value]) => {
+
+    if (value !== undefined) {
+      normalizedParams.append(key, value === null ? 'null' : String(value))
+    }
+  });
+
+  const stringifiedParams = normalizedParams.toString();
+
+  return stringifiedParams.length > 0 ? `${getBaseUrl()}/v1/news/tickers/${encodeURIComponent(String(symbol))}/timeline/full?${stringifiedParams}` : `${getBaseUrl()}/v1/news/tickers/${encodeURIComponent(String(symbol))}/timeline/full`
+}
+
+/**
+ * 完整个股时间线：新闻、公告、内部人交易、财报卡片。旧timeline接口保留。
+ */
+export const privateNewsGetFullTimeline = async (symbol: string,
+    params?: PrivateNewsGetFullTimelineParams, options?: RequestInit): Promise<NewsFullTimelineItem[]> => {
+
+  const res = await fetch(getPrivateNewsGetFullTimelineUrl(symbol,params),
+  {
+    ...options,
+    method: 'GET'
+
+
+  }
+)
+
+
+  const body = [204, 205, 304].includes(res.status) ? null : await res.text();
+  if (!res.ok) {
+
+    const err: globalThis.Error & {info?: NewsFullTimelineItem[], status?: number} = new globalThis.Error();
+    const data : NewsFullTimelineItem[] = body ? JSON.parse(body) : {}
+    err.info = data;
+    err.status = res.status;
+    throw err;
+  }
+  const data: NewsFullTimelineItem[] = body ? JSON.parse(body) : {}
   return data
 }
 

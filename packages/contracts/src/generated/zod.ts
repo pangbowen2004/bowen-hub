@@ -1058,6 +1058,14 @@ export const IndexBar = zod.object({
 
 export type IndexBar = zod.input<typeof IndexBar>;
 
+export const InsiderTimelineItem = zod.object({
+  "kind": zod.enum(['insider']),
+  "at": zod.iso.datetime({"offset":true}),
+  "insiderTrade": InsiderTrade
+}).describe('docs/05 的个股时间线包含内部人交易，保留每笔交易的自然键与事实。');
+
+export type InsiderTimelineItem = zod.input<typeof InsiderTimelineItem>;
+
 export const ItemFeedbackRequest = zod.object({
   "editionId": zod.string(),
   "itemId": zod.string(),
@@ -1761,6 +1769,10 @@ export const MarketReference = zod.object({
 }).describe('MarketReference：市场观测台数据。');
 
 export type MarketReference = zod.input<typeof MarketReference>;
+
+export const NewsFullTimelineItem = zod.union([ArticleTimelineItem,FilingTimelineItem,EarningsTimelineItem,InsiderTimelineItem]).describe('新接口使用完整时间线，保留旧接口的返回类型，避免破坏已生成的客户端。');
+
+export type NewsFullTimelineItem = zod.input<typeof NewsFullTimelineItem>;
 
 export const UsNewsTopic = zod.enum(['macro_fed', 'earnings', 'ai_semis', 'big_tech', 'crypto', 'policy_geo', 'other']);
 
@@ -3259,6 +3271,25 @@ export const PrivateNewsGetTimelineQueryParams = zod.object({
 
 export const PrivateNewsGetTimelineResponseItem = NewsTimelineItem
 export const PrivateNewsGetTimelineResponse = zod.array(PrivateNewsGetTimelineResponseItem)
+
+
+/**
+ * 完整个股时间线：新闻、公告、内部人交易、财报卡片。旧timeline接口保留。
+ */
+export const PrivateNewsGetFullTimelineParams = zod.object({
+  "symbol": zod.string()
+})
+
+export const privateNewsGetFullTimelineQueryDaysDefault = 30;
+
+
+
+export const PrivateNewsGetFullTimelineQueryParams = zod.object({
+  "days": zod.coerce.number().int().min(1).default(privateNewsGetFullTimelineQueryDaysDefault)
+})
+
+export const PrivateNewsGetFullTimelineResponseItem = NewsFullTimelineItem
+export const PrivateNewsGetFullTimelineResponse = zod.array(PrivateNewsGetFullTimelineResponseItem)
 
 
 export const privatePapersListPapersQueryLimitDefault = 20;
