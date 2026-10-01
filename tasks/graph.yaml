@@ -123,6 +123,7 @@ tasks:
     dependsOn: [T01, T03]
     difficulty: high
     owns: [py/packages/hub-ai/**, packages/ai/**, capabilities/_schema.json, config/llm.yaml, evals/README.md, tools/new-capability/**]
+    sharedEdits: ["py/apps/hub-cli/tests/test_commands.py：仅移除T04已实现命令的旧占位断言，保留help及其他任务"]
     read: [docs/10, docs/08 第 5.1 节（ai-calls、evals、feedback 接口）, config/llm.yaml, config/newsroom.yaml（adviceWords）,
            capabilities/*.yaml, prompts/news_brief.md]
     deliver:

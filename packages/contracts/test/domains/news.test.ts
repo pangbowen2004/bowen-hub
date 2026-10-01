@@ -1,6 +1,7 @@
 // 新闻契约的业务边界：自然键、旧数据缺失值、反馈及能力后处理。
 import { join } from "node:path";
 import { describe, expect, it } from "vitest";
+import { getPrivateNewsGetTimelineResponseMock } from "../../src/generated/msw";
 import { createAjv, OPENAPI, readJson, readYaml, SAMPLES, SCHEMAS } from "../support/repo";
 
 const ajv = createAjv();
@@ -21,15 +22,24 @@ const legacy = readJson(join(SAMPLES, "news", "Edition.legacy-2026-09-29.json"))
 };
 
 describe("新闻业务边界", () => {
-  it("所有18个新闻操作由T14实现，清单以外无额外接口", () => {
+  it("初始新闻操作及获批兼容增量由T14实现", () => {
     const doc = readYaml(OPENAPI) as {
       paths: Record<string, Record<string, { "x-task": string }>>;
     };
     const ops = Object.entries(doc.paths)
       .filter(([path]) => path.startsWith("/v1/news/") || path.startsWith("/v1/internal/news/"))
       .flatMap(([, methods]) => Object.values(methods));
-    expect(ops).toHaveLength(18);
+    const compatibleFullTimeline = doc.paths["/v1/news/tickers/{symbol}/timeline/full"]?.get;
+    expect(ops).toHaveLength(18 + (compatibleFullTimeline === undefined ? 0 : 1));
     expect(ops.every((op) => op["x-task"] === "T14")).toBe(true);
+  });
+
+  it("生成的时间线随机样例始终遵守整数范围", () => {
+    for (let run = 0; run < 100; run++) {
+      for (const item of getPrivateNewsGetTimelineResponseMock()) {
+        expect(validate("NewsTimelineItem", item)).toBe(true);
+      }
+    }
   });
 
   it("旧归档保留未知时间，栏目只有今日要闻", () => {
