@@ -1,0 +1,7 @@
+{
+  "extends": "@bowen-hub/config/tsconfig/dom.json",
+  "compilerOptions": {
+    "types": ["vite/client", "node"]
+  },
+  "include": ["src", "vite.config.ts", "playwright.config.ts", "e2e"]
+}

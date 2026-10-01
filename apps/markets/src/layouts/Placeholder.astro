@@ -1,0 +1,20 @@
+---
+import Callout from "@bowen-hub/ui/astro/Callout";
+import DateNav from "@bowen-hub/ui/astro/DateNav";
+import PageHeader from "@bowen-hub/ui/astro/PageHeader";
+import { getDay, listDays } from "../lib/data";
+import BaseLayout from "./BaseLayout.astro";
+
+interface Props {
+  title: string;
+  lead: string;
+  date?: string;
+}
+const { title, lead, date } = Astro.props;
+const day = await getDay(date);
+const days = await listDays();
+const index = days.findIndex((item) => item.date === day.date);
+const previous = days[index + 1];
+const next = days[index - 1];
+---
+<BaseLayout title={title} description={lead} date={day.date}><PageHeader title={title} lead={lead} date={day.date}/><DateNav previous={previous?{href:`/archive/${previous.date}/`,label:previous.date}:undefined} next={next?{href:`/archive/${next.date}/`,label:next.date}:undefined}/><Callout title="内容准备中"><p>页面外壳已就绪，栏目内容将在对应任务接入。</p></Callout><slot/></BaseLayout>

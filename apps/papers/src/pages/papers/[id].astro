@@ -1,0 +1,11 @@
+---
+import Placeholder from "../../layouts/Placeholder.astro";
+import { getCatalog, getPaper } from "../../lib/data";
+export async function getStaticPaths() {
+  return (await getCatalog()).papers
+    .filter((p) => p.visibility === "public")
+    .map((p) => ({ params: { id: p.id } }));
+}
+const paper = await getPaper(Astro.params.id!);
+---
+<Placeholder title={paper.meta.titleZh??paper.meta.title} lead={paper.guide?.oneSentence??'论文导读准备中'} date={paper.status.updatedAt}><p>{paper.meta.title}</p><a href={`/papers/${paper.id}.md`}>Markdown</a></Placeholder>

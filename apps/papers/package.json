@@ -1,0 +1,36 @@
+{
+  "name": "@bowen-hub/papers",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "astro dev --port 4322",
+    "build": "astro build",
+    "typecheck": "astro check",
+    "test": "vitest run src/lib/data.test.ts --passWithNoTests",
+    "e2e": "pnpm build && playwright install chromium && playwright test",
+    "lighthouse": "pnpm build && node src/lib/lighthouse.mjs"
+  },
+  "dependencies": {
+    "@bowen-hub/contracts": "workspace:*",
+    "@bowen-hub/ui": "workspace:*",
+    "astro": "6.4.8",
+    "@astrojs/react": "6.0.6",
+    "@astrojs/sitemap": "3.7.4",
+    "react": "19.3.0",
+    "react-dom": "19.3.0",
+    "tailwindcss": "4.3.3",
+    "@tailwindcss/vite": "4.3.3"
+  },
+  "devDependencies": {
+    "@bowen-hub/config": "workspace:*",
+    "@types/node": "catalog:",
+    "typescript": "6.0.3",
+    "vitest": "catalog:",
+    "@astrojs/check": "0.9.10",
+    "@types/react": "19.3.0",
+    "@types/react-dom": "19.3.0",
+    "@playwright/test": "1.63.0",
+    "@lhci/cli": "0.15.1",
+    "vite": "7.3.6"
+  }
+}

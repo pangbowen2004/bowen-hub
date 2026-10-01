@@ -1,0 +1,7 @@
+---
+import Placeholder from "../layouts/Placeholder.astro";
+import { getGraph } from "../lib/data";
+
+const graph = await getGraph();
+---
+<Placeholder title="论文图谱" lead="论文图谱内容准备中"><p>样例图谱包含 {graph.nodes.length} 个节点。</p></Placeholder>

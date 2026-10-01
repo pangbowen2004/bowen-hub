@@ -1,0 +1,9 @@
+---
+interface Props {
+  previous?: { href: string; label: string };
+  next?: { href: string; label: string };
+  historyHref?: string;
+}
+const { previous, next, historyHref = "/archive/" } = Astro.props;
+---
+<nav class="row date-nav" aria-label="交易日切换">{previous ? <a href={previous.href}>← 上一交易日 {previous.label}</a> : <span class="muted">没有更早数据</span>}<a href={historyHref}>历史列表</a>{next ? <a href={next.href}>下一交易日 {next.label} →</a> : <span class="muted">最新交易日</span>}</nav>

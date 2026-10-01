@@ -1,0 +1,8 @@
+---
+import { cny, pct } from "@bowen-hub/ui/format";
+import Placeholder from "../layouts/Placeholder.astro";
+import { getDay } from "../lib/data";
+
+const day = await getDay();
+---
+<Placeholder title="驾驶舱" lead="当日市场状态摘要"><section class="card"><h2>{day.summary.headline}</h2><p>成交额：{cny(day.market.turnoverCny)} · 上涨覆盖：{pct(day.market.advanceShare)}</p></section></Placeholder>

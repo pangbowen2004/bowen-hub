@@ -1,0 +1,9 @@
+---
+import Placeholder from "../../layouts/Placeholder.astro";
+import { listDays } from "../../lib/data";
+export async function getStaticPaths() {
+  return (await listDays()).map((row) => ({ params: { date: row.date } }));
+}
+const { date } = Astro.params;
+---
+<Placeholder title="历史详情" lead="历史内容准备中" date={date}/>

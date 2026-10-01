@@ -1,0 +1,20 @@
+---
+import "../styles/global.css";
+import SiteFooter from "@bowen-hub/ui/astro/SiteFooter";
+import SiteHeader from "@bowen-hub/ui/astro/SiteHeader";
+
+interface Props {
+  title: string;
+  description: string;
+  date?: string;
+}
+const { title, description, date } = Astro.props;
+const links = [
+  { label: "论文", href: "/" },
+  { label: "图谱", href: "/graph/" },
+  { label: "知识宇宙", href: "/universe/" },
+  { label: "关于", href: "/about/" },
+];
+const canonical = new URL(Astro.url.pathname, Astro.site);
+---
+<!doctype html><html lang="zh-CN" data-product="papers"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width"/><title>{title} · 论文阅读馆</title><meta name="description" content={description}/><meta property="og:title" content={title}/><meta property="og:description" content={description}/><meta property="og:type" content="website"/><meta property="og:url" content={canonical}/><link rel="canonical" href={canonical}/><link rel="icon" href="/favicon.svg" type="image/svg+xml"/></head><body><a class="sr-only" href="#content">跳到正文</a><SiteHeader name="论文阅读馆" links={links}/><main id="content" class="container stack"><slot/></main><SiteFooter sources="论文原文" updatedAt={date} /></body></html>

@@ -1,0 +1,9 @@
+---
+interface Props {
+  sources?: string;
+  updatedAt?: string;
+  disclaimer?: string;
+}
+const { sources, updatedAt, disclaimer } = Astro.props;
+---
+<footer class="site-footer"><div class="container stack">{sources && <p>数据来源：{sources}</p>}{updatedAt && <p>更新时间：{updatedAt}</p>}{disclaimer && <p>{disclaimer}</p>}<slot /></div></footer>

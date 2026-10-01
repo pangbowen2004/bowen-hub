@@ -1,0 +1,7 @@
+---
+import Placeholder from "../layouts/Placeholder.astro";
+import { getCatalog } from "../lib/data";
+
+const catalog = await getCatalog();
+---
+<Placeholder title="论文阅读馆" lead="中文导读与原文证据"><p>公开论文 {catalog.stats.paperCount} 篇 · 研究空间 {catalog.stats.spaceCount} 个</p><section class="stack">{catalog.papers.map(paper=><article class="card"><h2><a href={`/papers/${paper.id}/`}>{paper.titleZh??paper.title}</a></h2><p>{paper.oneSentence}</p></article>)}</section></Placeholder>

@@ -1,0 +1,7 @@
+---
+interface Props {
+  label?: string;
+}
+const { label = "证据内容准备中" } = Astro.props;
+---
+<span class="badge" data-tone="missing">{label}</span>

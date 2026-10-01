@@ -1,0 +1,12 @@
+---
+import Placeholder from "../../layouts/Placeholder.astro";
+import { getCatalog } from "../../lib/data";
+export async function getStaticPaths() {
+  return (await getCatalog()).spaces.map((space) => ({
+    params: { space: space.id },
+    props: { space },
+  }));
+}
+const { space } = Astro.props;
+---
+<Placeholder title={space.label} lead={space.description}><p>论文 {space.paperCount} 篇</p></Placeholder>

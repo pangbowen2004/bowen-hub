@@ -1,0 +1,9 @@
+---
+import Placeholder from "../../layouts/Placeholder.astro";
+import { listWeeklies } from "../../lib/data";
+export async function getStaticPaths() {
+  return (await listWeeklies()).map((row) => ({ params: { date: row.date } }));
+}
+const { date } = Astro.params;
+---
+<Placeholder title="周报详情" lead="周报内容准备中" date={date}/>
