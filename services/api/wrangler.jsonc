@@ -1,0 +1,33 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "bowen-hub-api",
+  "main": "src/index.ts",
+  "compatibility_date": "2026-10-01",
+  "compatibility_flags": ["nodejs_compat"],
+  "observability": {
+    "enabled": true
+  },
+  "d1_databases": [
+    {
+      "binding": "DB",
+      "database_name": "bowen-hub",
+      "database_id": "00000000-0000-0000-0000-000000000000",
+      "migrations_dir": "migrations"
+    }
+  ],
+  "r2_buckets": [
+    {
+      "binding": "FILES",
+      "bucket_name": "bowen-hub-files"
+    }
+  ],
+  "vars": {
+    "APP_MODE": "production",
+    "GITHUB_REPO": "pangbowen2004/bowen-hub",
+    "AUTH_BASE_URL": "https://bowen-console.pages.dev",
+    "AUTH_RP_ID": "bowen-console.pages.dev",
+    "AUTH_TRUSTED_ORIGINS": "https://bowen-console.pages.dev",
+    "CLOUDFLARE_ACCOUNT_ID": "",
+    "AI_GATEWAY_ID": "bowen-hub"
+  }
+}
