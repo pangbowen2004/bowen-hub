@@ -3,7 +3,7 @@ name = "hub-providers"
 version = "0.1.0"
 description = "领域预接线，业务由后续任务实现"
 requires-python = ">=3.14"
-dependencies = ["hub-core", "hub-contracts", "typer>=0.24,<1", "httpx>=0.28,<0.29", "feedparser>=6,<7", "selectolax>=0.4,<0.5"]
+dependencies = ["hub-core", "hub-contracts", "typer>=0.24,<1", "httpx>=0.28,<0.29", "feedparser>=6,<7", "selectolax>=0.4,<0.5", "polars>=1,<2"]
 [project.entry-points."hub.commands"]
 providers = "hub_providers.commands:register"
 [tool.uv.sources]

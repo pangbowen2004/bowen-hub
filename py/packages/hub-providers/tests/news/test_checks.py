@@ -2,6 +2,7 @@
 
 import json
 import os
+import re
 import subprocess
 from datetime import date
 from pathlib import Path
@@ -20,9 +21,11 @@ ROOT = Path(__file__).resolve().parents[5]
 @pytest.mark.parametrize(
     "command", [["providers", "check", "--help"], ["news", "sources", "--help"]]
 )
-def test_actual_cli_help(command: list[str]) -> None:
+@pytest.mark.parametrize("colored", [False, True])
+def test_actual_cli_help(command: list[str], colored: bool) -> None:
     result = subprocess.run(
         [str(ROOT / "py/.venv/bin/hub"), *command],
+        env={**os.environ, "FORCE_COLOR": "1" if colored else "0"},
         cwd=ROOT,
         capture_output=True,
         text=True,
@@ -30,8 +33,10 @@ def test_actual_cli_help(command: list[str]) -> None:
         check=False,
     )
     assert result.returncode == 0
-    assert "--date" in result.stdout
-    assert "--record" in result.stdout
+    # CI 强制Rich彩色帮助时，样式序列可插在选项字符串中间。
+    plain = re.sub(r"\x1b\[[0-?]*[ -/]*[@-~]", "", result.stdout)
+    assert "--date" in plain
+    assert "--record" in plain
 
 
 def test_recording_drops_headers_credentials_and_error_bodies(tmp_path: Path) -> None:

@@ -605,6 +605,7 @@ dependencies = [
     { name = "httpx" },
     { name = "hub-contracts" },
     { name = "hub-core" },
+    { name = "polars" },
     { name = "selectolax" },
     { name = "typer" },
 ]
@@ -615,6 +616,7 @@ requires-dist = [
     { name = "httpx", specifier = ">=0.28,<0.29" },
     { name = "hub-contracts", editable = "packages/hub-contracts" },
     { name = "hub-core", editable = "packages/hub-core" },
+    { name = "polars", specifier = ">=1,<2" },
     { name = "selectolax", specifier = ">=0.4,<0.5" },
     { name = "typer", specifier = ">=0.24,<1" },
 ]
