@@ -248,6 +248,8 @@ model MarketDirection {
   name: string;
   sourceIndexCode: string;
   memberCount: int32;
+  /** 来源快照的完整成员代码，用于核对假设生成日至结算日的成员变化；不可用行情覆盖子集替代。旧数据无法核实时省略。 */
+  memberCodes?: string[];
   coveredCount: int32;
   return1d: float64;
   medianReturn1d: float64;
@@ -610,6 +612,8 @@ model DirectionPersistenceThresholds {
 /** DirectionPersistenceBaseline：市场观测台数据。 */
 model DirectionPersistenceBaseline {
   membershipAsOf: Date;
+  /** 生成日来源快照的完整成员代码；只在可核实时保存，不从日期或成员数量推断。 */
+  memberCodes?: string[];
   return1d: float64;
   advanceShare: float64;
   amountShare: float64;
@@ -625,6 +629,8 @@ model DirectionPersistenceRule {
 
 /** DirectionPersistenceActual：市场观测台数据。 */
 model DirectionPersistenceActual {
+  /** 结算日来源快照的完整成员代码；用于与已保存的基线成员集合核对。 */
+  memberCodes?: string[];
   relativeVsAllA: float64;
   advanceShare: float64;
   medianReturn1d: float64;

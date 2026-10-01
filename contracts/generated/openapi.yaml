@@ -2797,6 +2797,11 @@ components:
         - amountShare
         - membershipAsOf
       properties:
+        memberCodes:
+          type: array
+          items:
+            type: string
+          description: 结算日来源快照的完整成员代码；用于与已保存的基线成员集合核对。
         relativeVsAllA:
           type: number
           format: double
@@ -2824,6 +2829,11 @@ components:
         membershipAsOf:
           type: string
           format: date
+        memberCodes:
+          type: array
+          items:
+            type: string
+          description: 生成日来源快照的完整成员代码；只在可核实时保存，不从日期或成员数量推断。
         return1d:
           type: number
           format: double
@@ -4356,6 +4366,11 @@ components:
         memberCount:
           type: integer
           format: int32
+        memberCodes:
+          type: array
+          items:
+            type: string
+          description: 来源快照的完整成员代码，用于核对假设生成日至结算日的成员变化；不可用行情覆盖子集替代。旧数据无法核实时省略。
         coveredCount:
           type: integer
           format: int32

@@ -4,6 +4,13 @@
   "$id": "DirectionPersistenceActual.json",
   "type": "object",
   "properties": {
+    "memberCodes": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "结算日来源快照的完整成员代码；用于与已保存的基线成员集合核对。"
+    },
     "relativeVsAllA": {
       "type": "number"
     },

@@ -172,3 +172,7 @@ payload = run.model_dump(mode="json")   # 字段名就是 JSON 字段名（camel
 
 - 单独开 `[C] <改了什么>` 的小 PR，只改 `contracts/` 和生成物（`docs/11` 第 5.1 节）；其他人 rebase 后 `mise run gen`。
 - 只做增量兼容的改动（加可选字段、加接口）；`mise run contracts:check` 会拦住破坏性改动，破坏性改动需要 ADR 和 Kevin 同意。
+
+## 方向成员变化的可核实证据
+
+`MarketDirection.memberCodes`、`DirectionPersistenceBaseline.memberCodes` 和 `DirectionPersistenceActual.memberCodes` 为可选的完整来源成员代码明细。它们接通 docs/03 §5.1 TOP-DIRECTION 的成员变化核对：生成日基线与结算日输入均保存真实来源集合，不能以 membershipAsOf 日期变化或 memberCount 相同代替集合比较，也不能用行情有覆盖的股票子集代替完整成员。旧记录没有该证据时继续缺省，不伪造历史成员；迁移不要求补填。字段仅提供核对证据，不改变收益、覆盖、成交占比的原有阈值。

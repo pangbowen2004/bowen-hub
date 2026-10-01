@@ -276,6 +276,7 @@ export const CurateOutput = zod.object({
 export type CurateOutput = zod.input<typeof CurateOutput>;
 
 export const DirectionPersistenceActual = zod.object({
+  "memberCodes": zod.array(zod.string()).optional().describe('结算日来源快照的完整成员代码；用于与已保存的基线成员集合核对。'),
   "relativeVsAllA": zod.number(),
   "advanceShare": zod.number(),
   "medianReturn1d": zod.number(),
@@ -287,6 +288,7 @@ export type DirectionPersistenceActual = zod.input<typeof DirectionPersistenceAc
 
 export const DirectionPersistenceBaseline = zod.object({
   "membershipAsOf": zod.iso.date(),
+  "memberCodes": zod.array(zod.string()).optional().describe('生成日来源快照的完整成员代码；只在可核实时保存，不从日期或成员数量推断。'),
   "return1d": zod.number(),
   "advanceShare": zod.number(),
   "amountShare": zod.number()
@@ -1367,6 +1369,7 @@ export const MarketDirection = zod.object({
   "name": zod.string(),
   "sourceIndexCode": zod.string(),
   "memberCount": zod.int(),
+  "memberCodes": zod.array(zod.string()).optional().describe('来源快照的完整成员代码，用于核对假设生成日至结算日的成员变化；不可用行情覆盖子集替代。旧数据无法核实时省略。'),
   "coveredCount": zod.int(),
   "return1d": zod.number(),
   "medianReturn1d": zod.number(),
