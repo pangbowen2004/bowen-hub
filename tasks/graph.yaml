@@ -512,6 +512,8 @@ tasks:
            apps/console/src/routes/settings/**, apps/console/src/features/auth/**, apps/console/src/mocks/auth/**,
            apps/console/e2e/auth/**]
     sharedEdits:
+      - "apps/console/src/routes/login.tsx：仅将T40登录占位路由接到本任务鉴权页面，保留路径和路由名称"
+      - "apps/console/src/routes/settings.tsx：仅将T40设置占位路由接到本任务鉴权管理页面，保留路径和路由名称"
       - "services/api/src/db/schema/auth.*：只改鉴权表定义"
       - "services/api/migrations/**：只新增鉴权相关的迁移文件"
       - "services/api/src/lib/env.ts：仅补一次性首次注册口令绑定"
