@@ -42,7 +42,11 @@ class TokenLimitError(Exception):
 
 
 class TransportError(Exception):
-    """仅安全分类；不把供应商正文泄漏给调用方。"""
+    """仅安全分类及限流等待秒数；不把供应商正文泄漏给调用方。"""
+
+    def __init__(self, message: str = "模型传输失败", *, retry_after: float | None = None) -> None:
+        self.retry_after = retry_after
+        super().__init__(message)
 
 
 @dataclass
@@ -159,10 +163,14 @@ class Runtime:
                                 self.adapter.generate(request), request.timeout_sec
                             )
                             break
-                        except TransportError, TimeoutError:
+                        except (TransportError, TimeoutError) as error:
                             if retry >= min(2, self.registry.llm["defaults"]["maxRetries"]):
                                 raise TransportError("模型传输失败") from None
-                            await self.sleep(2**retry)
+                            await self.sleep(
+                                max(2**retry, error.retry_after or 0)
+                                if isinstance(error, TransportError)
+                                else 2**retry
+                            )
                     if response is None:
                         raise TransportError("模型传输失败")
                     add_usage(response.usage)
@@ -302,10 +310,14 @@ class Runtime:
                                 self.adapter.generate(request), request.timeout_sec
                             )
                             break
-                        except TransportError, TimeoutError:
+                        except (TransportError, TimeoutError) as error:
                             if retry == min(2, self.registry.llm["defaults"]["maxRetries"]):
                                 raise TransportError() from None
-                            await self.sleep(2**retry)
+                            await self.sleep(
+                                max(2**retry, error.retry_after or 0)
+                                if isinstance(error, TransportError)
+                                else 2**retry
+                            )
                     if response is None:
                         raise TransportError()
                     usage.input_tokens += response.usage.input_tokens

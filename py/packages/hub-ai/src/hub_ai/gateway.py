@@ -1,5 +1,6 @@
 """Pydantic AI 统一网关适配器；原生结构化输出不支持时改为工具输出。"""
 
+import math
 from typing import Any, cast
 
 from httpx import HTTPError
@@ -104,7 +105,16 @@ class GatewayAdapter:
                     )
                 ):
                     continue
-                raise TransportError("网关请求失败") from None
+                retry_after = None
+                if error.status_code == 429:
+                    headers = {key.lower(): value for key, value in (error.headers or {}).items()}
+                    try:
+                        seconds = float(headers.get("retry-after", ""))
+                        if math.isfinite(seconds) and seconds > 0:
+                            retry_after = min(seconds, 60)
+                    except ValueError:
+                        pass
+                raise TransportError("网关请求失败", retry_after=retry_after) from None
             except ModelAPIError, HTTPError, TimeoutError, APIConnectionError, APITimeoutError:
                 raise TransportError("网关传输失败") from None
             except UsageLimitExceeded:
