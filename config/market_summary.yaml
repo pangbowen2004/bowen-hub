@@ -1,0 +1,44 @@
+# docs03§4.16固定文案；只描述状态，不作预测或仓位建议。
+headlines:
+  weakTrend: 普跌回撤，趋势存量尚未完全破坏
+  weakBreadth: 普跌收缩，广度与量能同步转弱
+  strongLiquidity: 广度与量能共振，持续性等待验证
+  strongBreadth: 广度扩张，但仍需验证量能承接
+  mixed: 涨跌分化，市场仍在寻找一致方向
+first: '全A收盘为{up}家上涨、{down}家下跌，上涨占比{a:.2%}；成交{trillion:.4f}万亿元，环比{c:+.2%}。'
+structure:
+  strong: '单日广度明显扩张，{m:.1%}样本位于MA20上方；{limit_up}家封板、{limit_down}家跌停，广度与涨停生态相互印证。这确认了当日扩张，但持续性仍需下一交易日验证。'
+  weak: '单日广度显著转弱，但{m:.1%}样本仍站在MA20上方，同时有{limit_up}家封板、{limit_down}家跌停，更接近结构分歧，而不是所有趋势同步失效。'
+  mixed: '涨跌覆盖处于分化区，{m:.1%}样本位于MA20上方；{limit_up}家封板、{limit_down}家跌停，尚不能仅凭单日截面确认统一方向。'
+support: '{touched}家触板、封板率{seal}，最高{height}板。'
+directionSupport: '16方向中{best}当日{best_return:+.2%}居前；'
+counterIndustry: '{weak_industry}当日等权{weak_industry_return:+.2%}'
+counterDirection: '，{worst}方向{worst_return:+.2%}'
+counterTurnover: '；成交额环比{c:+.2%}'
+counterMoney: '，资金流分类代理{money:+.1f}亿元'
+tags:
+  weak: 广度承压
+  strong: 广度扩张
+  mixed: 广度分化
+  shrink: 量能收缩
+  expand: 量能扩张
+  ma: 'MA20上方{m:.0%}'
+  limit: '{limit_up}家封板'
+  temperature: '温度{temperature}'
+risks:
+  strong: {title: 普涨后的广度持续性尚未确认, text: '上涨占比{a:.2%}、中位数涨幅{median:+.2%}；单日扩张不等同连续扩张。'}
+  weak: {title: 单日市场广度明显承压, text: '下跌{down}家，上涨占比仅{a:.2%}；中位数涨幅{median:+.2%}。'}
+  mixed: {title: 分化状态尚未形成一致方向, text: '上涨占比{a:.2%}，中位数涨幅{median:+.2%}。'}
+  divergenceWeak: 少数方向逆势承压
+  divergenceStrong: 普涨内部仍有相对强弱
+  divergence: '{industry1}、{industry2}分别为{r1:+.2%}、{r2:+.2%}。'
+  liquidityStrong: 放量后的次日承接仍需验证
+  liquidityWeak: 缩量与炸板共同降温
+  liquidity: '成交额环比{c:+.2%}，{touched}家触板中{failed}家未封住。'
+validations:
+  strong: {title: 广度扩张能否延续, text: '上涨占比继续高于50%，且MA20上方比例不显著低于今日{m:.1%}。'}
+  weak: {title: 广度与趋势存量是否继续背离, text: 若上涨占比修复且MA20上方比例保持高位，分歧仍偏结构性；两者同步下滑则风险升级。}
+  mixed: {title: 市场广度能否脱离分化区, text: 上涨占比与MA20上方比例同向改善或恶化，才能确认状态迁移。}
+  best: {title: '{best}强势能否扩散', text: 相对收益、上涨覆盖和成交占比至少两项继续改善。}
+  worst: {title: '{worst}弱势能否收敛', text: 相对收益不再恶化，且上涨覆盖回升。}
+  ecology: {title: 封板生态能否稳定, text: '封板率不低于今日{seal}，多板梯队未明显塌缩。'}

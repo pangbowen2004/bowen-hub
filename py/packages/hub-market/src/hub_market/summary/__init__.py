@@ -1,1 +1,5 @@
-"""后续任务实现此模块。"""
+"""固定规则状态摘要。"""
+
+from .state import build
+
+__all__ = ["build"]

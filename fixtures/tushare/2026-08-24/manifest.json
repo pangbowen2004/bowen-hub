@@ -1,0 +1,1761 @@
+{
+  "date": "2026-08-24",
+  "origin": "真实TuShare原始响应录制",
+  "coreReady": true,
+  "membershipAsOf": "2026-10-02",
+  "missing": {},
+  "tables": [
+    {
+      "file": "trade_cal/trade_cal-2025.parquet",
+      "endpoint": "trade_cal",
+      "params": {
+        "exchange": "SSE",
+        "start_date": "20250101",
+        "end_date": "20251231"
+      },
+      "rows": 365,
+      "units": "raw",
+      "membershipAsOf": null
+    },
+    {
+      "file": "trade_cal/trade_cal-2026.parquet",
+      "endpoint": "trade_cal",
+      "params": {
+        "exchange": "SSE",
+        "start_date": "20260101",
+        "end_date": "20261231"
+      },
+      "rows": 365,
+      "units": "raw",
+      "membershipAsOf": null
+    },
+    {
+      "file": "daily/daily-20260525.parquet",
+      "endpoint": "daily",
+      "params": {
+        "trade_date": "20260525"
+      },
+      "rows": 5504,
+      "units": "raw",
+      "membershipAsOf": null
+    },
+    {
+      "file": "daily/daily-20260526.parquet",
+      "endpoint": "daily",
+      "params": {
+        "trade_date": "20260526"
+      },
+      "rows": 5504,
+      "units": "raw",
+      "membershipAsOf": null
+    },
+    {
+      "file": "daily/daily-20260527.parquet",
+      "endpoint": "daily",
+      "params": {
+        "trade_date": "20260527"
+      },
+      "rows": 5506,
+      "units": "raw",
+      "membershipAsOf": null
+    },
+    {
+      "file": "daily/daily-20260528.parquet",
+      "endpoint": "daily",
+      "params": {
+        "trade_date": "20260528"
+      },
+      "rows": 5506,
+      "units": "raw",
+      "membershipAsOf": null
+    },
+    {
+      "file": "daily/daily-20260529.parquet",
+      "endpoint": "daily",
+      "params": {
+        "trade_date": "20260529"
+      },
+      "rows": 5506,
+      "units": "raw",
+      "membershipAsOf": null
+    },
+    {
+      "file": "daily/daily-20260601.parquet",
+      "endpoint": "daily",
+      "params": {
+        "trade_date": "20260601"
+      },
+      "rows": 5508,
+      "units": "raw",
+      "membershipAsOf": null
+    },
+    {
+      "file": "daily/daily-20260602.parquet",
+      "endpoint": "daily",
+      "params": {
+        "trade_date": "20260602"
+      },
+      "rows": 5507,
+      "units": "raw",
+      "membershipAsOf": null
+    },
+    {
+      "file": "daily/daily-20260603.parquet",
+      "endpoint": "daily",
+      "params": {
+        "trade_date": "20260603"
+      },
+      "rows": 5511,
+      "units": "raw",
+      "membershipAsOf": null
+    },
+    {
+      "file": "daily/daily-20260604.parquet",
+      "endpoint": "daily",
+      "params": {
+        "trade_date": "20260604"
+      },
+      "rows": 5511,
+      "units": "raw",
+      "membershipAsOf": null
+    },
+    {
+      "file": "daily/daily-20260605.parquet",
+      "endpoint": "daily",
+      "params": {
+        "trade_date": "20260605"
+      },
+      "rows": 5514,
+      "units": "raw",
+      "membershipAsOf": null
+    },
+    {
+      "file": "daily/daily-20260608.parquet",
+      "endpoint": "daily",
+      "params": {
+        "trade_date": "20260608"
+      },
+      "rows": 5515,
+      "units": "raw",
+      "membershipAsOf": null
+    },
+    {
+      "file": "daily/daily-20260609.parquet",
+      "endpoint": "daily",
+      "params": {
+        "trade_date": "20260609"
+      },
+      "rows": 5515,
+      "units": "raw",
+      "membershipAsOf": null
+    },
+    {
+      "file": "daily/daily-20260610.parquet",
+      "endpoint": "daily",
+      "params": {
+        "trade_date": "20260610"
+      },
+      "rows": 5512,
+      "units": "raw",
+      "membershipAsOf": null
+    },
+    {
+      "file": "daily/daily-20260611.parquet",
+      "endpoint": "daily",
+      "params": {
+        "trade_date": "20260611"
+      },
+      "rows": 5511,
+      "units": "raw",
+      "membershipAsOf": null
+    },
+    {
+      "file": "daily/daily-20260612.parquet",
+      "endpoint": "daily",
+      "params": {
+        "trade_date": "20260612"
+      },
+      "rows": 5512,
+      "units": "raw",
+      "membershipAsOf": null
+    },
+    {
+      "file": "daily/daily-20260615.parquet",
+      "endpoint": "daily",
+      "params": {
+        "trade_date": "20260615"
+      },
+      "rows": 5508,
+      "units": "raw",
+      "membershipAsOf": null
+    },
+    {
+      "file": "daily/daily-20260616.parquet",
+      "endpoint": "daily",
+      "params": {
+        "trade_date": "20260616"
+      },
+      "rows": 5513,
+      "units": "raw",
+      "membershipAsOf": null
+    },
+    {
+      "file": "daily/daily-20260617.parquet",
+      "endpoint": "daily",
+      "params": {
+        "trade_date": "20260617"
+      },
+      "rows": 5509,
+      "units": "raw",
+      "membershipAsOf": null
+    },
+    {
+      "file": "daily/daily-20260618.parquet",
+      "endpoint": "daily",
+      "params": {
+        "trade_date": "20260618"
+      },
+      "rows": 5507,
+      "units": "raw",
+      "membershipAsOf": null
+    },
+    {
+      "file": "daily/daily-20260622.parquet",
+      "endpoint": "daily",
+      "params": {
+        "trade_date": "20260622"
+      },
+      "rows": 5510,
+      "units": "raw",
+      "membershipAsOf": null
+    },
+    {
+      "file": "daily/daily-20260623.parquet",
+      "endpoint": "daily",
+      "params": {
+        "trade_date": "20260623"
+      },
+      "rows": 5513,
+      "units": "raw",
+      "membershipAsOf": null
+    },
+    {
+      "file": "daily/daily-20260624.parquet",
+      "endpoint": "daily",
+      "params": {
+        "trade_date": "20260624"
+      },
+      "rows": 5512,
+      "units": "raw",
+      "membershipAsOf": null
+    },
+    {
+      "file": "daily/daily-20260625.parquet",
+      "endpoint": "daily",
+      "params": {
+        "trade_date": "20260625"
+      },
+      "rows": 5511,
+      "units": "raw",
+      "membershipAsOf": null
+    },
+    {
+      "file": "daily/daily-20260626.parquet",
+      "endpoint": "daily",
+      "params": {
+        "trade_date": "20260626"
+      },
+      "rows": 5513,
+      "units": "raw",
+      "membershipAsOf": null
+    },
+    {
+      "file": "daily/daily-20260629.parquet",
+      "endpoint": "daily",
+      "params": {
+        "trade_date": "20260629"
+      },
+      "rows": 5510,
+      "units": "raw",
+      "membershipAsOf": null
+    },
+    {
+      "file": "daily/daily-20260630.parquet",
+      "endpoint": "daily",
+      "params": {
+        "trade_date": "20260630"
+      },
+      "rows": 5508,
+      "units": "raw",
+      "membershipAsOf": null
+    },
+    {
+      "file": "daily/daily-20260701.parquet",
+      "endpoint": "daily",
+      "params": {
+        "trade_date": "20260701"
+      },
+      "rows": 5511,
+      "units": "raw",
+      "membershipAsOf": null
+    },
+    {
+      "file": "daily/daily-20260702.parquet",
+      "endpoint": "daily",
+      "params": {
+        "trade_date": "20260702"
+      },
+      "rows": 5517,
+      "units": "raw",
+      "membershipAsOf": null
+    },
+    {
+      "file": "daily/daily-20260703.parquet",
+      "endpoint": "daily",
+      "params": {
+        "trade_date": "20260703"
+      },
+      "rows": 5516,
+      "units": "raw",
+      "membershipAsOf": null
+    },
+    {
+      "file": "daily/daily-20260706.parquet",
+      "endpoint": "daily",
+      "params": {
+        "trade_date": "20260706"
+      },
+      "rows": 5517,
+      "units": "raw",
+      "membershipAsOf": null
+    },
+    {
+      "file": "daily/daily-20260707.parquet",
+      "endpoint": "daily",
+      "params": {
+        "trade_date": "20260707"
+      },
+      "rows": 5517,
+      "units": "raw",
+      "membershipAsOf": null
+    },
+    {
+      "file": "daily/daily-20260708.parquet",
+      "endpoint": "daily",
+      "params": {
+        "trade_date": "20260708"
+      },
+      "rows": 5518,
+      "units": "raw",
+      "membershipAsOf": null
+    },
+    {
+      "file": "daily/daily-20260709.parquet",
+      "endpoint": "daily",
+      "params": {
+        "trade_date": "20260709"
+      },
+      "rows": 5520,
+      "units": "raw",
+      "membershipAsOf": null
+    },
+    {
+      "file": "daily/daily-20260710.parquet",
+      "endpoint": "daily",
+      "params": {
+        "trade_date": "20260710"
+      },
+      "rows": 5521,
+      "units": "raw",
+      "membershipAsOf": null
+    },
+    {
+      "file": "daily/daily-20260713.parquet",
+      "endpoint": "daily",
+      "params": {
+        "trade_date": "20260713"
+      },
+      "rows": 5524,
+      "units": "raw",
+      "membershipAsOf": null
+    },
+    {
+      "file": "daily/daily-20260714.parquet",
+      "endpoint": "daily",
+      "params": {
+        "trade_date": "20260714"
+      },
+      "rows": 5524,
+      "units": "raw",
+      "membershipAsOf": null
+    },
+    {
+      "file": "daily/daily-20260715.parquet",
+      "endpoint": "daily",
+      "params": {
+        "trade_date": "20260715"
+      },
+      "rows": 5525,
+      "units": "raw",
+      "membershipAsOf": null
+    },
+    {
+      "file": "daily/daily-20260716.parquet",
+      "endpoint": "daily",
+      "params": {
+        "trade_date": "20260716"
+      },
+      "rows": 5524,
+      "units": "raw",
+      "membershipAsOf": null
+    },
+    {
+      "file": "daily/daily-20260717.parquet",
+      "endpoint": "daily",
+      "params": {
+        "trade_date": "20260717"
+      },
+      "rows": 5522,
+      "units": "raw",
+      "membershipAsOf": null
+    },
+    {
+      "file": "daily/daily-20260720.parquet",
+      "endpoint": "daily",
+      "params": {
+        "trade_date": "20260720"
+      },
+      "rows": 5524,
+      "units": "raw",
+      "membershipAsOf": null
+    },
+    {
+      "file": "daily/daily-20260721.parquet",
+      "endpoint": "daily",
+      "params": {
+        "trade_date": "20260721"
+      },
+      "rows": 5525,
+      "units": "raw",
+      "membershipAsOf": null
+    },
+    {
+      "file": "daily/daily-20260722.parquet",
+      "endpoint": "daily",
+      "params": {
+        "trade_date": "20260722"
+      },
+      "rows": 5526,
+      "units": "raw",
+      "membershipAsOf": null
+    },
+    {
+      "file": "daily/daily-20260723.parquet",
+      "endpoint": "daily",
+      "params": {
+        "trade_date": "20260723"
+      },
+      "rows": 5526,
+      "units": "raw",
+      "membershipAsOf": null
+    },
+    {
+      "file": "daily/daily-20260724.parquet",
+      "endpoint": "daily",
+      "params": {
+        "trade_date": "20260724"
+      },
+      "rows": 5526,
+      "units": "raw",
+      "membershipAsOf": null
+    },
+    {
+      "file": "daily/daily-20260727.parquet",
+      "endpoint": "daily",
+      "params": {
+        "trade_date": "20260727"
+      },
+      "rows": 5523,
+      "units": "raw",
+      "membershipAsOf": null
+    },
+    {
+      "file": "daily/daily-20260728.parquet",
+      "endpoint": "daily",
+      "params": {
+        "trade_date": "20260728"
+      },
+      "rows": 5524,
+      "units": "raw",
+      "membershipAsOf": null
+    },
+    {
+      "file": "daily/daily-20260729.parquet",
+      "endpoint": "daily",
+      "params": {
+        "trade_date": "20260729"
+      },
+      "rows": 5524,
+      "units": "raw",
+      "membershipAsOf": null
+    },
+    {
+      "file": "daily/daily-20260730.parquet",
+      "endpoint": "daily",
+      "params": {
+        "trade_date": "20260730"
+      },
+      "rows": 5528,
+      "units": "raw",
+      "membershipAsOf": null
+    },
+    {
+      "file": "daily/daily-20260731.parquet",
+      "endpoint": "daily",
+      "params": {
+        "trade_date": "20260731"
+      },
+      "rows": 5528,
+      "units": "raw",
+      "membershipAsOf": null
+    },
+    {
+      "file": "daily/daily-20260803.parquet",
+      "endpoint": "daily",
+      "params": {
+        "trade_date": "20260803"
+      },
+      "rows": 5529,
+      "units": "raw",
+      "membershipAsOf": null
+    },
+    {
+      "file": "daily/daily-20260804.parquet",
+      "endpoint": "daily",
+      "params": {
+        "trade_date": "20260804"
+      },
+      "rows": 5529,
+      "units": "raw",
+      "membershipAsOf": null
+    },
+    {
+      "file": "daily/daily-20260805.parquet",
+      "endpoint": "daily",
+      "params": {
+        "trade_date": "20260805"
+      },
+      "rows": 5532,
+      "units": "raw",
+      "membershipAsOf": null
+    },
+    {
+      "file": "daily/daily-20260806.parquet",
+      "endpoint": "daily",
+      "params": {
+        "trade_date": "20260806"
+      },
+      "rows": 5533,
+      "units": "raw",
+      "membershipAsOf": null
+    },
+    {
+      "file": "daily/daily-20260807.parquet",
+      "endpoint": "daily",
+      "params": {
+        "trade_date": "20260807"
+      },
+      "rows": 5535,
+      "units": "raw",
+      "membershipAsOf": null
+    },
+    {
+      "file": "daily/daily-20260810.parquet",
+      "endpoint": "daily",
+      "params": {
+        "trade_date": "20260810"
+      },
+      "rows": 5538,
+      "units": "raw",
+      "membershipAsOf": null
+    },
+    {
+      "file": "daily/daily-20260811.parquet",
+      "endpoint": "daily",
+      "params": {
+        "trade_date": "20260811"
+      },
+      "rows": 5539,
+      "units": "raw",
+      "membershipAsOf": null
+    },
+    {
+      "file": "daily/daily-20260812.parquet",
+      "endpoint": "daily",
+      "params": {
+        "trade_date": "20260812"
+      },
+      "rows": 5539,
+      "units": "raw",
+      "membershipAsOf": null
+    },
+    {
+      "file": "daily/daily-20260813.parquet",
+      "endpoint": "daily",
+      "params": {
+        "trade_date": "20260813"
+      },
+      "rows": 5540,
+      "units": "raw",
+      "membershipAsOf": null
+    },
+    {
+      "file": "daily/daily-20260814.parquet",
+      "endpoint": "daily",
+      "params": {
+        "trade_date": "20260814"
+      },
+      "rows": 5540,
+      "units": "raw",
+      "membershipAsOf": null
+    },
+    {
+      "file": "daily/daily-20260817.parquet",
+      "endpoint": "daily",
+      "params": {
+        "trade_date": "20260817"
+      },
+      "rows": 5539,
+      "units": "raw",
+      "membershipAsOf": null
+    },
+    {
+      "file": "daily/daily-20260818.parquet",
+      "endpoint": "daily",
+      "params": {
+        "trade_date": "20260818"
+      },
+      "rows": 5540,
+      "units": "raw",
+      "membershipAsOf": null
+    },
+    {
+      "file": "daily/daily-20260819.parquet",
+      "endpoint": "daily",
+      "params": {
+        "trade_date": "20260819"
+      },
+      "rows": 5541,
+      "units": "raw",
+      "membershipAsOf": null
+    },
+    {
+      "file": "daily/daily-20260820.parquet",
+      "endpoint": "daily",
+      "params": {
+        "trade_date": "20260820"
+      },
+      "rows": 5541,
+      "units": "raw",
+      "membershipAsOf": null
+    },
+    {
+      "file": "daily/daily-20260821.parquet",
+      "endpoint": "daily",
+      "params": {
+        "trade_date": "20260821"
+      },
+      "rows": 5543,
+      "units": "raw",
+      "membershipAsOf": null
+    },
+    {
+      "file": "daily/daily-20260824.parquet",
+      "endpoint": "daily",
+      "params": {
+        "trade_date": "20260824"
+      },
+      "rows": 5545,
+      "units": "raw",
+      "membershipAsOf": null
+    },
+    {
+      "file": "stk_limit/stk_limit-20260714.parquet",
+      "endpoint": "stk_limit",
+      "params": {
+        "trade_date": "20260714"
+      },
+      "rows": 5607,
+      "units": "raw",
+      "membershipAsOf": null
+    },
+    {
+      "file": "stk_limit/stk_limit-20260715.parquet",
+      "endpoint": "stk_limit",
+      "params": {
+        "trade_date": "20260715"
+      },
+      "rows": 5607,
+      "units": "raw",
+      "membershipAsOf": null
+    },
+    {
+      "file": "stk_limit/stk_limit-20260716.parquet",
+      "endpoint": "stk_limit",
+      "params": {
+        "trade_date": "20260716"
+      },
+      "rows": 5608,
+      "units": "raw",
+      "membershipAsOf": null
+    },
+    {
+      "file": "stk_limit/stk_limit-20260717.parquet",
+      "endpoint": "stk_limit",
+      "params": {
+        "trade_date": "20260717"
+      },
+      "rows": 5607,
+      "units": "raw",
+      "membershipAsOf": null
+    },
+    {
+      "file": "stk_limit/stk_limit-20260720.parquet",
+      "endpoint": "stk_limit",
+      "params": {
+        "trade_date": "20260720"
+      },
+      "rows": 5607,
+      "units": "raw",
+      "membershipAsOf": null
+    },
+    {
+      "file": "stk_limit/stk_limit-20260721.parquet",
+      "endpoint": "stk_limit",
+      "params": {
+        "trade_date": "20260721"
+      },
+      "rows": 5608,
+      "units": "raw",
+      "membershipAsOf": null
+    },
+    {
+      "file": "stk_limit/stk_limit-20260722.parquet",
+      "endpoint": "stk_limit",
+      "params": {
+        "trade_date": "20260722"
+      },
+      "rows": 5609,
+      "units": "raw",
+      "membershipAsOf": null
+    },
+    {
+      "file": "stk_limit/stk_limit-20260723.parquet",
+      "endpoint": "stk_limit",
+      "params": {
+        "trade_date": "20260723"
+      },
+      "rows": 5609,
+      "units": "raw",
+      "membershipAsOf": null
+    },
+    {
+      "file": "stk_limit/stk_limit-20260724.parquet",
+      "endpoint": "stk_limit",
+      "params": {
+        "trade_date": "20260724"
+      },
+      "rows": 5610,
+      "units": "raw",
+      "membershipAsOf": null
+    },
+    {
+      "file": "stk_limit/stk_limit-20260727.parquet",
+      "endpoint": "stk_limit",
+      "params": {
+        "trade_date": "20260727"
+      },
+      "rows": 5612,
+      "units": "raw",
+      "membershipAsOf": null
+    },
+    {
+      "file": "stk_limit/stk_limit-20260728.parquet",
+      "endpoint": "stk_limit",
+      "params": {
+        "trade_date": "20260728"
+      },
+      "rows": 5612,
+      "units": "raw",
+      "membershipAsOf": null
+    },
+    {
+      "file": "stk_limit/stk_limit-20260729.parquet",
+      "endpoint": "stk_limit",
+      "params": {
+        "trade_date": "20260729"
+      },
+      "rows": 5613,
+      "units": "raw",
+      "membershipAsOf": null
+    },
+    {
+      "file": "stk_limit/stk_limit-20260730.parquet",
+      "endpoint": "stk_limit",
+      "params": {
+        "trade_date": "20260730"
+      },
+      "rows": 5613,
+      "units": "raw",
+      "membershipAsOf": null
+    },
+    {
+      "file": "stk_limit/stk_limit-20260731.parquet",
+      "endpoint": "stk_limit",
+      "params": {
+        "trade_date": "20260731"
+      },
+      "rows": 5613,
+      "units": "raw",
+      "membershipAsOf": null
+    },
+    {
+      "file": "stk_limit/stk_limit-20260803.parquet",
+      "endpoint": "stk_limit",
+      "params": {
+        "trade_date": "20260803"
+      },
+      "rows": 5614,
+      "units": "raw",
+      "membershipAsOf": null
+    },
+    {
+      "file": "stk_limit/stk_limit-20260804.parquet",
+      "endpoint": "stk_limit",
+      "params": {
+        "trade_date": "20260804"
+      },
+      "rows": 5615,
+      "units": "raw",
+      "membershipAsOf": null
+    },
+    {
+      "file": "stk_limit/stk_limit-20260805.parquet",
+      "endpoint": "stk_limit",
+      "params": {
+        "trade_date": "20260805"
+      },
+      "rows": 5616,
+      "units": "raw",
+      "membershipAsOf": null
+    },
+    {
+      "file": "stk_limit/stk_limit-20260806.parquet",
+      "endpoint": "stk_limit",
+      "params": {
+        "trade_date": "20260806"
+      },
+      "rows": 5617,
+      "units": "raw",
+      "membershipAsOf": null
+    },
+    {
+      "file": "stk_limit/stk_limit-20260807.parquet",
+      "endpoint": "stk_limit",
+      "params": {
+        "trade_date": "20260807"
+      },
+      "rows": 5618,
+      "units": "raw",
+      "membershipAsOf": null
+    },
+    {
+      "file": "stk_limit/stk_limit-20260810.parquet",
+      "endpoint": "stk_limit",
+      "params": {
+        "trade_date": "20260810"
+      },
+      "rows": 5618,
+      "units": "raw",
+      "membershipAsOf": null
+    },
+    {
+      "file": "stk_limit/stk_limit-20260811.parquet",
+      "endpoint": "stk_limit",
+      "params": {
+        "trade_date": "20260811"
+      },
+      "rows": 5621,
+      "units": "raw",
+      "membershipAsOf": null
+    },
+    {
+      "file": "stk_limit/stk_limit-20260812.parquet",
+      "endpoint": "stk_limit",
+      "params": {
+        "trade_date": "20260812"
+      },
+      "rows": 5622,
+      "units": "raw",
+      "membershipAsOf": null
+    },
+    {
+      "file": "stk_limit/stk_limit-20260813.parquet",
+      "endpoint": "stk_limit",
+      "params": {
+        "trade_date": "20260813"
+      },
+      "rows": 5622,
+      "units": "raw",
+      "membershipAsOf": null
+    },
+    {
+      "file": "stk_limit/stk_limit-20260814.parquet",
+      "endpoint": "stk_limit",
+      "params": {
+        "trade_date": "20260814"
+      },
+      "rows": 5622,
+      "units": "raw",
+      "membershipAsOf": null
+    },
+    {
+      "file": "stk_limit/stk_limit-20260817.parquet",
+      "endpoint": "stk_limit",
+      "params": {
+        "trade_date": "20260817"
+      },
+      "rows": 5623,
+      "units": "raw",
+      "membershipAsOf": null
+    },
+    {
+      "file": "stk_limit/stk_limit-20260818.parquet",
+      "endpoint": "stk_limit",
+      "params": {
+        "trade_date": "20260818"
+      },
+      "rows": 5624,
+      "units": "raw",
+      "membershipAsOf": null
+    },
+    {
+      "file": "stk_limit/stk_limit-20260819.parquet",
+      "endpoint": "stk_limit",
+      "params": {
+        "trade_date": "20260819"
+      },
+      "rows": 5626,
+      "units": "raw",
+      "membershipAsOf": null
+    },
+    {
+      "file": "stk_limit/stk_limit-20260820.parquet",
+      "endpoint": "stk_limit",
+      "params": {
+        "trade_date": "20260820"
+      },
+      "rows": 5627,
+      "units": "raw",
+      "membershipAsOf": null
+    },
+    {
+      "file": "stk_limit/stk_limit-20260821.parquet",
+      "endpoint": "stk_limit",
+      "params": {
+        "trade_date": "20260821"
+      },
+      "rows": 5628,
+      "units": "raw",
+      "membershipAsOf": null
+    },
+    {
+      "file": "stk_limit/stk_limit-20260824.parquet",
+      "endpoint": "stk_limit",
+      "params": {
+        "trade_date": "20260824"
+      },
+      "rows": 5628,
+      "units": "raw",
+      "membershipAsOf": null
+    },
+    {
+      "file": "fund_daily/fund_daily-20260727.parquet",
+      "endpoint": "fund_daily",
+      "params": {
+        "trade_date": "20260727"
+      },
+      "rows": 2063,
+      "units": "raw",
+      "membershipAsOf": null
+    },
+    {
+      "file": "fund_daily/fund_daily-20260728.parquet",
+      "endpoint": "fund_daily",
+      "params": {
+        "trade_date": "20260728"
+      },
+      "rows": 2064,
+      "units": "raw",
+      "membershipAsOf": null
+    },
+    {
+      "file": "fund_daily/fund_daily-20260729.parquet",
+      "endpoint": "fund_daily",
+      "params": {
+        "trade_date": "20260729"
+      },
+      "rows": 2067,
+      "units": "raw",
+      "membershipAsOf": null
+    },
+    {
+      "file": "fund_daily/fund_daily-20260730.parquet",
+      "endpoint": "fund_daily",
+      "params": {
+        "trade_date": "20260730"
+      },
+      "rows": 2074,
+      "units": "raw",
+      "membershipAsOf": null
+    },
+    {
+      "file": "fund_daily/fund_daily-20260731.parquet",
+      "endpoint": "fund_daily",
+      "params": {
+        "trade_date": "20260731"
+      },
+      "rows": 2082,
+      "units": "raw",
+      "membershipAsOf": null
+    },
+    {
+      "file": "fund_daily/fund_daily-20260803.parquet",
+      "endpoint": "fund_daily",
+      "params": {
+        "trade_date": "20260803"
+      },
+      "rows": 2076,
+      "units": "raw",
+      "membershipAsOf": null
+    },
+    {
+      "file": "fund_daily/fund_daily-20260804.parquet",
+      "endpoint": "fund_daily",
+      "params": {
+        "trade_date": "20260804"
+      },
+      "rows": 2084,
+      "units": "raw",
+      "membershipAsOf": null
+    },
+    {
+      "file": "fund_daily/fund_daily-20260805.parquet",
+      "endpoint": "fund_daily",
+      "params": {
+        "trade_date": "20260805"
+      },
+      "rows": 2084,
+      "units": "raw",
+      "membershipAsOf": null
+    },
+    {
+      "file": "fund_daily/fund_daily-20260806.parquet",
+      "endpoint": "fund_daily",
+      "params": {
+        "trade_date": "20260806"
+      },
+      "rows": 2079,
+      "units": "raw",
+      "membershipAsOf": null
+    },
+    {
+      "file": "fund_daily/fund_daily-20260807.parquet",
+      "endpoint": "fund_daily",
+      "params": {
+        "trade_date": "20260807"
+      },
+      "rows": 2089,
+      "units": "raw",
+      "membershipAsOf": null
+    },
+    {
+      "file": "fund_daily/fund_daily-20260810.parquet",
+      "endpoint": "fund_daily",
+      "params": {
+        "trade_date": "20260810"
+      },
+      "rows": 2094,
+      "units": "raw",
+      "membershipAsOf": null
+    },
+    {
+      "file": "fund_daily/fund_daily-20260811.parquet",
+      "endpoint": "fund_daily",
+      "params": {
+        "trade_date": "20260811"
+      },
+      "rows": 2092,
+      "units": "raw",
+      "membershipAsOf": null
+    },
+    {
+      "file": "fund_daily/fund_daily-20260812.parquet",
+      "endpoint": "fund_daily",
+      "params": {
+        "trade_date": "20260812"
+      },
+      "rows": 2089,
+      "units": "raw",
+      "membershipAsOf": null
+    },
+    {
+      "file": "fund_daily/fund_daily-20260813.parquet",
+      "endpoint": "fund_daily",
+      "params": {
+        "trade_date": "20260813"
+      },
+      "rows": 2104,
+      "units": "raw",
+      "membershipAsOf": null
+    },
+    {
+      "file": "fund_daily/fund_daily-20260814.parquet",
+      "endpoint": "fund_daily",
+      "params": {
+        "trade_date": "20260814"
+      },
+      "rows": 2087,
+      "units": "raw",
+      "membershipAsOf": null
+    },
+    {
+      "file": "fund_daily/fund_daily-20260817.parquet",
+      "endpoint": "fund_daily",
+      "params": {
+        "trade_date": "20260817"
+      },
+      "rows": 2091,
+      "units": "raw",
+      "membershipAsOf": null
+    },
+    {
+      "file": "fund_daily/fund_daily-20260818.parquet",
+      "endpoint": "fund_daily",
+      "params": {
+        "trade_date": "20260818"
+      },
+      "rows": 2094,
+      "units": "raw",
+      "membershipAsOf": null
+    },
+    {
+      "file": "fund_daily/fund_daily-20260819.parquet",
+      "endpoint": "fund_daily",
+      "params": {
+        "trade_date": "20260819"
+      },
+      "rows": 2104,
+      "units": "raw",
+      "membershipAsOf": null
+    },
+    {
+      "file": "fund_daily/fund_daily-20260820.parquet",
+      "endpoint": "fund_daily",
+      "params": {
+        "trade_date": "20260820"
+      },
+      "rows": 2094,
+      "units": "raw",
+      "membershipAsOf": null
+    },
+    {
+      "file": "fund_daily/fund_daily-20260821.parquet",
+      "endpoint": "fund_daily",
+      "params": {
+        "trade_date": "20260821"
+      },
+      "rows": 2100,
+      "units": "raw",
+      "membershipAsOf": null
+    },
+    {
+      "file": "fund_daily/fund_daily-20260824.parquet",
+      "endpoint": "fund_daily",
+      "params": {
+        "trade_date": "20260824"
+      },
+      "rows": 2105,
+      "units": "raw",
+      "membershipAsOf": null
+    },
+    {
+      "file": "daily_basic/daily_basic-20260824.parquet",
+      "endpoint": "daily_basic",
+      "params": {
+        "trade_date": "20260824"
+      },
+      "rows": 5545,
+      "units": "raw",
+      "membershipAsOf": null
+    },
+    {
+      "file": "moneyflow_dc/moneyflow_dc-20260824.parquet",
+      "endpoint": "moneyflow_dc",
+      "params": {
+        "trade_date": "20260824"
+      },
+      "rows": 6004,
+      "units": "raw",
+      "membershipAsOf": null
+    },
+    {
+      "file": "moneyflow_mkt_dc/moneyflow_mkt_dc-20260824.parquet",
+      "endpoint": "moneyflow_mkt_dc",
+      "params": {
+        "trade_date": "20260824"
+      },
+      "rows": 1,
+      "units": "raw",
+      "membershipAsOf": null
+    },
+    {
+      "file": "stock_basic/stock_basic-L.parquet",
+      "endpoint": "stock_basic",
+      "params": {
+        "list_status": "L"
+      },
+      "rows": 5572,
+      "units": "raw",
+      "membershipAsOf": null
+    },
+    {
+      "file": "stock_basic/stock_basic-D.parquet",
+      "endpoint": "stock_basic",
+      "params": {
+        "list_status": "D"
+      },
+      "rows": 339,
+      "units": "raw",
+      "membershipAsOf": null
+    },
+    {
+      "file": "stock_basic/stock_basic-P.parquet",
+      "endpoint": "stock_basic",
+      "params": {
+        "list_status": "P"
+      },
+      "rows": 0,
+      "units": "raw",
+      "membershipAsOf": null
+    },
+    {
+      "file": "index_member_all/index_member_all-Y.parquet",
+      "endpoint": "index_member_all",
+      "params": {
+        "is_new": "Y"
+      },
+      "rows": 5914,
+      "units": "raw",
+      "membershipAsOf": null
+    },
+    {
+      "file": "index_member_all/index_member_all-N.parquet",
+      "endpoint": "index_member_all",
+      "params": {
+        "is_new": "N"
+      },
+      "rows": 2006,
+      "units": "raw",
+      "membershipAsOf": null
+    },
+    {
+      "file": "fund_basic/fund_basic-E-L.parquet",
+      "endpoint": "fund_basic",
+      "params": {
+        "market": "E",
+        "status": "L"
+      },
+      "rows": 2251,
+      "units": "raw",
+      "membershipAsOf": null
+    },
+    {
+      "file": "fund_share/fund_share-20260821.parquet",
+      "endpoint": "fund_share",
+      "params": {
+        "trade_date": "20260821"
+      },
+      "rows": 1779,
+      "units": "raw",
+      "membershipAsOf": null
+    },
+    {
+      "file": "fund_share/fund_share-20260824.parquet",
+      "endpoint": "fund_share",
+      "params": {
+        "trade_date": "20260824"
+      },
+      "rows": 1733,
+      "units": "raw",
+      "membershipAsOf": null
+    },
+    {
+      "file": "limit_list_d/limit_list_d-20260824-U.parquet",
+      "endpoint": "limit_list_d",
+      "params": {
+        "trade_date": "20260824",
+        "limit_type": "U"
+      },
+      "rows": 46,
+      "units": "raw",
+      "membershipAsOf": null
+    },
+    {
+      "file": "limit_list_d/limit_list_d-20260824-D.parquet",
+      "endpoint": "limit_list_d",
+      "params": {
+        "trade_date": "20260824",
+        "limit_type": "D"
+      },
+      "rows": 11,
+      "units": "raw",
+      "membershipAsOf": null
+    },
+    {
+      "file": "limit_list_d/limit_list_d-20260824-Z.parquet",
+      "endpoint": "limit_list_d",
+      "params": {
+        "trade_date": "20260824",
+        "limit_type": "Z"
+      },
+      "rows": 16,
+      "units": "raw",
+      "membershipAsOf": null
+    },
+    {
+      "file": "index_daily/index_daily-000001.SH.parquet",
+      "endpoint": "index_daily",
+      "params": {
+        "ts_code": "000001.SH",
+        "start_date": "20250813",
+        "end_date": "20260824"
+      },
+      "rows": 250,
+      "units": "raw",
+      "membershipAsOf": null
+    },
+    {
+      "file": "index_daily/index_daily-000688.SH.parquet",
+      "endpoint": "index_daily",
+      "params": {
+        "ts_code": "000688.SH",
+        "start_date": "20250813",
+        "end_date": "20260824"
+      },
+      "rows": 250,
+      "units": "raw",
+      "membershipAsOf": null
+    },
+    {
+      "file": "index_daily/index_daily-399001.SZ.parquet",
+      "endpoint": "index_daily",
+      "params": {
+        "ts_code": "399001.SZ",
+        "start_date": "20250813",
+        "end_date": "20260824"
+      },
+      "rows": 250,
+      "units": "raw",
+      "membershipAsOf": null
+    },
+    {
+      "file": "index_daily/index_daily-399006.SZ.parquet",
+      "endpoint": "index_daily",
+      "params": {
+        "ts_code": "399006.SZ",
+        "start_date": "20250813",
+        "end_date": "20260824"
+      },
+      "rows": 250,
+      "units": "raw",
+      "membershipAsOf": null
+    },
+    {
+      "file": "index_daily/index_daily-000852.SH.parquet",
+      "endpoint": "index_daily",
+      "params": {
+        "ts_code": "000852.SH",
+        "start_date": "20250813",
+        "end_date": "20260824"
+      },
+      "rows": 250,
+      "units": "raw",
+      "membershipAsOf": null
+    },
+    {
+      "file": "index_daily/index_daily-399303.SZ.parquet",
+      "endpoint": "index_daily",
+      "params": {
+        "ts_code": "399303.SZ",
+        "start_date": "20250813",
+        "end_date": "20260824"
+      },
+      "rows": 250,
+      "units": "raw",
+      "membershipAsOf": null
+    },
+    {
+      "file": "ths_daily/ths_daily-885959.TI.parquet",
+      "endpoint": "ths_daily",
+      "params": {
+        "ts_code": "885959.TI",
+        "start_date": "20260714",
+        "end_date": "20260824"
+      },
+      "rows": 30,
+      "units": "raw",
+      "membershipAsOf": null
+    },
+    {
+      "file": "ths_member/ths_member-885959.TI.parquet",
+      "endpoint": "ths_member",
+      "params": {
+        "ts_code": "885959.TI"
+      },
+      "rows": 236,
+      "units": "raw",
+      "membershipAsOf": "2026-10-02"
+    },
+    {
+      "file": "ths_daily/ths_daily-886069.TI.parquet",
+      "endpoint": "ths_daily",
+      "params": {
+        "ts_code": "886069.TI",
+        "start_date": "20260714",
+        "end_date": "20260824"
+      },
+      "rows": 30,
+      "units": "raw",
+      "membershipAsOf": null
+    },
+    {
+      "file": "ths_member/ths_member-886069.TI.parquet",
+      "endpoint": "ths_member",
+      "params": {
+        "ts_code": "886069.TI"
+      },
+      "rows": 463,
+      "units": "raw",
+      "membershipAsOf": "2026-10-02"
+    },
+    {
+      "file": "ths_daily/ths_daily-886015.TI.parquet",
+      "endpoint": "ths_daily",
+      "params": {
+        "ts_code": "886015.TI",
+        "start_date": "20260714",
+        "end_date": "20260824"
+      },
+      "rows": 30,
+      "units": "raw",
+      "membershipAsOf": null
+    },
+    {
+      "file": "ths_member/ths_member-886015.TI.parquet",
+      "endpoint": "ths_member",
+      "params": {
+        "ts_code": "886015.TI"
+      },
+      "rows": 281,
+      "units": "raw",
+      "membershipAsOf": "2026-10-02"
+    },
+    {
+      "file": "ths_daily/ths_daily-886078.TI.parquet",
+      "endpoint": "ths_daily",
+      "params": {
+        "ts_code": "886078.TI",
+        "start_date": "20260714",
+        "end_date": "20260824"
+      },
+      "rows": 30,
+      "units": "raw",
+      "membershipAsOf": null
+    },
+    {
+      "file": "ths_member/ths_member-886078.TI.parquet",
+      "endpoint": "ths_member",
+      "params": {
+        "ts_code": "886078.TI"
+      },
+      "rows": 507,
+      "units": "raw",
+      "membershipAsOf": "2026-10-02"
+    },
+    {
+      "file": "ths_daily/ths_daily-886008.TI.parquet",
+      "endpoint": "ths_daily",
+      "params": {
+        "ts_code": "886008.TI",
+        "start_date": "20260714",
+        "end_date": "20260824"
+      },
+      "rows": 30,
+      "units": "raw",
+      "membershipAsOf": null
+    },
+    {
+      "file": "ths_member/ths_member-886008.TI.parquet",
+      "endpoint": "ths_member",
+      "params": {
+        "ts_code": "886008.TI"
+      },
+      "rows": 139,
+      "units": "raw",
+      "membershipAsOf": "2026-10-02"
+    },
+    {
+      "file": "ths_daily/ths_daily-886111.TI.parquet",
+      "endpoint": "ths_daily",
+      "params": {
+        "ts_code": "886111.TI",
+        "start_date": "20260714",
+        "end_date": "20260824"
+      },
+      "rows": 30,
+      "units": "raw",
+      "membershipAsOf": null
+    },
+    {
+      "file": "ths_member/ths_member-886111.TI.parquet",
+      "endpoint": "ths_member",
+      "params": {
+        "ts_code": "886111.TI"
+      },
+      "rows": 57,
+      "units": "raw",
+      "membershipAsOf": "2026-10-02"
+    },
+    {
+      "file": "ths_daily/ths_daily-885864.TI.parquet",
+      "endpoint": "ths_daily",
+      "params": {
+        "ts_code": "885864.TI",
+        "start_date": "20260714",
+        "end_date": "20260824"
+      },
+      "rows": 30,
+      "units": "raw",
+      "membershipAsOf": null
+    },
+    {
+      "file": "ths_member/ths_member-885864.TI.parquet",
+      "endpoint": "ths_member",
+      "params": {
+        "ts_code": "885864.TI"
+      },
+      "rows": 80,
+      "units": "raw",
+      "membershipAsOf": "2026-10-02"
+    },
+    {
+      "file": "ths_daily/ths_daily-886009.TI.parquet",
+      "endpoint": "ths_daily",
+      "params": {
+        "ts_code": "886009.TI",
+        "start_date": "20260714",
+        "end_date": "20260824"
+      },
+      "rows": 30,
+      "units": "raw",
+      "membershipAsOf": null
+    },
+    {
+      "file": "ths_member/ths_member-886009.TI.parquet",
+      "endpoint": "ths_member",
+      "params": {
+        "ts_code": "886009.TI"
+      },
+      "rows": 204,
+      "units": "raw",
+      "membershipAsOf": "2026-10-02"
+    },
+    {
+      "file": "ths_daily/ths_daily-881114.TI.parquet",
+      "endpoint": "ths_daily",
+      "params": {
+        "ts_code": "881114.TI",
+        "start_date": "20260714",
+        "end_date": "20260824"
+      },
+      "rows": 30,
+      "units": "raw",
+      "membershipAsOf": null
+    },
+    {
+      "file": "ths_member/ths_member-881114.TI.parquet",
+      "endpoint": "ths_member",
+      "params": {
+        "ts_code": "881114.TI"
+      },
+      "rows": 34,
+      "units": "raw",
+      "membershipAsOf": "2026-10-02"
+    },
+    {
+      "file": "ths_daily/ths_daily-886044.TI.parquet",
+      "endpoint": "ths_daily",
+      "params": {
+        "ts_code": "886044.TI",
+        "start_date": "20260714",
+        "end_date": "20260824"
+      },
+      "rows": 30,
+      "units": "raw",
+      "membershipAsOf": null
+    },
+    {
+      "file": "ths_member/ths_member-886044.TI.parquet",
+      "endpoint": "ths_member",
+      "params": {
+        "ts_code": "886044.TI"
+      },
+      "rows": 229,
+      "units": "raw",
+      "membershipAsOf": "2026-10-02"
+    },
+    {
+      "file": "ths_daily/ths_daily-886112.TI.parquet",
+      "endpoint": "ths_daily",
+      "params": {
+        "ts_code": "886112.TI",
+        "start_date": "20260714",
+        "end_date": "20260824"
+      },
+      "rows": 17,
+      "units": "raw",
+      "membershipAsOf": null
+    },
+    {
+      "file": "ths_member/ths_member-886112.TI.parquet",
+      "endpoint": "ths_member",
+      "params": {
+        "ts_code": "886112.TI"
+      },
+      "rows": 35,
+      "units": "raw",
+      "membershipAsOf": "2026-10-02"
+    },
+    {
+      "file": "ths_daily/ths_daily-881172.TI.parquet",
+      "endpoint": "ths_daily",
+      "params": {
+        "ts_code": "881172.TI",
+        "start_date": "20260714",
+        "end_date": "20260824"
+      },
+      "rows": 30,
+      "units": "raw",
+      "membershipAsOf": null
+    },
+    {
+      "file": "ths_member/ths_member-881172.TI.parquet",
+      "endpoint": "ths_member",
+      "params": {
+        "ts_code": "881172.TI"
+      },
+      "rows": 43,
+      "units": "raw",
+      "membershipAsOf": "2026-10-02"
+    },
+    {
+      "file": "ths_daily/ths_daily-885418.TI.parquet",
+      "endpoint": "ths_daily",
+      "params": {
+        "ts_code": "885418.TI",
+        "start_date": "20260714",
+        "end_date": "20260824"
+      },
+      "rows": 30,
+      "units": "raw",
+      "membershipAsOf": null
+    },
+    {
+      "file": "ths_member/ths_member-885418.TI.parquet",
+      "endpoint": "ths_member",
+      "params": {
+        "ts_code": "885418.TI"
+      },
+      "rows": 197,
+      "units": "raw",
+      "membershipAsOf": "2026-10-02"
+    },
+    {
+      "file": "ths_daily/ths_daily-886033.TI.parquet",
+      "endpoint": "ths_daily",
+      "params": {
+        "ts_code": "886033.TI",
+        "start_date": "20260714",
+        "end_date": "20260824"
+      },
+      "rows": 30,
+      "units": "raw",
+      "membershipAsOf": null
+    },
+    {
+      "file": "ths_member/ths_member-886033.TI.parquet",
+      "endpoint": "ths_member",
+      "params": {
+        "ts_code": "886033.TI"
+      },
+      "rows": 212,
+      "units": "raw",
+      "membershipAsOf": "2026-10-02"
+    },
+    {
+      "file": "ths_daily/ths_daily-700531.TI.parquet",
+      "endpoint": "ths_daily",
+      "params": {
+        "ts_code": "700531.TI",
+        "start_date": "20260714",
+        "end_date": "20260824"
+      },
+      "rows": 30,
+      "units": "raw",
+      "membershipAsOf": null
+    },
+    {
+      "file": "ths_member/ths_member-700531.TI.parquet",
+      "endpoint": "ths_member",
+      "params": {
+        "ts_code": "700531.TI"
+      },
+      "rows": 31,
+      "units": "raw",
+      "membershipAsOf": "2026-10-02"
+    },
+    {
+      "file": "ths_daily/ths_daily-886042.TI.parquet",
+      "endpoint": "ths_daily",
+      "params": {
+        "ts_code": "886042.TI",
+        "start_date": "20260714",
+        "end_date": "20260824"
+      },
+      "rows": 30,
+      "units": "raw",
+      "membershipAsOf": null
+    },
+    {
+      "file": "ths_member/ths_member-886042.TI.parquet",
+      "endpoint": "ths_member",
+      "params": {
+        "ts_code": "886042.TI"
+      },
+      "rows": 206,
+      "units": "raw",
+      "membershipAsOf": "2026-10-02"
+    }
+  ]
+}
