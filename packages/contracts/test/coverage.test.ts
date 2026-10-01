@@ -2,7 +2,7 @@
 import { readFileSync } from "node:fs";
 import { join } from "node:path";
 import { describe, expect, it } from "vitest";
-import { sampleHandlers } from "../src/mocks";
+import { createHandlers, sampleHandlers } from "../src/mocks";
 import { OPENAPI, ROOT, readYaml } from "./support/repo";
 
 type Operation = {
@@ -38,15 +38,13 @@ const operations = Object.entries(document.paths).flatMap(([path, item]) =>
 );
 
 describe("完整契约的交付覆盖", () => {
-  it("docs/08 清单中的接口全部存在、没有额外接口、任务归属正确", () => {
+  it("docs/08 初始清单全部保留且任务归属不变", () => {
     expect(expected.size).toBeGreaterThan(60);
-    expect(operations.map(({ key }) => key).sort()).toEqual([...expected.keys()].sort());
-    for (const { key, operation } of operations) {
-      expect(operation["x-task"], key).toBe(expected.get(key));
-    }
+    const actual = new Map(operations.map(({ key, operation }) => [key, operation]));
+    for (const [key, task] of expected) expect(actual.get(key)?.["x-task"], key).toBe(task);
   });
 
-  it("每个返回 JSON 的 GET 接口均登记样例处理器", () => {
+  it("初始JSON GET都有固定样例，全部GET均生成模拟接线", () => {
     const registered = new Set(
       sampleHandlers().map(({ info }) =>
         String(info.path)
@@ -59,9 +57,19 @@ describe("完整契约的交付覆盖", () => {
         ({ method, path, operation }) =>
           method === "get" &&
           operation.responses["200"]?.content?.["application/json"] !== undefined &&
+          expected.has(`GET ${path}`) &&
           !registered.has(path),
       )
       .map(({ key }) => key);
     expect(missing).toEqual([]);
+    const generated = new Set(
+      createHandlers().map(({ info }) =>
+        String(info.path)
+          .replace(/^\*/, "")
+          .replace(/:(\w+)/g, "{$1}"),
+      ),
+    );
+    for (const { method, path } of operations)
+      if (method === "get") expect(generated.has(path), path).toBe(true);
   });
 });
