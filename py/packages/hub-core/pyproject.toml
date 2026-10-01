@@ -1,0 +1,15 @@
+[project]
+name = "hub-core"
+version = "0.1.0"
+description = "计算平面共享底座"
+requires-python = ">=3.14"
+dependencies = ["hub-contracts", "httpx>=0.28,<0.29", "pydantic-settings>=2.13,<3", "PyYAML>=6,<7", "exchange-calendars==4.13.2", "typer>=0.24,<1"]
+[project.entry-points."hub.commands"]
+export = "hub_core.export.commands:register"
+[tool.uv.sources]
+hub-contracts = { workspace = true }
+[dependency-groups]
+dev = ["types-PyYAML>=6,<7", "pandas-stubs>=3,<4"]
+[build-system]
+requires = ["uv_build>=0.12.21,<0.13"]
+build-backend = "uv_build"

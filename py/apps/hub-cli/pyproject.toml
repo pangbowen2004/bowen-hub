@@ -1,0 +1,18 @@
+[project]
+name = "hub-cli"
+version = "0.1.0"
+description = "计算任务命令行入口"
+requires-python = ">=3.14"
+dependencies = ["typer>=0.24,<1", "hub-core", "hub-ai", "hub-providers", "hub-market", "hub-newsroom", "hub-papers"]
+[project.scripts]
+hub = "hub_cli.main:main"
+[tool.uv.sources]
+hub-core = { workspace = true }
+hub-ai = { workspace = true }
+hub-providers = { workspace = true }
+hub-market = { workspace = true }
+hub-newsroom = { workspace = true }
+hub-papers = { workspace = true }
+[build-system]
+requires = ["uv_build>=0.12.21,<0.13"]
+build-backend = "uv_build"
