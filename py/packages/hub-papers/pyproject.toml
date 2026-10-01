@@ -3,7 +3,7 @@ name = "hub-papers"
 version = "0.1.0"
 description = "领域预接线，业务由后续任务实现"
 requires-python = ">=3.14"
-dependencies = ["hub-core", "hub-contracts", "typer>=0.24,<1"]
+dependencies = ["hub-core", "hub-contracts", "typer>=0.24,<1", "pymupdf>=1.26,<2"]
 [project.entry-points."hub.commands"]
 ingest = "hub_papers.ingest.commands:register"
 revise = "hub_papers.revise.commands:register"
