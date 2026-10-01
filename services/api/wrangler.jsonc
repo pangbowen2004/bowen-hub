@@ -11,7 +11,7 @@
     {
       "binding": "DB",
       "database_name": "bowen-hub",
-      "database_id": "00000000-0000-0000-0000-000000000000",
+      "database_id": "87b25cce-b111-405e-a9a1-5dc687a81ee3",
       "migrations_dir": "migrations"
     }
   ],
@@ -27,7 +27,7 @@
     "AUTH_BASE_URL": "https://bowen-console.pages.dev",
     "AUTH_RP_ID": "bowen-console.pages.dev",
     "AUTH_TRUSTED_ORIGINS": "https://bowen-console.pages.dev",
-    "CLOUDFLARE_ACCOUNT_ID": "",
+    "CLOUDFLARE_ACCOUNT_ID": "4e61d97f57a5b1c96c971b70115ad8c4",
     "AI_GATEWAY_ID": "bowen-hub"
   }
 }
