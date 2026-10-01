@@ -68,7 +68,35 @@ export function markBinarySchemas<T>(value: T): T {
   return (binary ? { type: "string", format: "binary", ...result } : result) as T;
 }
 
-const transformer = (spec: OpenApiDocument): OpenApiDocument => markBinarySchemas(spec);
+/**
+ * TypeSpec 的纯字典用 unevaluatedProperties，Orval 仅识别 additionalProperties。
+ * 没有具名属性或组合 schema 的纯字典，两种关键字等价；只适配交给 Orval 的副本。
+ */
+export function normalizeRecordSchemas<T>(value: T): T {
+  if (Array.isArray(value)) return value.map((item: unknown) => normalizeRecordSchemas(item)) as T;
+  if (typeof value !== "object" || value === null) return value;
+  const result = Object.fromEntries(
+    Object.entries(value).map(([key, item]) => [key, normalizeRecordSchemas(item)]),
+  );
+  const pureRecord =
+    result.type === "object" &&
+    (result.properties === undefined || Object.keys(result.properties).length === 0) &&
+    result.allOf === undefined &&
+    result.anyOf === undefined &&
+    result.oneOf === undefined &&
+    result.$ref === undefined &&
+    result.patternProperties === undefined &&
+    result.additionalProperties === undefined &&
+    typeof result.unevaluatedProperties === "object" &&
+    result.unevaluatedProperties !== null &&
+    Object.keys(result.unevaluatedProperties).length > 0;
+  return (
+    pureRecord ? { ...result, additionalProperties: result.unevaluatedProperties } : result
+  ) as T;
+}
+
+const transformer = (spec: OpenApiDocument): OpenApiDocument =>
+  markBinarySchemas(normalizeRecordSchemas(spec));
 
 /** Zod 的生成设置（测试里也用它检查 x- 标注不会变成校验） */
 export function zodProject(openapi: string, target: string): Options {
