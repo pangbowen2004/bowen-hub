@@ -4,7 +4,11 @@ import { describe, expect, it, vi } from "vitest";
 import { app } from "../../src/app";
 import { dispatch } from "../../src/lib/github";
 import { readFile, writeFile } from "../../src/lib/r2";
+import { tools as marketTools } from "../../src/modules/markets/mcp";
 import { tools } from "../../src/modules/mcp/registry";
+import { tools as newsTools } from "../../src/modules/news/mcp";
+import { tools as paperTools } from "../../src/modules/papers/mcp";
+import { tools as watchlistTools } from "../../src/modules/watchlist/mcp";
 
 describe("存储和GitHub薄封装", () => {
   it("R2流式保存/读取保留字节与媒体类型，缺文件明确404", async () => {
@@ -78,6 +82,7 @@ describe("存储和GitHub薄封装", () => {
       expect(response.status).toBe(501);
       expect(schemas.Problem.parse(await response.json()).detail).toBe(`未实现（任务 ${task}）`);
     }
-    expect(tools).toEqual([]);
+    expect(tools).toEqual([...newsTools, ...watchlistTools, ...marketTools, ...paperTools]);
+    expect(new Set(tools.map((tool) => tool.name)).size).toBe(tools.length);
   });
 });

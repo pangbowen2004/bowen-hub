@@ -279,7 +279,7 @@ describe("鉴权分流", () => {
   });
 });
 
-it("遍历OpenAPI的80接口，没有404；未实现按x-task返回501", async () => {
+it("遍历完整OpenAPI，路由存在；未实现按x-task返回501", async () => {
   let count = 0;
   for (const [path, methods] of Object.entries(env.TEST_OPENAPI.paths))
     for (const [method, op] of Object.entries(methods)) {
@@ -305,13 +305,23 @@ it("遍历OpenAPI的80接口，没有404；未实现按x-task返回501", async (
         env,
         url.startsWith("/v1/internal/") || method === "get" ? "Bearer test-service-token" : "",
       );
-      expect(response.status, op.operationId).not.toBe(404);
-      if (op["x-task"] !== "T02") {
-        expect(response.status, op.operationId).toBe(501);
+      if (response.status === 501) {
+        expect(op["x-task"], op.operationId).not.toBe("T02");
         expect(z.Problem.parse(await response.json()).detail).toBe(
           `未实现（任务 ${op["x-task"]}）`,
         );
-      } else expect([200, 204], op.operationId).toContain(response.status);
+      } else if (op["x-task"] === "T02") {
+        expect([200, 204], op.operationId).toContain(response.status);
+      } else {
+        // 领域逐步接入后，空数据库或{}请求可以被明确拒绝；不能是漏接路由或内部错误。
+        expect(response.status, op.operationId).toBeLessThan(500);
+        expect(response.status, op.operationId).toBeGreaterThanOrEqual(200);
+        if (response.status >= 400) {
+          const error = z.Problem.parse(await response.json());
+          expect(error.status).toBe(response.status);
+          expect(error.detail, op.operationId).not.toBe("接口不存在");
+        }
+      }
     }
-  expect(count).toBe(80);
+  expect(count).toBe(ROUTES.length);
 });
