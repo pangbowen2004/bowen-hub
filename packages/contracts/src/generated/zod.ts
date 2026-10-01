@@ -15,7 +15,6 @@ export const AiCall = zod.object({
 }).describe('一次 AI 能力调用的记录（ai_calls 表，docs/09 第 3 节；运行时在 docs/10 第 5 节第 7 步回调写入）');
 
 export type AiCall = zod.input<typeof AiCall>;
-export type AiCallOutput = zod.output<typeof AiCall>;
 
 export const AiUsageCapability = zod.object({
   "capability": zod.string().describe('能力 ID'),
@@ -27,7 +26,6 @@ export const AiUsageCapability = zod.object({
 }).describe('某个能力的用量');
 
 export type AiUsageCapability = zod.input<typeof AiUsageCapability>;
-export type AiUsageCapabilityOutput = zod.output<typeof AiUsageCapability>;
 
 export const AiUsageDay = zod.object({
   "date": zod.iso.date(),
@@ -39,7 +37,6 @@ export const AiUsageDay = zod.object({
 }).describe('某一天的用量');
 
 export type AiUsageDay = zod.input<typeof AiUsageDay>;
-export type AiUsageDayOutput = zod.output<typeof AiUsageDay>;
 
 export const AiUsageStats = zod.object({
   "calls": zod.int().describe('调用次数'),
@@ -50,7 +47,6 @@ export const AiUsageStats = zod.object({
 }).describe('一组 AI 调用的合计');
 
 export type AiUsageStats = zod.input<typeof AiUsageStats>;
-export type AiUsageStatsOutput = zod.output<typeof AiUsageStats>;
 
 export const AiUsageSummary = zod.object({
   "days": zod.int().describe('统计窗口：最近多少天（含今天）'),
@@ -62,17 +58,14 @@ export const AiUsageSummary = zod.object({
 }).describe('GET /v1/ai/usage?days 的用量汇总（ai_calls 表的 SQL 聚合）。\n控制台“运维”页显示用量与费用并对比月度预算，“今日”页显示本月 AI 费用（docs/05 第 6 节）。');
 
 export type AiUsageSummary = zod.input<typeof AiUsageSummary>;
-export type AiUsageSummaryOutput = zod.output<typeof AiUsageSummary>;
 
 export const AutonomyLevel = zod.enum(['L0', 'L1', 'L2', 'L3']).describe('自治等级（docs/10 第 6 节）');
 
 export type AutonomyLevel = zod.input<typeof AutonomyLevel>;
-export type AutonomyLevelOutput = zod.output<typeof AutonomyLevel>;
 
 export const EvalSchedule = zod.enum(['weekly', 'on-change']).describe('评测时机：weekly 参加每周全量评测；on-change 只在改动时跑');
 
 export type EvalSchedule = zod.input<typeof EvalSchedule>;
-export type EvalScheduleOutput = zod.output<typeof EvalSchedule>;
 
 export const CapabilityEvals = zod.object({
   "dataset": zod.string().describe('评测集目录，如 evals/news.ticker_digest/'),
@@ -83,22 +76,18 @@ export const CapabilityEvals = zod.object({
 }).describe('能力的评测设置');
 
 export type CapabilityEvals = zod.input<typeof CapabilityEvals>;
-export type CapabilityEvalsOutput = zod.output<typeof CapabilityEvals>;
 
 export const CapabilityRuntime = zod.enum(['python', 'typescript']).describe('能力在哪一端运行');
 
 export type CapabilityRuntime = zod.input<typeof CapabilityRuntime>;
-export type CapabilityRuntimeOutput = zod.output<typeof CapabilityRuntime>;
 
 export const ModelTier = zod.enum(['fast', 'balanced', 'frontier']).describe('模型档位（docs/10 第 4 节；档位 → 模型只在 config/llm.yaml 定义）');
 
 export type ModelTier = zod.input<typeof ModelTier>;
-export type ModelTierOutput = zod.output<typeof ModelTier>;
 
 export const ReasoningEffort = zod.enum(['none', 'low', 'medium', 'high', 'xhigh', 'max']).describe('推理强度（config/llm.yaml 里各档位的 reasoning）');
 
 export type ReasoningEffort = zod.input<typeof ReasoningEffort>;
-export type ReasoningEffortOutput = zod.output<typeof ReasoningEffort>;
 
 export const CapabilityIo = zod.object({
   "input": zod.string(),
@@ -106,7 +95,6 @@ export const CapabilityIo = zod.object({
 }).describe('能力的输入输出模型名（contracts/capabilities.tsp 里的模型）');
 
 export type CapabilityIo = zod.input<typeof CapabilityIo>;
-export type CapabilityIoOutput = zod.output<typeof CapabilityIo>;
 
 export const CapabilityLimits = zod.object({
   "maxInputTokens": zod.int(),
@@ -115,7 +103,6 @@ export const CapabilityLimits = zod.object({
 }).describe('能力的调用上限');
 
 export type CapabilityLimits = zod.input<typeof CapabilityLimits>;
-export type CapabilityLimitsOutput = zod.output<typeof CapabilityLimits>;
 
 export const EvalResult = zod.object({
   "capability": zod.string().describe('能力 ID'),
@@ -131,7 +118,6 @@ export const EvalResult = zod.object({
 }).describe('一个能力的一次评测结果（eval_results 表，docs/09 第 3 节、docs/10 第 7 节）');
 
 export type EvalResult = zod.input<typeof EvalResult>;
-export type EvalResultOutput = zod.output<typeof EvalResult>;
 
 export const CapabilityInfo = zod.object({
   "id": zod.string().describe('能力 ID，如 news.ticker_digest'),
@@ -156,12 +142,10 @@ export const CapabilityInfo = zod.object({
 }).describe('GET /v1/capabilities 的一项：能力清单 capabilities/<id>.yaml 的字段（docs/10 第 3 节），\n加上档位当前对应的模型与推理强度（config/llm.yaml），以及最近一次评测结果。');
 
 export type CapabilityInfo = zod.input<typeof CapabilityInfo>;
-export type CapabilityInfoOutput = zod.output<typeof CapabilityInfo>;
 
 export const DocumentKey = zod.enum(['markets.reference', 'papers.catalog.public', 'papers.catalog.all', 'papers.graph.public', 'papers.graph.all', 'papers.search.public']).describe('documents 表里的文档键（派生数据与参考资料；docs/03 第 2、7 节，docs/04 第 6 节）');
 
 export type DocumentKey = zod.input<typeof DocumentKey>;
-export type DocumentKeyOutput = zod.output<typeof DocumentKey>;
 
 export const Document = zod.object({
   "key": DocumentKey,
@@ -172,12 +156,10 @@ export const Document = zod.object({
 }).describe('通用的“单份文档”（documents 表，docs/09 第 3 节）。\n写入用 PUT /v1/internal/documents/{key}，请求体就是 payload 本身；读取由各领域的接口完成\n（如 GET /v1/public/markets/reference 返回 markets.reference 的 payload）。');
 
 export type Document = zod.input<typeof Document>;
-export type DocumentOutput = zod.output<typeof Document>;
 
 export const ExportTable = zod.enum(['news_sources', 'articles', 'filings', 'insider_trades', 'calendar_events', 'earnings_cards', 'editions', 'edition_feedback', 'watch_items', 'market_days', 'market_hypotheses', 'market_weeklies', 'market_events', 'index_history', 'papers', 'paper_private', 'paper_reviews', 'paper_uploads', 'documents', 'runs', 'ai_calls', 'eval_results']).describe('可以导出的表：docs/09 第 3 节除鉴权表和两张 FTS5 虚拟表以外的全部表');
 
 export type ExportTable = zod.input<typeof ExportTable>;
-export type ExportTableOutput = zod.output<typeof ExportTable>;
 
 export const ExportPage = zod.object({
   "table": ExportTable.describe('导出的表'),
@@ -188,7 +170,6 @@ export const ExportPage = zod.object({
 }).describe('GET /v1/internal/export/{table} 的一页（hub export 每晚分页读出，写进数据仓库 bowen-hub-data，docs/09 第 5 节）');
 
 export type ExportPage = zod.input<typeof ExportPage>;
-export type ExportPageOutput = zod.output<typeof ExportPage>;
 
 export const GeneratedBy = zod.object({
   "capability": zod.string().describe('能力 ID，如 news.ticker_digest'),
@@ -198,14 +179,12 @@ export const GeneratedBy = zod.object({
 }).describe('AI 生成内容的出处（docs/08 第 4 节；运行时在 docs/10 第 5 节第 6 步盖上）');
 
 export type GeneratedBy = zod.input<typeof GeneratedBy>;
-export type GeneratedByOutput = zod.output<typeof GeneratedBy>;
 
 export const Health = zod.object({
   "status": zod.enum(['ok']).describe('API 在线时为 ok')
 }).describe('GET /v1/health 的返回');
 
 export type Health = zod.input<typeof Health>;
-export type HealthOutput = zod.output<typeof Health>;
 
 export const Problem = zod.object({
   "type": zod.string().describe('错误类型的 URI；没有专门类型时为 about:blank'),
@@ -215,12 +194,10 @@ export const Problem = zod.object({
 }).describe('错误响应的正文（application/problem+json，RFC 9457）。\n各接口统一用 HubHttp.ErrorResponse 声明错误（OpenAPI 里是 default 响应）。');
 
 export type Problem = zod.input<typeof Problem>;
-export type ProblemOutput = zod.output<typeof Problem>;
 
 export const RunStatus = zod.enum(['running', 'succeeded', 'failed']).describe('运行状态：开始时写 running，结束时写 succeeded 或 failed');
 
 export type RunStatus = zod.input<typeof RunStatus>;
-export type RunStatusOutput = zod.output<typeof RunStatus>;
 
 export const Run = zod.object({
   "id": zod.string().describe('运行 ID，由任务生成，如 news-morning-2026-09-30-<GitHub 运行号>'),
@@ -236,7 +213,6 @@ export const Run = zod.object({
 }).describe('计算任务的一次运行（runs 表，docs/09 第 3、7、9 节）。\n任务开始和结束各写一次 PUT /v1/internal/runs/{runId}（同一 id 覆盖）。');
 
 export type Run = zod.input<typeof Run>;
-export type RunOutput = zod.output<typeof Run>;
 
 export const RunPage = zod.object({
   "items": zod.array(Run).describe('本页条目'),
@@ -244,12 +220,10 @@ export const RunPage = zod.object({
 }).describe('GET /v1/runs 的一页');
 
 export type RunPage = zod.input<typeof RunPage>;
-export type RunPageOutput = zod.output<typeof RunPage>;
 
 export const WatchItemKind = zod.enum(['stock', 'etf', 'leveraged_etf', 'crypto']).describe('自选股类型（docs/02 第 3 节）：stock 有自己的新闻和 SEC 公告；etf 按代码取新闻再加别名匹配；\nleveraged_etf 并入标的；crypto 用加密新闻和日线（日涨跌幅按 UTC 日计算）');
 
 export type WatchItemKind = zod.input<typeof WatchItemKind>;
-export type WatchItemKindOutput = zod.output<typeof WatchItemKind>;
 
 export const WatchItem = zod.object({
   "symbol": zod.string().describe('代码（主键）；加密资产用 BTC、XRP'),
@@ -263,7 +237,6 @@ export const WatchItem = zod.object({
 }).describe('一只自选股（watch_items 表，docs/09 第 3 节）');
 
 export type WatchItem = zod.input<typeof WatchItem>;
-export type WatchItemOutput = zod.output<typeof WatchItem>;
 /**
  * AI 用量汇总（ai_calls 表的聚合）
  */

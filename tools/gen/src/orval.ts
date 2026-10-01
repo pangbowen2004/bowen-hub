@@ -108,6 +108,18 @@ export function rewriteSchemaImports(source: string, file: string): string {
   return source.replace(pattern, "from './types'");
 }
 
+/**
+ * Orval 8.38 的复用 schema 无条件生成 XOutput 推导别名，会撞契约里的能力模型 XOutput。
+ * TS 类型已由 types.ts 提供；保留 schema 及其同名输入类型，删除冗余输出推导别名。
+ * 只删除 Orval 的固定别名形态，不改任何模型、schema 常量或递归类型声明。
+ */
+export function removeZodOutputAliases(source: string): string {
+  return source.replace(
+    /^export type ([A-Za-z_$][\w$]*) = zod\.output<typeof ([A-Za-z_$][\w$]*)>;\r?\n/gm,
+    (line: string, alias: string, schema: string) => (alias === `${schema}Output` ? "" : line),
+  );
+}
+
 /** 生成目录里最终应当只有这几个文件 */
 export const TS_FILES = ["client.ts", "hooks.ts", "msw.ts", "types.ts", "zod.ts"];
 
@@ -121,6 +133,8 @@ function finishTypeScript(): void {
   for (const file of ["client.ts", "hooks.ts", "msw.ts"]) {
     writeFileSync(out(file), rewriteSchemaImports(readFileSync(out(file), "utf8"), file));
   }
+  const zodPath = out("zod.ts");
+  writeFileSync(zodPath, removeZodOutputAliases(readFileSync(zodPath, "utf8")));
   const files = readdirSync(PATHS.tsGenerated).sort();
   if (files.join(",") !== TS_FILES.join(",")) {
     throw new Error(`生成目录里应当是 ${TS_FILES.join("、")}，实际是 ${files.join("、")}`);

@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { markBinarySchemas, rewriteSchemaImports } from "../src/orval.ts";
+import { markBinarySchemas, removeZodOutputAliases, rewriteSchemaImports } from "../src/orval.ts";
 
 describe("Orval 类型文件的导入", () => {
   it("client.schemas、hooks.schemas 都改成 ./types", () => {
@@ -51,5 +51,29 @@ describe("交给 Orval 的副本上标记二进制正文", () => {
         contentEncoding: "base64",
       },
     );
+  });
+});
+
+describe("能力输出模型与 Zod 推导类型的重名", () => {
+  it("保留两个模型的 schema 和输入类型，去掉自动生成的 Output 别名", () => {
+    const source = [
+      "export const EarningsCard = zod.object({});",
+      "export type EarningsCard = zod.input<typeof EarningsCard>;",
+      "export type EarningsCardOutput = zod.output<typeof EarningsCard>;",
+      "export const EarningsCardOutput = zod.object({});",
+      "export type EarningsCardOutput = zod.input<typeof EarningsCardOutput>;",
+      "export type EarningsCardOutputOutput = zod.output<typeof EarningsCardOutput>;",
+      "export type Other = zod.output<typeof EarningsCard>;",
+      "",
+    ].join("\n");
+    const result = removeZodOutputAliases(source);
+    expect(result).toContain("export const EarningsCardOutput = zod.object({});");
+    expect(result).toContain(
+      "export type EarningsCardOutput = zod.input<typeof EarningsCardOutput>;",
+    );
+    expect(result).not.toContain("EarningsCardOutput = zod.output");
+    expect(result).not.toContain("EarningsCardOutputOutput");
+    expect(result).toContain("export type Other = zod.output<typeof EarningsCard>;");
+    expect(removeZodOutputAliases(result)).toBe(result);
   });
 });
