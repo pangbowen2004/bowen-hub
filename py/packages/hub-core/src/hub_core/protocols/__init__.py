@@ -34,12 +34,11 @@ class CalendarSource(Protocol):
 
 @dataclass(frozen=True)
 class PriceBar:
-    # 契约 IndexBar 不含股票标识；内部日线只增加 symbol，不新增 API 类型。
+    # 美股新闻只需日线涨跌与对照，保留最小内部表示，不推断成交额币种。
     symbol: str
     date: date
     close: float
     return1d: float | None
-    amountCny: float | None
 
 
 class QuoteSource(Protocol):
