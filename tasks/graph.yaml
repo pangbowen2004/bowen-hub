@@ -340,6 +340,9 @@ tasks:
            py/packages/hub-market/src/hub_market/compare/**, py/packages/hub-market/tests/compute/**, config/market*.yaml]
     sharedEdits:
       - "py/apps/hub-cli/tests/test_commands.py：仅将T21 market compare占位失败断言改为命令help发现检查，保留其他命令断言；实际计算和差异退出码由T21领域测试验证"
+      - "fixtures/tushare/2026-08-24/**：仅新增T20采集器真实录制的该日原始数据，补齐T21五日演化，不修改已有录制"
+      - "fixtures/tushare/2026-08-25/**：仅新增T20采集器真实录制的该日原始数据，补齐T21五日演化，不修改已有录制"
+      - "fixtures/tushare/2026-08-26/**：仅新增T20采集器真实录制的该日原始数据，补齐T21五日演化，不修改已有录制"
     read: [docs/03 第 4、7 节, docs/07 第 4 节, config/market*.yaml, fixtures/market/]
     deliver:
       - docs/03 第 4 节全部计算（纯函数 + 单元测试）、状态摘要（4.16）
