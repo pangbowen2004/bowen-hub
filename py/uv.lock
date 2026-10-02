@@ -220,6 +220,27 @@ wheels = [
 ]
 
 [[package]]
+name = "css-inline"
+version = "0.22.0"
+source = { registry = "https://pypi.org/simple" }
+sdist = { url = "https://files.pythonhosted.org/packages/8d/05/247b116706a315a3128cf37dc4aaee6bea80ec05f1b8661fed6e4e225155/css_inline-0.22.0.tar.gz", hash = "sha256:c7682a3ce51e915b30f592f488ee4cb06ea138746bc13784178b230615dff041", size = 74475, upload-time = "2026-10-01T23:18:49.032Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/9f/71/c92f91ac62c532ccc7837da9ee8e70c61a6257844522ea4ee8fbb03ba2bd/css_inline-0.22.0-cp310-abi3-macosx_10_12_x86_64.macosx_11_0_arm64.macosx_10_12_universal2.whl", hash = "sha256:fd0741102dadd10928a519f86e61399a9d8f830efba2c3d65f272e08075b9e24", size = 3573457, upload-time = "2026-10-01T23:18:26.837Z" },
+    { url = "https://files.pythonhosted.org/packages/64/4b/4c53175d1455cbf091f006084c60cc104f8189b98b43b9e1290c362a97c9/css_inline-0.22.0-cp310-abi3-macosx_10_12_x86_64.whl", hash = "sha256:14534e2a3398bf5e4250ea970c9d3954e1a90d5f4c17edbaa4d768ad67f1ede6", size = 1842955, upload-time = "2026-10-01T23:18:28.644Z" },
+    { url = "https://files.pythonhosted.org/packages/76/73/568e13331ebb1e0d151ff23c83f9959ae335833e4fb5f7b2660dd636c33e/css_inline-0.22.0-cp310-abi3-manylinux_2_12_i686.manylinux2010_i686.whl", hash = "sha256:439bfd47e08b6b8fe108bfc72e1394d9e18bf8f6800ad13e32c0fb11e10460fa", size = 1863761, upload-time = "2026-10-01T23:18:30.073Z" },
+    { url = "https://files.pythonhosted.org/packages/cf/f8/0ad94bf09db4643fbcee0aa09e031b3bf69b967ac910f58ff1a9bec3ffd2/css_inline-0.22.0-cp310-abi3-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:e92ac1732733d9f63542624150ebf3e6b6215ef0b45748e718ae27ca4bd42f4f", size = 1949795, upload-time = "2026-10-01T23:18:31.313Z" },
+    { url = "https://files.pythonhosted.org/packages/c5/49/679991e7513436e81f326e73aa9bd4ed157c55754682dd64947cc5fb0278/css_inline-0.22.0-cp310-abi3-manylinux_2_24_aarch64.whl", hash = "sha256:f262d08ac8b0a7276ab270531e47be0eebdb51294dd0e7f9b8131bfdadbc77b9", size = 1885531, upload-time = "2026-10-01T23:18:32.686Z" },
+    { url = "https://files.pythonhosted.org/packages/55/85/3db222410e79274acec640d111e6fbe6a5bbc4ca376bc8fb545db64d36c6/css_inline-0.22.0-cp310-abi3-manylinux_2_24_armv7l.whl", hash = "sha256:d5052acd284c45416b0afc599ee1667951b73c912459f5f5114626ed89836e08", size = 1752893, upload-time = "2026-10-01T23:18:34.306Z" },
+    { url = "https://files.pythonhosted.org/packages/56/a8/3a894f99680449b3186bd94733cff6647233e7fba43153d376bcda5cf0da/css_inline-0.22.0-cp310-abi3-musllinux_1_2_aarch64.whl", hash = "sha256:7ea49db51a86b2e4db77ad615fed3f7a45d112d89e04a78e2d89c9f3ef748f50", size = 2074461, upload-time = "2026-10-01T23:18:36.21Z" },
+    { url = "https://files.pythonhosted.org/packages/2c/c3/eba6ec16c88dad15edec9fe52ae3aaf9e54efd27325267f31827a433656f/css_inline-0.22.0-cp310-abi3-musllinux_1_2_armv7l.whl", hash = "sha256:efae706d1d67b342086e8c2b39ec9d1ec374a1b12752d2b4cf3e0b44f28534da", size = 1981000, upload-time = "2026-10-01T23:18:37.594Z" },
+    { url = "https://files.pythonhosted.org/packages/1b/e9/9d534020fca14a28b11af950e7e20132878da65788c3aba874e2db6e9b2b/css_inline-0.22.0-cp310-abi3-musllinux_1_2_x86_64.whl", hash = "sha256:30cf11824e8a0bedc794f2161f3e8128418bb0e659ff41533bc59175b88fed16", size = 2185723, upload-time = "2026-10-01T23:18:39.097Z" },
+    { url = "https://files.pythonhosted.org/packages/7e/2f/b1a113f70692a5385d6518e7aae1f4134c30949ed67ab684fe1c811f1d78/css_inline-0.22.0-cp310-abi3-pyemscripten_2025_0_wasm32.whl", hash = "sha256:5d0c7eaba289ca46fdc686df8de670eec4a2c71e2280f1740ae89ec63286629f", size = 527608, upload-time = "2026-10-01T23:18:40.515Z" },
+    { url = "https://files.pythonhosted.org/packages/22/b0/4bff3fa4253107ba64d393b091203109b5970537404466c00aa158cdb6a2/css_inline-0.22.0-cp310-abi3-pyemscripten_2026_0_wasm32.whl", hash = "sha256:7ae34ccc23b37626e0e2dd7c4c5b1244849e977f7c377c3105dab8d3fd91616c", size = 524112, upload-time = "2026-10-01T23:18:41.605Z" },
+    { url = "https://files.pythonhosted.org/packages/8b/33/64db28f9392427acc46a5722697e90a92c7e29154e102856efec836faa96/css_inline-0.22.0-cp310-abi3-win32.whl", hash = "sha256:a8db2042511690adc9957a0f9ce46b9bb27e2c528afe99c053d75e9bffa50ca9", size = 1604843, upload-time = "2026-10-01T23:18:42.61Z" },
+    { url = "https://files.pythonhosted.org/packages/0f/54/894bcb844c6177f12b5b738a324d92ee3c30eed4a2161ea1f42609e790e9/css_inline-0.22.0-cp310-abi3-win_amd64.whl", hash = "sha256:7cf803ebcc56f81c7575604e51a949fcea551a47bae433dca81b602ef85ae31c", size = 1909437, upload-time = "2026-10-01T23:18:44.148Z" },
+]
+
+[[package]]
 name = "datamodel-code-generator"
 version = "0.83.0"
 source = { registry = "https://pypi.org/simple" }
@@ -569,17 +590,23 @@ name = "hub-newsroom"
 version = "0.1.0"
 source = { editable = "packages/hub-newsroom" }
 dependencies = [
+    { name = "css-inline" },
     { name = "hub-ai" },
     { name = "hub-contracts" },
     { name = "hub-core" },
+    { name = "hub-providers" },
+    { name = "jinja2" },
     { name = "typer" },
 ]
 
 [package.metadata]
 requires-dist = [
+    { name = "css-inline", specifier = ">=0.17,<1" },
     { name = "hub-ai", editable = "packages/hub-ai" },
     { name = "hub-contracts", editable = "packages/hub-contracts" },
     { name = "hub-core", editable = "packages/hub-core" },
+    { name = "hub-providers", editable = "packages/hub-providers" },
+    { name = "jinja2", specifier = ">=3.1.6,<4" },
     { name = "typer", specifier = ">=0.24,<1" },
 ]
 

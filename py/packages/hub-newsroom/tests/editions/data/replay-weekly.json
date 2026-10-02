@@ -1,0 +1,45 @@
+[
+  {
+    "kind": "weekly_performance",
+    "title": "本周表现",
+    "items": [
+      {
+        "id": "snapshot",
+        "data": {
+          "indices": [],
+          "watchlist": [],
+          "treasury10Year": null,
+          "vix": null
+        },
+        "ruleScore": null,
+        "clusterId": null
+      }
+    ]
+  },
+  {
+    "kind": "ticker_weekly",
+    "title": "自选股周记",
+    "items": [
+      {
+        "id": "ticker:AAPL",
+        "data": {
+          "symbol": "AAPL",
+          "change": null,
+          "withSector": null,
+          "whatHappened": "",
+          "whyItMatters": null,
+          "sourceIds": [],
+          "points": [],
+          "generatedBy": null
+        },
+        "ruleScore": 5.0,
+        "clusterId": null
+      }
+    ]
+  },
+  {
+    "kind": "next_week_calendar",
+    "title": "下周日程",
+    "items": []
+  }
+]
