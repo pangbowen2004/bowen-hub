@@ -511,6 +511,8 @@ tasks:
     difficulty: medium
     owns: [apps/console/src/routes/papers/**, apps/console/src/features/papers/**, apps/console/src/mocks/papers/**,
            apps/console/e2e/papers/**, packages/ui/src/**/AskDrawer/**, packages/ui/src/**/PageImage/**]
+    sharedEdits:
+      - "services/api/test/papers-console-entry.mjs：隔离本地验收专用入口，复用正式鉴权、D1、R2与问答运行时，仅替代明确测试账户的外部调用"
     read: [docs/04 第 2、4–5 节, docs/05]
     deliver: ["docs/04 第 4 节全部功能（/papers、/papers/$id、/papers/inbox、/papers/graph），含上传与失败重试"]
     accept:
