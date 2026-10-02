@@ -453,6 +453,8 @@ tasks:
            evals/papers.author/**, evals/papers.review/**, py/packages/hub-papers/src/hub_papers/ingest/**,
            py/packages/hub-papers/src/hub_papers/revise/**, py/packages/hub-papers/src/hub_papers/localtask/**,
            py/packages/hub-papers/src/hub_papers/ai/**, py/packages/hub-papers/tests/ingest/**, .github/workflows/papers-ingest.yml]
+    sharedEdits:
+      - "py/packages/hub-papers/pyproject.toml：仅登记hub.ai_checks的paper_draft入口，指向本任务ingest.checks薄适配器；依赖段仍按公共规则"
     read: [docs/04 第 5 节, docs/10, prompts/paper_author.md, prompts/paper_review.md]
     deliver:
       - "`hub papers ingest`（uploadId / --file / --arxiv，docs/04 第 5.1 节的全部步骤与状态）、`hub papers revise`、`hub papers task`、`hub papers submit`"
