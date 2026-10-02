@@ -46,7 +46,7 @@ it("并发发布期间实际文件读者只看见旧版或新版完整模块", a
   } finally {
     await rm(directory, { recursive: true, force: true });
   }
-});
+}, 15000);
 
 it("发布失败保留原错误和目标并清除临时文件", async () => {
   const directory = await mkdtemp(join(tmpdir(), "ai-registry-failure-"));

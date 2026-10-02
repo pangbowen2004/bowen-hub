@@ -42,3 +42,15 @@ Python 672 项通过、1 项既定真实公开 PDF 联网验收跳过，耗时 1
 文件；日志 `/tmp/bowen-ai-registry-atomic-cold-build.log`。既有 build 无 dist 输出
 的 Turbo 警告保留，没有改配置隐藏它。没有执行真实模型、远端 API、E2E、
 fuzz 或提交；独立审查和新 PR 的真实 CI 仍由根任务验收。
+
+## 并行全仓负载下的测试期限
+
+根任务同时运行两个分支的全仓测试时，T31 集成树该并发文件回归在 5617ms
+触发 Vitest 默认 5000ms 超时，日志 `/tmp/bowen-T31-atomic-integrated-test.log`
+保留；报错是测试期限，没有出现字节完整性断言失败。此案例验证原子发布完整性，
+不验证 5 秒性能 SLA。因此只为该案例显式设置 15000ms 测试期限，仍保留
+8 写者 × 6 轮、全部大文件 payload、真实读取、模块加载与清理断言。不改变全局
+测试期限、生产逻辑或业务／模型 deadline。此次定向两项测试通过（254ms），全
+检查退出 0（6.41 秒）；日志 `/tmp/bowen-ai-registry-atomic-timeout-test.log`、
+`/tmp/bowen-ai-registry-atomic-timeout-check.log`。没有重跑 setup/gen 或其他 CI；
+该增量仍须独立审查及 PR 新 head 的实际 CI 验收。
