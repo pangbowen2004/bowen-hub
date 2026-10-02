@@ -1,7 +1,7 @@
 # 基于这篇论文的导读、证据和整篇原文回答问题，标注页码（流式）
 # 格式说明见 docs/10 第 3 节；输入输出模型在 contracts/capabilities.tsp
 id: papers.qa
-version: 1
+version: 2
 summary: 基于这篇论文的导读、证据和整篇原文回答问题，标注页码（流式）
 owner: papers
 runtime: typescript
