@@ -96,7 +96,16 @@ jobs:
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
           CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
           AI_GATEWAY_ID: ${{ secrets.AI_GATEWAY_ID }}
-        run: mise run evals -- --changed
+        run: mise run evals -- --changed --case-report ../eval-cases.json
+
+      - name: 保存成功或失败的逐例评测输出
+        if: always() && steps.changes.outputs.ai == 'true'
+        uses: actions/upload-artifact@v7
+        with:
+          name: eval-cases
+          path: eval-cases.json
+          retention-days: 7
+          if-no-files-found: ignore
 
       - name: 性能（改到两个公开站时，Lighthouse CI）
         if: steps.changes.outputs.sites == 'true'
