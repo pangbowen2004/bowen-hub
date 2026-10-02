@@ -31,6 +31,21 @@ def measurement_numbers(text: str) -> tuple[str, ...]:
         text,
         flags=re.IGNORECASE,
     )
+    # 有中文样本量词时先分开标识前缀，避免把真实数量吞成名称。
+    text = re.sub(
+        r"(?<![A-Za-z0-9_])(WSJ)(?=\d+\s*(?:测试)?(?:条|个|份|项|样本))",
+        r"\1 ",
+        text,
+        flags=re.IGNORECASE,
+    )
+    # 明确章节标记与 WSJ 23 测试集名称不表示测量数值。
+    text = re.sub(r"§\s*\d+(?:\.\d+)*(?![\d.])", " ", text)
+    text = re.sub(
+        r"(?<![A-Za-z0-9_])WSJ\s+23(?=\s*(?:F1\b|test\s+set\b|[：:；;]|$))",
+        " ",
+        text,
+        flags=re.IGNORECASE,
+    )
     text = re.sub(r"(?<![A-Za-z0-9_.])[A-Za-z_][A-Za-z0-9_]*(?:-[A-Za-z0-9_]+)*", " ", text)
     pattern = r"(?<![\d.])[-+]?\d+(?:,\d{3})*(?:\.\d+)?(?:[eE][-+]?\d+)?"
     return tuple(number.replace(",", "") for number in re.findall(pattern, text))

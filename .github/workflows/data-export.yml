@@ -1,0 +1,61 @@
+# 每天新加坡03:30；推送私有备份成功后才清理365天前文章。
+name: data-export
+on:
+  schedule:
+    - cron: "30 19 * * *"
+  workflow_dispatch:
+    inputs:
+      date:
+        description: "业务日期 YYYY-MM-DD，留空为新加坡今天"
+        type: string
+      force:
+        description: "重跑已成功日期"
+        type: boolean
+        default: false
+permissions:
+  contents: read
+concurrency:
+  group: data-export
+  cancel-in-progress: false
+jobs:
+  export:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          persist-credentials: false
+      - uses: actions/checkout@v7
+        with:
+          repository: ${{ github.repository_owner }}/bowen-hub-data
+          token: ${{ secrets.GH_AUTOMATION_TOKEN }}
+          path: data
+          persist-credentials: false
+      - uses: jdx/mise-action@v5
+        with:
+          version: 2026.9.15
+      - name: 安装冻结依赖并校验生成链
+        run: mise install && mise run setup && mise run gen
+      - name: 设置备份提交身份
+        working-directory: data
+        run: |
+          git config user.name github-actions[bot]
+          git config user.email 41898282+github-actions[bot]@users.noreply.github.com
+      - name: 完整导出、推送、清理及预算检查
+        env:
+          GH_AUTOMATION_TOKEN: ${{ secrets.GH_AUTOMATION_TOKEN }}
+          HUB_API_URL: ${{ secrets.HUB_API_URL || vars.HUB_API_URL }}
+          HUB_SERVICE_TOKEN: ${{ secrets.HUB_SERVICE_TOKEN }}
+          EMAIL_FROM: ${{ secrets.EMAIL_FROM || vars.EMAIL_FROM }}
+          EMAIL_TO: ${{ secrets.EMAIL_TO || vars.EMAIL_TO }}
+          EMAIL_SMTP_HOST: ${{ secrets.EMAIL_SMTP_HOST || vars.EMAIL_SMTP_HOST }}
+          EMAIL_SMTP_PORT: ${{ secrets.EMAIL_SMTP_PORT || vars.EMAIL_SMTP_PORT || '465' }}
+          EMAIL_SMTP_USER: ${{ secrets.EMAIL_SMTP_USER }}
+          EMAIL_SMTP_PASSWORD: ${{ secrets.EMAIL_SMTP_PASSWORD }}
+          EXPORT_DATE: ${{ inputs.date }}
+          EXPORT_FORCE: ${{ inputs.force }}
+        run: |
+          args=(--directory data)
+          if [ -n "$EXPORT_DATE" ]; then args+=(--date "$EXPORT_DATE"); fi
+          if [ "$EXPORT_FORCE" = true ]; then args+=(--force); fi
+          mise exec -- uv run --project py --no-sync hub export "${args[@]}"

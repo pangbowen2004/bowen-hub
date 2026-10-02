@@ -3,6 +3,7 @@ import { spawn } from "node:child_process";
 import { mkdtempSync, readFileSync, rmSync, writeFileSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { join, resolve } from "node:path";
+import { MarketDayWrite } from "@bowen-hub/contracts/zod";
 import { parse, stringify } from "yaml";
 import { contractFixture } from "../test/auth/contract-fixture.ts";
 import { isDeclaredResourceMissing } from "./probe-response.ts";
@@ -28,11 +29,35 @@ const port = 18878;
 const base = `http://127.0.0.1:${port}`;
 // 官方扩展为二进制媒体生成字节并注册serializer，保留PDF/PNG接口与全部检查。
 const binaryHook = join(dir, "binary_media.py");
+// 深层MarketDay正向生成会触及Hypothesis最大深度；样例只辅助，不替换原随机策略。
+const marketSamples = ["2026-08-27", "2026-08-28"].map((date) =>
+  MarketDayWrite.parse({
+    day: JSON.parse(
+      readFileSync(resolve(`../../fixtures/samples/markets/MarketDay.${date}.json`), "utf8"),
+    ),
+    summary: JSON.parse(
+      readFileSync(resolve(`../../fixtures/samples/markets/MarketDaySummary.${date}.json`), "utf8"),
+    ),
+  }),
+);
+writeFileSync(join(dir, "market-day-samples.json"), JSON.stringify(marketSamples));
+writeFileSync(
+  join(dir, "contract_market_day.py"),
+  readFileSync(resolve("scripts/contract-market-day.py")),
+);
 writeFileSync(
   binaryHook,
   [
     "import schemathesis",
     "from hypothesis import strategies as st",
+    "import json",
+    "from pathlib import Path",
+    "import importlib.util",
+    'module_spec = importlib.util.spec_from_file_location("contract_market_day", Path(__file__).with_name("contract_market_day.py"))',
+    "market_module = importlib.util.module_from_spec(module_spec)",
+    "module_spec.loader.exec_module(market_module)",
+    'samples = json.loads(Path(__file__).with_name("market-day-samples.json").read_text())',
+    'schemathesis.hook("before_generate_case")(market_module.market_day_strategy(samples))',
     'for media_type in ("application/pdf", "image/png"):',
     "    schemathesis.openapi.media_type(media_type, st.binary(min_size=0, max_size=4096))",
     "",
