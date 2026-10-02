@@ -91,11 +91,15 @@ class Scorers(Evaluator[dict[str, Any], Result, EvalCase]):
             labels = case.expect.get("labels")
             if labels is None:
                 raise ValueError("用例缺少 labels")
-            # 按契约 id→标签比较，允许用例只标注需要评价的条目。
-            actual = {
-                item["id"]: item["topic"]
-                for item in raw.get("classifications", raw.get("items", raw.get("labels", [])))
-            }
+            # 审核契约采用单个结论；分类契约仍按 id→标签比较。
+            actual = (
+                {"decision": raw["decision"]}
+                if self.capability["io"]["output"] == "PaperReviewOutput"
+                else {
+                    item["id"]: item["topic"]
+                    for item in raw.get("classifications", raw.get("items", raw.get("labels", [])))
+                }
+            )
             scores["labels_match"] = (
                 sum(actual.get(key) == value for key, value in labels.items()) / len(labels)
                 if labels

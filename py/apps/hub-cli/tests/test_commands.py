@@ -51,7 +51,7 @@ def test_command_help_and_placeholder(args: list[str], task: str) -> None:
     help_result = runner.invoke(app, [*args, "--help"])
     assert help_result.exit_code == 0, help_result.output
     assert "Usage:" in help_result.output
-    if task in {"T04", "T10", "T10/T20", "T30", "T21"} or (
+    if task in {"T04", "T10", "T10/T20", "T30", "T21", "T13", "T23", "T31"} or (
         task == "T16" and args[:2] in (["migrate", "news-legacy"], ["migrate", "watchlist"])
     ):
         # 已实现命令在这里验证帮助入口；领域测试负责真实退出码与离线行为。

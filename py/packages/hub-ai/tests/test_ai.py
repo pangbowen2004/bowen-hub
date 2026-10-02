@@ -840,3 +840,136 @@ def test_eval_model_failure_has_safe_case_diagnostic(
     assert "stage=runtime" in caplog.text
     assert "模型传输失败" in caplog.text
     assert "private-provider-token-do-not-log" not in caplog.text
+
+
+@pytest.mark.parametrize("decision", ["pass", "revise", "escalate"])
+def test_paper_review_decision_scoring(decision: str) -> None:
+    from types import SimpleNamespace
+    from typing import cast
+
+    from hub_ai.evals.runner import EvalCase, Scorers
+    from hub_contracts import PaperReviewOutput
+
+    runtime = Runtime(Registry(ROOT), FakeAdapter([]))
+    result = asyncio.run(runtime.run("news.filing_digest", INPUT))
+    checks = {
+        name: {"status": "pass", "evidence": "已核对原文"}
+        for name in ("identity", "explanation", "method", "results", "boundaries", "sources")
+    }
+    raw = PaperReviewOutput.model_validate(
+        {
+            "decision": decision,
+            "readerRestatement": "测试审核",
+            "independentSourceCheck": {
+                "pdfPage": 1,
+                "sourceExcerpt": "原文事实",
+                "minimumClaim": "最小主张",
+                "counterexampleOrLimit": "边界",
+                "comparisonToArticle": "与草稿一致",
+            },
+            "sampledClaimIds": [],
+            "checks": checks,
+            "findings": [],
+            "pagesChecked": [],
+            "visualPagesChecked": [],
+        }
+    ).model_dump(mode="json")
+    result.raw_output = raw
+    result.schema_valid = True
+    cap: dict[str, Any] = {
+        "io": {"output": "PaperReviewOutput"},
+        "checks": [],
+        "evals": {"thresholds": {"schema_valid": 1, "labels_match": 0.8}},
+    }
+    scorer = Scorers(runtime, cap, ROOT)
+    case = EvalCase(id="review", input={}, expect={"labels": {"decision": decision}})
+    ctx = cast(Any, SimpleNamespace(output=result, metadata=case))
+    assert asyncio.run(scorer.evaluate(ctx))["labels_match"] == 1
+    case.expect["labels"] = {"decision": "revise" if decision != "revise" else "pass"}
+    assert asyncio.run(scorer.evaluate(ctx))["labels_match"] == 0
+    case.expect = {}
+    with pytest.raises(ValueError, match="labels"):
+        asyncio.run(scorer.evaluate(ctx))
+
+
+def test_check_plugin_registration_is_explicit(monkeypatch: pytest.MonkeyPatch) -> None:
+    from importlib.metadata import EntryPoint
+
+    from hub_ai.checks import CheckReport
+
+    seen: list[str] = []
+
+    def domain_check(output: dict[str, Any], ctx: CheckContext) -> CheckReport:
+        seen.append(ctx.inputs["source"])
+        return CheckReport("fixture_domain", failed=output["value"] != ctx.inputs["source"])
+
+    entry = EntryPoint(name="fixture_domain", value="fixture:check", group="hub.ai_checks")
+
+    def entries(**_kwargs: Any) -> list[EntryPoint]:
+        return [entry]
+
+    def load(_self: EntryPoint) -> Any:
+        return domain_check
+
+    monkeypatch.setattr("hub_ai.checks.entry_points", entries)
+    monkeypatch.setattr(EntryPoint, "load", load)
+    registry = CheckRegistry()
+    assert "fixture_domain" not in registry.checks
+    registry.load_plugins()
+    assert not registry.run(
+        ["fixture_domain"], {"value": "甲"}, CheckContext({"source": "甲"}, {})
+    )[1][0].failed
+    assert registry.run(["fixture_domain"], {"value": "甲"}, CheckContext({"source": "乙"}, {}))[1][
+        0
+    ].failed
+    assert seen == ["甲", "乙"]
+    with pytest.raises(ValueError, match="已注册"):
+        registry.load_plugins()
+
+
+def test_eval_cli_loads_domain_check_plugin(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    from types import SimpleNamespace
+
+    import yaml
+    from typer.testing import CliRunner
+
+    from hub_ai.checks import CheckReport
+    from hub_cli.main import create_app
+
+    root = prepare(tmp_path)
+    path = root / "capabilities/fixture.summary.yaml"
+    capability = yaml.safe_load(path.read_text())
+    capability["checks"].append("fixture_domain")
+    capability["evals"]["thresholds"]["fixture_domain"] = 1
+    path.write_text(yaml.safe_dump(capability))
+    seen: set[str] = set()
+
+    def domain_check(output: dict[str, Any], ctx: CheckContext) -> CheckReport:
+        seen.add(ctx.inputs["text"])
+        return CheckReport("fixture_domain", failed=not bool(output.get("digest")))
+
+    entry = SimpleNamespace(name="fixture_domain", load=lambda: domain_check)
+
+    def entries(**_kwargs: Any) -> list[Any]:
+        return [entry]
+
+    monkeypatch.setattr("hub_ai.checks.entry_points", entries)
+    result = CliRunner().invoke(create_app(), ["evals", "run", "--root", str(root), "--offline"])
+    assert result.exit_code == 0, result.output
+    assert "fixture_domain" in result.output
+    assert seen == {"收入同比增长1.2%，达到12亿。", "收入达到1.2 billion。"}
+
+
+def test_domain_check_plugin_rejects_non_callable(monkeypatch: pytest.MonkeyPatch) -> None:
+    from types import SimpleNamespace
+
+    entry = SimpleNamespace(name="fixture_domain", load=dict)
+
+    def entries(**_kwargs: Any) -> list[Any]:
+        return [entry]
+
+    monkeypatch.setattr("hub_ai.checks.entry_points", entries)
+    with pytest.raises(ValueError, match="不是可调用函数"):
+        CheckRegistry().load_plugins()
