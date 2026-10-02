@@ -1,10 +1,15 @@
 /** 将配置与提示词编入模块；Worker 不读取文件。此文件是生成源。 */
-import { mkdir, readdir, readFile, writeFile } from "node:fs/promises";
+import { mkdir, readdir, readFile } from "node:fs/promises";
 import { dirname, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 import Ajv2020 from "ajv/dist/2020.js";
 import { parse } from "yaml";
 import type { Capability } from "../src/registry";
+
+// Node 原生加载 .ts，类型检查仍按无后缀模块解析，不修改项目 tsconfig。
+const { atomicWrite }: typeof import("./atomic-write") = await import(
+  new URL("./atomic-write.ts", import.meta.url).href
+);
 
 const root = resolve(dirname(fileURLToPath(import.meta.url)), "../../..");
 const read = async (path: string) => readFile(resolve(root, path), "utf8");
@@ -30,7 +35,7 @@ const llm = parse(await read("config/llm.yaml"));
 const adviceWords = parse(await read("config/newsroom.yaml")).adviceWords;
 const generatedDirectory = resolve(root, "packages/ai/src/generated");
 await mkdir(generatedDirectory, { recursive: true });
-await writeFile(
+await atomicWrite(
   resolve(generatedDirectory, "registry.ts"),
   `// 由 scripts/build.ts 生成，勿手改；构建时更新。\nexport const registryData = ${JSON.stringify({ capabilities, prompts, llm, schemas, adviceWords }, null, 2)};\n`,
 );
