@@ -18,7 +18,9 @@ concurrency:
 jobs:
   ci:
     runs-on: ubuntu-24.04
-    timeout-minutes: 30
+    # 实测论文作者10例约26分钟、审核10例约10分钟，另需完整静态/测试/E2E。
+    # 保留全部检查与能力预算，仅给串行真实评测留够作业时间。
+    timeout-minutes: 90
     env:
       # pnpm 的包缓存放在工作区外的固定位置，方便下面缓存
       pnpm_config_store_dir: /home/runner/.pnpm-store
