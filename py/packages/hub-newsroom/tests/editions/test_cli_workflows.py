@@ -3,6 +3,7 @@
 from pathlib import Path
 
 import pytest
+import typer.rich_utils
 import yaml
 from click import unstyle
 from typer.testing import CliRunner
@@ -21,8 +22,10 @@ from .test_publish import publisher
 
 
 @pytest.mark.parametrize("kind", ["morning", "premarket", "weekly"])
+@pytest.mark.parametrize("colored_help", [False, True])
 def test_installed_cli_runs_real_domain(
     kind: EditionKind,
+    colored_help: bool,
     settings: Settings,
     calendar: NyseCalendar,
     watchlist: list[WatchItem],
@@ -43,8 +46,11 @@ def test_installed_cli_runs_real_domain(
 
     monkeypatch.setattr("hub_newsroom.editions.commands.create_publisher", create)
     args = ["news", kind, "--no-ai", "--no-email"]
-    help_result = CliRunner().invoke(create_app(), [*args, "--help"])
+    monkeypatch.setattr(typer.rich_utils, "FORCE_TERMINAL", colored_help)
+    monkeypatch.setattr(typer.rich_utils, "COLOR_SYSTEM", "standard" if colored_help else None)
+    help_result = CliRunner().invoke(create_app(), [*args, "--help"], color=colored_help)
     assert help_result.exit_code == 0
+    assert ("\x1b[" in help_result.output) == colored_help
     # CI Rich 帮助可在选项字符间插入 ANSI 样式，检查实际显示文字。
     help_text = unstyle(help_result.output)
     for flag in ("--date", "--no-email", "--no-ai", "--force"):
