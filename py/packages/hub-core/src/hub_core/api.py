@@ -40,6 +40,11 @@ class ApiClient:
             retry=False,
         )
 
+    def post(self, path: str) -> None:
+        self.http.request(
+            "POST", self.base_url + path, source="hub-api", headers=self._headers, retry=False
+        )
+
     def get(self, path: str, model: type[Model]) -> Model:
         response = self.http.request(
             "GET", self.base_url + path, source="hub-api", headers=self._headers

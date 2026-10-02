@@ -10,7 +10,7 @@ from pydantic import SecretStr
 
 from hub_contracts import AiCall, EvalResult, NewsSourceHealth, Run
 from hub_core.api import ApiClient
-from hub_core.http import HttpClient
+from hub_core.http import HttpClient, SourceRequestError
 from hub_core.settings import Settings
 
 
@@ -81,6 +81,24 @@ def test_write_run_and_ai_calls() -> None:
 def test_missing_token() -> None:
     with pytest.raises(ValueError, match="HUB_SERVICE_TOKEN"):
         ApiClient(Settings(hub_service_token=None), HttpClient())
+
+
+def test_bodyless_post_does_not_retry_destructive_command() -> None:
+    requests: list[httpx.Request] = []
+
+    def handler(request: httpx.Request) -> httpx.Response:
+        requests.append(request)
+        return httpx.Response(429, headers={"Retry-After": "0"})
+
+    with httpx.Client(transport=httpx.MockTransport(handler)) as transport:
+        api = ApiClient(
+            Settings(hub_service_token=SecretStr("test-only")), HttpClient(client=transport)
+        )
+        with pytest.raises(SourceRequestError):
+            api.post("/v1/internal/news/articles/prune?before=2026-01-01")
+    assert len(requests) == 1
+    assert requests[0].method == "POST"
+    assert requests[0].content == b""
 
 
 def test_get_validates_generated_model_and_list() -> None:

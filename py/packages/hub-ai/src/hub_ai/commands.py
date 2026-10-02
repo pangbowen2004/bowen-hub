@@ -1,13 +1,17 @@
 """命令登记；离线与真实网关调用明确分开。"""
 
 import asyncio
+from datetime import date as Date
+from datetime import datetime
 from pathlib import Path
+from zoneinfo import ZoneInfo
 
 import typer
 from openai import AsyncOpenAI
 
 from hub_ai.checks import CheckRegistry
 from hub_ai.evals.runner import evaluate, markdown, select_capabilities
+from hub_ai.evals.weekly import execute_weekly
 from hub_ai.gateway import GatewayAdapter, gateway_url
 from hub_ai.registry import Registry, find_root
 from hub_ai.runtime import Request, Response, Runtime
@@ -37,13 +41,31 @@ def run(
     write_api: bool = False,
     root: Path | None = None,
     report: Path | None = None,
+    date: str | None = None,
+    force: bool = False,
 ) -> None:
     try:
+        if write_api and (not weekly or changed or offline):
+            raise ValueError("只有显式真实每周评测允许写 API")
+        if (date is not None or force) and not (weekly and write_api):
+            raise ValueError("日期和强制重跑只用于真实每周评测")
         registry = Registry(root or find_root())
         ids = select_capabilities(registry, capability, changed=changed, weekly=weekly)
         if not ids and capability is not None and not changed:
             raise ValueError("没有匹配的能力")
-        if not ids:
+        skipped: list[str] = []
+        if weekly:
+            skipped = [
+                name
+                for name in ids
+                if not (
+                    registry.root / registry.capabilities[name]["evals"]["dataset"] / "cases.yaml"
+                ).is_file()
+            ]
+            ids = [name for name in ids if name not in skipped]
+            for name in skipped:
+                typer.echo(f"跳过 {name}：未注册用例，没有生成评测结果。")
+        if not ids and not (weekly and write_api):
             typer.echo("受影响能力：0；没有运行产品评测。")
             return
         settings = Settings()
@@ -56,6 +78,13 @@ def run(
         )
 
         async def execute() -> list[EvalResult]:
+            if weekly and write_api:
+                on = (
+                    Date.fromisoformat(date)
+                    if date
+                    else datetime.now(ZoneInfo("Asia/Singapore")).date()
+                )
+                return await execute_weekly(runtime, ids, skipped, settings, on, force=force)
             return [await evaluate(runtime, name, offline=offline) for name in ids]
 
         results = asyncio.run(execute())
@@ -64,14 +93,6 @@ def run(
         if report:
             report.parent.mkdir(parents=True, exist_ok=True)
             report.write_text(content)
-        if write_api:
-            if not weekly or changed or offline:
-                raise ValueError("只有显式真实每周评测允许写 API")
-            http = HttpClient()
-            try:
-                ApiClient(settings, http).post_batch("/v1/internal/evals/results/batch", results)
-            finally:
-                http.close()
         if any(not result.passed for result in results):
             raise typer.Exit(1)
     except (ValueError, OSError) as error:
