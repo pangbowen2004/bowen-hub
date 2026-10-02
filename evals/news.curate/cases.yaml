@@ -1,0 +1,556 @@
+- id: curate-00
+  input:
+    candidates:
+    - id: edge-0
+      title: 贸易许可
+      summary: 测试国调整芯片出口许可流程，要求新增最终用途说明。
+      topic: us_china
+      source: 合成边界材料
+      publishedAt: '2026-09-30T00:00:00Z'
+      tickers: []
+      ruleScore: 10.0
+      paywall: none
+    - id: edge-1
+      title: 停火谈判
+      summary: 测试双方同意恢复停火谈判，尚未达成协议。
+      topic: war_geopolitics
+      source: 合成边界材料
+      publishedAt: '2026-09-30T00:00:00Z'
+      tickers: []
+      ruleScore: 9.99
+      paywall: metered
+    - id: edge-2
+      title: 央行决议
+      summary: 测试央行维持利率不变，声明指出通胀仍需观察。
+      topic: markets_macro
+      source: 合成边界材料
+      publishedAt: '2026-09-30T00:00:00Z'
+      tickers: []
+      ruleScore: 9.98
+      paywall: hard
+    - id: edge-3
+      title: 开源模型
+      summary: 测试实验室发布开源模型，披露训练方法而未公布商业收入。
+      topic: ai_tech
+      source: 合成边界材料
+      publishedAt: '2026-09-30T00:00:00Z'
+      tickers: []
+      ruleScore: 9.97
+      paywall: none
+    - id: edge-4
+      title: 云服务合同
+      summary: 测试云服务商获得政府服务合同，条款未披露金额。
+      topic: big_tech
+      source: 合成边界材料
+      publishedAt: '2026-09-30T00:00:00Z'
+      tickers: []
+      ruleScore: 9.96
+      paywall: metered
+    - id: edge-5
+      title: 预算争议
+      summary: 测试国会预算委员会推迟投票，议案尚未通过。
+      topic: us_politics
+      source: 合成边界材料
+      publishedAt: '2026-09-30T00:00:00Z'
+      tickers: []
+      ruleScore: 9.95
+      paywall: hard
+  expect:
+    reference: 只选给定来源，不重复事件，付费墙以输入为准。
+  tags:
+  - edge
+- id: curate-01
+  input:
+    candidates:
+    - id: edge-1
+      title: 停火谈判
+      summary: 测试双方同意恢复停火谈判，尚未达成协议。
+      topic: war_geopolitics
+      source: 合成边界材料
+      publishedAt: '2026-09-30T00:00:00Z'
+      tickers: []
+      ruleScore: 9.99
+      paywall: metered
+    - id: edge-2
+      title: 央行决议
+      summary: 测试央行维持利率不变，声明指出通胀仍需观察。
+      topic: markets_macro
+      source: 合成边界材料
+      publishedAt: '2026-09-30T00:00:00Z'
+      tickers: []
+      ruleScore: 9.98
+      paywall: hard
+    - id: edge-3
+      title: 开源模型
+      summary: 测试实验室发布开源模型，披露训练方法而未公布商业收入。
+      topic: ai_tech
+      source: 合成边界材料
+      publishedAt: '2026-09-30T00:00:00Z'
+      tickers: []
+      ruleScore: 9.97
+      paywall: none
+    - id: edge-4
+      title: 云服务合同
+      summary: 测试云服务商获得政府服务合同，条款未披露金额。
+      topic: big_tech
+      source: 合成边界材料
+      publishedAt: '2026-09-30T00:00:00Z'
+      tickers: []
+      ruleScore: 9.96
+      paywall: metered
+    - id: edge-5
+      title: 预算争议
+      summary: 测试国会预算委员会推迟投票，议案尚未通过。
+      topic: us_politics
+      source: 合成边界材料
+      publishedAt: '2026-09-30T00:00:00Z'
+      tickers: []
+      ruleScore: 9.95
+      paywall: hard
+    - id: edge-6
+      title: 国产卫星
+      summary: 测试中国商业航天公司完成卫星地面测试，尚未发射。
+      topic: china_business
+      source: 合成边界材料
+      publishedAt: '2026-09-30T00:00:00Z'
+      tickers: []
+      ruleScore: 9.94
+      paywall: none
+  expect:
+    reference: 只选给定来源，不重复事件，付费墙以输入为准。
+  tags:
+  - edge
+- id: curate-02
+  input:
+    candidates:
+    - id: edge-2
+      title: 央行决议
+      summary: 测试央行维持利率不变，声明指出通胀仍需观察。
+      topic: markets_macro
+      source: 合成边界材料
+      publishedAt: '2026-09-30T00:00:00Z'
+      tickers: []
+      ruleScore: 9.98
+      paywall: hard
+    - id: edge-3
+      title: 开源模型
+      summary: 测试实验室发布开源模型，披露训练方法而未公布商业收入。
+      topic: ai_tech
+      source: 合成边界材料
+      publishedAt: '2026-09-30T00:00:00Z'
+      tickers: []
+      ruleScore: 9.97
+      paywall: none
+    - id: edge-4
+      title: 云服务合同
+      summary: 测试云服务商获得政府服务合同，条款未披露金额。
+      topic: big_tech
+      source: 合成边界材料
+      publishedAt: '2026-09-30T00:00:00Z'
+      tickers: []
+      ruleScore: 9.96
+      paywall: metered
+    - id: edge-5
+      title: 预算争议
+      summary: 测试国会预算委员会推迟投票，议案尚未通过。
+      topic: us_politics
+      source: 合成边界材料
+      publishedAt: '2026-09-30T00:00:00Z'
+      tickers: []
+      ruleScore: 9.95
+      paywall: hard
+    - id: edge-6
+      title: 国产卫星
+      summary: 测试中国商业航天公司完成卫星地面测试，尚未发射。
+      topic: china_business
+      source: 合成边界材料
+      publishedAt: '2026-09-30T00:00:00Z'
+      tickers: []
+      ruleScore: 9.94
+      paywall: none
+    - id: edge-7
+      title: 博物馆
+      summary: 测试博物馆开放新展览，展品主题为古代交通。
+      topic: other
+      source: 合成边界材料
+      publishedAt: '2026-09-30T00:00:00Z'
+      tickers: []
+      ruleScore: 9.93
+      paywall: metered
+  expect:
+    reference: 只选给定来源，不重复事件，付费墙以输入为准。
+  tags:
+  - edge
+- id: curate-03
+  input:
+    candidates:
+    - id: edge-3
+      title: 开源模型
+      summary: 测试实验室发布开源模型，披露训练方法而未公布商业收入。
+      topic: ai_tech
+      source: 合成边界材料
+      publishedAt: '2026-09-30T00:00:00Z'
+      tickers: []
+      ruleScore: 9.97
+      paywall: none
+    - id: edge-4
+      title: 云服务合同
+      summary: 测试云服务商获得政府服务合同，条款未披露金额。
+      topic: big_tech
+      source: 合成边界材料
+      publishedAt: '2026-09-30T00:00:00Z'
+      tickers: []
+      ruleScore: 9.96
+      paywall: metered
+    - id: edge-5
+      title: 预算争议
+      summary: 测试国会预算委员会推迟投票，议案尚未通过。
+      topic: us_politics
+      source: 合成边界材料
+      publishedAt: '2026-09-30T00:00:00Z'
+      tickers: []
+      ruleScore: 9.95
+      paywall: hard
+    - id: edge-6
+      title: 国产卫星
+      summary: 测试中国商业航天公司完成卫星地面测试，尚未发射。
+      topic: china_business
+      source: 合成边界材料
+      publishedAt: '2026-09-30T00:00:00Z'
+      tickers: []
+      ruleScore: 9.94
+      paywall: none
+    - id: edge-7
+      title: 博物馆
+      summary: 测试博物馆开放新展览，展品主题为古代交通。
+      topic: other
+      source: 合成边界材料
+      publishedAt: '2026-09-30T00:00:00Z'
+      tickers: []
+      ruleScore: 9.93
+      paywall: metered
+    - id: edge-8
+      title: 关税豁免
+      summary: 测试贸易部门延长部分商品关税豁免，范围不包含芯片。
+      topic: us_china
+      source: 合成边界材料
+      publishedAt: '2026-09-30T00:00:00Z'
+      tickers: []
+      ruleScore: 9.92
+      paywall: hard
+  expect:
+    reference: 只选给定来源，不重复事件，付费墙以输入为准。
+  tags:
+  - edge
+- id: curate-04
+  input:
+    candidates:
+    - id: edge-4
+      title: 云服务合同
+      summary: 测试云服务商获得政府服务合同，条款未披露金额。
+      topic: big_tech
+      source: 合成边界材料
+      publishedAt: '2026-09-30T00:00:00Z'
+      tickers: []
+      ruleScore: 9.96
+      paywall: metered
+    - id: edge-5
+      title: 预算争议
+      summary: 测试国会预算委员会推迟投票，议案尚未通过。
+      topic: us_politics
+      source: 合成边界材料
+      publishedAt: '2026-09-30T00:00:00Z'
+      tickers: []
+      ruleScore: 9.95
+      paywall: hard
+    - id: edge-6
+      title: 国产卫星
+      summary: 测试中国商业航天公司完成卫星地面测试，尚未发射。
+      topic: china_business
+      source: 合成边界材料
+      publishedAt: '2026-09-30T00:00:00Z'
+      tickers: []
+      ruleScore: 9.94
+      paywall: none
+    - id: edge-7
+      title: 博物馆
+      summary: 测试博物馆开放新展览，展品主题为古代交通。
+      topic: other
+      source: 合成边界材料
+      publishedAt: '2026-09-30T00:00:00Z'
+      tickers: []
+      ruleScore: 9.93
+      paywall: metered
+    - id: edge-8
+      title: 关税豁免
+      summary: 测试贸易部门延长部分商品关税豁免，范围不包含芯片。
+      topic: us_china
+      source: 合成边界材料
+      publishedAt: '2026-09-30T00:00:00Z'
+      tickers: []
+      ruleScore: 9.92
+      paywall: hard
+    - id: edge-9
+      title: 海运风险
+      summary: 测试港口因地区冲突暂停运作，恢复时间未知。
+      topic: war_geopolitics
+      source: 合成边界材料
+      publishedAt: '2026-09-30T00:00:00Z'
+      tickers: []
+      ruleScore: 9.91
+      paywall: none
+  expect:
+    reference: 只选给定来源，不重复事件，付费墙以输入为准。
+  tags:
+  - edge
+- id: curate-05
+  input:
+    candidates:
+    - id: edge-5
+      title: 预算争议
+      summary: 测试国会预算委员会推迟投票，议案尚未通过。
+      topic: us_politics
+      source: 合成边界材料
+      publishedAt: '2026-09-30T00:00:00Z'
+      tickers: []
+      ruleScore: 9.95
+      paywall: hard
+    - id: edge-6
+      title: 国产卫星
+      summary: 测试中国商业航天公司完成卫星地面测试，尚未发射。
+      topic: china_business
+      source: 合成边界材料
+      publishedAt: '2026-09-30T00:00:00Z'
+      tickers: []
+      ruleScore: 9.94
+      paywall: none
+    - id: edge-7
+      title: 博物馆
+      summary: 测试博物馆开放新展览，展品主题为古代交通。
+      topic: other
+      source: 合成边界材料
+      publishedAt: '2026-09-30T00:00:00Z'
+      tickers: []
+      ruleScore: 9.93
+      paywall: metered
+    - id: edge-8
+      title: 关税豁免
+      summary: 测试贸易部门延长部分商品关税豁免，范围不包含芯片。
+      topic: us_china
+      source: 合成边界材料
+      publishedAt: '2026-09-30T00:00:00Z'
+      tickers: []
+      ruleScore: 9.92
+      paywall: hard
+    - id: edge-9
+      title: 海运风险
+      summary: 测试港口因地区冲突暂停运作，恢复时间未知。
+      topic: war_geopolitics
+      source: 合成边界材料
+      publishedAt: '2026-09-30T00:00:00Z'
+      tickers: []
+      ruleScore: 9.91
+      paywall: none
+    - id: edge-10
+      title: 就业数据
+      summary: 测试统计局公布就业增速放缓，没有修订前期数据。
+      topic: markets_macro
+      source: 合成边界材料
+      publishedAt: '2026-09-30T00:00:00Z'
+      tickers: []
+      ruleScore: 9.9
+      paywall: metered
+  expect:
+    reference: 只选给定来源，不重复事件，付费墙以输入为准。
+  tags:
+  - edge
+- id: curate-06
+  input:
+    candidates:
+    - id: edge-6
+      title: 国产卫星
+      summary: 测试中国商业航天公司完成卫星地面测试，尚未发射。
+      topic: china_business
+      source: 合成边界材料
+      publishedAt: '2026-09-30T00:00:00Z'
+      tickers: []
+      ruleScore: 9.94
+      paywall: none
+    - id: edge-7
+      title: 博物馆
+      summary: 测试博物馆开放新展览，展品主题为古代交通。
+      topic: other
+      source: 合成边界材料
+      publishedAt: '2026-09-30T00:00:00Z'
+      tickers: []
+      ruleScore: 9.93
+      paywall: metered
+    - id: edge-8
+      title: 关税豁免
+      summary: 测试贸易部门延长部分商品关税豁免，范围不包含芯片。
+      topic: us_china
+      source: 合成边界材料
+      publishedAt: '2026-09-30T00:00:00Z'
+      tickers: []
+      ruleScore: 9.92
+      paywall: hard
+    - id: edge-9
+      title: 海运风险
+      summary: 测试港口因地区冲突暂停运作，恢复时间未知。
+      topic: war_geopolitics
+      source: 合成边界材料
+      publishedAt: '2026-09-30T00:00:00Z'
+      tickers: []
+      ruleScore: 9.91
+      paywall: none
+    - id: edge-10
+      title: 就业数据
+      summary: 测试统计局公布就业增速放缓，没有修订前期数据。
+      topic: markets_macro
+      source: 合成边界材料
+      publishedAt: '2026-09-30T00:00:00Z'
+      tickers: []
+      ruleScore: 9.9
+      paywall: metered
+    - id: edge-11
+      title: 芯片验证
+      summary: 测试半导体企业完成新芯片验证，尚未量产。
+      topic: ai_tech
+      source: 合成边界材料
+      publishedAt: '2026-09-30T00:00:00Z'
+      tickers: []
+      ruleScore: 9.89
+      paywall: hard
+  expect:
+    reference: 只选给定来源，不重复事件，付费墙以输入为准。
+  tags:
+  - edge
+- id: curate-07
+  input:
+    candidates:
+    - id: edge-7
+      title: 博物馆
+      summary: 测试博物馆开放新展览，展品主题为古代交通。
+      topic: other
+      source: 合成边界材料
+      publishedAt: '2026-09-30T00:00:00Z'
+      tickers: []
+      ruleScore: 9.93
+      paywall: metered
+    - id: edge-8
+      title: 关税豁免
+      summary: 测试贸易部门延长部分商品关税豁免，范围不包含芯片。
+      topic: us_china
+      source: 合成边界材料
+      publishedAt: '2026-09-30T00:00:00Z'
+      tickers: []
+      ruleScore: 9.92
+      paywall: hard
+    - id: edge-9
+      title: 海运风险
+      summary: 测试港口因地区冲突暂停运作，恢复时间未知。
+      topic: war_geopolitics
+      source: 合成边界材料
+      publishedAt: '2026-09-30T00:00:00Z'
+      tickers: []
+      ruleScore: 9.91
+      paywall: none
+    - id: edge-10
+      title: 就业数据
+      summary: 测试统计局公布就业增速放缓，没有修订前期数据。
+      topic: markets_macro
+      source: 合成边界材料
+      publishedAt: '2026-09-30T00:00:00Z'
+      tickers: []
+      ruleScore: 9.9
+      paywall: metered
+    - id: edge-11
+      title: 芯片验证
+      summary: 测试半导体企业完成新芯片验证，尚未量产。
+      topic: ai_tech
+      source: 合成边界材料
+      publishedAt: '2026-09-30T00:00:00Z'
+      tickers: []
+      ruleScore: 9.89
+      paywall: hard
+    - id: edge-12
+      title: 搜索诉讼
+      summary: 测试法院要求搜索公司提交材料，尚未判定责任。
+      topic: big_tech
+      source: 合成边界材料
+      publishedAt: '2026-09-30T00:00:00Z'
+      tickers: []
+      ruleScore: 9.88
+      paywall: none
+  expect:
+    reference: 只选给定来源，不重复事件，付费墙以输入为准。
+  tags:
+  - edge
+- id: curate-08
+  input:
+    candidates:
+    - id: edge-8
+      title: 关税豁免
+      summary: 测试贸易部门延长部分商品关税豁免，范围不包含芯片。
+      topic: us_china
+      source: 合成边界材料
+      publishedAt: '2026-09-30T00:00:00Z'
+      tickers: []
+      ruleScore: 9.92
+      paywall: hard
+    - id: edge-9
+      title: 海运风险
+      summary: 测试港口因地区冲突暂停运作，恢复时间未知。
+      topic: war_geopolitics
+      source: 合成边界材料
+      publishedAt: '2026-09-30T00:00:00Z'
+      tickers: []
+      ruleScore: 9.91
+      paywall: none
+    - id: edge-10
+      title: 就业数据
+      summary: 测试统计局公布就业增速放缓，没有修订前期数据。
+      topic: markets_macro
+      source: 合成边界材料
+      publishedAt: '2026-09-30T00:00:00Z'
+      tickers: []
+      ruleScore: 9.9
+      paywall: metered
+    - id: edge-11
+      title: 芯片验证
+      summary: 测试半导体企业完成新芯片验证，尚未量产。
+      topic: ai_tech
+      source: 合成边界材料
+      publishedAt: '2026-09-30T00:00:00Z'
+      tickers: []
+      ruleScore: 9.89
+      paywall: hard
+    - id: edge-12
+      title: 搜索诉讼
+      summary: 测试法院要求搜索公司提交材料，尚未判定责任。
+      topic: big_tech
+      source: 合成边界材料
+      publishedAt: '2026-09-30T00:00:00Z'
+      tickers: []
+      ruleScore: 9.88
+      paywall: none
+    - id: edge-13
+      title: 选举程序
+      summary: 测试州议会讨论提前投票程序，没有改变选举日期。
+      topic: us_politics
+      source: 合成边界材料
+      publishedAt: '2026-09-30T00:00:00Z'
+      tickers: []
+      ruleScore: 9.87
+      paywall: metered
+  expect:
+    reference: 只选给定来源，不重复事件，付费墙以输入为准。
+  tags:
+  - edge
+- id: curate-09
+  input:
+    candidates: []
+  expect:
+    reference: 空候选必须返回空列表，不编造新闻。
+  tags:
+  - edge

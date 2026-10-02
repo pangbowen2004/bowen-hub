@@ -1,7 +1,7 @@
 # 从规则分前 20 的美股新闻里选 6–8 条，写中文摘要和为什么重要
 # 格式说明见 docs/10 第 3 节；输入输出模型在 contracts/capabilities.tsp
 id: news.us_rank
-version: 1
+version: 3
 summary: 从规则分前 20 的美股新闻里选 6–8 条，写中文摘要和为什么重要
 owner: newsroom
 runtime: python

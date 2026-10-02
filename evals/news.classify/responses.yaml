@@ -1,0 +1,100 @@
+classify-00:
+  output:
+    classifications:
+    - id: edge-0
+      topic: us_china
+    - id: edge-10
+      topic: markets_macro
+  usage:
+    input_tokens: 0
+    output_tokens: 0
+classify-01:
+  output:
+    classifications:
+    - id: edge-1
+      topic: war_geopolitics
+    - id: edge-11
+      topic: ai_tech
+  usage:
+    input_tokens: 0
+    output_tokens: 0
+classify-02:
+  output:
+    classifications:
+    - id: edge-2
+      topic: markets_macro
+    - id: edge-12
+      topic: big_tech
+  usage:
+    input_tokens: 0
+    output_tokens: 0
+classify-03:
+  output:
+    classifications:
+    - id: edge-3
+      topic: ai_tech
+    - id: edge-13
+      topic: us_politics
+  usage:
+    input_tokens: 0
+    output_tokens: 0
+classify-04:
+  output:
+    classifications:
+    - id: edge-4
+      topic: big_tech
+    - id: edge-14
+      topic: china_business
+  usage:
+    input_tokens: 0
+    output_tokens: 0
+classify-05:
+  output:
+    classifications:
+    - id: edge-5
+      topic: us_politics
+    - id: edge-15
+      topic: other
+  usage:
+    input_tokens: 0
+    output_tokens: 0
+classify-06:
+  output:
+    classifications:
+    - id: edge-6
+      topic: china_business
+    - id: edge-16
+      topic: markets_macro
+  usage:
+    input_tokens: 0
+    output_tokens: 0
+classify-07:
+  output:
+    classifications:
+    - id: edge-7
+      topic: other
+    - id: edge-17
+      topic: markets_macro
+  usage:
+    input_tokens: 0
+    output_tokens: 0
+classify-08:
+  output:
+    classifications:
+    - id: edge-8
+      topic: us_china
+    - id: edge-18
+      topic: big_tech
+  usage:
+    input_tokens: 0
+    output_tokens: 0
+classify-09:
+  output:
+    classifications:
+    - id: edge-9
+      topic: war_geopolitics
+    - id: edge-19
+      topic: china_business
+  usage:
+    input_tokens: 0
+    output_tokens: 0

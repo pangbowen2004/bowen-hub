@@ -1,7 +1,7 @@
 # 国际与科技栏目：选 Top 5 并写 100–150 字综述
 # 格式说明见 docs/10 第 3 节；输入输出模型在 contracts/capabilities.tsp
 id: news.curate
-version: 1
+version: 3
 summary: 国际与科技栏目：选 Top 5 并写 100–150 字综述
 owner: newsroom
 runtime: python

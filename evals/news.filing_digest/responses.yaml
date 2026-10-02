@@ -1,0 +1,60 @@
+filing-00:
+  output:
+    digest: 首席财务官辞任，董事会任命临时负责人。
+  usage:
+    input_tokens: 0
+    output_tokens: 0
+filing-01:
+  output:
+    digest: 公司签订金额$20 million的供货协议。
+  usage:
+    input_tokens: 0
+    output_tokens: 0
+filing-02:
+  output:
+    digest: 公司公布季度业绩，完整数字见附件。
+  usage:
+    input_tokens: 0
+    output_tokens: 0
+filing-03:
+  output:
+    digest: 董事会批准回购授权，未披露金额。
+  usage:
+    input_tokens: 0
+    output_tokens: 0
+filing-04:
+  output:
+    digest: 公司公布投资者演示材料，没有更新指引。
+  usage:
+    input_tokens: 0
+    output_tokens: 0
+filing-05:
+  output:
+    digest: 年度会议通过董事候选人。
+  usage:
+    input_tokens: 0
+    output_tokens: 0
+filing-06:
+  output:
+    digest: 双方同意终止分销协议。
+  usage:
+    input_tokens: 0
+    output_tokens: 0
+filing-07:
+  output:
+    digest: 公司完成金额$15 million的软件业务收购。
+  usage:
+    input_tokens: 0
+    output_tokens: 0
+filing-08:
+  output:
+    digest: 重组计划包括关闭一处设施，费用尚未估算。
+  usage:
+    input_tokens: 0
+    output_tokens: 0
+filing-09:
+  output:
+    digest: 公司收到上市合规通知，尚未作出退市决定。
+  usage:
+    input_tokens: 0
+    output_tokens: 0

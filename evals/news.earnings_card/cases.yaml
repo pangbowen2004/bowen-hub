@@ -1,0 +1,140 @@
+- id: earnings-00
+  input:
+    symbol: SYN
+    name: 合成测试公司
+    sourceKind: press_release
+    sourceUrl: https://example.test/earnings/0
+    sourceText: Synthetic Test Company reports financial results for Q1 2026. Revenue was $12 million, up 5%. GAAP earnings
+      per share were $0.21. Next quarter revenue guidance is $13 million.
+  expect:
+    reference: 不得计算同比或一致预期；缺EPS/指引不编造。
+    must_include:
+    - $12 million
+  tags:
+  - edge
+- id: earnings-01
+  input:
+    symbol: SYN
+    name: 合成测试公司
+    sourceKind: news
+    sourceUrl: https://example.test/earnings/1
+    sourceText: 'Synthetic Test Company reports financial results for Q2 2026. Revenue was $18 million. GAAP earnings per
+      share were $0.30. Adjusted earnings per share were $0.41. '
+  expect:
+    reference: 不得计算同比或一致预期；缺EPS/指引不编造。
+    must_include:
+    - $18 million
+  tags:
+  - edge
+- id: earnings-02
+  input:
+    symbol: SYN
+    name: 合成测试公司
+    sourceKind: press_release
+    sourceUrl: https://example.test/earnings/2
+    sourceText: 'Synthetic Test Company reports financial results for Q3 2026. Revenue was $9 million, down 8%. GAAP loss
+      per share was $0.11. '
+  expect:
+    reference: 不得计算同比或一致预期；缺EPS/指引不编造。
+    must_include:
+    - $9 million
+  tags:
+  - edge
+- id: earnings-03
+  input:
+    symbol: SYN
+    name: 合成测试公司
+    sourceKind: press_release
+    sourceUrl: https://example.test/earnings/3
+    sourceText: Synthetic Test Company reports financial results for FY2025. Annual revenue was $100 million. GAAP earnings
+      per share were $1.02. Next year revenue guidance is $105 million.
+  expect:
+    reference: 不得计算同比或一致预期；缺EPS/指引不编造。
+    must_include:
+    - $100 million
+  tags:
+  - edge
+- id: earnings-04
+  input:
+    symbol: SYN
+    name: 合成测试公司
+    sourceKind: news
+    sourceUrl: https://example.test/earnings/4
+    sourceText: 'Synthetic Test Company reports financial results for Q4 2025. Revenue was $21 million. Adjusted earnings
+      per share were $0.65. '
+  expect:
+    reference: 不得计算同比或一致预期；缺EPS/指引不编造。
+    must_include:
+    - $21 million
+  tags:
+  - edge
+- id: earnings-05
+  input:
+    symbol: SYN
+    name: 合成测试公司
+    sourceKind: press_release
+    sourceUrl: https://example.test/earnings/5
+    sourceText: Synthetic Test Company reports financial results for Q1 2025. Revenue was $5 million. GAAP earnings per share
+      were $0.05. Subscriber count was 300 thousand.
+  expect:
+    reference: 不得计算同比或一致预期；缺EPS/指引不编造。
+    must_include:
+    - $5 million
+  tags:
+  - edge
+- id: earnings-06
+  input:
+    symbol: SYN
+    name: 合成测试公司
+    sourceKind: press_release
+    sourceUrl: https://example.test/earnings/6
+    sourceText: Synthetic Test Company reports financial results for Q2 2025. Revenue was $37 million, up 12%. GAAP earnings
+      per share were $0.48. Gross margin was 40%.
+  expect:
+    reference: 不得计算同比或一致预期；缺EPS/指引不编造。
+    must_include:
+    - $37 million
+  tags:
+  - edge
+- id: earnings-07
+  input:
+    symbol: SYN
+    name: 合成测试公司
+    sourceKind: news
+    sourceUrl: https://example.test/earnings/7
+    sourceText: Synthetic Test Company reports financial results for Q3 2025. Revenue was $46 million. GAAP earnings per share
+      were $0.72. Data center revenue was $20 million.
+  expect:
+    reference: 不得计算同比或一致预期；缺EPS/指引不编造。
+    must_include:
+    - $46 million
+  tags:
+  - edge
+- id: earnings-08
+  input:
+    symbol: SYN
+    name: 合成测试公司
+    sourceKind: press_release
+    sourceUrl: https://example.test/earnings/8
+    sourceText: Synthetic Test Company reports financial results for Q4 2026. Revenue was $50 million. GAAP earnings per share
+      were $0.90. Full year guidance was withdrawn.
+  expect:
+    reference: 不得计算同比或一致预期；缺EPS/指引不编造。
+    must_include:
+    - $50 million
+  tags:
+  - edge
+- id: earnings-09
+  input:
+    symbol: SYN
+    name: 合成测试公司
+    sourceKind: press_release
+    sourceUrl: https://example.test/earnings/9
+    sourceText: Synthetic Test Company reports financial results for FY2026. Revenue was $200 million. Earnings per share
+      were not disclosed. No forward guidance was provided.
+  expect:
+    reference: 不得计算同比或一致预期；缺EPS/指引不编造。
+    must_include:
+    - $200 million
+  tags:
+  - edge

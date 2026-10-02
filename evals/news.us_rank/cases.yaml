@@ -1,0 +1,1138 @@
+- id: rank-00
+  input:
+    candidates:
+    - id: edge-0
+      title: 利率决议
+      summary: 合成美国央行维持利率不变。声明称通胀仍需观察，未提供降息日期。
+      topic: macro_fed
+      source: 合成边界材料
+      publishedAt: '2026-09-30T00:00:00Z'
+      tickers: []
+      ruleScore: 10.0
+      paywall: none
+    - id: edge-3
+      title: 季度业绩
+      summary: 合成美国公司公布季度营收增长。每股收益及后续指引均未披露。
+      topic: earnings
+      source: 合成边界材料
+      publishedAt: '2026-09-30T00:00:00Z'
+      tickers: []
+      ruleScore: 9.97
+      paywall: none
+    - id: edge-6
+      title: 芯片验证
+      summary: 合成美国半导体公司完成新芯片验证。公告称尚未量产，未提供量产日期。
+      topic: ai_semis
+      source: 合成边界材料
+      publishedAt: '2026-09-30T00:00:00Z'
+      tickers: []
+      ruleScore: 9.94
+      paywall: none
+    - id: edge-9
+      title: 云服务合同
+      summary: 合成美国大型科技云服务商获得政府服务合同。合同金额未披露。
+      topic: big_tech
+      source: 合成边界材料
+      publishedAt: '2026-09-30T00:00:00Z'
+      tickers: []
+      ruleScore: 9.91
+      paywall: none
+    - id: edge-12
+      title: 提款暂停
+      summary: 合成美国加密交易平台暂停提款。平台未披露恢复时间及资产缺口。
+      topic: crypto
+      source: 合成边界材料
+      publishedAt: '2026-09-30T00:00:00Z'
+      tickers: []
+      ruleScore: 9.88
+      paywall: none
+    - id: edge-15
+      title: 出口许可
+      summary: 合成美国贸易部门调整对中国芯片出口许可。申请须新增最终用途说明。
+      topic: policy_geo
+      source: 合成边界材料
+      publishedAt: '2026-09-30T00:00:00Z'
+      tickers: []
+      ruleScore: 9.85
+      paywall: none
+    minItems: 6
+    maxItems: 6
+  expect:
+    reference: 依据具体新信息选择，不能重复ID；主题和付费墙按输入。
+    must_include:
+    - edge-0
+  tags:
+  - edge
+- id: rank-01
+  input:
+    candidates:
+    - id: edge-1
+      title: 云服务合同
+      summary: 合成美国大型科技云服务商获得政府服务合同。合同金额未披露。
+      topic: big_tech
+      source: 合成边界材料
+      publishedAt: '2026-09-30T00:00:00Z'
+      tickers: []
+      ruleScore: 9.99
+      paywall: metered
+    - id: edge-4
+      title: 提款暂停
+      summary: 合成美国加密交易平台暂停提款。平台未披露恢复时间及资产缺口。
+      topic: crypto
+      source: 合成边界材料
+      publishedAt: '2026-09-30T00:00:00Z'
+      tickers: []
+      ruleScore: 9.96
+      paywall: metered
+    - id: edge-7
+      title: 出口许可
+      summary: 合成美国贸易部门调整对中国芯片出口许可。申请须新增最终用途说明。
+      topic: policy_geo
+      source: 合成边界材料
+      publishedAt: '2026-09-30T00:00:00Z'
+      tickers: []
+      ruleScore: 9.93
+      paywall: metered
+    - id: edge-10
+      title: 运输停运
+      summary: 合成美国运输公司所用港口因冲突停运。公司确认当地发运暂停，恢复时间未知。
+      topic: other
+      source: 合成边界材料
+      publishedAt: '2026-09-30T00:00:00Z'
+      tickers: []
+      ruleScore: 9.9
+      paywall: metered
+    - id: edge-13
+      title: 就业数据
+      summary: 合成美国统计局公布就业增速放缓。公告未修订前期数据。
+      topic: macro_fed
+      source: 合成边界材料
+      publishedAt: '2026-09-30T00:00:00Z'
+      tickers: []
+      ruleScore: 9.87
+      paywall: metered
+    - id: edge-16
+      title: 利润披露
+      summary: 合成美国零售公司公布季度利润下降。公司未提供下一季度利润指引。
+      topic: earnings
+      source: 合成边界材料
+      publishedAt: '2026-09-30T00:00:00Z'
+      tickers: []
+      ruleScore: 9.84
+      paywall: metered
+    minItems: 6
+    maxItems: 6
+  expect:
+    reference: 依据具体新信息选择，不能重复ID；主题和付费墙按输入。
+    must_include:
+    - edge-1
+  tags:
+  - edge
+- id: rank-02
+  input:
+    candidates:
+    - id: edge-2
+      title: 运输停运
+      summary: 合成美国运输公司所用港口因冲突停运。公司确认当地发运暂停，恢复时间未知。
+      topic: other
+      source: 合成边界材料
+      publishedAt: '2026-09-30T00:00:00Z'
+      tickers: []
+      ruleScore: 9.98
+      paywall: hard
+    - id: edge-5
+      title: 就业数据
+      summary: 合成美国统计局公布就业增速放缓。公告未修订前期数据。
+      topic: macro_fed
+      source: 合成边界材料
+      publishedAt: '2026-09-30T00:00:00Z'
+      tickers: []
+      ruleScore: 9.95
+      paywall: hard
+    - id: edge-8
+      title: 利润披露
+      summary: 合成美国零售公司公布季度利润下降。公司未提供下一季度利润指引。
+      topic: earnings
+      source: 合成边界材料
+      publishedAt: '2026-09-30T00:00:00Z'
+      tickers: []
+      ruleScore: 9.92
+      paywall: hard
+    - id: edge-11
+      title: 模型发布
+      summary: 合成美国人工智能公司发布开源模型。公司披露训练方法，未公布商业收入。
+      topic: ai_semis
+      source: 合成边界材料
+      publishedAt: '2026-09-30T00:00:00Z'
+      tickers: []
+      ruleScore: 9.89
+      paywall: hard
+    - id: edge-14
+      title: 并购问询
+      summary: 合成美国大型科技公司收到并购监管问询。交易尚未批准。
+      topic: big_tech
+      source: 合成边界材料
+      publishedAt: '2026-09-30T00:00:00Z'
+      tickers: []
+      ruleScore: 9.86
+      paywall: hard
+    - id: edge-17
+      title: 资产报告
+      summary: 合成美国加密平台发布储备审查安排。审查尚未完成，结果未公布。
+      topic: crypto
+      source: 合成边界材料
+      publishedAt: '2026-09-30T00:00:00Z'
+      tickers: []
+      ruleScore: 9.83
+      paywall: hard
+    minItems: 6
+    maxItems: 6
+  expect:
+    reference: 依据具体新信息选择，不能重复ID；主题和付费墙按输入。
+    must_include:
+    - edge-2
+  tags:
+  - edge
+- id: rank-03
+  input:
+    candidates:
+    - id: edge-3
+      title: 模型发布
+      summary: 合成美国人工智能公司发布开源模型。公司披露训练方法，未公布商业收入。
+      topic: ai_semis
+      source: 合成边界材料
+      publishedAt: '2026-09-30T00:00:00Z'
+      tickers: []
+      ruleScore: 9.97
+      paywall: none
+    - id: edge-6
+      title: 并购问询
+      summary: 合成美国大型科技公司收到并购监管问询。交易尚未批准。
+      topic: big_tech
+      source: 合成边界材料
+      publishedAt: '2026-09-30T00:00:00Z'
+      tickers: []
+      ruleScore: 9.94
+      paywall: none
+    - id: edge-9
+      title: 资产报告
+      summary: 合成美国加密平台发布储备审查安排。审查尚未完成，结果未公布。
+      topic: crypto
+      source: 合成边界材料
+      publishedAt: '2026-09-30T00:00:00Z'
+      tickers: []
+      ruleScore: 9.91
+      paywall: none
+    - id: edge-12
+      title: 关税豁免
+      summary: 合成美国贸易部门延长部分商品关税豁免。公告明确芯片不在豁免范围。
+      topic: policy_geo
+      source: 合成边界材料
+      publishedAt: '2026-09-30T00:00:00Z'
+      tickers: []
+      ruleScore: 9.88
+      paywall: none
+    - id: edge-15
+      title: 店面启用
+      summary: 合成美国零售公司启用新店。公司未披露店面收入或盈利目标。
+      topic: other
+      source: 合成边界材料
+      publishedAt: '2026-09-30T00:00:00Z'
+      tickers: []
+      ruleScore: 9.85
+      paywall: none
+    - id: edge-18
+      title: 利率决议
+      summary: 合成美国央行维持利率不变。声明称通胀仍需观察，未提供降息日期。
+      topic: macro_fed
+      source: 合成边界材料
+      publishedAt: '2026-09-30T00:00:00Z'
+      tickers: []
+      ruleScore: 9.82
+      paywall: none
+    minItems: 6
+    maxItems: 6
+  expect:
+    reference: 依据具体新信息选择，不能重复ID；主题和付费墙按输入。
+    must_include:
+    - edge-3
+  tags:
+  - edge
+- id: rank-04
+  input:
+    candidates:
+    - id: edge-4
+      title: 关税豁免
+      summary: 合成美国贸易部门延长部分商品关税豁免。公告明确芯片不在豁免范围。
+      topic: policy_geo
+      source: 合成边界材料
+      publishedAt: '2026-09-30T00:00:00Z'
+      tickers: []
+      ruleScore: 9.96
+      paywall: metered
+    - id: edge-7
+      title: 店面启用
+      summary: 合成美国零售公司启用新店。公司未披露店面收入或盈利目标。
+      topic: other
+      source: 合成边界材料
+      publishedAt: '2026-09-30T00:00:00Z'
+      tickers: []
+      ruleScore: 9.93
+      paywall: metered
+    - id: edge-10
+      title: 利率决议
+      summary: 合成美国央行维持利率不变。声明称通胀仍需观察，未提供降息日期。
+      topic: macro_fed
+      source: 合成边界材料
+      publishedAt: '2026-09-30T00:00:00Z'
+      tickers: []
+      ruleScore: 9.9
+      paywall: metered
+    - id: edge-13
+      title: 季度业绩
+      summary: 合成美国公司公布季度营收增长。每股收益及后续指引均未披露。
+      topic: earnings
+      source: 合成边界材料
+      publishedAt: '2026-09-30T00:00:00Z'
+      tickers: []
+      ruleScore: 9.87
+      paywall: metered
+    - id: edge-16
+      title: 芯片验证
+      summary: 合成美国半导体公司完成新芯片验证。公告称尚未量产，未提供量产日期。
+      topic: ai_semis
+      source: 合成边界材料
+      publishedAt: '2026-09-30T00:00:00Z'
+      tickers: []
+      ruleScore: 9.84
+      paywall: metered
+    - id: edge-19
+      title: 云服务合同
+      summary: 合成美国大型科技云服务商获得政府服务合同。合同金额未披露。
+      topic: big_tech
+      source: 合成边界材料
+      publishedAt: '2026-09-30T00:00:00Z'
+      tickers: []
+      ruleScore: 9.81
+      paywall: metered
+    minItems: 6
+    maxItems: 6
+  expect:
+    reference: 依据具体新信息选择，不能重复ID；主题和付费墙按输入。
+    must_include:
+    - edge-4
+  tags:
+  - edge
+- id: rank-05
+  input:
+    candidates:
+    - id: edge-5
+      title: 季度业绩
+      summary: 合成美国公司公布季度营收增长。每股收益及后续指引均未披露。
+      topic: earnings
+      source: 合成边界材料
+      publishedAt: '2026-09-30T00:00:00Z'
+      tickers: []
+      ruleScore: 9.95
+      paywall: hard
+    - id: edge-8
+      title: 芯片验证
+      summary: 合成美国半导体公司完成新芯片验证。公告称尚未量产，未提供量产日期。
+      topic: ai_semis
+      source: 合成边界材料
+      publishedAt: '2026-09-30T00:00:00Z'
+      tickers: []
+      ruleScore: 9.92
+      paywall: hard
+    - id: edge-11
+      title: 云服务合同
+      summary: 合成美国大型科技云服务商获得政府服务合同。合同金额未披露。
+      topic: big_tech
+      source: 合成边界材料
+      publishedAt: '2026-09-30T00:00:00Z'
+      tickers: []
+      ruleScore: 9.89
+      paywall: hard
+    - id: edge-14
+      title: 提款暂停
+      summary: 合成美国加密交易平台暂停提款。平台未披露恢复时间及资产缺口。
+      topic: crypto
+      source: 合成边界材料
+      publishedAt: '2026-09-30T00:00:00Z'
+      tickers: []
+      ruleScore: 9.86
+      paywall: hard
+    - id: edge-17
+      title: 出口许可
+      summary: 合成美国贸易部门调整对中国芯片出口许可。申请须新增最终用途说明。
+      topic: policy_geo
+      source: 合成边界材料
+      publishedAt: '2026-09-30T00:00:00Z'
+      tickers: []
+      ruleScore: 9.83
+      paywall: hard
+    - id: edge-20
+      title: 运输停运
+      summary: 合成美国运输公司所用港口因冲突停运。公司确认当地发运暂停，恢复时间未知。
+      topic: other
+      source: 合成边界材料
+      publishedAt: '2026-09-30T00:00:00Z'
+      tickers: []
+      ruleScore: 9.8
+      paywall: hard
+    minItems: 6
+    maxItems: 6
+  expect:
+    reference: 依据具体新信息选择，不能重复ID；主题和付费墙按输入。
+    must_include:
+    - edge-5
+  tags:
+  - edge
+- id: rank-06
+  input:
+    candidates:
+    - id: edge-6
+      title: 提款暂停
+      summary: 合成美国加密交易平台暂停提款。平台未披露恢复时间及资产缺口。
+      topic: crypto
+      source: 合成边界材料
+      publishedAt: '2026-09-30T00:00:00Z'
+      tickers: []
+      ruleScore: 9.94
+      paywall: none
+    - id: edge-9
+      title: 出口许可
+      summary: 合成美国贸易部门调整对中国芯片出口许可。申请须新增最终用途说明。
+      topic: policy_geo
+      source: 合成边界材料
+      publishedAt: '2026-09-30T00:00:00Z'
+      tickers: []
+      ruleScore: 9.91
+      paywall: none
+    - id: edge-12
+      title: 运输停运
+      summary: 合成美国运输公司所用港口因冲突停运。公司确认当地发运暂停，恢复时间未知。
+      topic: other
+      source: 合成边界材料
+      publishedAt: '2026-09-30T00:00:00Z'
+      tickers: []
+      ruleScore: 9.88
+      paywall: none
+    - id: edge-15
+      title: 就业数据
+      summary: 合成美国统计局公布就业增速放缓。公告未修订前期数据。
+      topic: macro_fed
+      source: 合成边界材料
+      publishedAt: '2026-09-30T00:00:00Z'
+      tickers: []
+      ruleScore: 9.85
+      paywall: none
+    - id: edge-18
+      title: 利润披露
+      summary: 合成美国零售公司公布季度利润下降。公司未提供下一季度利润指引。
+      topic: earnings
+      source: 合成边界材料
+      publishedAt: '2026-09-30T00:00:00Z'
+      tickers: []
+      ruleScore: 9.82
+      paywall: none
+    - id: edge-21
+      title: 模型发布
+      summary: 合成美国人工智能公司发布开源模型。公司披露训练方法，未公布商业收入。
+      topic: ai_semis
+      source: 合成边界材料
+      publishedAt: '2026-09-30T00:00:00Z'
+      tickers: []
+      ruleScore: 9.79
+      paywall: none
+    minItems: 6
+    maxItems: 6
+  expect:
+    reference: 依据具体新信息选择，不能重复ID；主题和付费墙按输入。
+    must_include:
+    - edge-6
+  tags:
+  - edge
+- id: rank-07
+  input:
+    candidates:
+    - id: edge-7
+      title: 就业数据
+      summary: 合成美国统计局公布就业增速放缓。公告未修订前期数据。
+      topic: macro_fed
+      source: 合成边界材料
+      publishedAt: '2026-09-30T00:00:00Z'
+      tickers: []
+      ruleScore: 9.93
+      paywall: metered
+    - id: edge-10
+      title: 利润披露
+      summary: 合成美国零售公司公布季度利润下降。公司未提供下一季度利润指引。
+      topic: earnings
+      source: 合成边界材料
+      publishedAt: '2026-09-30T00:00:00Z'
+      tickers: []
+      ruleScore: 9.9
+      paywall: metered
+    - id: edge-13
+      title: 模型发布
+      summary: 合成美国人工智能公司发布开源模型。公司披露训练方法，未公布商业收入。
+      topic: ai_semis
+      source: 合成边界材料
+      publishedAt: '2026-09-30T00:00:00Z'
+      tickers: []
+      ruleScore: 9.87
+      paywall: metered
+    - id: edge-16
+      title: 并购问询
+      summary: 合成美国大型科技公司收到并购监管问询。交易尚未批准。
+      topic: big_tech
+      source: 合成边界材料
+      publishedAt: '2026-09-30T00:00:00Z'
+      tickers: []
+      ruleScore: 9.84
+      paywall: metered
+    - id: edge-19
+      title: 资产报告
+      summary: 合成美国加密平台发布储备审查安排。审查尚未完成，结果未公布。
+      topic: crypto
+      source: 合成边界材料
+      publishedAt: '2026-09-30T00:00:00Z'
+      tickers: []
+      ruleScore: 9.81
+      paywall: metered
+    - id: edge-22
+      title: 关税豁免
+      summary: 合成美国贸易部门延长部分商品关税豁免。公告明确芯片不在豁免范围。
+      topic: policy_geo
+      source: 合成边界材料
+      publishedAt: '2026-09-30T00:00:00Z'
+      tickers: []
+      ruleScore: 9.78
+      paywall: metered
+    minItems: 6
+    maxItems: 6
+  expect:
+    reference: 依据具体新信息选择，不能重复ID；主题和付费墙按输入。
+    must_include:
+    - edge-7
+  tags:
+  - edge
+- id: rank-08
+  input:
+    candidates:
+    - id: edge-8
+      title: 并购问询
+      summary: 合成美国大型科技公司收到并购监管问询。交易尚未批准。
+      topic: big_tech
+      source: 合成边界材料
+      publishedAt: '2026-09-30T00:00:00Z'
+      tickers: []
+      ruleScore: 9.92
+      paywall: hard
+    - id: edge-11
+      title: 资产报告
+      summary: 合成美国加密平台发布储备审查安排。审查尚未完成，结果未公布。
+      topic: crypto
+      source: 合成边界材料
+      publishedAt: '2026-09-30T00:00:00Z'
+      tickers: []
+      ruleScore: 9.89
+      paywall: hard
+    - id: edge-14
+      title: 关税豁免
+      summary: 合成美国贸易部门延长部分商品关税豁免。公告明确芯片不在豁免范围。
+      topic: policy_geo
+      source: 合成边界材料
+      publishedAt: '2026-09-30T00:00:00Z'
+      tickers: []
+      ruleScore: 9.86
+      paywall: hard
+    - id: edge-17
+      title: 店面启用
+      summary: 合成美国零售公司启用新店。公司未披露店面收入或盈利目标。
+      topic: other
+      source: 合成边界材料
+      publishedAt: '2026-09-30T00:00:00Z'
+      tickers: []
+      ruleScore: 9.83
+      paywall: hard
+    - id: edge-20
+      title: 利率决议
+      summary: 合成美国央行维持利率不变。声明称通胀仍需观察，未提供降息日期。
+      topic: macro_fed
+      source: 合成边界材料
+      publishedAt: '2026-09-30T00:00:00Z'
+      tickers: []
+      ruleScore: 9.8
+      paywall: hard
+    - id: edge-23
+      title: 季度业绩
+      summary: 合成美国公司公布季度营收增长。每股收益及后续指引均未披露。
+      topic: earnings
+      source: 合成边界材料
+      publishedAt: '2026-09-30T00:00:00Z'
+      tickers: []
+      ruleScore: 9.77
+      paywall: hard
+    minItems: 6
+    maxItems: 6
+  expect:
+    reference: 依据具体新信息选择，不能重复ID；主题和付费墙按输入。
+    must_include:
+    - edge-8
+  tags:
+  - edge
+- id: rank-09
+  input:
+    candidates:
+    - id: edge-9
+      title: 店面启用
+      summary: 合成美国零售公司启用新店。公司未披露店面收入或盈利目标。
+      topic: other
+      source: 合成边界材料
+      publishedAt: '2026-09-30T00:00:00Z'
+      tickers: []
+      ruleScore: 9.91
+      paywall: none
+    - id: edge-12
+      title: 利率决议
+      summary: 合成美国央行维持利率不变。声明称通胀仍需观察，未提供降息日期。
+      topic: macro_fed
+      source: 合成边界材料
+      publishedAt: '2026-09-30T00:00:00Z'
+      tickers: []
+      ruleScore: 9.88
+      paywall: none
+    - id: edge-15
+      title: 季度业绩
+      summary: 合成美国公司公布季度营收增长。每股收益及后续指引均未披露。
+      topic: earnings
+      source: 合成边界材料
+      publishedAt: '2026-09-30T00:00:00Z'
+      tickers: []
+      ruleScore: 9.85
+      paywall: none
+    - id: edge-18
+      title: 芯片验证
+      summary: 合成美国半导体公司完成新芯片验证。公告称尚未量产，未提供量产日期。
+      topic: ai_semis
+      source: 合成边界材料
+      publishedAt: '2026-09-30T00:00:00Z'
+      tickers: []
+      ruleScore: 9.82
+      paywall: none
+    - id: edge-21
+      title: 云服务合同
+      summary: 合成美国大型科技云服务商获得政府服务合同。合同金额未披露。
+      topic: big_tech
+      source: 合成边界材料
+      publishedAt: '2026-09-30T00:00:00Z'
+      tickers: []
+      ruleScore: 9.79
+      paywall: none
+    - id: edge-0
+      title: 提款暂停
+      summary: 合成美国加密交易平台暂停提款。平台未披露恢复时间及资产缺口。
+      topic: crypto
+      source: 合成边界材料
+      publishedAt: '2026-09-30T00:00:00Z'
+      tickers: []
+      ruleScore: 10.0
+      paywall: none
+    minItems: 6
+    maxItems: 6
+  expect:
+    reference: 依据具体新信息选择，不能重复ID；主题和付费墙按输入。
+    must_include:
+    - edge-9
+  tags:
+  - edge
+- id: rank-10
+  input:
+    candidates:
+    - id: edge-10
+      title: 芯片验证
+      summary: 合成美国半导体公司完成新芯片验证。公告称尚未量产，未提供量产日期。
+      topic: ai_semis
+      source: 合成边界材料
+      publishedAt: '2026-09-30T00:00:00Z'
+      tickers: []
+      ruleScore: 9.9
+      paywall: metered
+    - id: edge-13
+      title: 云服务合同
+      summary: 合成美国大型科技云服务商获得政府服务合同。合同金额未披露。
+      topic: big_tech
+      source: 合成边界材料
+      publishedAt: '2026-09-30T00:00:00Z'
+      tickers: []
+      ruleScore: 9.87
+      paywall: metered
+    - id: edge-16
+      title: 提款暂停
+      summary: 合成美国加密交易平台暂停提款。平台未披露恢复时间及资产缺口。
+      topic: crypto
+      source: 合成边界材料
+      publishedAt: '2026-09-30T00:00:00Z'
+      tickers: []
+      ruleScore: 9.84
+      paywall: metered
+    - id: edge-19
+      title: 出口许可
+      summary: 合成美国贸易部门调整对中国芯片出口许可。申请须新增最终用途说明。
+      topic: policy_geo
+      source: 合成边界材料
+      publishedAt: '2026-09-30T00:00:00Z'
+      tickers: []
+      ruleScore: 9.81
+      paywall: metered
+    - id: edge-22
+      title: 运输停运
+      summary: 合成美国运输公司所用港口因冲突停运。公司确认当地发运暂停，恢复时间未知。
+      topic: other
+      source: 合成边界材料
+      publishedAt: '2026-09-30T00:00:00Z'
+      tickers: []
+      ruleScore: 9.78
+      paywall: metered
+    - id: edge-1
+      title: 就业数据
+      summary: 合成美国统计局公布就业增速放缓。公告未修订前期数据。
+      topic: macro_fed
+      source: 合成边界材料
+      publishedAt: '2026-09-30T00:00:00Z'
+      tickers: []
+      ruleScore: 9.99
+      paywall: metered
+    minItems: 6
+    maxItems: 6
+  expect:
+    reference: 依据具体新信息选择，不能重复ID；主题和付费墙按输入。
+    must_include:
+    - edge-10
+  tags:
+  - edge
+- id: rank-11
+  input:
+    candidates:
+    - id: edge-11
+      title: 出口许可
+      summary: 合成美国贸易部门调整对中国芯片出口许可。申请须新增最终用途说明。
+      topic: policy_geo
+      source: 合成边界材料
+      publishedAt: '2026-09-30T00:00:00Z'
+      tickers: []
+      ruleScore: 9.89
+      paywall: hard
+    - id: edge-14
+      title: 运输停运
+      summary: 合成美国运输公司所用港口因冲突停运。公司确认当地发运暂停，恢复时间未知。
+      topic: other
+      source: 合成边界材料
+      publishedAt: '2026-09-30T00:00:00Z'
+      tickers: []
+      ruleScore: 9.86
+      paywall: hard
+    - id: edge-17
+      title: 就业数据
+      summary: 合成美国统计局公布就业增速放缓。公告未修订前期数据。
+      topic: macro_fed
+      source: 合成边界材料
+      publishedAt: '2026-09-30T00:00:00Z'
+      tickers: []
+      ruleScore: 9.83
+      paywall: hard
+    - id: edge-20
+      title: 利润披露
+      summary: 合成美国零售公司公布季度利润下降。公司未提供下一季度利润指引。
+      topic: earnings
+      source: 合成边界材料
+      publishedAt: '2026-09-30T00:00:00Z'
+      tickers: []
+      ruleScore: 9.8
+      paywall: hard
+    - id: edge-23
+      title: 模型发布
+      summary: 合成美国人工智能公司发布开源模型。公司披露训练方法，未公布商业收入。
+      topic: ai_semis
+      source: 合成边界材料
+      publishedAt: '2026-09-30T00:00:00Z'
+      tickers: []
+      ruleScore: 9.77
+      paywall: hard
+    - id: edge-2
+      title: 并购问询
+      summary: 合成美国大型科技公司收到并购监管问询。交易尚未批准。
+      topic: big_tech
+      source: 合成边界材料
+      publishedAt: '2026-09-30T00:00:00Z'
+      tickers: []
+      ruleScore: 9.98
+      paywall: hard
+    minItems: 6
+    maxItems: 6
+  expect:
+    reference: 依据具体新信息选择，不能重复ID；主题和付费墙按输入。
+    must_include:
+    - edge-11
+  tags:
+  - edge
+- id: rank-12
+  input:
+    candidates:
+    - id: edge-12
+      title: 利润披露
+      summary: 合成美国零售公司公布季度利润下降。公司未提供下一季度利润指引。
+      topic: earnings
+      source: 合成边界材料
+      publishedAt: '2026-09-30T00:00:00Z'
+      tickers: []
+      ruleScore: 9.88
+      paywall: none
+    - id: edge-15
+      title: 模型发布
+      summary: 合成美国人工智能公司发布开源模型。公司披露训练方法，未公布商业收入。
+      topic: ai_semis
+      source: 合成边界材料
+      publishedAt: '2026-09-30T00:00:00Z'
+      tickers: []
+      ruleScore: 9.85
+      paywall: none
+    - id: edge-18
+      title: 并购问询
+      summary: 合成美国大型科技公司收到并购监管问询。交易尚未批准。
+      topic: big_tech
+      source: 合成边界材料
+      publishedAt: '2026-09-30T00:00:00Z'
+      tickers: []
+      ruleScore: 9.82
+      paywall: none
+    - id: edge-21
+      title: 资产报告
+      summary: 合成美国加密平台发布储备审查安排。审查尚未完成，结果未公布。
+      topic: crypto
+      source: 合成边界材料
+      publishedAt: '2026-09-30T00:00:00Z'
+      tickers: []
+      ruleScore: 9.79
+      paywall: none
+    - id: edge-0
+      title: 关税豁免
+      summary: 合成美国贸易部门延长部分商品关税豁免。公告明确芯片不在豁免范围。
+      topic: policy_geo
+      source: 合成边界材料
+      publishedAt: '2026-09-30T00:00:00Z'
+      tickers: []
+      ruleScore: 10.0
+      paywall: none
+    - id: edge-3
+      title: 店面启用
+      summary: 合成美国零售公司启用新店。公司未披露店面收入或盈利目标。
+      topic: other
+      source: 合成边界材料
+      publishedAt: '2026-09-30T00:00:00Z'
+      tickers: []
+      ruleScore: 9.97
+      paywall: none
+    minItems: 6
+    maxItems: 6
+  expect:
+    reference: 依据具体新信息选择，不能重复ID；主题和付费墙按输入。
+    must_include:
+    - edge-12
+  tags:
+  - edge
+- id: rank-13
+  input:
+    candidates:
+    - id: edge-13
+      title: 资产报告
+      summary: 合成美国加密平台发布储备审查安排。审查尚未完成，结果未公布。
+      topic: crypto
+      source: 合成边界材料
+      publishedAt: '2026-09-30T00:00:00Z'
+      tickers: []
+      ruleScore: 9.87
+      paywall: metered
+    - id: edge-16
+      title: 关税豁免
+      summary: 合成美国贸易部门延长部分商品关税豁免。公告明确芯片不在豁免范围。
+      topic: policy_geo
+      source: 合成边界材料
+      publishedAt: '2026-09-30T00:00:00Z'
+      tickers: []
+      ruleScore: 9.84
+      paywall: metered
+    - id: edge-19
+      title: 店面启用
+      summary: 合成美国零售公司启用新店。公司未披露店面收入或盈利目标。
+      topic: other
+      source: 合成边界材料
+      publishedAt: '2026-09-30T00:00:00Z'
+      tickers: []
+      ruleScore: 9.81
+      paywall: metered
+    - id: edge-22
+      title: 利率决议
+      summary: 合成美国央行维持利率不变。声明称通胀仍需观察，未提供降息日期。
+      topic: macro_fed
+      source: 合成边界材料
+      publishedAt: '2026-09-30T00:00:00Z'
+      tickers: []
+      ruleScore: 9.78
+      paywall: metered
+    - id: edge-1
+      title: 季度业绩
+      summary: 合成美国公司公布季度营收增长。每股收益及后续指引均未披露。
+      topic: earnings
+      source: 合成边界材料
+      publishedAt: '2026-09-30T00:00:00Z'
+      tickers: []
+      ruleScore: 9.99
+      paywall: metered
+    - id: edge-4
+      title: 芯片验证
+      summary: 合成美国半导体公司完成新芯片验证。公告称尚未量产，未提供量产日期。
+      topic: ai_semis
+      source: 合成边界材料
+      publishedAt: '2026-09-30T00:00:00Z'
+      tickers: []
+      ruleScore: 9.96
+      paywall: metered
+    minItems: 6
+    maxItems: 6
+  expect:
+    reference: 依据具体新信息选择，不能重复ID；主题和付费墙按输入。
+    must_include:
+    - edge-13
+  tags:
+  - edge
+- id: rank-14
+  input:
+    candidates:
+    - id: edge-14
+      title: 利率决议
+      summary: 合成美国央行维持利率不变。声明称通胀仍需观察，未提供降息日期。
+      topic: macro_fed
+      source: 合成边界材料
+      publishedAt: '2026-09-30T00:00:00Z'
+      tickers: []
+      ruleScore: 9.86
+      paywall: hard
+    - id: edge-17
+      title: 季度业绩
+      summary: 合成美国公司公布季度营收增长。每股收益及后续指引均未披露。
+      topic: earnings
+      source: 合成边界材料
+      publishedAt: '2026-09-30T00:00:00Z'
+      tickers: []
+      ruleScore: 9.83
+      paywall: hard
+    - id: edge-20
+      title: 芯片验证
+      summary: 合成美国半导体公司完成新芯片验证。公告称尚未量产，未提供量产日期。
+      topic: ai_semis
+      source: 合成边界材料
+      publishedAt: '2026-09-30T00:00:00Z'
+      tickers: []
+      ruleScore: 9.8
+      paywall: hard
+    - id: edge-23
+      title: 云服务合同
+      summary: 合成美国大型科技云服务商获得政府服务合同。合同金额未披露。
+      topic: big_tech
+      source: 合成边界材料
+      publishedAt: '2026-09-30T00:00:00Z'
+      tickers: []
+      ruleScore: 9.77
+      paywall: hard
+    - id: edge-2
+      title: 提款暂停
+      summary: 合成美国加密交易平台暂停提款。平台未披露恢复时间及资产缺口。
+      topic: crypto
+      source: 合成边界材料
+      publishedAt: '2026-09-30T00:00:00Z'
+      tickers: []
+      ruleScore: 9.98
+      paywall: hard
+    - id: edge-5
+      title: 出口许可
+      summary: 合成美国贸易部门调整对中国芯片出口许可。申请须新增最终用途说明。
+      topic: policy_geo
+      source: 合成边界材料
+      publishedAt: '2026-09-30T00:00:00Z'
+      tickers: []
+      ruleScore: 9.95
+      paywall: hard
+    minItems: 6
+    maxItems: 6
+  expect:
+    reference: 依据具体新信息选择，不能重复ID；主题和付费墙按输入。
+    must_include:
+    - edge-14
+  tags:
+  - edge
+- id: rank-15
+  input:
+    candidates:
+    - id: edge-15
+      title: 云服务合同
+      summary: 合成美国大型科技云服务商获得政府服务合同。合同金额未披露。
+      topic: big_tech
+      source: 合成边界材料
+      publishedAt: '2026-09-30T00:00:00Z'
+      tickers: []
+      ruleScore: 9.85
+      paywall: none
+    - id: edge-18
+      title: 提款暂停
+      summary: 合成美国加密交易平台暂停提款。平台未披露恢复时间及资产缺口。
+      topic: crypto
+      source: 合成边界材料
+      publishedAt: '2026-09-30T00:00:00Z'
+      tickers: []
+      ruleScore: 9.82
+      paywall: none
+    - id: edge-21
+      title: 出口许可
+      summary: 合成美国贸易部门调整对中国芯片出口许可。申请须新增最终用途说明。
+      topic: policy_geo
+      source: 合成边界材料
+      publishedAt: '2026-09-30T00:00:00Z'
+      tickers: []
+      ruleScore: 9.79
+      paywall: none
+    minItems: 3
+    maxItems: 3
+  expect:
+    reference: 依据具体新信息选择，不能重复ID；主题和付费墙按输入。
+    must_include:
+    - edge-15
+  tags:
+  - edge
+- id: rank-16
+  input:
+    candidates:
+    - id: edge-16
+      title: 运输停运
+      summary: 合成美国运输公司所用港口因冲突停运。公司确认当地发运暂停，恢复时间未知。
+      topic: other
+      source: 合成边界材料
+      publishedAt: '2026-09-30T00:00:00Z'
+      tickers: []
+      ruleScore: 9.84
+      paywall: metered
+    - id: edge-19
+      title: 就业数据
+      summary: 合成美国统计局公布就业增速放缓。公告未修订前期数据。
+      topic: macro_fed
+      source: 合成边界材料
+      publishedAt: '2026-09-30T00:00:00Z'
+      tickers: []
+      ruleScore: 9.81
+      paywall: metered
+    - id: edge-22
+      title: 利润披露
+      summary: 合成美国零售公司公布季度利润下降。公司未提供下一季度利润指引。
+      topic: earnings
+      source: 合成边界材料
+      publishedAt: '2026-09-30T00:00:00Z'
+      tickers: []
+      ruleScore: 9.78
+      paywall: metered
+    minItems: 3
+    maxItems: 3
+  expect:
+    reference: 依据具体新信息选择，不能重复ID；主题和付费墙按输入。
+    must_include:
+    - edge-16
+  tags:
+  - edge
+- id: rank-17
+  input:
+    candidates:
+    - id: edge-17
+      title: 模型发布
+      summary: 合成美国人工智能公司发布开源模型。公司披露训练方法，未公布商业收入。
+      topic: ai_semis
+      source: 合成边界材料
+      publishedAt: '2026-09-30T00:00:00Z'
+      tickers: []
+      ruleScore: 9.83
+      paywall: hard
+    - id: edge-20
+      title: 并购问询
+      summary: 合成美国大型科技公司收到并购监管问询。交易尚未批准。
+      topic: big_tech
+      source: 合成边界材料
+      publishedAt: '2026-09-30T00:00:00Z'
+      tickers: []
+      ruleScore: 9.8
+      paywall: hard
+    - id: edge-23
+      title: 资产报告
+      summary: 合成美国加密平台发布储备审查安排。审查尚未完成，结果未公布。
+      topic: crypto
+      source: 合成边界材料
+      publishedAt: '2026-09-30T00:00:00Z'
+      tickers: []
+      ruleScore: 9.77
+      paywall: hard
+    minItems: 3
+    maxItems: 3
+  expect:
+    reference: 依据具体新信息选择，不能重复ID；主题和付费墙按输入。
+    must_include:
+    - edge-17
+  tags:
+  - edge
+- id: rank-18
+  input:
+    candidates:
+    - id: edge-18
+      title: 关税豁免
+      summary: 合成美国贸易部门延长部分商品关税豁免。公告明确芯片不在豁免范围。
+      topic: policy_geo
+      source: 合成边界材料
+      publishedAt: '2026-09-30T00:00:00Z'
+      tickers: []
+      ruleScore: 9.82
+      paywall: none
+    - id: edge-21
+      title: 店面启用
+      summary: 合成美国零售公司启用新店。公司未披露店面收入或盈利目标。
+      topic: other
+      source: 合成边界材料
+      publishedAt: '2026-09-30T00:00:00Z'
+      tickers: []
+      ruleScore: 9.79
+      paywall: none
+    - id: edge-0
+      title: 利率决议
+      summary: 合成美国央行维持利率不变。声明称通胀仍需观察，未提供降息日期。
+      topic: macro_fed
+      source: 合成边界材料
+      publishedAt: '2026-09-30T00:00:00Z'
+      tickers: []
+      ruleScore: 10.0
+      paywall: none
+    minItems: 3
+    maxItems: 3
+  expect:
+    reference: 依据具体新信息选择，不能重复ID；主题和付费墙按输入。
+    must_include:
+    - edge-18
+  tags:
+  - edge
+- id: rank-19
+  input:
+    candidates: []
+    minItems: 0
+    maxItems: 0
+  expect:
+    reference: 空候选必须返回空列表，不编造新闻。
+    must_include:
+    - '[]'
+  tags:
+  - edge

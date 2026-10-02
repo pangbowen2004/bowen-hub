@@ -1,0 +1,528 @@
+rank-00:
+  output:
+    items:
+    - id: edge-0
+      summary: 合成美国央行维持利率不变。声明称通胀仍需观察，未提供降息日期。
+      whyItMatters: 利率保持不变，不能据此给出尚未公布的降息日期。
+      topic: macro_fed
+    - id: edge-3
+      summary: 合成美国公司公布季度营收增长。每股收益及后续指引均未披露。
+      whyItMatters: 已披露营收增长，但缺少每股收益和指引，不能判断利润表现。
+      topic: earnings
+    - id: edge-6
+      summary: 合成美国半导体公司完成新芯片验证。公告称尚未量产，未提供量产日期。
+      whyItMatters: 验证已完成但尚未量产，不能把测试进展当作出货。
+      topic: ai_semis
+    - id: edge-9
+      summary: 合成美国大型科技云服务商获得政府服务合同。合同金额未披露。
+      whyItMatters: 新增政府服务合同已确认，但缺少金额，不能估算订单规模。
+      topic: big_tech
+    - id: edge-12
+      summary: 合成美国加密交易平台暂停提款。平台未披露恢复时间及资产缺口。
+      whyItMatters: 客户目前无法提款，恢复时间和资产缺口仍未披露。
+      topic: crypto
+    - id: edge-15
+      summary: 合成美国贸易部门调整对中国芯片出口许可。申请须新增最终用途说明。
+      whyItMatters: 芯片出口申请新增最终用途说明，申请材料要求已改变。
+      topic: policy_geo
+  usage:
+    input_tokens: 0
+    output_tokens: 0
+rank-01:
+  output:
+    items:
+    - id: edge-1
+      summary: 合成美国大型科技云服务商获得政府服务合同。合同金额未披露。
+      whyItMatters: 新增政府服务合同已确认，但缺少金额，不能估算订单规模。
+      topic: big_tech
+    - id: edge-4
+      summary: 合成美国加密交易平台暂停提款。平台未披露恢复时间及资产缺口。
+      whyItMatters: 客户目前无法提款，恢复时间和资产缺口仍未披露。
+      topic: crypto
+    - id: edge-7
+      summary: 合成美国贸易部门调整对中国芯片出口许可。申请须新增最终用途说明。
+      whyItMatters: 芯片出口申请新增最终用途说明，申请材料要求已改变。
+      topic: policy_geo
+    - id: edge-10
+      summary: 合成美国运输公司所用港口因冲突停运。公司确认当地发运暂停，恢复时间未知。
+      whyItMatters: 当地发运已暂停，恢复时间未知，不能推算复运日期。
+      topic: other
+    - id: edge-13
+      summary: 合成美国统计局公布就业增速放缓。公告未修订前期数据。
+      whyItMatters: 本次新增信息为就业增速放缓，前期数据没有修订。
+      topic: macro_fed
+    - id: edge-16
+      summary: 合成美国零售公司公布季度利润下降。公司未提供下一季度利润指引。
+      whyItMatters: 季度利润下降已披露，下一季度表现尚无公司指引。
+      topic: earnings
+  usage:
+    input_tokens: 0
+    output_tokens: 0
+rank-02:
+  output:
+    items:
+    - id: edge-2
+      summary: 合成美国运输公司所用港口因冲突停运。公司确认当地发运暂停，恢复时间未知。
+      whyItMatters: 当地发运已暂停，恢复时间未知，不能推算复运日期。
+      topic: other
+    - id: edge-5
+      summary: 合成美国统计局公布就业增速放缓。公告未修订前期数据。
+      whyItMatters: 本次新增信息为就业增速放缓，前期数据没有修订。
+      topic: macro_fed
+    - id: edge-8
+      summary: 合成美国零售公司公布季度利润下降。公司未提供下一季度利润指引。
+      whyItMatters: 季度利润下降已披露，下一季度表现尚无公司指引。
+      topic: earnings
+    - id: edge-11
+      summary: 合成美国人工智能公司发布开源模型。公司披露训练方法，未公布商业收入。
+      whyItMatters: 模型和训练方法已公开，不能把技术发布当作收入披露。
+      topic: ai_semis
+    - id: edge-14
+      summary: 合成美国大型科技公司收到并购监管问询。交易尚未批准。
+      whyItMatters: 交易仍待审批，监管问询不等于并购已经获批。
+      topic: big_tech
+    - id: edge-17
+      summary: 合成美国加密平台发布储备审查安排。审查尚未完成，结果未公布。
+      whyItMatters: 审查尚未完成，不能把安排当作储备充足的证明。
+      topic: crypto
+  usage:
+    input_tokens: 0
+    output_tokens: 0
+rank-03:
+  output:
+    items:
+    - id: edge-3
+      summary: 合成美国人工智能公司发布开源模型。公司披露训练方法，未公布商业收入。
+      whyItMatters: 模型和训练方法已公开，不能把技术发布当作收入披露。
+      topic: ai_semis
+    - id: edge-6
+      summary: 合成美国大型科技公司收到并购监管问询。交易尚未批准。
+      whyItMatters: 交易仍待审批，监管问询不等于并购已经获批。
+      topic: big_tech
+    - id: edge-9
+      summary: 合成美国加密平台发布储备审查安排。审查尚未完成，结果未公布。
+      whyItMatters: 审查尚未完成，不能把安排当作储备充足的证明。
+      topic: crypto
+    - id: edge-12
+      summary: 合成美国贸易部门延长部分商品关税豁免。公告明确芯片不在豁免范围。
+      whyItMatters: 部分商品豁免延长，但该安排不适用于芯片。
+      topic: policy_geo
+    - id: edge-15
+      summary: 合成美国零售公司启用新店。公司未披露店面收入或盈利目标。
+      whyItMatters: 新店已启用，缺少收入和盈利披露，不能估算经营贡献。
+      topic: other
+    - id: edge-18
+      summary: 合成美国央行维持利率不变。声明称通胀仍需观察，未提供降息日期。
+      whyItMatters: 利率保持不变，不能据此给出尚未公布的降息日期。
+      topic: macro_fed
+  usage:
+    input_tokens: 0
+    output_tokens: 0
+rank-04:
+  output:
+    items:
+    - id: edge-4
+      summary: 合成美国贸易部门延长部分商品关税豁免。公告明确芯片不在豁免范围。
+      whyItMatters: 部分商品豁免延长，但该安排不适用于芯片。
+      topic: policy_geo
+    - id: edge-7
+      summary: 合成美国零售公司启用新店。公司未披露店面收入或盈利目标。
+      whyItMatters: 新店已启用，缺少收入和盈利披露，不能估算经营贡献。
+      topic: other
+    - id: edge-10
+      summary: 合成美国央行维持利率不变。声明称通胀仍需观察，未提供降息日期。
+      whyItMatters: 利率保持不变，不能据此给出尚未公布的降息日期。
+      topic: macro_fed
+    - id: edge-13
+      summary: 合成美国公司公布季度营收增长。每股收益及后续指引均未披露。
+      whyItMatters: 已披露营收增长，但缺少每股收益和指引，不能判断利润表现。
+      topic: earnings
+    - id: edge-16
+      summary: 合成美国半导体公司完成新芯片验证。公告称尚未量产，未提供量产日期。
+      whyItMatters: 验证已完成但尚未量产，不能把测试进展当作出货。
+      topic: ai_semis
+    - id: edge-19
+      summary: 合成美国大型科技云服务商获得政府服务合同。合同金额未披露。
+      whyItMatters: 新增政府服务合同已确认，但缺少金额，不能估算订单规模。
+      topic: big_tech
+  usage:
+    input_tokens: 0
+    output_tokens: 0
+rank-05:
+  output:
+    items:
+    - id: edge-5
+      summary: 合成美国公司公布季度营收增长。每股收益及后续指引均未披露。
+      whyItMatters: 已披露营收增长，但缺少每股收益和指引，不能判断利润表现。
+      topic: earnings
+    - id: edge-8
+      summary: 合成美国半导体公司完成新芯片验证。公告称尚未量产，未提供量产日期。
+      whyItMatters: 验证已完成但尚未量产，不能把测试进展当作出货。
+      topic: ai_semis
+    - id: edge-11
+      summary: 合成美国大型科技云服务商获得政府服务合同。合同金额未披露。
+      whyItMatters: 新增政府服务合同已确认，但缺少金额，不能估算订单规模。
+      topic: big_tech
+    - id: edge-14
+      summary: 合成美国加密交易平台暂停提款。平台未披露恢复时间及资产缺口。
+      whyItMatters: 客户目前无法提款，恢复时间和资产缺口仍未披露。
+      topic: crypto
+    - id: edge-17
+      summary: 合成美国贸易部门调整对中国芯片出口许可。申请须新增最终用途说明。
+      whyItMatters: 芯片出口申请新增最终用途说明，申请材料要求已改变。
+      topic: policy_geo
+    - id: edge-20
+      summary: 合成美国运输公司所用港口因冲突停运。公司确认当地发运暂停，恢复时间未知。
+      whyItMatters: 当地发运已暂停，恢复时间未知，不能推算复运日期。
+      topic: other
+  usage:
+    input_tokens: 0
+    output_tokens: 0
+rank-06:
+  output:
+    items:
+    - id: edge-6
+      summary: 合成美国加密交易平台暂停提款。平台未披露恢复时间及资产缺口。
+      whyItMatters: 客户目前无法提款，恢复时间和资产缺口仍未披露。
+      topic: crypto
+    - id: edge-9
+      summary: 合成美国贸易部门调整对中国芯片出口许可。申请须新增最终用途说明。
+      whyItMatters: 芯片出口申请新增最终用途说明，申请材料要求已改变。
+      topic: policy_geo
+    - id: edge-12
+      summary: 合成美国运输公司所用港口因冲突停运。公司确认当地发运暂停，恢复时间未知。
+      whyItMatters: 当地发运已暂停，恢复时间未知，不能推算复运日期。
+      topic: other
+    - id: edge-15
+      summary: 合成美国统计局公布就业增速放缓。公告未修订前期数据。
+      whyItMatters: 本次新增信息为就业增速放缓，前期数据没有修订。
+      topic: macro_fed
+    - id: edge-18
+      summary: 合成美国零售公司公布季度利润下降。公司未提供下一季度利润指引。
+      whyItMatters: 季度利润下降已披露，下一季度表现尚无公司指引。
+      topic: earnings
+    - id: edge-21
+      summary: 合成美国人工智能公司发布开源模型。公司披露训练方法，未公布商业收入。
+      whyItMatters: 模型和训练方法已公开，不能把技术发布当作收入披露。
+      topic: ai_semis
+  usage:
+    input_tokens: 0
+    output_tokens: 0
+rank-07:
+  output:
+    items:
+    - id: edge-7
+      summary: 合成美国统计局公布就业增速放缓。公告未修订前期数据。
+      whyItMatters: 本次新增信息为就业增速放缓，前期数据没有修订。
+      topic: macro_fed
+    - id: edge-10
+      summary: 合成美国零售公司公布季度利润下降。公司未提供下一季度利润指引。
+      whyItMatters: 季度利润下降已披露，下一季度表现尚无公司指引。
+      topic: earnings
+    - id: edge-13
+      summary: 合成美国人工智能公司发布开源模型。公司披露训练方法，未公布商业收入。
+      whyItMatters: 模型和训练方法已公开，不能把技术发布当作收入披露。
+      topic: ai_semis
+    - id: edge-16
+      summary: 合成美国大型科技公司收到并购监管问询。交易尚未批准。
+      whyItMatters: 交易仍待审批，监管问询不等于并购已经获批。
+      topic: big_tech
+    - id: edge-19
+      summary: 合成美国加密平台发布储备审查安排。审查尚未完成，结果未公布。
+      whyItMatters: 审查尚未完成，不能把安排当作储备充足的证明。
+      topic: crypto
+    - id: edge-22
+      summary: 合成美国贸易部门延长部分商品关税豁免。公告明确芯片不在豁免范围。
+      whyItMatters: 部分商品豁免延长，但该安排不适用于芯片。
+      topic: policy_geo
+  usage:
+    input_tokens: 0
+    output_tokens: 0
+rank-08:
+  output:
+    items:
+    - id: edge-8
+      summary: 合成美国大型科技公司收到并购监管问询。交易尚未批准。
+      whyItMatters: 交易仍待审批，监管问询不等于并购已经获批。
+      topic: big_tech
+    - id: edge-11
+      summary: 合成美国加密平台发布储备审查安排。审查尚未完成，结果未公布。
+      whyItMatters: 审查尚未完成，不能把安排当作储备充足的证明。
+      topic: crypto
+    - id: edge-14
+      summary: 合成美国贸易部门延长部分商品关税豁免。公告明确芯片不在豁免范围。
+      whyItMatters: 部分商品豁免延长，但该安排不适用于芯片。
+      topic: policy_geo
+    - id: edge-17
+      summary: 合成美国零售公司启用新店。公司未披露店面收入或盈利目标。
+      whyItMatters: 新店已启用，缺少收入和盈利披露，不能估算经营贡献。
+      topic: other
+    - id: edge-20
+      summary: 合成美国央行维持利率不变。声明称通胀仍需观察，未提供降息日期。
+      whyItMatters: 利率保持不变，不能据此给出尚未公布的降息日期。
+      topic: macro_fed
+    - id: edge-23
+      summary: 合成美国公司公布季度营收增长。每股收益及后续指引均未披露。
+      whyItMatters: 已披露营收增长，但缺少每股收益和指引，不能判断利润表现。
+      topic: earnings
+  usage:
+    input_tokens: 0
+    output_tokens: 0
+rank-09:
+  output:
+    items:
+    - id: edge-9
+      summary: 合成美国零售公司启用新店。公司未披露店面收入或盈利目标。
+      whyItMatters: 新店已启用，缺少收入和盈利披露，不能估算经营贡献。
+      topic: other
+    - id: edge-12
+      summary: 合成美国央行维持利率不变。声明称通胀仍需观察，未提供降息日期。
+      whyItMatters: 利率保持不变，不能据此给出尚未公布的降息日期。
+      topic: macro_fed
+    - id: edge-15
+      summary: 合成美国公司公布季度营收增长。每股收益及后续指引均未披露。
+      whyItMatters: 已披露营收增长，但缺少每股收益和指引，不能判断利润表现。
+      topic: earnings
+    - id: edge-18
+      summary: 合成美国半导体公司完成新芯片验证。公告称尚未量产，未提供量产日期。
+      whyItMatters: 验证已完成但尚未量产，不能把测试进展当作出货。
+      topic: ai_semis
+    - id: edge-21
+      summary: 合成美国大型科技云服务商获得政府服务合同。合同金额未披露。
+      whyItMatters: 新增政府服务合同已确认，但缺少金额，不能估算订单规模。
+      topic: big_tech
+    - id: edge-0
+      summary: 合成美国加密交易平台暂停提款。平台未披露恢复时间及资产缺口。
+      whyItMatters: 客户目前无法提款，恢复时间和资产缺口仍未披露。
+      topic: crypto
+  usage:
+    input_tokens: 0
+    output_tokens: 0
+rank-10:
+  output:
+    items:
+    - id: edge-10
+      summary: 合成美国半导体公司完成新芯片验证。公告称尚未量产，未提供量产日期。
+      whyItMatters: 验证已完成但尚未量产，不能把测试进展当作出货。
+      topic: ai_semis
+    - id: edge-13
+      summary: 合成美国大型科技云服务商获得政府服务合同。合同金额未披露。
+      whyItMatters: 新增政府服务合同已确认，但缺少金额，不能估算订单规模。
+      topic: big_tech
+    - id: edge-16
+      summary: 合成美国加密交易平台暂停提款。平台未披露恢复时间及资产缺口。
+      whyItMatters: 客户目前无法提款，恢复时间和资产缺口仍未披露。
+      topic: crypto
+    - id: edge-19
+      summary: 合成美国贸易部门调整对中国芯片出口许可。申请须新增最终用途说明。
+      whyItMatters: 芯片出口申请新增最终用途说明，申请材料要求已改变。
+      topic: policy_geo
+    - id: edge-22
+      summary: 合成美国运输公司所用港口因冲突停运。公司确认当地发运暂停，恢复时间未知。
+      whyItMatters: 当地发运已暂停，恢复时间未知，不能推算复运日期。
+      topic: other
+    - id: edge-1
+      summary: 合成美国统计局公布就业增速放缓。公告未修订前期数据。
+      whyItMatters: 本次新增信息为就业增速放缓，前期数据没有修订。
+      topic: macro_fed
+  usage:
+    input_tokens: 0
+    output_tokens: 0
+rank-11:
+  output:
+    items:
+    - id: edge-11
+      summary: 合成美国贸易部门调整对中国芯片出口许可。申请须新增最终用途说明。
+      whyItMatters: 芯片出口申请新增最终用途说明，申请材料要求已改变。
+      topic: policy_geo
+    - id: edge-14
+      summary: 合成美国运输公司所用港口因冲突停运。公司确认当地发运暂停，恢复时间未知。
+      whyItMatters: 当地发运已暂停，恢复时间未知，不能推算复运日期。
+      topic: other
+    - id: edge-17
+      summary: 合成美国统计局公布就业增速放缓。公告未修订前期数据。
+      whyItMatters: 本次新增信息为就业增速放缓，前期数据没有修订。
+      topic: macro_fed
+    - id: edge-20
+      summary: 合成美国零售公司公布季度利润下降。公司未提供下一季度利润指引。
+      whyItMatters: 季度利润下降已披露，下一季度表现尚无公司指引。
+      topic: earnings
+    - id: edge-23
+      summary: 合成美国人工智能公司发布开源模型。公司披露训练方法，未公布商业收入。
+      whyItMatters: 模型和训练方法已公开，不能把技术发布当作收入披露。
+      topic: ai_semis
+    - id: edge-2
+      summary: 合成美国大型科技公司收到并购监管问询。交易尚未批准。
+      whyItMatters: 交易仍待审批，监管问询不等于并购已经获批。
+      topic: big_tech
+  usage:
+    input_tokens: 0
+    output_tokens: 0
+rank-12:
+  output:
+    items:
+    - id: edge-12
+      summary: 合成美国零售公司公布季度利润下降。公司未提供下一季度利润指引。
+      whyItMatters: 季度利润下降已披露，下一季度表现尚无公司指引。
+      topic: earnings
+    - id: edge-15
+      summary: 合成美国人工智能公司发布开源模型。公司披露训练方法，未公布商业收入。
+      whyItMatters: 模型和训练方法已公开，不能把技术发布当作收入披露。
+      topic: ai_semis
+    - id: edge-18
+      summary: 合成美国大型科技公司收到并购监管问询。交易尚未批准。
+      whyItMatters: 交易仍待审批，监管问询不等于并购已经获批。
+      topic: big_tech
+    - id: edge-21
+      summary: 合成美国加密平台发布储备审查安排。审查尚未完成，结果未公布。
+      whyItMatters: 审查尚未完成，不能把安排当作储备充足的证明。
+      topic: crypto
+    - id: edge-0
+      summary: 合成美国贸易部门延长部分商品关税豁免。公告明确芯片不在豁免范围。
+      whyItMatters: 部分商品豁免延长，但该安排不适用于芯片。
+      topic: policy_geo
+    - id: edge-3
+      summary: 合成美国零售公司启用新店。公司未披露店面收入或盈利目标。
+      whyItMatters: 新店已启用，缺少收入和盈利披露，不能估算经营贡献。
+      topic: other
+  usage:
+    input_tokens: 0
+    output_tokens: 0
+rank-13:
+  output:
+    items:
+    - id: edge-13
+      summary: 合成美国加密平台发布储备审查安排。审查尚未完成，结果未公布。
+      whyItMatters: 审查尚未完成，不能把安排当作储备充足的证明。
+      topic: crypto
+    - id: edge-16
+      summary: 合成美国贸易部门延长部分商品关税豁免。公告明确芯片不在豁免范围。
+      whyItMatters: 部分商品豁免延长，但该安排不适用于芯片。
+      topic: policy_geo
+    - id: edge-19
+      summary: 合成美国零售公司启用新店。公司未披露店面收入或盈利目标。
+      whyItMatters: 新店已启用，缺少收入和盈利披露，不能估算经营贡献。
+      topic: other
+    - id: edge-22
+      summary: 合成美国央行维持利率不变。声明称通胀仍需观察，未提供降息日期。
+      whyItMatters: 利率保持不变，不能据此给出尚未公布的降息日期。
+      topic: macro_fed
+    - id: edge-1
+      summary: 合成美国公司公布季度营收增长。每股收益及后续指引均未披露。
+      whyItMatters: 已披露营收增长，但缺少每股收益和指引，不能判断利润表现。
+      topic: earnings
+    - id: edge-4
+      summary: 合成美国半导体公司完成新芯片验证。公告称尚未量产，未提供量产日期。
+      whyItMatters: 验证已完成但尚未量产，不能把测试进展当作出货。
+      topic: ai_semis
+  usage:
+    input_tokens: 0
+    output_tokens: 0
+rank-14:
+  output:
+    items:
+    - id: edge-14
+      summary: 合成美国央行维持利率不变。声明称通胀仍需观察，未提供降息日期。
+      whyItMatters: 利率保持不变，不能据此给出尚未公布的降息日期。
+      topic: macro_fed
+    - id: edge-17
+      summary: 合成美国公司公布季度营收增长。每股收益及后续指引均未披露。
+      whyItMatters: 已披露营收增长，但缺少每股收益和指引，不能判断利润表现。
+      topic: earnings
+    - id: edge-20
+      summary: 合成美国半导体公司完成新芯片验证。公告称尚未量产，未提供量产日期。
+      whyItMatters: 验证已完成但尚未量产，不能把测试进展当作出货。
+      topic: ai_semis
+    - id: edge-23
+      summary: 合成美国大型科技云服务商获得政府服务合同。合同金额未披露。
+      whyItMatters: 新增政府服务合同已确认，但缺少金额，不能估算订单规模。
+      topic: big_tech
+    - id: edge-2
+      summary: 合成美国加密交易平台暂停提款。平台未披露恢复时间及资产缺口。
+      whyItMatters: 客户目前无法提款，恢复时间和资产缺口仍未披露。
+      topic: crypto
+    - id: edge-5
+      summary: 合成美国贸易部门调整对中国芯片出口许可。申请须新增最终用途说明。
+      whyItMatters: 芯片出口申请新增最终用途说明，申请材料要求已改变。
+      topic: policy_geo
+  usage:
+    input_tokens: 0
+    output_tokens: 0
+rank-15:
+  output:
+    items:
+    - id: edge-15
+      summary: 合成美国大型科技云服务商获得政府服务合同。合同金额未披露。
+      whyItMatters: 新增政府服务合同已确认，但缺少金额，不能估算订单规模。
+      topic: big_tech
+    - id: edge-18
+      summary: 合成美国加密交易平台暂停提款。平台未披露恢复时间及资产缺口。
+      whyItMatters: 客户目前无法提款，恢复时间和资产缺口仍未披露。
+      topic: crypto
+    - id: edge-21
+      summary: 合成美国贸易部门调整对中国芯片出口许可。申请须新增最终用途说明。
+      whyItMatters: 芯片出口申请新增最终用途说明，申请材料要求已改变。
+      topic: policy_geo
+  usage:
+    input_tokens: 0
+    output_tokens: 0
+rank-16:
+  output:
+    items:
+    - id: edge-16
+      summary: 合成美国运输公司所用港口因冲突停运。公司确认当地发运暂停，恢复时间未知。
+      whyItMatters: 当地发运已暂停，恢复时间未知，不能推算复运日期。
+      topic: other
+    - id: edge-19
+      summary: 合成美国统计局公布就业增速放缓。公告未修订前期数据。
+      whyItMatters: 本次新增信息为就业增速放缓，前期数据没有修订。
+      topic: macro_fed
+    - id: edge-22
+      summary: 合成美国零售公司公布季度利润下降。公司未提供下一季度利润指引。
+      whyItMatters: 季度利润下降已披露，下一季度表现尚无公司指引。
+      topic: earnings
+  usage:
+    input_tokens: 0
+    output_tokens: 0
+rank-17:
+  output:
+    items:
+    - id: edge-17
+      summary: 合成美国人工智能公司发布开源模型。公司披露训练方法，未公布商业收入。
+      whyItMatters: 模型和训练方法已公开，不能把技术发布当作收入披露。
+      topic: ai_semis
+    - id: edge-20
+      summary: 合成美国大型科技公司收到并购监管问询。交易尚未批准。
+      whyItMatters: 交易仍待审批，监管问询不等于并购已经获批。
+      topic: big_tech
+    - id: edge-23
+      summary: 合成美国加密平台发布储备审查安排。审查尚未完成，结果未公布。
+      whyItMatters: 审查尚未完成，不能把安排当作储备充足的证明。
+      topic: crypto
+  usage:
+    input_tokens: 0
+    output_tokens: 0
+rank-18:
+  output:
+    items:
+    - id: edge-18
+      summary: 合成美国贸易部门延长部分商品关税豁免。公告明确芯片不在豁免范围。
+      whyItMatters: 部分商品豁免延长，但该安排不适用于芯片。
+      topic: policy_geo
+    - id: edge-21
+      summary: 合成美国零售公司启用新店。公司未披露店面收入或盈利目标。
+      whyItMatters: 新店已启用，缺少收入和盈利披露，不能估算经营贡献。
+      topic: other
+    - id: edge-0
+      summary: 合成美国央行维持利率不变。声明称通胀仍需观察，未提供降息日期。
+      whyItMatters: 利率保持不变，不能据此给出尚未公布的降息日期。
+      topic: macro_fed
+  usage:
+    input_tokens: 0
+    output_tokens: 0
+rank-19:
+  output:
+    items: []
+  usage:
+    input_tokens: 0
+    output_tokens: 0

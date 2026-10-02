@@ -1,0 +1,160 @@
+- id: classify-00
+  input:
+    items:
+    - id: edge-0
+      title: 贸易许可
+      summary: 合成美国贸易部门调整对中国芯片出口许可流程，要求新增最终用途说明。
+    - id: edge-10
+      title: 就业数据
+      summary: 测试统计局公布就业增速放缓，没有修订前期数据。
+  expect:
+    reference: 按事件主旨分类，中国公司硬科技仍属china_business。
+    labels:
+      edge-0: us_china
+      edge-10: markets_macro
+  tags:
+  - edge
+- id: classify-01
+  input:
+    items:
+    - id: edge-1
+      title: 停火谈判
+      summary: 测试双方同意恢复停火谈判，尚未达成协议。
+    - id: edge-11
+      title: 芯片验证
+      summary: 测试半导体企业完成新芯片验证，尚未量产。
+  expect:
+    reference: 按事件主旨分类，中国公司硬科技仍属china_business。
+    labels:
+      edge-1: war_geopolitics
+      edge-11: ai_tech
+  tags:
+  - edge
+- id: classify-02
+  input:
+    items:
+    - id: edge-2
+      title: 央行决议
+      summary: 测试央行维持利率不变，声明指出通胀仍需观察。
+    - id: edge-12
+      title: 搜索诉讼
+      summary: 合成美国法院要求大型科技搜索公司提交材料，尚未判定责任。
+  expect:
+    reference: 按事件主旨分类，中国公司硬科技仍属china_business。
+    labels:
+      edge-2: markets_macro
+      edge-12: big_tech
+  tags:
+  - edge
+- id: classify-03
+  input:
+    items:
+    - id: edge-3
+      title: 开源模型
+      summary: 合成实验室发布开源人工智能模型，披露训练方法而未公布商业收入。
+    - id: edge-13
+      title: 选举程序
+      summary: 合成美国州议会讨论提前投票程序，没有改变选举日期。
+  expect:
+    reference: 按事件主旨分类，中国公司硬科技仍属china_business。
+    labels:
+      edge-3: ai_tech
+      edge-13: us_politics
+  tags:
+  - edge
+- id: classify-04
+  input:
+    items:
+    - id: edge-4
+      title: 云服务合同
+      summary: 合成美国大型科技云服务商获得政府服务合同，合同金额未披露。
+    - id: edge-14
+      title: 中国电池
+      summary: 测试中国电池企业披露回收工艺，未宣布扩产计划。
+  expect:
+    reference: 按事件主旨分类，中国公司硬科技仍属china_business。
+    labels:
+      edge-4: big_tech
+      edge-14: china_business
+  tags:
+  - edge
+- id: classify-05
+  input:
+    items:
+    - id: edge-5
+      title: 预算争议
+      summary: 合成美国国会预算委员会推迟投票，议案尚未通过。
+    - id: edge-15
+      title: 体育赛程
+      summary: 测试体育联盟公布下季赛程，没有财务数据。
+  expect:
+    reference: 按事件主旨分类，中国公司硬科技仍属china_business。
+    labels:
+      edge-5: us_politics
+      edge-15: other
+  tags:
+  - edge
+- id: classify-06
+  input:
+    items:
+    - id: edge-6
+      title: 国产卫星
+      summary: 测试中国商业航天公司完成卫星地面测试，尚未发射。
+    - id: edge-16
+      title: 季度业绩
+      summary: 测试企业公布季度营收增长，未提供每股收益。
+  expect:
+    reference: 按事件主旨分类，中国公司硬科技仍属china_business。
+    labels:
+      edge-6: china_business
+      edge-16: markets_macro
+  tags:
+  - edge
+- id: classify-07
+  input:
+    items:
+    - id: edge-7
+      title: 博物馆
+      summary: 测试博物馆开放新展览，展品主题为古代交通。
+    - id: edge-17
+      title: 加密清算
+      summary: 测试加密交易平台暂停提款，未披露资产缺口。
+  expect:
+    reference: 按事件主旨分类，中国公司硬科技仍属china_business。
+    labels:
+      edge-7: other
+      edge-17: markets_macro
+  tags:
+  - edge
+- id: classify-08
+  input:
+    items:
+    - id: edge-8
+      title: 关税豁免
+      summary: 合成美国贸易部门延长对中国部分商品关税豁免，不包含芯片。
+    - id: edge-18
+      title: 监管问询
+      summary: 合成美国监管机构要求大型科技公司说明并购安排，尚未批准交易。
+  expect:
+    reference: 按事件主旨分类，中国公司硬科技仍属china_business。
+    labels:
+      edge-8: us_china
+      edge-18: big_tech
+  tags:
+  - edge
+- id: classify-09
+  input:
+    items:
+    - id: edge-9
+      title: 海运风险
+      summary: 测试港口因地区冲突暂停运作，恢复时间未知。
+    - id: edge-19
+      title: 科技合作
+      summary: 测试中国公司与海外实验室合作芯片研究，未签商业订单。
+  expect:
+    reference: 按事件主旨分类，中国公司硬科技仍属china_business。
+    labels:
+      edge-9: war_geopolitics
+      edge-19: china_business
+  tags:
+  - edge

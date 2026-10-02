@@ -1,0 +1,390 @@
+- id: ticker-00
+  input:
+    mode: weekly
+    symbol: SYN
+    name: 合成测试标的
+    changeText: null
+    withSector: false
+    sectorEtf: QQQ
+    articles:
+    - id: edge-0
+      title: 贸易许可
+      summary: 合成公司SYN的对中国芯片出口许可须新增最终用途说明。
+      source: 合成边界材料
+      publishedAt: '2026-09-30T00:00:00Z'
+    filings: []
+    earnings: []
+  expect:
+    reference: 输入新闻已明确关联SYN，应概述该事件；未提供价格因果，不推测涨跌原因。周报仅归纳输入事实。
+  tags:
+  - edge
+- id: ticker-01
+  input:
+    mode: daily
+    symbol: SYN
+    name: 合成测试标的
+    changeText: +3.00%
+    withSector: false
+    sectorEtf: QQQ
+    articles:
+    - id: edge-1
+      title: 停火谈判
+      summary: 合成公司SYN运营所在地区恢复停火谈判，尚未达成协议。
+      source: 合成边界材料
+      publishedAt: '2026-09-30T00:00:00Z'
+    filings: []
+    earnings: []
+  expect:
+    reference: 输入新闻已明确关联SYN，应概述该事件；未提供价格因果，不推测涨跌原因。周报仅归纳输入事实。
+  tags:
+  - edge
+- id: ticker-02
+  input:
+    mode: daily
+    symbol: SYN
+    name: 合成测试标的
+    changeText: +3.00%
+    withSector: false
+    sectorEtf: QQQ
+    articles:
+    - id: edge-2
+      title: 央行决议
+      summary: 合成公司SYN融资基准所在央行维持利率不变，通胀仍需观察。
+      source: 合成边界材料
+      publishedAt: '2026-09-30T00:00:00Z'
+    filings: []
+    earnings: []
+  expect:
+    reference: 输入新闻已明确关联SYN，应概述该事件；未提供价格因果，不推测涨跌原因。周报仅归纳输入事实。
+  tags:
+  - edge
+- id: ticker-03
+  input:
+    mode: daily
+    symbol: SYN
+    name: 合成测试标的
+    changeText: null
+    withSector: false
+    sectorEtf: QQQ
+    articles:
+    - id: edge-3
+      title: 开源模型
+      summary: 合成公司SYN实验室发布开源人工智能模型，未公布商业收入。
+      source: 合成边界材料
+      publishedAt: '2026-09-30T00:00:00Z'
+    filings: []
+    earnings: []
+  expect:
+    reference: 输入新闻已明确关联SYN，应概述该事件；未提供价格因果，不推测涨跌原因。周报仅归纳输入事实。
+  tags:
+  - edge
+- id: ticker-04
+  input:
+    mode: weekly
+    symbol: SYN
+    name: 合成测试标的
+    changeText: +3.00%
+    withSector: false
+    sectorEtf: QQQ
+    articles:
+    - id: edge-4
+      title: 云服务合同
+      summary: 合成云服务公司SYN获得政府服务合同，金额未披露。
+      source: 合成边界材料
+      publishedAt: '2026-09-30T00:00:00Z'
+    filings: []
+    earnings: []
+  expect:
+    reference: 输入新闻已明确关联SYN，应概述该事件；未提供价格因果，不推测涨跌原因。周报仅归纳输入事实。
+  tags:
+  - edge
+- id: ticker-05
+  input:
+    mode: daily
+    symbol: SYN
+    name: 合成测试标的
+    changeText: +3.00%
+    withSector: false
+    sectorEtf: QQQ
+    articles:
+    - id: edge-5
+      title: 预算争议
+      summary: 合成公司SYN的政府合同预算议案推迟投票，尚未通过。
+      source: 合成边界材料
+      publishedAt: '2026-09-30T00:00:00Z'
+    filings: []
+    earnings: []
+  expect:
+    reference: 输入新闻已明确关联SYN，应概述该事件；未提供价格因果，不推测涨跌原因。周报仅归纳输入事实。
+  tags:
+  - edge
+- id: ticker-06
+  input:
+    mode: daily
+    symbol: SYN
+    name: 合成测试标的
+    changeText: null
+    withSector: false
+    sectorEtf: QQQ
+    articles:
+    - id: edge-6
+      title: 国产卫星
+      summary: 合成商业航天公司SYN完成卫星地面测试，尚未发射。
+      source: 合成边界材料
+      publishedAt: '2026-09-30T00:00:00Z'
+    filings: []
+    earnings: []
+  expect:
+    reference: 输入新闻已明确关联SYN，应概述该事件；未提供价格因果，不推测涨跌原因。周报仅归纳输入事实。
+  tags:
+  - edge
+- id: ticker-07
+  input:
+    mode: daily
+    symbol: SYN
+    name: 合成测试标的
+    changeText: +3.00%
+    withSector: false
+    sectorEtf: QQQ
+    articles:
+    - id: edge-7
+      title: 博物馆
+      summary: 合成公司SYN运营的博物馆开放古代交通主题新展览。
+      source: 合成边界材料
+      publishedAt: '2026-09-30T00:00:00Z'
+    filings: []
+    earnings: []
+  expect:
+    reference: 输入新闻已明确关联SYN，应概述该事件；未提供价格因果，不推测涨跌原因。周报仅归纳输入事实。
+  tags:
+  - edge
+- id: ticker-08
+  input:
+    mode: weekly
+    symbol: SYN
+    name: 合成测试标的
+    changeText: +3.00%
+    withSector: false
+    sectorEtf: QQQ
+    articles:
+    - id: edge-8
+      title: 关税豁免
+      summary: 合成公司SYN适用的商品关税豁免获延长，不包含芯片。
+      source: 合成边界材料
+      publishedAt: '2026-09-30T00:00:00Z'
+    filings: []
+    earnings: []
+  expect:
+    reference: 输入新闻已明确关联SYN，应概述该事件；未提供价格因果，不推测涨跌原因。周报仅归纳输入事实。
+  tags:
+  - edge
+- id: ticker-09
+  input:
+    mode: daily
+    symbol: SYN
+    name: 合成测试标的
+    changeText: null
+    withSector: false
+    sectorEtf: QQQ
+    articles:
+    - id: edge-9
+      title: 海运风险
+      summary: 合成公司SYN使用的港口因地区冲突停运，恢复时间未知。
+      source: 合成边界材料
+      publishedAt: '2026-09-30T00:00:00Z'
+    filings: []
+    earnings: []
+  expect:
+    reference: 输入新闻已明确关联SYN，应概述该事件；未提供价格因果，不推测涨跌原因。周报仅归纳输入事实。
+  tags:
+  - edge
+- id: ticker-10
+  input:
+    mode: daily
+    symbol: SYN
+    name: 合成测试标的
+    changeText: +3.00%
+    withSector: false
+    sectorEtf: QQQ
+    articles:
+    - id: edge-10
+      title: 就业数据
+      summary: 合成公司SYN公布员工人数增速放缓，没有修订前期数据。
+      source: 合成边界材料
+      publishedAt: '2026-09-30T00:00:00Z'
+    filings: []
+    earnings: []
+  expect:
+    reference: 输入新闻已明确关联SYN，应概述该事件；未提供价格因果，不推测涨跌原因。周报仅归纳输入事实。
+  tags:
+  - edge
+- id: ticker-11
+  input:
+    mode: daily
+    symbol: SYN
+    name: 合成测试标的
+    changeText: +3.00%
+    withSector: false
+    sectorEtf: QQQ
+    articles:
+    - id: edge-11
+      title: 芯片验证
+      summary: 合成半导体公司SYN完成新芯片验证，尚未量产。
+      source: 合成边界材料
+      publishedAt: '2026-09-30T00:00:00Z'
+    filings: []
+    earnings: []
+  expect:
+    reference: 输入新闻已明确关联SYN，应概述该事件；未提供价格因果，不推测涨跌原因。周报仅归纳输入事实。
+  tags:
+  - edge
+- id: ticker-12
+  input:
+    mode: weekly
+    symbol: SYN
+    name: 合成测试标的
+    changeText: null
+    withSector: false
+    sectorEtf: QQQ
+    articles:
+    - id: edge-12
+      title: 搜索诉讼
+      summary: 合成搜索公司SYN被法院要求提交材料，尚未判定责任。
+      source: 合成边界材料
+      publishedAt: '2026-09-30T00:00:00Z'
+    filings: []
+    earnings: []
+  expect:
+    reference: 输入新闻已明确关联SYN，应概述该事件；未提供价格因果，不推测涨跌原因。周报仅归纳输入事实。
+  tags:
+  - edge
+- id: ticker-13
+  input:
+    mode: daily
+    symbol: SYN
+    name: 合成测试标的
+    changeText: +3.00%
+    withSector: false
+    sectorEtf: QQQ
+    articles:
+    - id: edge-13
+      title: 选举程序
+      summary: 合成公司SYN员工所在美国州讨论提前投票，选举日期未变。
+      source: 合成边界材料
+      publishedAt: '2026-09-30T00:00:00Z'
+    filings: []
+    earnings: []
+  expect:
+    reference: 输入新闻已明确关联SYN，应概述该事件；未提供价格因果，不推测涨跌原因。周报仅归纳输入事实。
+  tags:
+  - edge
+- id: ticker-14
+  input:
+    mode: daily
+    symbol: SYN
+    name: 合成测试标的
+    changeText: +3.00%
+    withSector: false
+    sectorEtf: QQQ
+    articles:
+    - id: edge-14
+      title: 中国电池
+      summary: 合成电池公司SYN披露回收工艺，未宣布扩产计划。
+      source: 合成边界材料
+      publishedAt: '2026-09-30T00:00:00Z'
+    filings: []
+    earnings: []
+  expect:
+    reference: 输入新闻已明确关联SYN，应概述该事件；未提供价格因果，不推测涨跌原因。周报仅归纳输入事实。
+  tags:
+  - edge
+- id: ticker-15
+  input:
+    mode: daily
+    symbol: SYN
+    name: 合成测试标的
+    changeText: null
+    withSector: false
+    sectorEtf: QQQ
+    articles:
+    - id: edge-15
+      title: 体育赛程
+      summary: 合成公司SYN运营的体育联盟公布下季赛程，没有财务数据。
+      source: 合成边界材料
+      publishedAt: '2026-09-30T00:00:00Z'
+    filings: []
+    earnings: []
+  expect:
+    reference: 输入新闻已明确关联SYN，应概述该事件；未提供价格因果，不推测涨跌原因。周报仅归纳输入事实。
+  tags:
+  - edge
+- id: ticker-16
+  input:
+    mode: weekly
+    symbol: SYN
+    name: 合成测试标的
+    changeText: +3.00%
+    withSector: true
+    sectorEtf: QQQ
+    articles: []
+    filings: []
+    earnings: []
+  expect:
+    reference: 无直接来源不猜涨跌原因；同步只用输入withSector；事件为季度业绩
+  tags:
+  - edge
+- id: ticker-17
+  input:
+    mode: daily
+    symbol: SYN
+    name: 合成测试标的
+    changeText: +3.00%
+    withSector: false
+    sectorEtf: QQQ
+    articles: []
+    filings: []
+    earnings: []
+  expect:
+    reference: 无直接来源不猜涨跌原因；同步只用输入withSector；事件为加密清算
+  tags:
+  - edge
+- id: ticker-18
+  input:
+    mode: daily
+    symbol: SYN
+    name: 合成测试标的
+    changeText: null
+    withSector: false
+    sectorEtf: QQQ
+    articles:
+    - id: edge-18
+      title: 监管问询
+      summary: 合成公司SYN被要求说明并购安排，交易尚未获批。
+      source: 合成边界材料
+      publishedAt: '2026-09-30T00:00:00Z'
+    filings: []
+    earnings: []
+  expect:
+    reference: 输入新闻已明确关联SYN，应概述该事件；未提供价格因果，不推测涨跌原因。周报仅归纳输入事实。
+  tags:
+  - edge
+- id: ticker-19
+  input:
+    mode: daily
+    symbol: SYN
+    name: 合成测试标的
+    changeText: +3.00%
+    withSector: false
+    sectorEtf: QQQ
+    articles:
+    - id: edge-19
+      title: 科技合作
+      summary: 合成芯片研究公司SYN与海外实验室交流方法，未宣布订单。
+      source: 合成边界材料
+      publishedAt: '2026-09-30T00:00:00Z'
+    filings: []
+    earnings: []
+  expect:
+    reference: 输入新闻已明确关联SYN，应概述该事件；未提供价格因果，不推测涨跌原因。周报仅归纳输入事实。
+  tags:
+  - edge
