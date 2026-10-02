@@ -568,6 +568,8 @@ tasks:
            services/api/src/modules/platform/capabilities.ts, services/api/test/platform/capabilities*,
            apps/console/src/routes/ops/**, apps/console/src/features/ops/**,
            apps/console/src/mocks/ops/**, apps/console/e2e/ops/**]
+    sharedEdits:
+      - "apps/console/src/routes/ops.tsx：仅将已存在的运维路由接到T41页面组件"
     read: [docs/09 第 6 节, docs/10 第 7 节, docs/12 第 7 节]
     deliver:
       - /mcp：Streamable HTTP，OAuth 保护；汇总各模块 mcp.ts 的工具
