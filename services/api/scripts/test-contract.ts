@@ -43,14 +43,15 @@ const entry = join(dir, "contract-worker.ts");
 writeFileSync(
   entry,
   [
-    `import { app } from ${JSON.stringify(resolve("src/app.ts"))};`,
+    `import api from ${JSON.stringify(resolve("src/index.ts"))};`,
+    `export { PaperQaRuntime } from ${JSON.stringify(resolve("src/index.ts"))};`,
     "globalThis.fetch = async (input, init) => {",
     '  const url = new URL(typeof input === "string" ? input : input instanceof URL ? input.href : input.url);',
     '  const method = init?.method ?? (input instanceof Request ? input.method : "GET");',
     '  if (method === "POST" && url.origin === "https://api.github.com" && url.pathname === "/repos/contract-test/offline/dispatches") return new Response(null, { status: 204 });',
     '  throw new Error("离线契约验收禁止外部请求");',
     "};",
-    "export default app;",
+    "export default api;",
     "",
   ].join("\n"),
 );
