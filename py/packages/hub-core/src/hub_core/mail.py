@@ -48,10 +48,12 @@ class Mailer:
         self,
         settings: Settings,
         *,
+        from_name: str = "美股新闻室",
         connector: Callable[[Settings], SmtpConnection] = connect_smtp,
         sleeper: Callable[[float], None] = sleep,
     ) -> None:
         self.settings = settings
+        self.from_name = from_name
         self.connector = connector
         self.sleeper = sleeper
 
@@ -61,7 +63,7 @@ class Mailer:
             raise ValueError("缺少 EMAIL_FROM 或 EMAIL_TO")
         message = EmailMessage()
         message["Subject"] = subject
-        message["From"] = formataddr(("Bowen Newsroom", settings.email_from))
+        message["From"] = formataddr((self.from_name, settings.email_from))
         message["To"] = settings.email_to
         message.set_content(text)
         message.add_alternative(html, subtype="html")

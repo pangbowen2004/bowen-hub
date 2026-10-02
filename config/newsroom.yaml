@@ -122,7 +122,7 @@ adviceWords: [建议买入, 建议卖出, 建议持有, 建议加仓, 建议减�
               逢低买入, 逢高卖出, 逢低布局, 仓位建议, 我们认为目标价]
 
 email:
-  fromName: Bowen Newsroom
+  fromName: 美股新闻室
   subjects:
     morning: "📰 美股早报｜{date}"
     premarket: "⏰ 盘前简报｜{date}"
