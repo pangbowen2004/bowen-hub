@@ -2,6 +2,7 @@
 
 from collections.abc import Sequence
 from datetime import date
+from math import fsum
 from typing import Any, Literal
 
 import polars as pl
@@ -18,7 +19,14 @@ from hub_contracts import (
 )
 
 
+def sum_values(values: pl.Series) -> float:
+    # 固定相同数值集合的累加顺序；补偿求和避免金额量级差异丢失低位。
+    return fsum(values.drop_nulls().sort().to_list())
+
+
 def value(frame: pl.DataFrame, column: str, operation: str = "mean") -> float | None:
+    if operation == "sum":
+        return sum_values(frame.get_column(column))
     expression = pl.col(column)
     result = frame.select(getattr(expression, operation)()).item()
     return float(result) if result is not None else None
@@ -39,7 +47,8 @@ def overview(current: pl.DataFrame, history: pl.DataFrame, previous: date) -> Ma
     totals = (
         history.filter(pl.col("pct_chg").is_not_null())
         .group_by("trade_date")
-        .agg(pl.col("amountCny").sum())
+        .agg(pl.col("amountCny"))
+        .with_columns(pl.col("amountCny").map_elements(sum_values, return_dtype=pl.Float64))
         .sort("trade_date")
     )
     prev = totals.filter(pl.col("trade_date") == previous.strftime("%Y%m%d"))
