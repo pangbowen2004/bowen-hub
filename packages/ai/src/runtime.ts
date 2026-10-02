@@ -1,5 +1,6 @@
 import type { AiCall } from "@bowen-hub/contracts/types";
 import { type CheckContext, CheckRegistry, type CheckReport } from "./checks";
+import { extractCitationPages } from "./citations";
 import { expandSchema, type Registry, registry, type Schema, validator } from "./registry";
 import { renderPrompt } from "./render";
 export interface Usage {
@@ -196,9 +197,7 @@ export class Runtime {
             )(1000 * 2 ** attempt);
           }
         }
-        const pages = [
-          ...new Set([...text.matchAll(/\[论文 p\.(\d+)\]/g)].map((match) => Number(match[1]))),
-        ];
+        const pages = extractCitationPages(text, options.totalPages!);
         schemaValid = true;
         raw = validator(cap.io.output).parse({ answer: text, pages }) as Record<string, unknown>;
         const checked = checks.run(cap.checks, raw, context);
