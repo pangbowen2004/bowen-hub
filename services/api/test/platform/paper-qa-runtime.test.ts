@@ -39,4 +39,22 @@ describe("真实Durable Object入口仍运行完整鉴权", () => {
     // T32合并前保留明确501，合并后不存在的论文返回404。
     expect([501, 404]).toContain(response.status);
   });
+  it("早退问答仍消费RPC请求体，随后私有请求与健康检查继续工作", async () => {
+    const cookie = await authenticatedCookie();
+    for (let i = 0; i < 12; i++) {
+      const response = await SELF.fetch("http://localhost/v1/papers/missing/ask", {
+        method: "POST",
+        headers: { Cookie: cookie, Origin: "http://localhost", "Content-Type": "application/json" },
+        body: JSON.stringify({ question: "论文方法是什么？" }),
+      });
+      expect([501, 404]).toContain(response.status);
+      const next = await SELF.fetch("http://localhost/v1/papers/missing/explanations", {
+        method: "POST",
+        headers: { Cookie: cookie, Origin: "http://localhost", "Content-Type": "application/json" },
+        body: JSON.stringify({ question: "问题", answer: "回答", pages: [] }),
+      });
+      expect([501, 404]).toContain(next.status);
+      expect((await SELF.fetch("http://localhost/v1/health")).status).toBe(200);
+    }
+  });
 });

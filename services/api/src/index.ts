@@ -11,7 +11,7 @@ export default {
       /^\/v1\/papers\/[^/]+\/ask$/.test(path) &&
       env.PAPER_QA_RUNTIME
     ) {
-      // A fresh object per answer avoids serializing independent readers.
+      // 每个回答用独立对象，避免串行阻塞其他读者。
       const id = env.PAPER_QA_RUNTIME.idFromName(crypto.randomUUID());
       return env.PAPER_QA_RUNTIME.get(id).fetch(request);
     }
