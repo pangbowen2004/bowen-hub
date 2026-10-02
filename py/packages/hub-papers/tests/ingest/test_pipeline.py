@@ -680,6 +680,9 @@ def test_total_deadline_cancels_model_and_records_retryable_failure(tmp_path: Pa
             work=tmp_path / "work",
             adapter=adapter,
             total_timeout=0.1,
+            # 此例专测asyncio等待取消；PDF准备耗时另有阶段期限回归，
+            # 用受控业务时钟避免慢CI在进入模型前耗尽0.1秒。
+            clock=lambda: 0.0,
         )
     assert adapter.cancelled
     assert replay.upload["status"] == "failed"
