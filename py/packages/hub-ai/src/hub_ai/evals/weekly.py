@@ -5,6 +5,7 @@ from contextlib import suppress
 from datetime import UTC, date, datetime
 from urllib.parse import quote
 
+from hub_ai.evals.case_report import CaseReport
 from hub_ai.evals.runner import evaluate
 from hub_ai.runtime import Runtime
 from hub_contracts import AiCall, EvalResult, Run, RunPage
@@ -22,6 +23,7 @@ async def execute_weekly(
     business_date: date,
     *,
     force: bool = False,
+    case_report: CaseReport | None = None,
 ) -> list[EvalResult]:
     http = HttpClient()
     api: ApiClient | None = None
@@ -90,7 +92,11 @@ async def execute_weekly(
         api.write_run(run)
         runtime.record = record
         for name in ids:
-            result = await evaluate(runtime, name)
+            result = (
+                await evaluate(runtime, name, case_report=case_report)
+                if case_report is not None
+                else await evaluate(runtime, name)
+            )
             api.post_batch("/v1/internal/evals/results/batch", [result])
             results.append(result)
             run.stats.update(evaluated=len(results), costUsd=sum(r.costUsd or 0 for r in results))

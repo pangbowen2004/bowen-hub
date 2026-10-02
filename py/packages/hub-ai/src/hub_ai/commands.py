@@ -10,6 +10,7 @@ import typer
 from openai import AsyncOpenAI
 
 from hub_ai.checks import CheckRegistry
+from hub_ai.evals.case_report import CaseReport
 from hub_ai.evals.runner import evaluate, markdown, select_capabilities
 from hub_ai.evals.weekly import execute_weekly
 from hub_ai.gateway import GatewayAdapter, gateway_url
@@ -43,6 +44,7 @@ def run(
     report: Path | None = None,
     date: str | None = None,
     force: bool = False,
+    case_report: Path | None = None,
 ) -> None:
     try:
         if write_api and (not weekly or changed or offline):
@@ -69,13 +71,16 @@ def run(
             typer.echo("受影响能力：0；没有运行产品评测。")
             return
         settings = Settings()
+        case_writer = CaseReport(case_report) if case_report is not None else None
         checks = CheckRegistry()
         checks.load_plugins()
-        runtime = Runtime(
-            registry,
-            UnavailableAdapter() if offline else GatewayAdapter(registry, settings),
-            checks=checks,
-        )
+        if offline:
+            adapter = UnavailableAdapter()
+        elif case_writer is not None:
+            adapter = GatewayAdapter(registry, settings, observer=case_writer.observe)
+        else:
+            adapter = GatewayAdapter(registry, settings)
+        runtime = Runtime(registry, adapter, checks=checks)
 
         async def execute() -> list[EvalResult]:
             if weekly and write_api:
@@ -84,8 +89,13 @@ def run(
                     if date
                     else datetime.now(ZoneInfo("Asia/Singapore")).date()
                 )
-                return await execute_weekly(runtime, ids, skipped, settings, on, force=force)
-            return [await evaluate(runtime, name, offline=offline) for name in ids]
+                return await execute_weekly(
+                    runtime, ids, skipped, settings, on, force=force, case_report=case_writer
+                )
+            return [
+                await evaluate(runtime, name, offline=offline, case_report=case_writer)
+                for name in ids
+            ]
 
         results = asyncio.run(execute())
         content = markdown(results)
