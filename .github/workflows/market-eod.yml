@@ -1,0 +1,82 @@
+name: market-eod
+on:
+  schedule:
+    - cron: "5 9-14 * * 1-5"
+  workflow_dispatch:
+    inputs:
+      date:
+        description: A股交易日期（北京时间，空为今天）
+        type: string
+        required: false
+      force:
+        description: 重跑已完成日期
+        type: boolean
+        default: false
+permissions:
+  contents: read
+concurrency:
+  group: market-eod
+  cancel-in-progress: false
+jobs:
+  publish:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 90
+    env:
+      CI: "true"
+      HUB_API_URL: ${{ secrets.HUB_API_URL }}
+      HUB_SERVICE_TOKEN: ${{ secrets.HUB_SERVICE_TOKEN }}
+      TUSHARE_TOKEN: ${{ secrets.TUSHARE_TOKEN }}
+      GH_AUTOMATION_TOKEN: ${{ secrets.GH_AUTOMATION_TOKEN }}
+      EMAIL_FROM: ${{ secrets.EMAIL_FROM }}
+      EMAIL_TO: ${{ secrets.EMAIL_TO }}
+      EMAIL_SMTP_HOST: ${{ secrets.EMAIL_SMTP_HOST }}
+      EMAIL_SMTP_PORT: ${{ secrets.EMAIL_SMTP_PORT || vars.EMAIL_SMTP_PORT || '465' }}
+      EMAIL_SMTP_USER: ${{ secrets.EMAIL_SMTP_USER }}
+      EMAIL_SMTP_PASSWORD: ${{ secrets.EMAIL_SMTP_PASSWORD }}
+    steps:
+      - name: 检出已合并代码
+        uses: actions/checkout@v7
+        with:
+          ref: main
+      - name: 准备工具
+        uses: jdx/mise-action@v5
+        with:
+          version: 2026.9.15
+      - name: 安装冻结依赖并生成契约
+        run: mise install && mise run setup && mise run gen
+      - name: 确定交易日缓存键
+        id: cache-date
+        env:
+          CACHE_TRADE_DATE: ${{ inputs.date }}
+        shell: bash
+        run: |
+          cache_day="${CACHE_TRADE_DATE:-$(TZ=Asia/Shanghai date +%F)}"
+          if [[ ! "$cache_day" =~ ^[0-9]{4}-[0-9]{2}-[0-9]{2}$ ]]; then exit 1; fi
+          printf 'day=%s\n' "$cache_day" >> "$GITHUB_OUTPUT"
+      - name: 恢复按接口和交易日组织的原始数据与预热缓存
+        id: tushare-cache
+        uses: actions/cache/restore@v6
+        continue-on-error: true
+        with:
+          path: .cache/tushare
+          key: tushare-${{ runner.os }}-v1-${{ hashFiles('config/market*.yaml') }}-${{ steps.cache-date.outputs.day }}-${{ github.run_id }}-${{ github.run_attempt }}
+          restore-keys: |
+            tushare-${{ runner.os }}-v1-${{ hashFiles('config/market*.yaml') }}-${{ steps.cache-date.outputs.day }}-
+            tushare-${{ runner.os }}-v1-${{ hashFiles('config/market*.yaml') }}-
+      - name: 收盘计算、归档与派发预览构建
+        env:
+          MARKET_DATE: ${{ inputs.date }}
+          MARKET_FORCE: ${{ inputs.force }}
+        shell: bash
+        run: |
+          args=(market eod)
+          if [[ -n "$MARKET_DATE" ]]; then args+=(--date "$MARKET_DATE"); fi
+          if [[ "$MARKET_FORCE" == "true" ]]; then args+=(--force); fi
+          mise exec -- uv run --project py --no-sync hub "${args[@]}"
+      - name: 保存本次实际采集的历史缓存
+        if: ${{ always() && !cancelled() && steps.cache-date.outcome == 'success' }}
+        uses: actions/cache/save@v6
+        continue-on-error: true
+        with:
+          path: .cache/tushare
+          key: tushare-${{ runner.os }}-v1-${{ hashFiles('config/market*.yaml') }}-${{ steps.cache-date.outputs.day }}-${{ github.run_id }}-${{ github.run_attempt }}
