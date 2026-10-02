@@ -1,5 +1,6 @@
 """命令发现、真实收盘dry-run接线与工作流参数；无外部调用。"""
 
+import re
 from pathlib import Path
 from typing import Any
 
@@ -16,14 +17,21 @@ from .test_service import ROOT, setup
 
 
 @pytest.mark.parametrize("name", ["eod", "backfill"])
-def test_help_no_configuration_or_source_reads(name: str, monkeypatch: pytest.MonkeyPatch) -> None:
+@pytest.mark.parametrize("force_colour", [False, True])
+def test_help_no_configuration_or_source_reads(
+    name: str, force_colour: bool, monkeypatch: pytest.MonkeyPatch
+) -> None:
     def fail(*args: Any, **kwargs: Any) -> None:
         raise AssertionError("help不能加载凭据或取数")
 
+    if force_colour:
+        monkeypatch.setenv("FORCE_COLOR", "1")
+    else:
+        monkeypatch.delenv("FORCE_COLOR", raising=False)
     monkeypatch.setattr(commands, "create", fail)
     result = CliRunner().invoke(create_app(), ["market", name, "--help"])
     assert result.exit_code == 0
-    assert "--warmup-cache" in result.output
+    assert "--warmup-cache" in re.sub(r"\x1b\[[0-9;]*m", "", result.output)
 
 
 def test_installed_cli_real_dry_run_and_invalid_input(
