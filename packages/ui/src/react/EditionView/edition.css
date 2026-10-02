@@ -1,0 +1,55 @@
+.edition-view {
+  max-width: 820px;
+  overflow-wrap: anywhere;
+}
+.edition-lede {
+  font-family: var(--font-serif);
+  font-size: clamp(20px, 3vw, 28px);
+  line-height: 1.8;
+  padding-block: 16px 32px;
+}
+.edition-directory {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px 24px;
+  padding-block: 20px;
+  border-block: 1px solid var(--border);
+}
+.edition-view section {
+  scroll-margin-top: 20px;
+  padding-block: 32px;
+  border-bottom: 1px solid var(--border);
+}
+.edition-view article,
+.edition-international {
+  padding-block: 20px;
+}
+.edition-view h3 {
+  font-size: 22px;
+  line-height: 1.5;
+}
+.edition-view p,
+.edition-view li {
+  line-height: 1.85;
+}
+.edition-prices {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px 24px;
+  font-variant-numeric: tabular-nums;
+}
+.edition-figures {
+  display: grid;
+  gap: 20px;
+}
+.edition-figures dd {
+  margin: 0;
+  font-size: 24px;
+}
+.edition-view footer {
+  padding-block: 32px;
+  color: var(--muted);
+}
+.edition-view .row {
+  flex-wrap: wrap;
+}

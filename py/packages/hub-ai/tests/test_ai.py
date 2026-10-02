@@ -767,3 +767,53 @@ def test_eval_failure_identifies_case_and_safe_stage(tmp_path: Path) -> None:
     assert "已记录费用 USD" in text
     assert "未生成通过报告" in text
     assert "private-provider-token" not in text
+
+
+@pytest.mark.parametrize(
+    ("retry_after", "expected"),
+    [("7", [7, 7]), ("NaN", [1, 2]), ("-1", [1, 2]), ("invalid", [1, 2]), ("10000", [60, 60])],
+)
+def test_gateway_rate_limit_honors_bounded_retry_after(
+    monkeypatch: pytest.MonkeyPatch, retry_after: str, expected: list[float]
+) -> None:
+    from pydantic_ai.exceptions import ModelHTTPError
+
+    import hub_ai.gateway as gateway
+    from hub_ai.evals.runner import JudgeScore
+    from hub_core.settings import Settings
+
+    attempts: list[int] = []
+    waits: list[float] = []
+
+    class FailedAgent:
+        def __init__(self, *args: Any, **kwargs: Any) -> None:
+            attempts.append(1)
+
+        def iter(self, *args: Any, **kwargs: Any) -> Any:
+            raise ModelHTTPError(
+                status_code=429,
+                model_name="fixture",
+                body="private-provider-body",
+                headers={"Retry-After": retry_after},
+            )
+
+    async def sleep(seconds: float) -> None:
+        waits.append(seconds)
+
+    monkeypatch.setattr(gateway, "Agent", FailedAgent)
+    registry = Registry(ROOT)
+    adapter = gateway.GatewayAdapter(registry, Settings(), model_override=TestModel())
+    runtime = Runtime(registry, adapter, sleep=sleep)
+    result = asyncio.run(runtime.run("news.filing_digest", INPUT))
+    assert not result.ok
+    assert waits == expected
+    assert len(attempts) == 3
+    assert "private-provider-body" not in str(result)
+    attempts.clear()
+    waits.clear()
+    with pytest.raises(TransportError):
+        asyncio.run(
+            runtime.judge("news.filing_digest", {"system": "评分", "user": "事实"}, JudgeScore)
+        )
+    assert waits == expected
+    assert len(attempts) == 3
