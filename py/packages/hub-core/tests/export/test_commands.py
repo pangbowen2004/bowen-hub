@@ -1,11 +1,11 @@
 """导出CLI参数与错误输出回归；不连接API、SMTP或git。"""
 
+import re
 from pathlib import Path
 from typing import Any
 
 import pytest
 import typer
-from click.utils import strip_ansi
 from typer.testing import CliRunner
 
 from hub_core.export import commands
@@ -53,4 +53,4 @@ def test_export_cli_parameters_and_safe_failure(
 def test_missing_directory_is_explicit_usage_error(force_color: str) -> None:
     result = CliRunner().invoke(app(), [], env={"FORCE_COLOR": force_color})
     assert result.exit_code == 2
-    assert "--directory" in strip_ansi(result.output)
+    assert "--directory" in re.sub(r"\x1b\[[0-9;]*m", "", result.output)
