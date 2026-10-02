@@ -1,0 +1,315 @@
+[
+  {
+    "kind": "ticker_digests",
+    "title": "自选股动态",
+    "items": [
+      {
+        "id": "ticker:BTC",
+        "data": {
+          "symbol": "BTC",
+          "change": null,
+          "withSector": null,
+          "whatHappened": "",
+          "whyItMatters": null,
+          "sourceIds": [],
+          "points": [],
+          "generatedBy": null
+        },
+        "ruleScore": 12.0,
+        "clusterId": null
+      },
+      {
+        "id": "ticker:NVDA",
+        "data": {
+          "symbol": "NVDA",
+          "change": null,
+          "withSector": null,
+          "whatHappened": "",
+          "whyItMatters": null,
+          "sourceIds": [],
+          "points": [],
+          "generatedBy": null
+        },
+        "ruleScore": 11.0,
+        "clusterId": null
+      },
+      {
+        "id": "ticker:AAPL",
+        "data": {
+          "symbol": "AAPL",
+          "change": null,
+          "withSector": null,
+          "whatHappened": "",
+          "whyItMatters": null,
+          "sourceIds": [],
+          "points": [],
+          "generatedBy": null
+        },
+        "ruleScore": 11.0,
+        "clusterId": null
+      },
+      {
+        "id": "ticker:TSM",
+        "data": {
+          "symbol": "TSM",
+          "change": null,
+          "withSector": null,
+          "whatHappened": "",
+          "whyItMatters": null,
+          "sourceIds": [],
+          "points": [],
+          "generatedBy": null
+        },
+        "ruleScore": 10.0,
+        "clusterId": null
+      }
+    ]
+  },
+  {
+    "kind": "us_news",
+    "title": "美股要闻",
+    "items": [
+      {
+        "id": "alpaca-news:62090599",
+        "data": {
+          "article": {
+            "id": "alpaca-news:62090599",
+            "sourceId": "alpaca-news",
+            "kind": "news",
+            "title": "'How New Data Center Debt Concessions Could Stall AI Build-Outs' - The Information",
+            "url": "https://www.benzinga.com/news/26/09/62090599/how-new-data-center-debt-concessions-could-stall-ai-build-outs-information",
+            "publishedAt": "2026-09-30T18:58:23Z",
+            "summary": null,
+            "lang": "en",
+            "tickers": [
+              "APLD",
+              "APO",
+              "BAM",
+              "BX",
+              "CIFR",
+              "CLSK",
+              "CORZ",
+              "CRWV",
+              "GLXY",
+              "HUT",
+              "IREN",
+              "META",
+              "MSFT",
+              "NBIS",
+              "OWL",
+              "WULF"
+            ],
+            "topics": [],
+            "paywall": "none",
+            "clusterId": "event:alpaca-news:62090599"
+          },
+          "summary": null,
+          "whyItMatters": null,
+          "topic": null,
+          "generatedBy": null
+        },
+        "ruleScore": 8.0,
+        "clusterId": "event:alpaca-news:62090599"
+      },
+      {
+        "id": "alpaca-news:62092226",
+        "data": {
+          "article": {
+            "id": "alpaca-news:62092226",
+            "sourceId": "alpaca-news",
+            "kind": "news",
+            "title": "Anthropic's IPO Pitch Embraces AI's Promise And Peril",
+            "url": "https://www.benzinga.com/news/26/09/62092226/anthropic-s-ipo-pitch-embraces-ai-s-promise-and-peril",
+            "publishedAt": "2026-09-30T19:52:32Z",
+            "summary": null,
+            "lang": "en",
+            "tickers": ["AMZN", "GOOG", "GOOGL"],
+            "topics": [],
+            "paywall": "none",
+            "clusterId": "event:alpaca-news:62092226"
+          },
+          "summary": null,
+          "whyItMatters": null,
+          "topic": null,
+          "generatedBy": null
+        },
+        "ruleScore": 8.0,
+        "clusterId": "event:alpaca-news:62092226"
+      },
+      {
+        "id": "alpaca-news:62093678",
+        "data": {
+          "article": {
+            "id": "alpaca-news:62093678",
+            "sourceId": "alpaca-news",
+            "kind": "news",
+            "title": "Bain Warned of AI 'Arms Race,' Now It's Circling Data Center Operator",
+            "url": "https://www.benzinga.com/markets/tech/26/09/62093678/bain-warned-of-ai-arms-race-now-its-circling-data-center-operator",
+            "publishedAt": "2026-09-30T20:28:17Z",
+            "summary": "Private equity firm Bain Capital is weighing a more than $15 billion acquisition of Koch-owned data center operator Edged.",
+            "lang": "en",
+            "tickers": [],
+            "topics": [],
+            "paywall": "none",
+            "clusterId": "event:alpaca-news:62093678"
+          },
+          "summary": null,
+          "whyItMatters": null,
+          "topic": null,
+          "generatedBy": null
+        },
+        "ruleScore": 7.0,
+        "clusterId": "event:alpaca-news:62093678"
+      },
+      {
+        "id": "alpaca-news:62094961",
+        "data": {
+          "article": {
+            "id": "alpaca-news:62094961",
+            "sourceId": "alpaca-news",
+            "kind": "news",
+            "title": "Valaris Says U.S. DOJ Closes Antitrust Investigation Into Valaris And Transocean Deal; Co And Transocean Expect Business Combination To Close In Q4 2026",
+            "url": "https://www.benzinga.com/news/26/09/62094961/valaris-says-u-s-doj-closes-antitrust-investigation-valaris-and-transocean-deal-co-and-transocean-ex",
+            "publishedAt": "2026-09-30T21:12:37Z",
+            "summary": null,
+            "lang": "en",
+            "tickers": ["VAL"],
+            "topics": [],
+            "paywall": "none",
+            "clusterId": "event:alpaca-news:62094961"
+          },
+          "summary": null,
+          "whyItMatters": null,
+          "topic": null,
+          "generatedBy": null
+        },
+        "ruleScore": 7.0,
+        "clusterId": "event:alpaca-news:62094961"
+      }
+    ]
+  },
+  {
+    "kind": "calendar",
+    "title": "今晚没有重要日程",
+    "items": []
+  },
+  {
+    "kind": "international",
+    "title": "国际与科技",
+    "items": [
+      {
+        "id": "international",
+        "data": {
+          "overview": "",
+          "top5": [
+            {
+              "id": "npr-world:6c12c6e911ce14da3d7d5c375abf2a7c459de41e4f8135b415691f4361e53070",
+              "data": {
+                "article": {
+                  "id": "npr-world:6c12c6e911ce14da3d7d5c375abf2a7c459de41e4f8135b415691f4361e53070",
+                  "sourceId": "npr-world",
+                  "kind": "news",
+                  "title": "U.S. forces exit Iraq amid Iran war. And, SCOTUS revives Trump deportation policy",
+                  "url": "https://www.npr.org/2026/09/30/g-s1-145604/up-first-newsletter-iraq-us-troops-scotus-deportations-trump-ai",
+                  "publishedAt": "2026-09-30T11:13:17Z",
+                  "summary": "The U.S. has withdrawn its final troops from Iraq, leaving its defense future uncertain. And, the Supreme Court has sided for now with the Trump administration on third-country deportations.",
+                  "lang": "en",
+                  "tickers": [],
+                  "topics": [],
+                  "paywall": "none",
+                  "clusterId": "event:npr-world:6c12c6e911ce14da3d7d5c375abf2a7c459de41e4f8135b415691f4361e53070"
+                },
+                "summary": null,
+                "whyItMatters": null,
+                "topic": "war_geopolitics",
+                "generatedBy": null
+              },
+              "ruleScore": 18.0,
+              "clusterId": "event:npr-world:6c12c6e911ce14da3d7d5c375abf2a7c459de41e4f8135b415691f4361e53070"
+            },
+            {
+              "id": "bbc-tech:49273124966a62ecf1acfcb96203433aebb29718fac4d59536651fc29c47a82a",
+              "data": {
+                "article": {
+                  "id": "bbc-tech:49273124966a62ecf1acfcb96203433aebb29718fac4d59536651fc29c47a82a",
+                  "sourceId": "bbc-tech",
+                  "kind": "news",
+                  "title": "OpenAI unveils AI assistant 'dots' while safety worries delay new model",
+                  "url": "https://www.bbc.co.uk/news/articles/cw7v42rp083eo?at_medium=RSS&at_campaign=rss",
+                  "publishedAt": "2026-09-30T05:18:13Z",
+                  "summary": "Sam Altman spoke in San Francisco during OpenAI’s annual event for tech developers.",
+                  "lang": "en",
+                  "tickers": [],
+                  "topics": [],
+                  "paywall": "none",
+                  "clusterId": "event:bbc-tech:49273124966a62ecf1acfcb96203433aebb29718fac4d59536651fc29c47a82a"
+                },
+                "summary": null,
+                "whyItMatters": null,
+                "topic": "ai_tech",
+                "generatedBy": null
+              },
+              "ruleScore": 8.0,
+              "clusterId": "event:bbc-tech:49273124966a62ecf1acfcb96203433aebb29718fac4d59536651fc29c47a82a"
+            },
+            {
+              "id": "the-verge-ai:020805180cf363cb4710a7cef64d0bf28ead79a7a0a1658a01f1c756942b94f9",
+              "data": {
+                "article": {
+                  "id": "the-verge-ai:020805180cf363cb4710a7cef64d0bf28ead79a7a0a1658a01f1c756942b94f9",
+                  "sourceId": "the-verge-ai",
+                  "kind": "news",
+                  "title": "All the latest news on Meta’s cute, creepy Muse AI agent",
+                  "url": "https://www.theverge.com/ai-artificial-intelligence/1002671/meta-muse-ai",
+                  "publishedAt": "2026-09-30T15:18:49Z",
+                  "summary": "Meta launched a new Muse AI agent it claims can help you with everything from firing off emails to buying stuff online. Muse can be surprisingly effective at delivering on those promises — if you’re willing to trust Meta with your data and hand Muse your credit card. Since the launch, Meta’s also announced plans […]",
+                  "lang": "en",
+                  "tickers": [],
+                  "topics": [],
+                  "paywall": "metered",
+                  "clusterId": "event:the-verge-ai:020805180cf363cb4710a7cef64d0bf28ead79a7a0a1658a01f1c756942b94f9"
+                },
+                "summary": null,
+                "whyItMatters": null,
+                "topic": "ai_tech",
+                "generatedBy": null
+              },
+              "ruleScore": 8.0,
+              "clusterId": "event:the-verge-ai:020805180cf363cb4710a7cef64d0bf28ead79a7a0a1658a01f1c756942b94f9"
+            }
+          ],
+          "briefs": [
+            {
+              "id": "the-verge-ai:091003c08969bcee37ae3579cd10736cf402c3b5774db5695fd55cfcea1c1908",
+              "data": {
+                "article": {
+                  "id": "the-verge-ai:091003c08969bcee37ae3579cd10736cf402c3b5774db5695fd55cfcea1c1908",
+                  "sourceId": "the-verge-ai",
+                  "kind": "news",
+                  "title": "Here&#8217;s what AI leaders are saying about Trump’s new safety plan",
+                  "url": "https://www.theverge.com/ai-artificial-intelligence/1002636/ai-execs-trump-self-policing-deal-comments",
+                  "publishedAt": "2026-09-30T17:15:49Z",
+                  "summary": "After hosting a meal with Big Tech leaders on Tuesday, President Donald Trump responded to journalist questions about his artificial intelligence announcements in typical fashion. He said his previous claims regarding fears around AI safety being a \"hoax\" cooked up by Democrats no longer apply now that he's renamed the technology to \"Super Intelligence.\" He […]",
+                  "lang": "en",
+                  "tickers": [],
+                  "topics": [],
+                  "paywall": "metered",
+                  "clusterId": "event:the-verge-ai:091003c08969bcee37ae3579cd10736cf402c3b5774db5695fd55cfcea1c1908"
+                },
+                "summary": null,
+                "whyItMatters": null,
+                "topic": "ai_tech",
+                "generatedBy": null
+              },
+              "ruleScore": 8.0,
+              "clusterId": "event:the-verge-ai:091003c08969bcee37ae3579cd10736cf402c3b5774db5695fd55cfcea1c1908"
+            }
+          ],
+          "generatedBy": null
+        },
+        "ruleScore": null,
+        "clusterId": null
+      }
+    ]
+  }
+]
