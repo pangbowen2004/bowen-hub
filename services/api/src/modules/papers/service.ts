@@ -15,6 +15,9 @@ import type {
   Upload,
 } from "@bowen-hub/contracts";
 import {
+  PapersCatalog as CatalogSchema,
+  GraphData as GraphSchema,
+  SearchIndex as SearchSchema,
   PaperStatus as StatusSchema,
   PaperSummary as SummarySchema,
 } from "@bowen-hub/contracts/zod";
@@ -194,16 +197,27 @@ export async function derived(
 ): Promise<string> {
   const raw = await getDocument(db, `papers.${name}.${publicOnly ? "public" : "all"}`);
   if (raw === null) throw new ApiError(404, "论文派生文档尚未生成");
+  // 通用documents允许未知JSON，领域读取必须先验证对应生成契约。
+  let json: unknown;
+  try {
+    json = JSON.parse(raw);
+  } catch {
+    throw new ApiError(404, "论文派生文档格式无效");
+  }
+  const checked = { catalog: CatalogSchema, graph: GraphSchema, search: SearchSchema }[
+    name
+  ].safeParse(json);
+  if (!checked.success) throw new ApiError(404, "论文派生文档格式无效");
   if (!publicOnly) return raw;
   const ids = await repo.publicIds(db);
   if (name === "search") {
-    const value = JSON.parse(raw) as SearchIndex;
+    const value = checked.data as SearchIndex;
     return JSON.stringify({ papers: value.papers.filter((p) => ids.has(p.id)) });
   }
   if (name === "catalog") {
-    const value = JSON.parse(raw) as PapersCatalog;
+    const value = checked.data as PapersCatalog;
     const papers = value.papers.filter((p) => ids.has(p.id));
-    if (papers.length === value.papers.length) return raw;
+    if (papers.length === value.papers.length) return JSON.stringify(value);
     const visibleGraph = JSON.parse(await derived(db, "graph", true)) as GraphData;
     const spaces = value.spaces.map((s) => ({
       ...s,
@@ -222,7 +236,7 @@ export async function derived(
       },
     });
   }
-  const graph = JSON.parse(raw) as GraphData;
+  const graph = checked.data as GraphData;
   const edges = graph.edges.filter(
     (e) =>
       !(e.type === "relation" && (!ids.has(e.source) || !ids.has(e.target))) &&

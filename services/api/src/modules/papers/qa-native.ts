@@ -84,8 +84,8 @@ export async function nativeResponse(
   question: string,
   waitUntil?: (task: Promise<unknown>) => void,
 ): Promise<Response> {
-  if (!env.OPENAI_API_KEY) throw new ApiError(503, "问答网关未配置");
   const p = await prepare(env, id, question);
+  if (!env.OPENAI_API_KEY) throw new ApiError(503, "问答网关未配置");
   let publish!: (body: ReadableStream<Uint8Array>) => void;
   let reject!: (error: Error) => void;
   const incoming = new Promise<ReadableStream<Uint8Array>>((resolve, fail) => {

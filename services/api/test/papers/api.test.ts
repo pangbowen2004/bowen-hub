@@ -551,3 +551,114 @@ it("共现SQL只统计当前公开论文并去重同一论文概念边", async (
   await service.patchPaper(env, "visible", { visibility: "private" });
   expect(await repo.publicCooccurrence(env.DB, edges)).toEqual([]);
 });
+
+it("通用内部documents写入坏JSON后，五个论文派生GET明确404且Problem合格", async () => {
+  const routes = [
+    ["papers.catalog.all", "papers/catalog"],
+    ["papers.graph.all", "papers/graph"],
+    ["papers.catalog.public", "public/papers/catalog"],
+    ["papers.graph.public", "public/papers/graph"],
+    ["papers.search.public", "public/papers/search-index"],
+  ] as const;
+  for (const [key, route] of routes) {
+    for (const value of [
+      {},
+      { papers: [null] },
+      { nodes: [], edges: [] },
+      { stats: {}, spaces: [], papers: "bad" },
+    ]) {
+      const stored = await request(`internal/documents/${key}`, "PUT", value, true);
+      expect(stored.status).toBe(204);
+      const response = await request(route);
+      expect(response.status).toBe(404);
+      expect(response.headers.get("Content-Type")).toContain("application/problem+json");
+      const problem = schemas.Problem.parse(await response.json());
+      expect(problem.status).toBe(404);
+      expect(problem.detail).toBe("论文派生文档格式无效");
+    }
+  }
+});
+it("损坏的已存派生原文返回404；有效私有文档保持原字节，公开不泄漏多余键", async () => {
+  for (const name of ["catalog", "graph", "search"] as const) {
+    for (const publicOnly of [true, false]) {
+      const key = `papers.${name}.${publicOnly ? "public" : "all"}`;
+      for (const raw of ["{bad-json", "null", "[]", '"arbitrary"']) {
+        await putDocument(env.DB, key, raw);
+        await expect(service.derived(env.DB, name, publicOnly)).rejects.toMatchObject({
+          status: 404,
+          message: "论文派生文档格式无效",
+        });
+      }
+    }
+  }
+  const graph = { nodes: [], edges: [], cooccurrence: [], privateExtra: "私人哨兵" };
+  const catalog = {
+    stats: { paperCount: 0, spaceCount: 0, conceptCount: 0, edgeCount: 0 },
+    spaces: [],
+    papers: [],
+    privateExtra: "私人哨兵",
+  };
+  for (const [name, value] of [
+    ["graph", graph],
+    ["catalog", catalog],
+  ] as const) {
+    const raw = JSON.stringify(value, null, 2);
+    await putDocument(env.DB, `papers.${name}.all`, raw);
+    expect(await service.derived(env.DB, name, false)).toBe(raw);
+    await putDocument(env.DB, `papers.${name}.public`, raw);
+    expect(await service.derived(env.DB, name, true)).not.toContain("私人哨兵");
+  }
+});
+it("公开目录需要裁剪时，损坏的依赖graph返回404而非500或假统计", async () => {
+  const hidden = paper("hidden", "private");
+  await service.putPaper(env.DB, hidden.id, write(hidden));
+  await putDocument(
+    env.DB,
+    "papers.catalog.public",
+    JSON.stringify({
+      stats: { paperCount: 1, spaceCount: 0, conceptCount: 0, edgeCount: 0 },
+      spaces: [],
+      papers: [summary(hidden)],
+    }),
+  );
+  await putDocument(env.DB, "papers.graph.public", "{}");
+  const response = await request("public/papers/catalog");
+  expect(response.status).toBe(404);
+  expect(schemas.Problem.parse(await response.json()).detail).toBe("论文派生文档格式无效");
+});
+
+it("真实问答路由先核对论文就绪再检查key：不存在404/未就绪422/就绪无key503", async () => {
+  const incomplete = paper("not-ready");
+  incomplete.guide = undefined;
+  const ready = paper("ready");
+  ready.structure = { pageCount: 1 };
+  await service.putPaper(env.DB, incomplete.id, write(incomplete));
+  await service.putPaper(env.DB, ready.id, write(ready));
+  await env.FILES.put(`papers/${ready.id}/pages.txt`, "=== p.1 ===\n真实本地回归页文本");
+  const cookie = await authenticatedCookie();
+  for (const question of ["", "论文说明了什么？"]) {
+    for (const [id, status, detail] of [
+      ["does-not-exist", 404, "论文不存在"],
+      [incomplete.id, 422, "原文尚未就绪"],
+      [ready.id, 503, "问答网关未配置"],
+    ] as const) {
+      const response = await app.request(
+        `https://example.test/v1/papers/${id}/ask`,
+        {
+          method: "POST",
+          headers: {
+            Cookie: cookie,
+            Origin: env.AUTH_BASE_URL,
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ question }),
+        },
+        { ...env, OPENAI_API_KEY: undefined },
+      );
+      expect(response.status).toBe(status);
+      expect(response.headers.get("Content-Type")).toContain("application/problem+json");
+      expect(schemas.Problem.parse(await response.json())).toMatchObject({ status, detail });
+    }
+  }
+  expect(fetch).not.toHaveBeenCalled();
+});
