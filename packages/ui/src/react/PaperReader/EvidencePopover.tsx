@@ -4,10 +4,12 @@ export function EvidencePopover({
   claims = [],
   inferred = false,
   label = "原文证据",
+  onPage,
 }: {
   claims?: PaperClaim[];
   inferred?: boolean;
   label?: string;
+  onPage?: (page: number) => void;
 }) {
   const id = useId();
   if (!claims.length && !inferred) return null;
@@ -43,6 +45,11 @@ export function EvidencePopover({
                 {claim.anchor}
                 {claim.pdfPage && ` · PDF p.${claim.pdfPage}`}
               </p>
+            )}
+            {claim.pdfPage && onPage && (
+              <button type="button" onClick={() => onPage(claim.pdfPage!)}>
+                打开原文第 {claim.pdfPage} 页
+              </button>
             )}
             {claim.sourceExcerpt && <blockquote>{claim.sourceExcerpt}</blockquote>}
             {claim.interpretationBoundary && <p>解释边界：{claim.interpretationBoundary}</p>}

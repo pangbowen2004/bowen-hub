@@ -1,5 +1,6 @@
 import { fireEvent, render, screen } from "@testing-library/react";
 import { expect, it } from "vitest";
+import { EvidencePopover } from "./EvidencePopover";
 import { PaperReader } from "./index";
 
 it("renders static content in a semantic reading shell", () => {
@@ -69,4 +70,18 @@ it("shared reader supports evidence filtering, collapsed recall and computed rea
     container.querySelector<HTMLTableRowElement>('[data-claim-kind="limitation"]')?.hidden,
   ).toBe(false);
   expect(screen.getByText("Recall question").closest("details")?.open).toBe(false);
+});
+
+it("证据页按钮把实际物理页交给控制台，公开阅读不产生私人页请求", () => {
+  const pages: number[] = [];
+  const { rerender } = render(
+    <EvidencePopover
+      claims={[{ id: "c1", kind: "result", claim: "原文", pdfPage: 3 }]}
+      onPage={(page) => pages.push(page)}
+    />,
+  );
+  fireEvent.click(screen.getByRole("button", { name: "打开原文第 3 页", hidden: true }));
+  expect(pages).toEqual([3]);
+  rerender(<EvidencePopover claims={[{ id: "c1", kind: "result", claim: "原文", pdfPage: 3 }]} />);
+  expect(screen.queryByRole("button", { name: "打开原文第 3 页", hidden: true })).toBeNull();
 });

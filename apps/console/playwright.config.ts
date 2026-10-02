@@ -16,17 +16,17 @@ export default defineConfig({
     : [
         {
           name: "手机",
-          testIgnore: "auth/real.spec.ts",
+          testIgnore: ["auth/real.spec.ts", "papers/real.spec.ts"],
           use: { viewport: { width: 390, height: 844 } },
         },
         {
           name: "平板",
-          testIgnore: "auth/real.spec.ts",
+          testIgnore: ["auth/real.spec.ts", "papers/real.spec.ts"],
           use: { viewport: { width: 768, height: 1024 } },
         },
         {
           name: "桌面",
-          testIgnore: "auth/real.spec.ts",
+          testIgnore: ["auth/real.spec.ts", "papers/real.spec.ts"],
           use: { viewport: { width: 1440, height: 900 } },
         },
         {

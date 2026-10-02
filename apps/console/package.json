@@ -6,7 +6,7 @@
     "dev": "vite --port 5173",
     "build": "vite build",
     "typecheck": "tsc -p .",
-    "test": "vitest run src/lib src/features/auth --passWithNoTests",
+    "test": "vitest run src/lib src/features --passWithNoTests",
     "e2e": "pnpm build && playwright install chromium && playwright test"
   },
   "dependencies": {
