@@ -1,17 +1,28 @@
 """Pydantic AI 统一网关适配器；原生结构化输出不支持时改为工具输出。"""
 
 import math
+from collections.abc import Callable
 from typing import Any, cast
 
 from httpx import HTTPError
 from openai import APIConnectionError, APITimeoutError, AsyncOpenAI
-from pydantic_ai import Agent, BinaryContent, ImageUrl, NativeOutput, ToolOutput, UsageLimits
+from pydantic import ValidationError
+from pydantic_ai import (
+    Agent,
+    BinaryContent,
+    CallToolsNode,
+    ImageUrl,
+    NativeOutput,
+    ToolOutput,
+    UsageLimits,
+)
 from pydantic_ai.exceptions import (
     ModelAPIError,
     ModelHTTPError,
     UnexpectedModelBehavior,
     UsageLimitExceeded,
 )
+from pydantic_ai.messages import TextPart, ToolCallPart
 from pydantic_ai.models import Model
 from pydantic_ai.models.openai import OpenAIChatModel, OpenAIChatModelSettings
 from pydantic_ai.providers.openai import OpenAIProvider
@@ -31,9 +42,15 @@ def gateway_url(registry: Registry, settings: Settings) -> str:
 
 class GatewayAdapter:
     def __init__(
-        self, registry: Registry, settings: Settings, *, model_override: Model | None = None
+        self,
+        registry: Registry,
+        settings: Settings,
+        *,
+        model_override: Model | None = None,
+        observer: Callable[[dict[str, Any]], None] | None = None,
     ) -> None:
         self.model_override = model_override
+        self.observer = observer
         self.provider = OpenAIProvider(
             openai_client=AsyncOpenAI(
                 base_url=gateway_url(registry, settings)
@@ -83,8 +100,35 @@ class GatewayAdapter:
                     ),
                 ) as run:
                     try:
-                        async for _node in run:
-                            pass
+                        async for node in run:
+                            if self.observer is not None and isinstance(node, CallToolsNode):
+                                response = node.model_response
+                                parts: list[dict[str, Any]] = []
+                                for part in response.parts:
+                                    if isinstance(part, TextPart):
+                                        parts.append({"kind": "text", "content": part.content})
+                                    elif isinstance(part, ToolCallPart):
+                                        parts.append(
+                                            {
+                                                "kind": "tool-call",
+                                                "tool_name": part.tool_name,
+                                                "args": part.args,
+                                            }
+                                        )
+                                self.observer(
+                                    {
+                                        "phase": request.output_model.__name__,
+                                        "repair": request.repair,
+                                        "mode": "native" if native else "tool",
+                                        "finish_reason": response.finish_reason,
+                                        "usage": {
+                                            "input_tokens": response.usage.input_tokens,
+                                            "output_tokens": response.usage.output_tokens,
+                                            "cache_read_tokens": response.usage.cache_read_tokens,
+                                        },
+                                        "parts": parts,
+                                    }
+                                )
                     finally:
                         tokens = run.usage
                         used = Usage(
@@ -119,6 +163,47 @@ class GatewayAdapter:
                 raise TransportError("网关传输失败") from None
             except UsageLimitExceeded:
                 raise TokenLimitError(used) from None
-            except UnexpectedModelBehavior:
+            except UnexpectedModelBehavior as error:
+                if self.observer is not None:
+                    errors: list[dict[str, Any]] = []
+                    current: BaseException | None = error
+                    seen: set[int] = set()
+                    while current is not None and id(current) not in seen:
+                        seen.add(id(current))
+                        details: list[Any] = []
+                        if isinstance(current, ValidationError):
+                            details = current.errors(
+                                include_input=False, include_context=False, include_url=False
+                            )
+                        else:
+                            retry = getattr(current, "tool_retry", None)
+                            retry_content: Any = getattr(retry, "content", None)
+                            if isinstance(retry_content, list):
+                                details = cast(list[Any], retry_content)
+                        errors.append(
+                            {
+                                "type": type(current).__name__
+                                if type(current).__name__
+                                in {"UnexpectedModelBehavior", "ToolRetryError", "ValidationError"}
+                                else "Error",
+                                "validation": [
+                                    {
+                                        "type": cast(dict[str, Any], item).get("type"),
+                                        "loc": cast(dict[str, Any], item).get("loc"),
+                                    }
+                                    for item in details
+                                    if isinstance(item, dict)
+                                ],
+                            }
+                        )
+                        current = current.__cause__ or current.__context__
+                    self.observer(
+                        {
+                            "phase": request.output_model.__name__,
+                            "repair": request.repair,
+                            "mode": "native" if native else "tool",
+                            "errors": errors,
+                        }
+                    )
                 raise StructureError(used) from None
         raise StructureError()
