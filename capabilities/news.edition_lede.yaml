@@ -1,7 +1,7 @@
 # 写每期开头：早报导语（3 句）、盘前“今晚三件事”（3 行）、周报“本周主线”（250–350 字）
 # 格式说明见 docs/10 第 3 节；输入输出模型在 contracts/capabilities.tsp
 id: news.edition_lede
-version: 2
+version: 3
 summary: 写每期开头：早报导语（3 句）、盘前“今晚三件事”（3 行）、周报“本周主线”（250–350 字）
 owner: newsroom
 runtime: python
