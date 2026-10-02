@@ -1,5 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { Placeholder } from "../../lib/Placeholder";
-export const Route = createFileRoute("/papers/$id")({
-  component: () => <Placeholder title="论文阅读" task="T34" />,
-});
+import { ReaderPage } from "../../features/papers/ReaderPage";
+export const Route = createFileRoute("/papers/$id")({ component: Page });
+function Page() {
+  const { id } = Route.useParams();
+  return <ReaderPage key={id} id={id} />;
+}

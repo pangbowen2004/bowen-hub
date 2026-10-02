@@ -33,6 +33,10 @@ for (const path of [
       await expect(page.getByText("样例：本机通行密钥")).toBeVisible();
     } else if (path === "/" || path.startsWith("/news") || path === "/watchlist") {
       await expect(page.locator("body")).not.toContainText("内容准备中");
+    } else if (path.startsWith("/papers")) {
+      await expect(
+        page.getByRole("status").filter({ hasText: /样例连接成功|样例数据 · 操作仅用于页面预览/ }),
+      ).toBeVisible();
     } else {
       await expect(page.getByRole("status")).toContainText("样例连接成功");
     }

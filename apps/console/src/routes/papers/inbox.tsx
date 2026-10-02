@@ -1,5 +1,3 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { Placeholder } from "../../lib/Placeholder";
-export const Route = createFileRoute("/papers/inbox")({
-  component: () => <Placeholder title="论文入库" task="T34" />,
-});
+import { InboxPage } from "../../features/papers/InboxPage";
+export const Route = createFileRoute("/papers/inbox")({ component: InboxPage });
