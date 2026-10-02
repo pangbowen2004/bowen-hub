@@ -817,3 +817,26 @@ def test_gateway_rate_limit_honors_bounded_retry_after(
         )
     assert waits == expected
     assert len(attempts) == 3
+
+
+def test_eval_model_failure_has_safe_case_diagnostic(
+    tmp_path: Path, caplog: pytest.LogCaptureFixture
+) -> None:
+    root = prepare(tmp_path)
+
+    class FailedModelAdapter:
+        async def generate(self, request: Request) -> Response:
+            raise TransportError("private-provider-token-do-not-log")
+
+    async def sleep(seconds: float) -> None:
+        return None
+
+    result = asyncio.run(
+        evaluate(Runtime(Registry(root), FailedModelAdapter(), sleep=sleep), "fixture.summary")
+    )
+    assert not result.passed
+    assert "case=basic" in caplog.text
+    assert "case=dates" in caplog.text
+    assert "stage=runtime" in caplog.text
+    assert "模型传输失败" in caplog.text
+    assert "private-provider-token-do-not-log" not in caplog.text
