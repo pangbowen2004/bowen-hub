@@ -58,7 +58,7 @@ def test_mime_success_and_quit_failure() -> None:
     assert smtp.closed
     message = smtp.messages[0]
     assert message["Subject"] == "中文标题"
-    assert "Bowen Newsroom" in str(message["From"])
+    assert "美股新闻室" in str(message["From"])
     assert message.get_content_type() == "multipart/alternative"
     text = message.get_body(preferencelist=("plain",))
     html = message.get_body(preferencelist=("html",))
