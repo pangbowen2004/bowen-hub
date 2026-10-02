@@ -16,7 +16,7 @@ from hub_contracts import (
     MoneyflowCoverage,
 )
 
-from .aggregate import required, value
+from .aggregate import required, sum_values, value
 
 
 def state(
@@ -91,7 +91,8 @@ def directions(
         daily_amounts = (
             history.filter(pl.col("ts_code").is_in(member_codes) & pl.col("pct_chg").is_not_null())
             .group_by("trade_date")
-            .agg(pl.col("amountCny").sum())
+            .agg(pl.col("amountCny"))
+            .with_columns(pl.col("amountCny").map_elements(sum_values, return_dtype=pl.Float64))
             .sort("trade_date")
             .tail(20)
         )
