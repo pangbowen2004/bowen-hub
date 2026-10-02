@@ -1,0 +1,142 @@
+.papers-page {
+  max-width: 1140px;
+  margin-inline: auto;
+}
+.paper-controls {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 1rem;
+  padding-block: 1.5rem 2rem;
+  border-bottom: 1px solid var(--border);
+}
+.paper-controls label {
+  display: grid;
+  gap: 0.5rem;
+  font-size: 0.85rem;
+}
+.paper-controls select,
+.paper-panel textarea {
+  border: 1px solid var(--border);
+  background: var(--surface);
+  color: var(--text);
+  border-radius: 0.35rem;
+  padding: 0.65rem;
+  max-width: 100%;
+}
+.paper-list-toolbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+  margin-block: 1.75rem;
+}
+.paper-card-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0 2.5rem;
+}
+.paper-card {
+  padding-block: 1.75rem 2rem;
+  border-top: 1px solid var(--border);
+  position: relative;
+  min-width: 0;
+}
+.paper-card h2 {
+  font-size: clamp(1.25rem, 2vw, 1.65rem);
+  line-height: 1.5;
+  margin-block: 0.9rem 0.5rem;
+}
+.paper-card p,
+.paper-panel p {
+  overflow-wrap: anywhere;
+}
+.paper-original-title {
+  font-size: 0.85rem;
+  color: var(--muted);
+}
+.paper-tag {
+  display: inline-flex;
+  padding: 0.2rem 0.55rem;
+  font-size: 0.75rem;
+  border: 1px solid var(--border);
+  border-radius: 0.3rem;
+}
+.paper-select {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  font-size: 0.75rem;
+  margin-bottom: 0.9rem;
+}
+.paper-upload-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1.5rem;
+}
+.paper-panel {
+  display: grid;
+  gap: 0.8rem;
+  padding: 1.5rem 0;
+  border-top: 1px solid var(--border);
+  min-width: 0;
+}
+.paper-panel h2,
+.paper-panel h3 {
+  margin: 0;
+}
+.paper-panel textarea {
+  width: 100%;
+  min-height: 8rem;
+  resize: vertical;
+}
+.paper-answer {
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  line-height: 1.8;
+  max-height: 55vh;
+  overflow-y: auto;
+}
+.paper-settings {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1.2rem;
+  margin-block: 2rem;
+}
+.paper-settings label {
+  display: grid;
+  gap: 0.5rem;
+}
+.paper-settings select {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  color: var(--text);
+  padding: 0.6rem;
+  border-radius: 0.35rem;
+}
+.paper-private {
+  margin-top: 3rem;
+  border-top: 2px solid var(--border);
+}
+.paper-private summary {
+  cursor: pointer;
+  padding-block: 0.8rem;
+}
+@media (max-width: 768px) {
+  .paper-controls {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .paper-card-grid,
+  .paper-upload-grid,
+  .paper-settings {
+    grid-template-columns: 1fr;
+  }
+}
+@media (max-width: 480px) {
+  .paper-controls {
+    grid-template-columns: 1fr;
+  }
+  .paper-list-toolbar {
+    align-items: flex-start;
+    flex-wrap: wrap;
+  }
+}
