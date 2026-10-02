@@ -46,7 +46,7 @@ jobs:
           EVAL_DATE: ${{ inputs.date }}
           EVAL_FORCE: ${{ inputs.force }}
         run: |
-          args=(--weekly --write-api --report weekly-evals.md)
+          args=(--weekly --write-api --report weekly-evals.md --case-report weekly-eval-cases.json)
           if [ -n "$EVAL_DATE" ]; then args+=(--date "$EVAL_DATE"); fi
           if [ "$EVAL_FORCE" = true ]; then args+=(--force); fi
           mise exec -- uv run --project py --no-sync hub evals run "${args[@]}"
@@ -55,5 +55,8 @@ jobs:
         uses: actions/upload-artifact@v7
         with:
           name: weekly-evals
-          path: weekly-evals.md
+          path: |
+            weekly-evals.md
+            weekly-eval-cases.json
+          retention-days: 7
           if-no-files-found: ignore

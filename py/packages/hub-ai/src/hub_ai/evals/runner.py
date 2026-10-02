@@ -6,7 +6,8 @@ import json
 import logging
 import re
 import subprocess
-from dataclasses import dataclass
+from contextlib import nullcontext
+from dataclasses import asdict, dataclass
 from datetime import UTC, datetime
 from pathlib import Path
 from typing import Any, cast
@@ -17,6 +18,9 @@ from pydantic_evals import Case, Dataset
 from pydantic_evals.evaluators import Evaluator, EvaluatorContext
 
 from hub_ai.checks import CheckContext
+from hub_ai.evals.case_report import SAFE_REASONS, CaseReport
+from hub_ai.evals.case_report import error_label as case_error_label
+from hub_ai.evals.case_report import identifier as case_identifier
 from hub_ai.registry import Registry
 from hub_ai.runtime import Adapter, Request, Response, Result, Runtime, Usage
 from hub_contracts import AiCall, EvalResult
@@ -55,8 +59,19 @@ class Scorers(Evaluator[dict[str, Any], Result, EvalCase]):
     capability: dict[str, Any]
     dataset_dir: Path
     offline: bool = False
+    case_report: CaseReport | None = None
 
     async def evaluate(
+        self, ctx: EvaluatorContext[dict[str, Any], Result, EvalCase]
+    ) -> dict[str, float]:
+        with (
+            self.case_report.case(self.capability["id"], ctx.metadata.id)
+            if self.case_report is not None and ctx.metadata is not None
+            else nullcontext()
+        ):
+            return await self._evaluate(ctx)
+
+    async def _evaluate(
         self, ctx: EvaluatorContext[dict[str, Any], Result, EvalCase]
     ) -> dict[str, float]:
         result = ctx.output
@@ -178,7 +193,12 @@ def select_capabilities(
 
 
 async def evaluate(
-    runtime: Runtime, capability_id: str, *, offline: bool = False, candidate: str | None = None
+    runtime: Runtime,
+    capability_id: str,
+    *,
+    offline: bool = False,
+    candidate: str | None = None,
+    case_report: CaseReport | None = None,
 ) -> EvalResult:
     cap = runtime.registry.capabilities[capability_id]
     directory = runtime.registry.root / cap["evals"]["dataset"]
@@ -212,7 +232,7 @@ async def evaluate(
         Case[dict[str, Any], Result, EvalCase](name=case.id, inputs=case.input, metadata=case)
         for case in cases
     ]
-    scorer = Scorers(local, cap, directory, offline)
+    scorer = Scorers(local, cap, directory, offline, case_report)
     dataset = Dataset[dict[str, Any], Result, EvalCase](
         name=capability_id, cases=entries, evaluators=[scorer]
     )
@@ -223,13 +243,53 @@ async def evaluate(
         case = next(next_case)
         if isinstance(adapter, OfflineAdapter):
             adapter.current = case.id
-        return await local.run(
-            capability_id, inputs, total_pages=case.totalPages, candidate=candidate
-        )
+        with case_report.case(capability_id, case.id) if case_report else nullcontext():
+            return await local.run(
+                capability_id, inputs, total_pages=case.totalPages, candidate=candidate
+            )
 
     report = await dataset.evaluate(
         task, max_concurrency=1, progress=False, retry_task=None, retry_evaluators=None
     )
+    if case_report is not None:
+        rows: list[dict[str, Any]] = [
+            {
+                "id": case.name,
+                "raw_output": case.output.raw_output,
+                "schema_valid": case.output.schema_valid,
+                "ok": case.output.ok,
+                "reason": case.output.reason
+                if case.output.reason in SAFE_REASONS
+                else ("能力执行失败" if case.output.reason is not None else None),
+                "check_reports": [asdict(item) for item in case.output.reports],
+                "scores": {name: score.value for name, score in case.scores.items()},
+                "call": case.output.call.model_dump(mode="json"),
+                "errors": [
+                    {
+                        "stage": "scorer",
+                        "scorer": case_identifier(failure.name),
+                        "error": case_error_label(failure.error_message, failure.error_type),
+                    }
+                    for failure in case.evaluator_failures
+                ],
+            }
+            for case in report.cases
+        ]
+        rows.extend(
+            {
+                "id": failure.name,
+                "raw_output": None,
+                "schema_valid": None,
+                "ok": False,
+                "reason": "能力执行失败",
+                "check_reports": [],
+                "scores": {},
+                "call": None,
+                "errors": [{"stage": "task", "error": case_error_label(failure.error_message)}],
+            }
+            for failure in report.failures
+        )
+        case_report.write(capability_id, rows)
     for case in report.cases:
         if not case.output.ok:
             # 模型失败是零分结果，不在pydantic-evals异常列表里；只记固定分类，不输出正文。
