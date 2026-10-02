@@ -199,6 +199,14 @@ def test_optional_failures_keep_core_and_null_only_affected(
     assert modified.market.model_dump() == pytest.approx(
         result.market.model_dump(), rel=1e-15, abs=1e-12
     )
+    for field in (
+        "turnoverCny",
+        "turnoverPrevCny",
+        "turnoverChange",
+        "turnoverMedian20Cny",
+        "totalMarketCapCny",
+    ):
+        assert getattr(modified.market, field) == getattr(result.market, field)
     if endpoint == "moneyflow_mkt_dc":
         assert modified.moneyflow is None
         assert "资金流分类代理" not in modified.summary.counterEvidence
