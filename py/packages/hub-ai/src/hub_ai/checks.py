@@ -5,6 +5,7 @@ import re
 from collections.abc import Callable
 from dataclasses import dataclass, field
 from decimal import Decimal
+from importlib.metadata import entry_points
 from typing import Any, cast
 
 
@@ -292,6 +293,14 @@ class CheckRegistry:
                 pages_in_range,
             )
         }
+
+    def load_plugins(self) -> None:
+        """评测宿主显式加载已安装领域校验，不反向依赖领域包。"""
+        for entry in sorted(entry_points(group="hub.ai_checks"), key=lambda item: item.name):
+            check = entry.load()
+            if not callable(check):
+                raise ValueError("领域校验入口不是可调用函数")
+            self.register(entry.name, cast(Check, check))
 
     def register(self, name: str, check: Check) -> None:
         if name in self.checks:
