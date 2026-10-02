@@ -1,0 +1,59 @@
+# 新加坡周日03:00；能力清单on-change项和无正式用例项由CLI明确跳过。
+name: evals-weekly
+on:
+  schedule:
+    - cron: "0 19 * * 6"
+  workflow_dispatch:
+    inputs:
+      date:
+        description: "业务日期 YYYY-MM-DD，留空为新加坡今天"
+        type: string
+      force:
+        description: "重跑已成功日期"
+        type: boolean
+        default: false
+permissions:
+  contents: read
+concurrency:
+  group: evals-weekly
+  cancel-in-progress: false
+jobs:
+  evals:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          persist-credentials: false
+      - uses: jdx/mise-action@v5
+        with:
+          version: 2026.9.15
+      - name: 安装冻结依赖并校验生成链
+        run: mise install && mise run setup && mise run gen
+      - name: 每周评测并回写真实结果
+        env:
+          HUB_API_URL: ${{ secrets.HUB_API_URL || vars.HUB_API_URL }}
+          HUB_SERVICE_TOKEN: ${{ secrets.HUB_SERVICE_TOKEN }}
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          AI_GATEWAY_ID: ${{ secrets.AI_GATEWAY_ID || vars.AI_GATEWAY_ID || 'bowen-hub' }}
+          EMAIL_FROM: ${{ secrets.EMAIL_FROM || vars.EMAIL_FROM }}
+          EMAIL_TO: ${{ secrets.EMAIL_TO || vars.EMAIL_TO }}
+          EMAIL_SMTP_HOST: ${{ secrets.EMAIL_SMTP_HOST || vars.EMAIL_SMTP_HOST }}
+          EMAIL_SMTP_PORT: ${{ secrets.EMAIL_SMTP_PORT || vars.EMAIL_SMTP_PORT || '465' }}
+          EMAIL_SMTP_USER: ${{ secrets.EMAIL_SMTP_USER }}
+          EMAIL_SMTP_PASSWORD: ${{ secrets.EMAIL_SMTP_PASSWORD }}
+          EVAL_DATE: ${{ inputs.date }}
+          EVAL_FORCE: ${{ inputs.force }}
+        run: |
+          args=(--weekly --write-api --report weekly-evals.md)
+          if [ -n "$EVAL_DATE" ]; then args+=(--date "$EVAL_DATE"); fi
+          if [ "$EVAL_FORCE" = true ]; then args+=(--force); fi
+          mise exec -- uv run --project py --no-sync hub evals run "${args[@]}"
+      - name: 保存成功或失败的真实评测报告
+        if: always()
+        uses: actions/upload-artifact@v7
+        with:
+          name: weekly-evals
+          path: weekly-evals.md
+          if-no-files-found: ignore
