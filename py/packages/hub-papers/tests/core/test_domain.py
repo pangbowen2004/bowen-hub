@@ -478,3 +478,25 @@ def test_url_and_identifier_boundaries_preserve_adjacent_quantities(
     text: str, expected: tuple[str, ...]
 ) -> None:
     assert measurement_numbers(text) == expected
+
+
+@pytest.mark.parametrize(
+    ("text", "expected"),
+    [
+        ("§6.1 文字为 41.0 BLEU", ("41.0",)),
+        ("Table 2 为41.8；§6.1 为41.0", ("41.8", "41.0")),
+        ("WSJ 23 F1：Transformer 91.3；Dyer 91.7", ("91.3", "91.7")),
+        ("WSJ 23", ()),
+        ("WSJ 23条样本，F1为91.3", ("23", "91.3")),
+        ("WSJ 24条样本", ("24",)),
+        ("WSJ 23测试样本，F1为91.3", ("23", "91.3")),
+        ("WSJ23条样本，F1为91.3", ("23", "91.3")),
+        ("WSJ24条样本", ("24",)),
+        ("WSJ23测试样本，F1为91.3", ("23", "91.3")),
+        ("第6.1年增长23%", ("6.1", "23")),
+    ],
+)
+def test_explicit_section_and_dataset_labels_preserve_measurements(
+    text: str, expected: tuple[str, ...]
+) -> None:
+    assert measurement_numbers(text) == expected
