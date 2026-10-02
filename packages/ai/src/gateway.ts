@@ -62,23 +62,34 @@ export function createGatewayAdapter(
     .replace("{CLOUDFLARE_ACCOUNT_ID}", env.CLOUDFLARE_ACCOUNT_ID)
     .replace("{AI_GATEWAY_ID}", env.AI_GATEWAY_ID);
   const provider = createOpenAI({ baseURL, apiKey: env.OPENAI_API_KEY });
-  const options = (request: Request) => ({
-    model: modelOverride?.(request.model) ?? provider.chat(request.model),
-    system: request.prompt.system,
-    messages: [
-      {
-        role: "user" as const,
-        content: [
-          { type: "text" as const, text: request.prompt.user },
-          ...request.images.map((image) => ({ type: "image" as const, image })),
-        ],
+  const options = (request: Request) => {
+    // Gateway 的供应商前缀使 SDK 无法识别 OpenAI 推理模型；明确传正确预算字段。
+    const prefixedReasoning = /^openai\/(?:gpt-(?:[5-9]|[1-9]\d)(?:[.-]|$)|o[1-9](?:[.-]|$))/.test(
+      request.model,
+    );
+    return {
+      model: modelOverride?.(request.model) ?? provider.chat(request.model),
+      system: request.prompt.system,
+      messages: [
+        {
+          role: "user" as const,
+          content: [
+            { type: "text" as const, text: request.prompt.user },
+            ...request.images.map((image) => ({ type: "image" as const, image })),
+          ],
+        },
+      ],
+      maxOutputTokens: prefixedReasoning ? undefined : request.maxOutputTokens,
+      maxRetries: 0,
+      abortSignal: AbortSignal.timeout(request.timeoutSec * 1000),
+      providerOptions: {
+        openai: {
+          reasoningEffort: request.reasoning,
+          ...(prefixedReasoning ? { maxCompletionTokens: request.maxOutputTokens } : {}),
+        },
       },
-    ],
-    maxOutputTokens: request.maxOutputTokens,
-    maxRetries: 0,
-    abortSignal: AbortSignal.timeout(request.timeoutSec * 1000),
-    providerOptions: { openai: { reasoningEffort: request.reasoning } },
-  });
+    };
+  };
   return {
     async generate(request: Request): Promise<Response> {
       try {

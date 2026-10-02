@@ -1,4 +1,4 @@
-import { expect, it } from "vitest";
+import { expect, it, vi } from "vitest";
 import { CheckRegistry } from "../src/checks";
 import { strictOutputSchema } from "../src/gateway";
 import { registry } from "../src/registry";
@@ -140,7 +140,8 @@ it("清单 timeout/maxOutputTokens/reasoning 传给 SDK；超时按 1s/2s 重试
   const model = new MockLanguageModelV3({
     doGenerate: async (options) => {
       calls++;
-      expect(options.maxOutputTokens).toBe(300);
+      expect(options.providerOptions?.openai?.maxCompletionTokens).toBe(300);
+      expect(options.maxOutputTokens).toBeUndefined();
       expect(options.providerOptions?.openai?.reasoningEffort).toBe(data.llm.tiers.fast?.reasoning);
       await new Promise((_, reject) => {
         if (options.abortSignal?.aborted) reject(new Error("超时"));
@@ -219,4 +220,85 @@ it("图片页码绑定附件，缺附件拒绝而非静默省略", async () => {
   const result = await runtime.run("news.filing_digest", input, { images });
   expect(result.ok).toBe(true);
   expect(calls).toBe(1);
+});
+
+it.each([
+  ["openai/gpt-6-luna", "max_completion_tokens"],
+  ["openai/gpt-5.4-mini", "max_completion_tokens"],
+  ["openai/o3", "max_completion_tokens"],
+  ["openai/gpt-4.1", "max_tokens"],
+])("真实 SDK 序列化 %s 结构与流请求均传正确预算字段", async (model, field) => {
+  const fetchMock = vi.spyOn(globalThis, "fetch").mockImplementation(async (_url, init) => {
+    const body = JSON.parse(String(init?.body));
+    expect(body.model).toBe(model);
+    expect(body[field]).toBe(3000);
+    expect(body[field === "max_tokens" ? "max_completion_tokens" : "max_tokens"]).toBeUndefined();
+    expect(body.reasoning_effort).toBe("medium");
+    const usage = { prompt_tokens: 10, completion_tokens: 3, total_tokens: 13 };
+    if (body.stream) {
+      const chunks = [
+        {
+          id: "fixture",
+          object: "chat.completion.chunk",
+          created: 1,
+          model,
+          choices: [{ index: 0, delta: { content: "结果" }, finish_reason: null }],
+        },
+        {
+          id: "fixture",
+          object: "chat.completion.chunk",
+          created: 1,
+          model,
+          choices: [{ index: 0, delta: {}, finish_reason: "stop" }],
+          usage,
+        },
+      ];
+      return new Response(
+        chunks.map((x) => `data: ${JSON.stringify(x)}\n\n`).join("") + "data: [DONE]\n\n",
+        { headers: { "Content-Type": "text/event-stream" } },
+      );
+    }
+    return Response.json({
+      id: "fixture",
+      object: "chat.completion",
+      created: 1,
+      model,
+      choices: [
+        {
+          index: 0,
+          message: { role: "assistant", content: JSON.stringify({ text: "结果" }) },
+          finish_reason: "stop",
+        },
+      ],
+      usage,
+    });
+  });
+  try {
+    const { createGatewayAdapter } = await import("../src/gateway");
+    const adapter = createGatewayAdapter(registry.llm, {
+      CLOUDFLARE_ACCOUNT_ID: "fixture",
+      AI_GATEWAY_ID: "fixture",
+      OPENAI_API_KEY: "fixture",
+    });
+    const request = {
+      model,
+      reasoning: "medium",
+      prompt: { system: "系统", user: "问题" },
+      schema: { type: "object", properties: { text: { type: "string" } }, required: ["text"] },
+      maxInputTokens: 20000,
+      maxOutputTokens: 3000,
+      timeoutSec: 120,
+      images: [],
+      repair: false,
+    };
+    expect((await adapter.generate(request)).output).toEqual({ text: "结果" });
+    const result = await adapter.stream!(request);
+    let text = "";
+    for await (const delta of result.text) text += delta;
+    expect(text).toBe("结果");
+    expect((await result.usage).outputTokens).toBe(3);
+    expect(fetchMock).toHaveBeenCalledTimes(2);
+  } finally {
+    fetchMock.mockRestore();
+  }
 });
