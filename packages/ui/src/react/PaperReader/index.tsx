@@ -14,6 +14,7 @@ export interface PaperReaderProps {
   coverage?: number | null;
   related?: { concepts: Paper[]; spaces: Paper[]; relations: Paper[] };
   children?: ReactNode;
+  onPage?: (page: number) => void;
 }
 /** Host parses Markdown safely before supplying paragraphs; ordinary pages render without hydration. */
 export function PaperReader({
@@ -22,6 +23,7 @@ export function PaperReader({
   coverage: suppliedCoverage,
   related = { concepts: [], spaces: [], relations: [] },
   children,
+  onPage,
 }: PaperReaderProps) {
   const [kind, setKind] = useState("all");
   if (!paper)
@@ -107,6 +109,7 @@ export function PaperReader({
               <div dangerouslySetInnerHTML={{ __html: block.html }} />
               <EvidenceMark
                 claims={block.claims}
+                onPage={onPage}
                 inferred={block.evidence?.claimOrigin === "llm_inferred"}
               />
             </div>
@@ -167,7 +170,7 @@ export function PaperReader({
                       {claim.anchor}
                       {claim.pdfPage && ` · PDF p.${claim.pdfPage}`}
                       {claim.interpretationBoundary && <p>{claim.interpretationBoundary}</p>}
-                      <EvidenceMark claims={[claim]} label="查看证据" />
+                      <EvidenceMark claims={[claim]} label="查看证据" onPage={onPage} />
                     </td>
                   </tr>
                 ))}
