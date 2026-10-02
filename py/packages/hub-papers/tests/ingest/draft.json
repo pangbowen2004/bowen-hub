@@ -1,0 +1,110 @@
+{
+  "meta": {
+    "title": "Synthetic research",
+    "titleZh": "合成研究",
+    "authors": ["测试作者"],
+    "year": 2026,
+    "venue": "测试期刊",
+    "version": "v1",
+    "paperType": "实证",
+    "paperKind": "empirical",
+    "studyDesign": "合成实验",
+    "sourceUrl": "https://example.test/paper",
+    "doi": null,
+    "arxivId": null,
+    "anthologyId": null
+  },
+  "guide": {
+    "oneSentence": "合成结论",
+    "readingGoal": "合成目标",
+    "article": "## 先说结论\n\n测试正文胜率84.1%。\n\n## 论文为什么要做这件事\n\n测试正文胜率84.1%。\n\n## 核心方法到底怎么运转\n\n测试正文胜率84.1%。\n\n## 实验怎样检验这个方法\n\n测试正文胜率84.1%。\n\n## 结果说明了什么\n\n测试正文胜率84.1%。\n\n## 这篇论文哪里最强，哪里最危险\n\n测试正文胜率84.1%。\n\n## 代码从哪里读\n\n测试正文胜率84.1%。\n\n## 读完后记住这三件事\n\n测试正文胜率84.1%。",
+    "prerequisites": [],
+    "bottomLine": {
+      "supports": "测试支持",
+      "doesNotSupport": "测试边界",
+      "memorable": "测试记忆"
+    },
+    "limitations": []
+  },
+  "evidence": {
+    "readerCheck": {
+      "problem": "合成答案",
+      "gap": "合成答案",
+      "input": "合成答案",
+      "mechanism": "合成答案",
+      "output": "合成答案",
+      "boundary": "合成答案",
+      "openQuestion": "合成答案"
+    },
+    "claims": [
+      {
+        "id": "c1",
+        "kind": "result",
+        "claim": "测试胜率",
+        "metric": "胜率84.1%",
+        "condition": "合成条件",
+        "anchor": "PDF p.1",
+        "pdfPage": 1,
+        "sourceLines": [1, 1],
+        "claimOrigin": "paper_supported",
+        "interpretationBoundary": "仅合成样例",
+        "quantities": [
+          {
+            "text": "84.1%",
+            "sourceText": "84.1",
+            "meaning": "胜率百分数"
+          }
+        ]
+      }
+    ],
+    "articleBlocks": [
+      {
+        "claimOrigin": "paper_supported",
+        "claimIds": ["c1"]
+      },
+      {
+        "claimOrigin": "paper_supported",
+        "claimIds": ["c1"]
+      },
+      {
+        "claimOrigin": "paper_supported",
+        "claimIds": ["c1"]
+      },
+      {
+        "claimOrigin": "paper_supported",
+        "claimIds": ["c1"]
+      },
+      {
+        "claimOrigin": "paper_supported",
+        "claimIds": ["c1"]
+      },
+      {
+        "claimOrigin": "paper_supported",
+        "claimIds": ["c1"]
+      },
+      {
+        "claimOrigin": "paper_supported",
+        "claimIds": ["c1"]
+      },
+      {
+        "claimOrigin": "paper_supported",
+        "claimIds": ["c1"]
+      }
+    ]
+  },
+  "structure": {
+    "pageCount": 2,
+    "sections": [],
+    "figures": [],
+    "concepts": []
+  },
+  "resources": {
+    "landingPage": "https://example.test/paper",
+    "code": {
+      "status": "unverified",
+      "url": null,
+      "note": "未核验",
+      "checkedAt": null
+    }
+  }
+}
