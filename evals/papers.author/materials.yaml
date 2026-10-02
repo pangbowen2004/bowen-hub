@@ -1,8 +1,8 @@
 capability: papers.author
-version: 3
+version: 4
 casesSha256: f697c134b803b111606d0e11b442d5b9c85c9e19185d8e7498f3715bbf51b307
-capabilitySha256: 873774fadbb8359a08e237c4a97bce8e38ea36aa85a2ffa2cb7a695334ac0afa
-promptSha256: 20bca07df9d0227ccfae462ad3c2c63e6c63c9c2773b1c9a4dcfc4baa62398b9
+capabilitySha256: a7bc297b1a15e7005b48a1b1985214167b3d151546276879c9442b07170ffd17
+promptSha256: ec5785c8967ac1d916b713157aff3270eb5f2af5dabfa8a28dc59036c0da3583
 thresholds:
   schema_valid: 1.0
   paper_draft: 0.9
