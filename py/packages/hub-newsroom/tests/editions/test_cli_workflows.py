@@ -4,6 +4,7 @@ from pathlib import Path
 
 import pytest
 import yaml
+from click import unstyle
 from typer.testing import CliRunner
 
 from hub_cli.main import create_app
@@ -44,9 +45,11 @@ def test_installed_cli_runs_real_domain(
     args = ["news", kind, "--no-ai", "--no-email"]
     help_result = CliRunner().invoke(create_app(), [*args, "--help"])
     assert help_result.exit_code == 0
+    # CI Rich 帮助可在选项字符间插入 ANSI 样式，检查实际显示文字。
+    help_text = unstyle(help_result.output)
     for flag in ("--date", "--no-email", "--no-ai", "--force"):
-        assert flag in help_result.output
-    assert ("--ignore-window" in help_result.output) == (kind == "premarket")
+        assert flag in help_text
+    assert ("--ignore-window" in help_text) == (kind == "premarket")
     actual = CliRunner().invoke(create_app(), args)
     assert actual.exit_code == 0, actual.output
     assert "已归档" in actual.output
