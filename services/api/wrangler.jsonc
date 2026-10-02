@@ -7,6 +7,10 @@
   "observability": {
     "enabled": true
   },
+  "durable_objects": {
+    "bindings": [{ "name": "PAPER_QA_RUNTIME", "class_name": "PaperQaRuntime" }]
+  },
+  "migrations": [{ "tag": "paper-qa-v1", "new_sqlite_classes": ["PaperQaRuntime"] }],
   "d1_databases": [
     {
       "binding": "DB",
