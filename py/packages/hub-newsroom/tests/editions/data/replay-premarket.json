@@ -1,0 +1,43 @@
+[
+  {
+    "kind": "ticker_digests",
+    "title": "自选股动态",
+    "items": [
+      {
+        "id": "ticker:BTC",
+        "data": {
+          "symbol": "BTC",
+          "change": null,
+          "withSector": null,
+          "whatHappened": "",
+          "whyItMatters": null,
+          "sourceIds": [],
+          "points": [],
+          "generatedBy": null
+        },
+        "ruleScore": 12.0,
+        "clusterId": null
+      },
+      {
+        "id": "ticker:AAPL",
+        "data": {
+          "symbol": "AAPL",
+          "change": null,
+          "withSector": null,
+          "whatHappened": "",
+          "whyItMatters": null,
+          "sourceIds": [],
+          "points": [],
+          "generatedBy": null
+        },
+        "ruleScore": 11.0,
+        "clusterId": null
+      }
+    ]
+  },
+  {
+    "kind": "calendar",
+    "title": "今晚没有重要日程",
+    "items": []
+  }
+]

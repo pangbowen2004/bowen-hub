@@ -3,12 +3,13 @@ name = "hub-newsroom"
 version = "0.1.0"
 description = "领域预接线，业务由后续任务实现"
 requires-python = ">=3.14"
-dependencies = ["hub-ai", "hub-core", "hub-contracts", "typer>=0.24,<1"]
+dependencies = ["hub-ai", "hub-core", "hub-contracts", "hub-providers", "jinja2>=3.1.6,<4", "css-inline>=0.17,<1", "typer>=0.24,<1"]
 [project.entry-points."hub.commands"]
 editions = "hub_newsroom.editions.commands:register"
 migrate = "hub_newsroom.migrate.commands:register"
 [tool.uv.sources]
 hub-ai = { workspace = true }
+hub-providers = { workspace = true }
 hub-core = { workspace = true }
 hub-contracts = { workspace = true }
 [build-system]
