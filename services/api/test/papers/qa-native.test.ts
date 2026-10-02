@@ -84,7 +84,7 @@ it("原生字节第一片先到，末态才给校验页码/真实用量且原回
     expect(metadata.data).toMatchObject({
       pages: [2],
       ok: true,
-      generatedBy: { capability: "papers.qa", version: 2 },
+      generatedBy: { capability: "papers.qa", version: 3 },
     });
     expect(metadata.data.validation[0].changes.length).toBeGreaterThan(0);
     expect(

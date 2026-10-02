@@ -1,0 +1,12 @@
+# 本次冻结版本的材料摘要；不包含模型回答，不参与评分。
+capability: papers.qa
+version: 3
+files:
+  - path: evals/papers.qa/cases.yaml
+    sha256: 1477345eb086023b99f3a5a77603bffc161fbf660c1348e12c1fdf8e5a969218
+  - path: evals/papers.qa/judge_faithful.md
+    sha256: 9da9d0ab200b0ac7d9eca6ac63c103682635f48ed98afa6e083ada26230cf88f
+  - path: prompts/paper_qa.md
+    sha256: d288df044f78194ce851f5585390bbd048491668b99ca453771ae409cb24f067
+  - path: capabilities/papers.qa.yaml
+    sha256: 31bcf8428a19b691efc1be8766dcdafc5eb99af6b153cd733af71db9ab5ab68c
