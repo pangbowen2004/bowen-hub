@@ -137,6 +137,8 @@ export const indexHistory = sqliteTable(
     high: real("high").notNull(),
     low: real("low").notNull(),
     close: real("close").notNull(),
+    preClose: real("pre_close"),
+    return1d: real("return1d"),
     amountCny: real("amount_cny"),
   },
   (t) => [primaryKey({ columns: [t.code, t.date] })],

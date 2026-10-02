@@ -22,6 +22,13 @@
       "when": 1790892762679,
       "tag": "0002_shocking_deathbird",
       "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "6",
+      "when": 1790911365143,
+      "tag": "0003_abandoned_blockbuster",
+      "breakpoints": true
     }
   ]
 }
