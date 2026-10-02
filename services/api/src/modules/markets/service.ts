@@ -10,7 +10,10 @@ import type {
   WeeklyReport,
   WeeklySummary,
 } from "@bowen-hub/contracts";
-import { IndexBar as indexBarSchema } from "@bowen-hub/contracts/zod";
+import {
+  IndexBar as indexBarSchema,
+  MarketReference as referenceSchema,
+} from "@bowen-hub/contracts/zod";
 import { z } from "zod";
 import { ApiError } from "../../lib/problem";
 import * as repo from "./repo";
@@ -130,5 +133,14 @@ export async function putEvent(
 }
 export const removeEvent = repo.removeEvent;
 export async function reference(binding: D1Database): Promise<string> {
-  return required(await repo.reference(binding), "市场参考资料");
+  const raw = required(await repo.reference(binding), "市场参考资料");
+  // 通用documents可写任意JSON，领域读取不能把坏资料作为有效参考返回。
+  let value: unknown;
+  try {
+    value = JSON.parse(raw);
+  } catch {
+    throw new ApiError(404, "市场参考资料格式无效");
+  }
+  if (!referenceSchema.safeParse(value).success) throw new ApiError(404, "市场参考资料格式无效");
+  return raw;
 }

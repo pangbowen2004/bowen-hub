@@ -339,6 +339,32 @@ it("周报与参考资料公开整块，摘要保持Research Error原口径", as
     z.MarketReference.parse(await (await request("/v1/public/markets/reference")).json()),
   ).toEqual(referenceFixture);
 });
+it("通用文档中的空对象和非法参考资料返回404，完整资料可恢复", async () => {
+  for (const value of [{}, { ...referenceFixture, metrics: [{}] }]) {
+    expect((await request("/v1/internal/documents/markets.reference", "PUT", value)).status).toBe(
+      204,
+    );
+    const response = await request("/v1/public/markets/reference", "GET", undefined, false, false);
+    expect(response.status).toBe(404);
+    expect(z.Problem.parse(await response.json()).status).toBe(404);
+  }
+  expect(
+    (await request("/v1/internal/documents/markets.reference", "PUT", referenceFixture)).status,
+  ).toBe(204);
+  const response = await request("/v1/public/markets/reference", "GET", undefined, false, false);
+  expect(response.status).toBe(200);
+  expect(z.MarketReference.parse(await response.json())).toEqual(referenceFixture);
+});
+it("损坏的参考资料JSON返回404而非内部错误", async () => {
+  await env.DB.prepare(
+    "INSERT INTO documents(key,payload,updated_at) VALUES('markets.reference',?,?)",
+  )
+    .bind("{", "2026-10-02")
+    .run();
+  const response = await request("/v1/public/markets/reference", "GET", undefined, false, false);
+  expect(response.status).toBe(404);
+  expect(z.Problem.parse(await response.json()).detail).toContain("格式无效");
+});
 it("MCP工具与REST共用服务并保留账本分页", async () => {
   await service.putDay(env.DB, "2026-08-28", { day: day(), summary: summary() });
   expect(await tools[0]?.handler({ date: "2026-08-28" }, env)).toEqual(day());
