@@ -1,5 +1,5 @@
 // 只对探测结果已实现的接口跑Schemathesis；每次使用独立临时D1，结束关闭Worker。
-import { spawn, spawnSync } from "node:child_process";
+import { spawn } from "node:child_process";
 import { mkdtempSync, readFileSync, rmSync, writeFileSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { join, resolve } from "node:path";
@@ -43,30 +43,35 @@ const entry = join(dir, "contract-worker.ts");
 writeFileSync(
   entry,
   [
-    `import { app } from ${JSON.stringify(resolve("src/app.ts"))};`,
+    `import api from ${JSON.stringify(resolve("src/index.ts"))};`,
+    `export { PaperQaRuntime } from ${JSON.stringify(resolve("src/index.ts"))};`,
     "globalThis.fetch = async (input, init) => {",
     '  const url = new URL(typeof input === "string" ? input : input instanceof URL ? input.href : input.url);',
     '  const method = init?.method ?? (input instanceof Request ? input.method : "GET");',
     '  if (method === "POST" && url.origin === "https://api.github.com" && url.pathname === "/repos/contract-test/offline/dispatches") return new Response(null, { status: 204 });',
     '  throw new Error("离线契约验收禁止外部请求");',
     "};",
-    "export default app;",
+    "export default api;",
     "",
   ].join("\n"),
 );
 let worker: ReturnType<typeof spawn> | undefined;
 let workerLog = "";
-const run = (command: string, argv: string[], cwd = process.cwd()) => {
-  const result = spawnSync(command, argv, {
+const run = async (command: string, argv: string[], cwd = process.cwd()) => {
+  // 随机测试执行期间仍要持续排空Wrangler日志管道，避免背压挂起。
+  const child = spawn(command, argv, {
     stdio: "inherit",
     env: command === "uvx" ? { ...environment, SCHEMATHESIS_HOOKS: binaryHook } : environment,
     cwd,
   });
-  if (result.error) throw result.error;
-  if (result.status !== 0) throw new Error(`${command}退出码${result.status}`);
+  const status = await new Promise<number | null>((resolve, reject) => {
+    child.once("error", reject);
+    child.once("exit", resolve);
+  });
+  if (status !== 0) throw new Error(`${command}退出码${status}`);
 };
 try {
-  run("pnpm", [
+  await run("pnpm", [
     "exec",
     "wrangler",
     "d1",
@@ -79,7 +84,7 @@ try {
   ]);
   const fixturePath = join(dir, "auth-fixture.sql");
   writeFileSync(fixturePath, fixture.sql);
-  run("pnpm", [
+  await run("pnpm", [
     "exec",
     "wrangler",
     "d1",
@@ -245,7 +250,7 @@ try {
     if (!Object.keys(group.paths).length) continue;
     const schemaPath = join(dir, `implemented-${group.name}.yaml`);
     writeFileSync(schemaPath, stringify({ ...spec, paths: group.paths }));
-    run(
+    await run(
       "uvx",
       [
         `schemathesis==${SCHEMATHESIS_VERSION}`,

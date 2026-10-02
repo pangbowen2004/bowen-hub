@@ -1,6 +1,7 @@
 // Worker普通变量与绑定；密钥只在运行时从env读取。
 export interface Bindings {
   DB: D1Database;
+  PAPER_QA_RUNTIME?: DurableObjectNamespace;
   FILES: R2Bucket;
   APP_MODE: string;
   GITHUB_REPO: string;
