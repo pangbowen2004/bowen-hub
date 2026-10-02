@@ -31,7 +31,41 @@ export interface Adapter {
   generate(request: Request): Promise<Response>;
   stream?(request: Request): Promise<StreamResponse>;
 }
-export class TransportError extends Error {}
+export class TransportError extends Error {
+  constructor(
+    message?: string,
+    public readonly retryAfterMs?: number,
+  ) {
+    super(message);
+  }
+}
+// 只接受限流响应的有效等待指示，最长60秒，不增加重试次数。
+export function retryAfterMs(
+  status: number,
+  header: string | null | undefined,
+  now = Date.now(),
+): number | undefined {
+  if (status !== 429 || !header?.trim()) return undefined;
+  const value = header.trim();
+  let delay: number;
+  if (/^\d+(?:\.\d+)?$/.test(value)) delay = Number(value) * 1000;
+  else {
+    const date = Date.parse(value);
+    // 标准HTTP日期必须原样往返，拒绝不存在的日期及宽松Date.parse格式。
+    if (!Number.isFinite(date) || new Date(date).toUTCString() !== value) return undefined;
+    delay = date - now;
+  }
+  return Number.isFinite(delay) && delay >= 0 ? Math.min(delay, 60_000) : undefined;
+}
+function retryDelay(error: TransportError, attempt: number): number {
+  const requested = error.retryAfterMs;
+  return Math.max(
+    1000 * 2 ** attempt,
+    requested !== undefined && Number.isFinite(requested) && requested >= 0
+      ? Math.min(requested, 60_000)
+      : 0,
+  );
+}
 export class StructureError extends Error {
   constructor(
     public readonly usage: Usage = { inputTokens: 0, outputTokens: 0, cachedInputTokens: 0 },
@@ -157,7 +191,7 @@ export class Runtime {
               throw error;
             await (
               this.options.sleep ?? ((ms) => new Promise((resolve) => setTimeout(resolve, ms)))
-            )(1000 * 2 ** n);
+            )(retryDelay(error, n));
           }
       };
       if (emit) {
@@ -194,7 +228,7 @@ export class Runtime {
               throw error;
             await (
               this.options.sleep ?? ((ms) => new Promise((resolve) => setTimeout(resolve, ms)))
-            )(1000 * 2 ** attempt);
+            )(retryDelay(error, attempt));
           }
         }
         const pages = extractCitationPages(text, options.totalPages!);

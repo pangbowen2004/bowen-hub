@@ -302,3 +302,51 @@ it.each([
     fetchMock.mockRestore();
   }
 });
+
+it.each([429, 500])("真实SDK传输保留429等待且不泄漏供应商正文 HTTP%s", async (status) => {
+  const mock = vi
+    .spyOn(globalThis, "fetch")
+    .mockResolvedValue(
+      Response.json(
+        { error: { message: "不应泄漏的供应商正文", type: "rate_limit_error" } },
+        { status, headers: { "Retry-After": "7" } },
+      ),
+    );
+  try {
+    const { createGatewayAdapter } = await import("../src/gateway");
+    const adapter = createGatewayAdapter(registry.llm, {
+      CLOUDFLARE_ACCOUNT_ID: "fixture",
+      AI_GATEWAY_ID: "fixture",
+      OPENAI_API_KEY: "fixture",
+    });
+    const request = {
+      model: "openai/gpt-6-luna",
+      reasoning: "medium",
+      prompt: { system: "系统", user: "问题" },
+      schema: { type: "object", properties: { text: { type: "string" } }, required: ["text"] },
+      maxInputTokens: 20000,
+      maxOutputTokens: 3000,
+      timeoutSec: 120,
+      images: [],
+      repair: false,
+    };
+    await expect(adapter.generate(request)).rejects.toMatchObject({
+      message: "网关请求失败",
+      retryAfterMs: status === 429 ? 7000 : undefined,
+    });
+    const stream = await adapter.stream!(request);
+    await expect(
+      (async () => {
+        for await (const _ of stream.text) {
+        }
+      })(),
+    ).rejects.toMatchObject({
+      message: "网关流失败",
+      retryAfterMs: status === 429 ? 7000 : undefined,
+    });
+    await stream.usage;
+    expect(mock).toHaveBeenCalledTimes(2);
+  } finally {
+    mock.mockRestore();
+  }
+});
