@@ -1,5 +1,12 @@
 // 原生SSE字节直接转发；模型结束后只解析一次，仍由共享运行时校验和记账。
-import { type Adapter, type Request, registry, TransportError, type Usage } from "@bowen-hub/ai";
+import {
+  type Adapter,
+  type Request,
+  registry,
+  retryAfterMs,
+  TransportError,
+  type Usage,
+} from "@bowen-hub/ai";
 import type { Bindings } from "../../lib/env";
 import { ApiError } from "../../lib/problem";
 import { prepare, runtime } from "./qa";
@@ -136,8 +143,9 @@ export async function nativeResponse(
         !upstream.body ||
         !upstream.headers.get("Content-Type")?.includes("text/event-stream")
       ) {
+        const wait = retryAfterMs(upstream.status, upstream.headers.get("Retry-After"));
         await upstream.body?.cancel();
-        throw new TransportError("问答网关请求失败");
+        throw new TransportError("问答网关请求失败", wait);
       }
       const [forward, collect] = upstream.body.tee();
       published = true;

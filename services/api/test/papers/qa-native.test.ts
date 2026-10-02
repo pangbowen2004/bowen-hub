@@ -261,3 +261,34 @@ it("length即使用量和DONE完整仍失败，保留截断正文并记录真实
     spy.mockRestore();
   }
 });
+
+it("原生问答429遵守等待后成功，正文和真实记账不重复", async () => {
+  const timer = vi.spyOn(globalThis, "setTimeout");
+  const spy = vi
+    .spyOn(globalThis, "fetch")
+    .mockResolvedValueOnce(
+      Response.json(
+        { error: "不应泄漏的供应商正文" },
+        { status: 429, headers: { "Retry-After": "1.2" } },
+      ),
+    )
+    .mockResolvedValueOnce(
+      new Response(delta("方法[论文 p.1]") + end(20), {
+        headers: { "Content-Type": "text/event-stream" },
+      }),
+    );
+  try {
+    const result = await nativeResponse({ ...env, OPENAI_API_KEY: "fixture" }, "native", "问题");
+    const body = await result.text();
+    expect(body).toContain('"ok":true');
+    expect(body).not.toContain("不应泄漏");
+    expect(spy).toHaveBeenCalledTimes(2);
+    expect(timer.mock.calls.some((call) => call[1] === 1200)).toBe(true);
+    expect(
+      await env.DB.prepare("SELECT input_tokens,output_tokens,ok FROM ai_calls").first(),
+    ).toMatchObject({ input_tokens: 100, output_tokens: 20, ok: 1 });
+  } finally {
+    spy.mockRestore();
+    timer.mockRestore();
+  }
+});
