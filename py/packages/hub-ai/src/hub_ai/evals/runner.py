@@ -3,6 +3,7 @@
 import fnmatch
 import hashlib
 import json
+import logging
 import re
 import subprocess
 from dataclasses import dataclass
@@ -90,11 +91,15 @@ class Scorers(Evaluator[dict[str, Any], Result, EvalCase]):
             labels = case.expect.get("labels")
             if labels is None:
                 raise ValueError("用例缺少 labels")
-            # 按契约 id→标签比较，允许用例只标注需要评价的条目。
-            actual = {
-                item["id"]: item["topic"]
-                for item in raw.get("classifications", raw.get("items", raw.get("labels", [])))
-            }
+            # 审核契约采用单个结论；分类契约仍按 id→标签比较。
+            actual = (
+                {"decision": raw["decision"]}
+                if self.capability["io"]["output"] == "PaperReviewOutput"
+                else {
+                    item["id"]: item["topic"]
+                    for item in raw.get("classifications", raw.get("items", raw.get("labels", [])))
+                }
+            )
             scores["labels_match"] = (
                 sum(actual.get(key) == value for key, value in labels.items()) / len(labels)
                 if labels
@@ -225,6 +230,27 @@ async def evaluate(
     report = await dataset.evaluate(
         task, max_concurrency=1, progress=False, retry_task=None, retry_evaluators=None
     )
+    for case in report.cases:
+        if not case.output.ok:
+            # 模型失败是零分结果，不在pydantic-evals异常列表里；只记固定分类，不输出正文。
+            name = re.sub(r"[^a-zA-Z0-9_.:-]", "_", case.name)[:80]
+            reason = case.output.reason
+            safe_reason = (
+                reason
+                if reason
+                in {
+                    "输入或输出契约不合格",
+                    "超过 token 上限",
+                    "结构修复后仍不合格",
+                    "模型传输失败",
+                    "校验执行失败",
+                    "能力执行失败",
+                }
+                else "能力执行失败"
+            )
+            logging.getLogger(__name__).warning(
+                "eval case=%s stage=runtime error=%s", name, safe_reason
+            )
     if report.failures or any(case.evaluator_failures for case in report.cases):
         # 供应商异常可能含密钥/正文，只输出标识、已知异常类和固定安全分类。
         def identifier(value: str) -> str:

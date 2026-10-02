@@ -6,6 +6,7 @@ from pathlib import Path
 import typer
 from openai import AsyncOpenAI
 
+from hub_ai.checks import CheckRegistry
 from hub_ai.evals.runner import evaluate, markdown, select_capabilities
 from hub_ai.gateway import GatewayAdapter, gateway_url
 from hub_ai.registry import Registry, find_root
@@ -46,8 +47,12 @@ def run(
             typer.echo("受影响能力：0；没有运行产品评测。")
             return
         settings = Settings()
+        checks = CheckRegistry()
+        checks.load_plugins()
         runtime = Runtime(
-            registry, UnavailableAdapter() if offline else GatewayAdapter(registry, settings)
+            registry,
+            UnavailableAdapter() if offline else GatewayAdapter(registry, settings),
+            checks=checks,
         )
 
         async def execute() -> list[EvalResult]:
@@ -84,7 +89,9 @@ def compare(
         registry = Registry(root or find_root())
         if candidate not in registry.llm["candidates"] or candidate not in registry.llm["prices"]:
             raise ValueError("候选模型必须在 config/llm.yaml 登记")
-        runtime = Runtime(registry, GatewayAdapter(registry, Settings()))
+        checks = CheckRegistry()
+        checks.load_plugins()
+        runtime = Runtime(registry, GatewayAdapter(registry, Settings()), checks=checks)
 
         async def execute() -> list[EvalResult]:
             results: list[EvalResult] = []
