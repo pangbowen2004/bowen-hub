@@ -570,6 +570,10 @@ tasks:
            apps/console/src/mocks/ops/**, apps/console/e2e/ops/**]
     sharedEdits:
       - "apps/console/src/routes/ops.tsx：仅将已存在的运维路由接到T41页面组件"
+      - "services/api/src/lib/auth/mcp-access.ts：仅提供MCP固定使用者与当前有效授权检查，复用T40鉴权，不改表或其他登录行为"
+      - "services/api/test/auth/mcp-access.test.ts：仅回归MCP当前授权与撤销后旧访问令牌拒绝"
+      - "apps/console/e2e/mcp/**：仅官方Inspector本地真实OAuth及12工具验收，不替代本人Claude或通行密钥验收"
+      - "apps/console/playwright.config.ts：仅接入上述Inspector项目与隔离启动器，保留其他项目和断言"
     read: [docs/09 第 6 节, docs/10 第 7 节, docs/12 第 7 节]
     deliver:
       - /mcp：Streamable HTTP，OAuth 保护；汇总各模块 mcp.ts 的工具
@@ -618,6 +622,8 @@ tasks:
     dependsOn: [T06, T23]
     difficulty: medium
     owns: [py/packages/hub-market/src/hub_market/migrate/**, py/packages/hub-market/tests/migrate/**]
+    sharedEdits:
+      - "py/apps/hub-cli/tests/test_commands.py：仅将market-ledger和market-events旧占位断言换成真实命令帮助/行为断言，保留其他任务断言"
     read: [docs/06 第 0、2、4 节, docs/03 第 5 节]
     deliver: ["`hub migrate market-ledger|market-events`；执行 `hub market backfill --start 2026-07-01`"]
     accept:
