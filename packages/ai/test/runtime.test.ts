@@ -4,7 +4,13 @@ import { describe, expect, it } from "vitest";
 import { type CheckContext, CheckRegistry, quantities } from "../src/checks";
 import { type Registry, registry } from "../src/registry";
 import { renderPrompt } from "../src/render";
-import { type Adapter, Runtime, StructureError, TransportError } from "../src/runtime";
+import {
+  type Adapter,
+  Runtime,
+  retryAfterMs,
+  StructureError,
+  TransportError,
+} from "../src/runtime";
 
 const root = resolve(import.meta.dirname, "../../..");
 const vectorRoot = resolve(root, "fixtures/samples/prompt-render");
@@ -320,3 +326,55 @@ it("AI SDK官方 mock 模型经适配器输出", async () => {
   expect(result.call.inputTokens).toBe(100);
   expect(model.doGenerateCalls).toHaveLength(1);
 });
+
+it("只对429解析有界秒数和HTTP日期，不接受无效等待", () => {
+  const now = Date.parse("2026-10-02T01:00:00Z");
+  expect(retryAfterMs(429, "7", now)).toBe(7000);
+  expect(retryAfterMs(429, "10000", now)).toBe(60000);
+  expect(retryAfterMs(429, "Fri, 02 Oct 2026 01:00:08 GMT", now)).toBe(8000);
+  for (const header of [
+    "",
+    "NaN",
+    "-2",
+    "Infinity",
+    "0x10",
+    "0b111",
+    "1e1",
+    "Mon, 30 Feb 2026 01:00:00 GMT",
+    "Fri, 02 Oct 2026 00:59:59 GMT",
+  ])
+    expect(retryAfterMs(429, header, now)).toBeUndefined();
+  expect(retryAfterMs(500, "30", now)).toBeUndefined();
+  expect(
+    retryAfterMs(429, "Mon, 30 Feb 2026 01:00:00 GMT", Date.parse("2026-01-01T00:00:00Z")),
+  ).toBeUndefined();
+});
+it.each([7000, 100000, Number.NaN])(
+  "普通和未发布流尊重有界限流等待 %s，仍仅三次",
+  async (delay) => {
+    for (const streaming of [false, true]) {
+      let calls = 0;
+      const waits: number[] = [];
+      const fail = async () => {
+        calls++;
+        throw new TransportError("安全传输错误", delay);
+      };
+      const r = new Runtime(
+        { generate: fail, stream: fail },
+        {
+          sleep: async (ms) => {
+            waits.push(ms);
+          },
+        },
+      );
+      const result = streaming
+        ? await r.stream("papers.qa", qa, async () => {}, { totalPages: 3 })
+        : await r.run("news.filing_digest", input);
+      expect(result.ok).toBe(false);
+      expect(calls).toBe(3);
+      expect(waits).toEqual(
+        Number.isNaN(delay) ? [1000, 2000] : [Math.min(delay, 60000), Math.min(delay, 60000)],
+      );
+    }
+  },
+);

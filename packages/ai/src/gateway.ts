@@ -1,5 +1,6 @@
 import { createOpenAI } from "@ai-sdk/openai";
 import {
+  APICallError,
   generateObject,
   jsonSchema,
   type LanguageModel,
@@ -12,12 +13,22 @@ import {
   type Adapter,
   type Request,
   type Response,
+  retryAfterMs,
   type StreamResponse,
   StructureError,
   TransportError,
   type Usage,
 } from "./runtime";
 
+function transport(error: unknown, message: string): TransportError {
+  if (error instanceof TransportError) return error;
+  return new TransportError(
+    message,
+    APICallError.isInstance(error)
+      ? retryAfterMs(error.statusCode ?? 0, error.responseHeaders?.["retry-after"])
+      : undefined,
+  );
+}
 function usage(value: LanguageModelUsage): Usage {
   return {
     inputTokens: value.inputTokens ?? 0,
@@ -102,7 +113,7 @@ export function createGatewayAdapter(
         if (NoObjectGeneratedError.isInstance(error))
           throw new StructureError(error.usage ? usage(error.usage) : undefined);
         if (error instanceof StructureError) throw error;
-        throw new TransportError("网关请求失败");
+        throw transport(error, "网关请求失败");
       }
     },
     async stream(request: Request): Promise<StreamResponse> {
@@ -110,12 +121,12 @@ export function createGatewayAdapter(
       const text = (async function* () {
         try {
           for await (const part of result.fullStream) {
-            if (part.type === "error" || part.type === "abort")
-              throw new TransportError("网关流失败");
+            if (part.type === "error") throw transport(part.error, "网关流失败");
+            if (part.type === "abort") throw new TransportError("网关流失败");
             if (part.type === "text-delta") yield part.text;
           }
-        } catch {
-          throw new TransportError("网关流失败");
+        } catch (error) {
+          throw transport(error, "网关流失败");
         }
       })();
       return {
