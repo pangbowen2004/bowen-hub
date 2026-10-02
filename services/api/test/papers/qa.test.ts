@@ -107,8 +107,13 @@ it("超长选页按证据页优先，总页数保持真实完整元数据，提�
     ),
   ).toThrow("超过");
 });
-it("标准UI SSE片段与终态pages/generatedBy，AiCall落库", async () => {
-  const res = await qa.response(env, p.id, "结果?", adapter(["结果", "有限[论文 p.2]"]));
+it("相邻单页引用跨UI SSE片段，终态保留全部pages/generatedBy并记账", async () => {
+  const res = await qa.response(
+    env,
+    p.id,
+    "结果?",
+    adapter(["方法与结果有限[论文 p.1][论文 p.", "2]"]),
+  );
   expect(res.headers.get("Content-Type")).toContain("text/event-stream");
   expect(res.headers.get("x-vercel-ai-ui-message-stream")).toBe("v1");
   const raw = await res.text();
@@ -126,9 +131,9 @@ it("标准UI SSE片段与终态pages/generatedBy，AiCall落库", async () => {
     "finish",
   ]);
   expect(data.find((x) => x.type === "data-paper-qa")?.data).toMatchObject({
-    pages: [2],
+    pages: [1, 2],
     ok: true,
-    generatedBy: { capability: "papers.qa", version: 2 },
+    generatedBy: { capability: "papers.qa", version: 3 },
   });
   expect(raw).toContain("data: [DONE]");
   const count = await env.DB.prepare("SELECT count(*) as n FROM ai_calls").first<{ n: number }>();
