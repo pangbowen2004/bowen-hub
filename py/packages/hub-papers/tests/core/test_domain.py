@@ -12,7 +12,7 @@ import pymupdf
 import pytest
 
 from hub_contracts import GraphData, Paper, PaperRelation, PapersCatalog
-from hub_papers.check import check_draft, paragraphs
+from hub_papers.check import check_draft, measurement_numbers, paragraphs
 from hub_papers.derive import derive_documents
 from hub_papers.excerpt import PageText, fill_source_excerpts, page_excerpt, pages_text
 from hub_papers.ids import PaperIdentity, choose_identity, custom_identity, identify
@@ -414,3 +414,67 @@ def test_version_unknown_and_explicit_existing_target() -> None:
     paper.meta.version = None
     with pytest.raises(ValueError, match="版本未知"):
         choose_identity(PaperIdentity(base, "v7"), [paper])
+
+
+@pytest.mark.parametrize(
+    "text",
+    [
+        "ConvS2S",
+        "F1",
+        "GPT-2",
+        "newstest2013",
+        "P100",
+        "https://example.test/tensor2tensor",
+        "Table 2",
+        "Table 3",
+        "Fig. 10",
+    ],
+)
+def test_identifiers_and_reference_numbers_are_not_measurements(text: str) -> None:
+    assert measurement_numbers(text) == ()
+
+
+@pytest.mark.parametrize(
+    ("text", "expected"),
+    [
+        ("胜率28.4%与41.29", ("28.4", "41.29")),
+        ("Selected 4、Random 5", ("4", "5")),
+        ("2-year versus 1-year", ("2", "1")),
+        ("学习率1e-3，样本1,234，收益-0.28", ("1e-3", "1234", "-0.28")),
+        ("Table 2：BLEU 28.4", ("28.4",)),
+    ],
+)
+def test_real_measurements_remain_required(text: str, expected: tuple[str, ...]) -> None:
+    assert measurement_numbers(text) == expected
+
+
+@pytest.mark.parametrize(
+    ("metric", "valid"),
+    [("ConvS2S、F1、Table 3：胜率84.1%", True), ("Selected 4、胜率84.1%", False)],
+)
+def test_identifier_fix_does_not_excuse_missing_sample_quantity(metric: str, valid: bool) -> None:
+    value = draft_input()
+    value["evidence"]["claims"][0]["metric"] = metric
+    assert check_draft(value, PAGES, load_rules()).valid is valid
+
+
+def test_quantity_on_other_line_of_same_page_still_fails() -> None:
+    value = draft_input()
+    value["evidence"]["claims"][0]["sourceLines"] = [2, 2]
+    assert not check_draft(value, PAGES, load_rules()).valid
+
+
+@pytest.mark.parametrize(
+    ("text", "expected"),
+    [
+        ("https://example.test/tensor2tensor；胜率84.1%", ("84.1",)),
+        ("代码https://example.test/x。样本1,234", ("1234",)),
+        ("https://example.test/x样本28.4", ("28.4",)),
+        ("Table 2与胜率28.4%", ("28.4",)),
+        ("Selected4、Random5", ("4", "5")),
+    ],
+)
+def test_url_and_identifier_boundaries_preserve_adjacent_quantities(
+    text: str, expected: tuple[str, ...]
+) -> None:
+    assert measurement_numbers(text) == expected

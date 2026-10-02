@@ -21,6 +21,21 @@ class DraftCheck:
         return self.draft is not None and not self.errors
 
 
+def measurement_numbers(text: str) -> tuple[str, ...]:
+    """模型名称、URL和图表编号不是测量数量；中文相邻数字仍须核对。"""
+    text = re.sub(r"https?://[^\s<>()\u4e00-\u9fff，。；、！？：]+", " ", text)
+    text = re.sub(r"(?<![A-Za-z0-9_])(Selected|Random)(?=\d)", r"\1 ", text, flags=re.IGNORECASE)
+    text = re.sub(
+        r"(?<![A-Za-z0-9_.])(?:Table|Tab\.?|Figure|Fig\.?)\s+\d+(?![A-Za-z0-9_.])",
+        " ",
+        text,
+        flags=re.IGNORECASE,
+    )
+    text = re.sub(r"(?<![A-Za-z0-9_.])[A-Za-z_][A-Za-z0-9_]*(?:-[A-Za-z0-9_]+)*", " ", text)
+    pattern = r"(?<![\d.])[-+]?\d+(?:,\d{3})*(?:\.\d+)?(?:[eE][-+]?\d+)?"
+    return tuple(number.replace(",", "") for number in re.findall(pattern, text))
+
+
 def _markdown_lines(article: str) -> list[tuple[str, bool]]:
     result: list[tuple[str, bool]] = []
     fence: str | None = None
@@ -118,16 +133,8 @@ def check_draft(value: Any, pages: Sequence[PageText], rules: Mapping[str, Any])
         for quantity in claim.quantities:
             if not quantity.sourceText.strip() or quantity.sourceText not in excerpt:
                 errors.append(f"{label}：数字原文sourceText未出现在对应原文行中")
-        # 数字逐项比较，不把1当成10的子串；支持小数、指数、千位分隔。
-        pattern = r"(?<![\d.])[-+]?\d+(?:,\d{3})*(?:\.\d+)?(?:[eE][-+]?\d+)?"
-        available = {
-            number.replace(",", "")
-            for q in claim.quantities
-            for number in re.findall(pattern, q.text)
-        }
-        if any(
-            number.replace(",", "") not in available for number in re.findall(pattern, claim.metric)
-        ):
+        available = {number for q in claim.quantities for number in measurement_numbers(q.text)}
+        if any(number not in available for number in measurement_numbers(claim.metric)):
             errors.append(f"{label}：metric里的数字必须全部列入quantities")
     if draft.resources.code.status == "verified" and not (draft.resources.code.url or "").strip():
         errors.append("代码链接：verified状态必须提供url")
