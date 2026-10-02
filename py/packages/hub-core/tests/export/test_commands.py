@@ -5,6 +5,7 @@ from typing import Any
 
 import pytest
 import typer
+from click.utils import strip_ansi
 from typer.testing import CliRunner
 
 from hub_core.export import commands
@@ -48,7 +49,8 @@ def test_export_cli_parameters_and_safe_failure(
     assert str(calls[0]["business_date"]) == "2026-10-02"
 
 
-def test_missing_directory_is_explicit_usage_error() -> None:
-    result = CliRunner().invoke(app(), [])
+@pytest.mark.parametrize("force_color", ["0", "1"])
+def test_missing_directory_is_explicit_usage_error(force_color: str) -> None:
+    result = CliRunner().invoke(app(), [], env={"FORCE_COLOR": force_color})
     assert result.exit_code == 2
-    assert "--directory" in result.output
+    assert "--directory" in strip_ansi(result.output)
