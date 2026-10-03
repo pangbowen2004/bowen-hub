@@ -45,11 +45,16 @@ def _never_registered_cases(root: Path, path: Path) -> bool:
                 ["git", *arguments], cwd=root, text=True, capture_output=True, check=True
             ).stdout.strip()
 
+        # 浅克隆无法证明被截断的历史从未登记，必须保守地报缺失。
+        if git("rev-parse", "--is-shallow-repository") != "false":
+            return False
         if git("ls-files", "--", relative):
             return False
         if git("log", "-1", "--format=%H", "HEAD", "--", relative):
             return False
-        # ls-tree 的成功空结果才证明此基线没有该文件；缺失 origin/main 不是证明。
+        if git("log", "-1", "--format=%H", "origin/main", "--", relative):
+            return False
+        # 基线历史与当前树都未登记才允许跳过；缺失 origin/main 不是证明。
         return not git("ls-tree", "--name-only", "origin/main", "--", relative)
     except OSError, ValueError, subprocess.CalledProcessError:
         return False

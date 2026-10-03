@@ -97,6 +97,47 @@ def test_unmerged_other_branch_does_not_register_this_line(tmp_path: Path) -> No
     assert "未注册用例" in output
 
 
+def test_baseline_deleted_registered_cases_fail_on_older_branch(tmp_path: Path) -> None:
+    root = repository(tmp_path / "repo", registered=False)
+    earlier = git(root, "rev-parse", "HEAD")
+    path = "evals/fixture.summary/cases.yaml"
+    (root / path).write_text("[]\n")
+    git(root, "add", ".")
+    git(root, "commit", "-m", "Register case")
+    (root / path).unlink()
+    git(root, "add", ".")
+    git(root, "commit", "-m", "Remove registered case")
+    git(root, "update-ref", "refs/remotes/origin/main", "HEAD")
+    git(root, "checkout", "--detach", earlier)
+    change_prompt(root)
+    code, output = run(root)
+    assert code == 1
+    assert "缺少 cases.yaml" in output
+    assert "未注册用例" not in output
+
+
+def test_shallow_history_cannot_prove_cases_never_registered(tmp_path: Path) -> None:
+    source = repository(tmp_path / "source", registered=True)
+    (source / "evals/fixture.summary/cases.yaml").unlink()
+    git(source, "add", ".")
+    git(source, "commit", "-m", "Remove registered case")
+    change_prompt(source)
+    git(source, "add", ".")
+    git(source, "commit", "-m", "Update prompt after deletion")
+    root = tmp_path / "shallow"
+    # file:// 仅使用本地 Git 文件传输，真实 depth=1 截断曾登记的提交。
+    git(tmp_path, "clone", "--depth=1", source.as_uri(), str(root))
+    assert git(root, "rev-parse", "--is-shallow-repository") == "true"
+    assert not git(
+        root, "log", "-1", "--format=%H", "HEAD", "--", "evals/fixture.summary/cases.yaml"
+    )
+    change_prompt(root)
+    code, output = run(root)
+    assert code == 1
+    assert "缺少 cases.yaml" in output
+    assert "未注册用例" not in output
+
+
 def test_unprovable_history_cannot_skip(tmp_path: Path) -> None:
     root = repository(tmp_path / "repo", registered=False)
     change_prompt(root)
