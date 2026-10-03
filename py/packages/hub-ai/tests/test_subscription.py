@@ -346,10 +346,13 @@ def test_timeout_and_external_cancel_kill_real_process_and_remove_temp(
     setup_cli[0].with_name("events.json").write_text(json.dumps({"sleep": True, "events": []}))
 
     async def run() -> None:
-        task = asyncio.create_task(adapter(setup_cli).generate(request(timeout_sec=1)))
+        # 取消分支须等真实进程启动再主动取消，不能先被请求超时抢跑。
+        task = asyncio.create_task(
+            adapter(setup_cli).generate(request(timeout_sec=60 if cancel else 5))
+        )
         child_file = setup_cli[0].with_name("child.pid")
-        async with asyncio.timeout(5):
-            while not child_file.exists():
+        async with asyncio.timeout(15):
+            while not child_file.exists() or not child_file.read_text().strip():
                 await asyncio.sleep(0.01)
         if cancel:
             task.cancel()
