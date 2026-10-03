@@ -19,9 +19,9 @@ concurrency:
 jobs:
   ci:
     runs-on: ubuntu-24.04
-    # 实测论文作者10例约26分钟、审核10例约10分钟，另需完整静态/测试/E2E。
+    # 套餐实测论文作者10例约55分钟、审核10例约15分钟，另需评分与完整工程检查。
     # 保留全部检查与能力预算，仅给串行真实评测留够作业时间。
-    timeout-minutes: 90
+    timeout-minutes: 150
     env:
       HUB_AI_BACKEND: ${{ vars.HUB_AI_BACKEND || 'gateway' }}
       # pnpm 的包缓存放在工作区外的固定位置，方便下面缓存
@@ -101,7 +101,7 @@ jobs:
           account-id: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
           api-token: ${{ secrets.CLOUDFLARE_API_TOKEN }}
       - name: 评测（改到智能平面时）
-        timeout-minutes: 60
+        timeout-minutes: 120
         if: steps.changes.outputs.ai == 'true'
         env:
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
