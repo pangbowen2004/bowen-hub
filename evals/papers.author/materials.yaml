@@ -1,7 +1,7 @@
 capability: papers.author
-version: 4
+version: 5
 casesSha256: f697c134b803b111606d0e11b442d5b9c85c9e19185d8e7498f3715bbf51b307
-capabilitySha256: a7bc297b1a15e7005b48a1b1985214167b3d151546276879c9442b07170ffd17
+capabilitySha256: 01b04823f2ce2cf605018a501cdc09cf7478db43469f5332dbe1a2a2023f2a1e
 promptSha256: ec5785c8967ac1d916b713157aff3270eb5f2af5dabfa8a28dc59036c0da3583
 thresholds:
   schema_valid: 1.0
