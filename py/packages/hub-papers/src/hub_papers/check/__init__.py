@@ -47,9 +47,11 @@ def measurement_numbers(text: str) -> tuple[str, ...]:
         flags=re.IGNORECASE,
     )
     # 只接受独立年份及明确的数据集/语言对说明；数量单位、指数等不能被吞掉。
+    language = r"(?:英语|德语|法语|中文|English|German|French|en|de|fr|zh)"
     text = re.sub(
         r"(?<![A-Za-z0-9_])WMT\s+(?:19|20)\d{2}"
-        r"(?=\s*$|[：:；;、，。]|\s+(?:数据集|测试集|训练集|[^\W\d_]+[—→-]))",
+        rf"(?=\s*$|[：:；;、，。](?!\d)|\s+(?:数据集|测试集|训练集|"
+        rf"{language}\s*[—→-]\s*{language}(?![A-Za-z0-9])))",
         " ",
         text,
         flags=re.IGNORECASE,

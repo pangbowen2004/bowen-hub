@@ -505,6 +505,10 @@ def test_url_and_identifier_boundaries_preserve_adjacent_quantities(
         ("WMT 1234", ("1234",)),
         ("WMT 2014,500句", ("2014500",)),
         ("WMT 2014 English-German，BLEU 28.4", ("28.4",)),
+        ("WMT 2014 sentence-pairs", ("2014",)),
+        ("WMT 2014 million-sentence corpus", ("2014",)),
+        ("WMT 2014 thousand-sentence dataset", ("2014",)),
+        ("WMT 2014，500句", ("2014", "500")),
         ("第6.1年增长23%", ("6.1", "23")),
     ],
 )
