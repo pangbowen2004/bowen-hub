@@ -8,4 +8,6 @@ PR116 初轮 CI37103394496 完成全部122例真实模型调用。独立套餐�
 
 另将新闻提示提升至v6：保留来源明确的主体、地域、业务关联限定；周报顶层摘要补来源，同时保留逐要点引用。忠实度和具体性评分标准未改。
 
+v6真实20例复验命令：`HUB_AI_BACKEND=subscription hub evals run --capability news.ticker_digest --root . --report /tmp/bowen-ticker-v6-real.md --case-report /tmp/bowen-ticker-v6-real-cases.json`。忠实度0.9415、具体性0.874，数字/结构/来源均1，通过原门槛。费用0表示新增API费用，实际token和套餐用量仍保留在逐例报告中。静态 `mise run check` 全通过，严格类型0错误；最终精确提交的GitHub CI仍须通过后才能合并。
+
 论文作者v4套餐真实10例：结构全部通过，严格数字检查8/10通过，解释评分0.904；审核10例全部通过。一例真实遗漏 Random 5 设置数量，另一例把数据集名称 WMT 2014 的年份误认成测量数量；T31 已修正名称识别，真实设置数量的遗漏仍失败。原报告保持；这不构成T31完成证据。完整新提交复验待记录。
