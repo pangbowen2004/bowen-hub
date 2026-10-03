@@ -86,10 +86,10 @@ def test_three_workflows_exact_cron_and_safe_argument_arrays(kind: str, crons: l
     assert workflow["concurrency"]["cancel-in-progress"] == "false"
     steps = workflow["jobs"]["publish"]["steps"]
     assert steps[0]["with"]["ref"] == "main"
-    run = steps[-1]["run"]
+    run = next(step["run"] for step in steps if step.get("name", "").startswith("生成、归档并发送"))
     assert f"args=(news {kind})" in run
     assert '--date "$NEWS_DATE"' in run
     assert "${{ inputs." not in run
     assert '"${args[@]}"' in run
-    assert "mise run gen" in steps[-2]["run"]
+    assert any("mise run gen" in step.get("run", "") for step in steps)
     assert "HUB_SERVICE_TOKEN" in workflow["jobs"]["publish"]["env"]

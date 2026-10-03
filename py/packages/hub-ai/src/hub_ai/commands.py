@@ -1,6 +1,7 @@
 """命令登记；离线与真实网关调用明确分开。"""
 
 import asyncio
+import subprocess
 from datetime import date as Date
 from datetime import datetime
 from pathlib import Path
@@ -34,6 +35,31 @@ def register(groups: dict[str, typer.Typer]) -> None:
     groups["providers"].command("check-models")(check_models)
 
 
+def _never_registered_cases(root: Path, path: Path) -> bool:
+    """只证明本线从未登记；Git 不可用或缺少基线时不能把缺失当占位。"""
+    try:
+        relative = path.relative_to(root).as_posix()
+
+        def git(*arguments: str) -> str:
+            return subprocess.run(
+                ["git", *arguments], cwd=root, text=True, capture_output=True, check=True
+            ).stdout.strip()
+
+        # 浅克隆无法证明被截断的历史从未登记，必须保守地报缺失。
+        if git("rev-parse", "--is-shallow-repository") != "false":
+            return False
+        if git("ls-files", "--", relative):
+            return False
+        if git("log", "-1", "--format=%H", "HEAD", "--", relative):
+            return False
+        if git("log", "-1", "--format=%H", "origin/main", "--", relative):
+            return False
+        # 基线历史与当前树都未登记才允许跳过；缺失 origin/main 不是证明。
+        return not git("ls-tree", "--name-only", "origin/main", "--", relative)
+    except OSError, ValueError, subprocess.CalledProcessError:
+        return False
+
+
 def run(
     capability: str | None = None,
     changed: bool = False,
@@ -56,13 +82,22 @@ def run(
         if not ids and capability is not None and not changed:
             raise ValueError("没有匹配的能力")
         skipped: list[str] = []
-        if weekly:
+        if weekly or changed:
             skipped = [
                 name
                 for name in ids
                 if not (
                     registry.root / registry.capabilities[name]["evals"]["dataset"] / "cases.yaml"
                 ).is_file()
+                and (
+                    not changed
+                    or _never_registered_cases(
+                        registry.root,
+                        registry.root
+                        / registry.capabilities[name]["evals"]["dataset"]
+                        / "cases.yaml",
+                    )
+                )
             ]
             ids = [name for name in ids if name not in skipped]
             for name in skipped:

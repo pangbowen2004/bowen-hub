@@ -11,6 +11,7 @@ export const AREAS = {
     "prompts/**",
     "evals/**",
     "config/llm.yaml",
+    "config/codex-models.json",
     "packages/ai/**",
     "py/packages/hub-ai/**",
   ],

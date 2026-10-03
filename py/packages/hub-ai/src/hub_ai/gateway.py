@@ -29,6 +29,7 @@ from pydantic_ai.providers.openai import OpenAIProvider
 
 from hub_ai.registry import Registry
 from hub_ai.runtime import Request, Response, StructureError, TokenLimitError, TransportError, Usage
+from hub_ai.subscription import SubscriptionAdapter
 from hub_core.settings import Settings
 
 
@@ -49,12 +50,20 @@ class GatewayAdapter:
         model_override: Model | None = None,
         observer: Callable[[dict[str, Any]], None] | None = None,
     ) -> None:
+        self.subscription = (
+            SubscriptionAdapter(
+                observer=observer, catalog_path=registry.root / "config/codex-models.json"
+            )
+            if settings.hub_ai_backend == "subscription" and model_override is None
+            else None
+        )
+        self.uses_subscription = self.subscription is not None
         self.model_override = model_override
         self.observer = observer
         self.provider = OpenAIProvider(
             openai_client=AsyncOpenAI(
                 base_url=gateway_url(registry, settings)
-                if model_override is None
+                if model_override is None and self.subscription is None
                 else "https://offline.invalid/v1",
                 api_key=settings.openai_api_key.get_secret_value()
                 if settings.openai_api_key
@@ -64,6 +73,8 @@ class GatewayAdapter:
         )
 
     async def generate(self, request: Request) -> Response:
+        if self.subscription is not None:
+            return await self.subscription.generate(request)
         model = self.model_override or OpenAIChatModel(request.model, provider=self.provider)
         for native in (True, False):
             if native and not model.profile.get("supports_json_schema_output", False):
