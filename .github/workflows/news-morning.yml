@@ -16,13 +16,15 @@ on:
 permissions:
   contents: read
 concurrency:
-  group: news-morning
+  group: ${{ vars.HUB_AI_BACKEND == 'subscription' && 'hub-subscription-auth' || 'news-morning' }}
+  queue: max
   cancel-in-progress: false
 jobs:
   publish:
     runs-on: ubuntu-24.04
     timeout-minutes: 90
     env:
+      HUB_AI_BACKEND: ${{ vars.HUB_AI_BACKEND || 'gateway' }}
       CI: "true"
       HUB_API_URL: ${{ secrets.HUB_API_URL }}
       HUB_SERVICE_TOKEN: ${{ secrets.HUB_SERVICE_TOKEN }}
@@ -52,7 +54,16 @@ jobs:
           version: 2026.9.15
       - name: 安装冻结依赖并生成契约
         run: mise install && mise run setup && mise run gen
+      - name: 准备套餐登录
+        id: subscription
+        if: vars.HUB_AI_BACKEND == 'subscription'
+        uses: ./.github/actions/subscription-auth
+        with:
+          phase: restore
+          account-id: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          api-token: ${{ secrets.CLOUDFLARE_API_TOKEN }}
       - name: 生成、归档并发送早报
+        timeout-minutes: 60
         env:
           NEWS_DATE: ${{ inputs.date }}
           NEWS_FORCE: ${{ inputs.force }}
@@ -62,3 +73,11 @@ jobs:
           if [[ -n "$NEWS_DATE" ]]; then args+=(--date "$NEWS_DATE"); fi
           if [[ "$NEWS_FORCE" == "true" ]]; then args+=(--force); fi
           mise exec -- uv run --project py --no-sync hub "${args[@]}"
+
+      - name: 保存套餐续期会话（失败时也保存）
+        if: always() && steps.subscription.outputs.restored == 'true'
+        uses: ./.github/actions/subscription-auth
+        with:
+          phase: persist
+          account-id: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          api-token: ${{ secrets.CLOUDFLARE_API_TOKEN }}

@@ -62,6 +62,7 @@ depends = [
   "check:pyright",
   "check:arch",
   "check:ownership",
+  "check:ci-auth",
 ]
 
 [tasks."check:biome"]
@@ -100,7 +101,7 @@ run = "node tools/tasks/bin/check-ownership.ts"
 
 [tasks.test]
 description = "全部单元与集成测试（离线）"
-depends = ["test:ts", "test:py"]
+depends = ["test:ts", "test:py", "test:ci-auth"]
 
 [tasks."test:ts"]
 description = "各工作区包的 test script（Vitest、Workers 测试环境）"
@@ -197,3 +198,15 @@ run = "node tools/tasks/bin/ready.ts"
 [tasks."ci:changes"]
 description = "CI 用：这次改动是否碰到智能平面（ai）和两个公开站（sites）"
 run = "node tools/tasks/bin/ci-changes.ts"
+
+[tasks."check:ci-auth"]
+description = "套餐会话存储脚本的静态与类型检查"
+run = [
+  "uv run --project py --no-sync ruff check --config py/pyproject.toml tools/ci",
+  "uv run --project py --no-sync ruff format --config py/pyproject.toml --check tools/ci",
+  "uv run --project py --no-sync pyright --project py tools/ci",
+]
+
+[tasks."test:ci-auth"]
+description = "套餐会话存储的离线测试"
+run = "uv run --project py --no-sync pytest tools/ci/tests"

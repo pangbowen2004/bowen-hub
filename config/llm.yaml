@@ -2,7 +2,7 @@
 # 代码和能力清单里只写档位；档位 → 模型只在这里定义一次。
 # 换模型：改这里 + 跑 `hub evals compare`，PR 附对比表（docs/10 第 6 节）。
 
-# 所有调用经 Cloudflare AI Gateway 的统一接口（OpenAI 兼容），模型名写成 “供应商/模型”。
+# 默认 API 调用经 Cloudflare AI Gateway 的统一接口（OpenAI 兼容）；套餐认证见 ADR-0013，模型名仍写成 “供应商/模型”。
 # 地址里的两个变量来自环境变量 CLOUDFLARE_ACCOUNT_ID、AI_GATEWAY_ID；供应商 key 用 OPENAI_API_KEY。
 gateway:
   baseUrl: "https://gateway.ai.cloudflare.com/v1/{CLOUDFLARE_ACCOUNT_ID}/{AI_GATEWAY_ID}/compat"
@@ -29,7 +29,7 @@ defaults:
   timeoutSec: 90               # 能力清单的 limits.timeoutSec 优先
   maxRetries: 2                # 失败后再试 2 次，间隔 1s、2s
 
-# 单价（美元 / 每 100 万 token），用来算每次调用的费用。
+# API 单价（美元 / 每 100 万 token），用于新增 API 账单费用；套餐路径新增 API 费用为 0，真实 token 仍记录。
 # GPT-6 三个型号：2026-09-29 按 OpenAI 官方价格页（developers.openai.com/api/docs/pricing）填写；
 # gpt-5.4-mini：输入、输出单价沿用老 Daily News 的配置；缓存价取自第三方价格汇总，用到时再核对。价格变了就改这里。
 prices:

@@ -182,10 +182,16 @@ def select_capabilities(
             name
             for name in ids
             if any(
-                path == "config/llm.yaml"
+                path in ("config/llm.yaml", "config/codex-models.json")
+                or path.startswith(
+                    (
+                        "py/packages/hub-ai/src/",
+                        "packages/ai/src/",
+                        registry.capabilities[name]["evals"]["dataset"],
+                    )
+                )
                 or path == f"capabilities/{name}.yaml"
                 or path == registry.capabilities[name]["prompt"]
-                or path.startswith(registry.capabilities[name]["evals"]["dataset"])
                 for path in changed_paths
             )
         ]

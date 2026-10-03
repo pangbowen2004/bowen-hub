@@ -44,8 +44,15 @@ class TokenLimitError(Exception):
 class TransportError(Exception):
     """仅安全分类及限流等待秒数；不把供应商正文泄漏给调用方。"""
 
-    def __init__(self, message: str = "模型传输失败", *, retry_after: float | None = None) -> None:
+    def __init__(
+        self,
+        message: str = "模型传输失败",
+        *,
+        retry_after: float | None = None,
+        usage: Usage | None = None,
+    ) -> None:
         self.retry_after = retry_after
+        self.usage = usage
         super().__init__(message)
 
 
@@ -164,6 +171,9 @@ class Runtime:
                             )
                             break
                         except (TransportError, TimeoutError) as error:
+                            if isinstance(error, TransportError) and error.usage is not None:
+                                # 每次传输尝试的已知消耗只在重试边界记一次。
+                                add_usage(error.usage)
                             if retry >= min(2, self.registry.llm["defaults"]["maxRetries"]):
                                 raise TransportError("模型传输失败") from None
                             await self.sleep(
@@ -244,6 +254,8 @@ class Runtime:
             + cached * price["cachedInput"]
             + usage.output_tokens * price["output"]
         ) / 1_000_000
+        if getattr(self.adapter, "uses_subscription", False):
+            cost = 0.0
         call = AiCall(
             capability=capability_id,
             version=cap["version"],
@@ -311,6 +323,10 @@ class Runtime:
                             )
                             break
                         except (TransportError, TimeoutError) as error:
+                            if isinstance(error, TransportError) and error.usage is not None:
+                                usage.input_tokens += error.usage.input_tokens
+                                usage.output_tokens += error.usage.output_tokens
+                                usage.cached_input_tokens += error.usage.cached_input_tokens
                             if retry == min(2, self.registry.llm["defaults"]["maxRetries"]):
                                 raise TransportError() from None
                             await self.sleep(
@@ -358,7 +374,9 @@ class Runtime:
                 model=tier["model"],
                 inputTokens=usage.input_tokens,
                 outputTokens=usage.output_tokens,
-                costUsd=(
+                costUsd=0.0
+                if getattr(self.adapter, "uses_subscription", False)
+                else (
                     (usage.input_tokens - cached) * price["input"]
                     + cached * price["cachedInput"]
                     + usage.output_tokens * price["output"]

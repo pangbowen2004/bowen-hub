@@ -1,0 +1,43 @@
+name: 套餐登录会话
+description: 私有串行任务恢复或保存由 Codex 续期的独立会话
+inputs:
+  phase:
+    required: true
+    description: restore 或 persist
+  account-id:
+    required: true
+    description: Cloudflare 账户
+  api-token:
+    required: true
+    description: Cloudflare R2 API 令牌
+outputs:
+  restored:
+    description: 仅成功恢复时为 true
+    value: ${{ steps.restore.outputs.restored }}
+runs:
+  using: composite
+  steps:
+    - name: 安装锁定的官方 Codex CLI
+      if: inputs.phase == 'restore'
+      shell: bash
+      run: |
+        echo "CODEX_HOME=$RUNNER_TEMP/bowen-codex" >> "$GITHUB_ENV"
+        mise exec -- npm install --global --prefix "$RUNNER_TEMP/bowen-codex-bin" @openai/codex@0.160.0
+        echo "$RUNNER_TEMP/bowen-codex-bin/bin" >> "$GITHUB_PATH"
+    - name: 恢复独立会话
+      id: restore
+      if: inputs.phase == 'restore'
+      shell: bash
+      env:
+        CLOUDFLARE_ACCOUNT_ID: ${{ inputs.account-id }}
+        CLOUDFLARE_API_TOKEN: ${{ inputs.api-token }}
+      run: |
+        mise exec -- python tools/ci/subscription-auth.py restore
+        echo "restored=true" >> "$GITHUB_OUTPUT"
+    - name: 保存更新后的会话
+      if: inputs.phase == 'persist'
+      shell: bash
+      env:
+        CLOUDFLARE_ACCOUNT_ID: ${{ inputs.account-id }}
+        CLOUDFLARE_API_TOKEN: ${{ inputs.api-token }}
+      run: mise exec -- python tools/ci/subscription-auth.py persist

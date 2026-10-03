@@ -12,8 +12,9 @@ permissions:
   contents: read
 
 concurrency:
-  group: ci-${{ github.ref }}
-  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+  group: ${{ vars.HUB_AI_BACKEND == 'subscription' && 'hub-subscription-auth' || format('ci-{0}', github.ref) }}
+  queue: max
+  cancel-in-progress: false
 
 jobs:
   ci:
@@ -22,6 +23,7 @@ jobs:
     # 保留全部检查与能力预算，仅给串行真实评测留够作业时间。
     timeout-minutes: 90
     env:
+      HUB_AI_BACKEND: ${{ vars.HUB_AI_BACKEND || 'gateway' }}
       # pnpm 的包缓存放在工作区外的固定位置，方便下面缓存
       pnpm_config_store_dir: /home/runner/.pnpm-store
     steps:
@@ -90,7 +92,16 @@ jobs:
         id: changes
         run: mise run ci:changes
 
+      - name: 准备套餐登录
+        id: subscription
+        if: steps.changes.outputs.ai == 'true' && vars.HUB_AI_BACKEND == 'subscription'
+        uses: ./.github/actions/subscription-auth
+        with:
+          phase: restore
+          account-id: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          api-token: ${{ secrets.CLOUDFLARE_API_TOKEN }}
       - name: 评测（改到智能平面时）
+        timeout-minutes: 60
         if: steps.changes.outputs.ai == 'true'
         env:
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
@@ -98,6 +109,13 @@ jobs:
           AI_GATEWAY_ID: ${{ secrets.AI_GATEWAY_ID }}
         run: mise run evals -- --changed --case-report ../eval-cases.json
 
+      - name: 保存套餐续期会话（失败时也保存）
+        if: always() && steps.subscription.outputs.restored == 'true'
+        uses: ./.github/actions/subscription-auth
+        with:
+          phase: persist
+          account-id: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          api-token: ${{ secrets.CLOUDFLARE_API_TOKEN }}
       - name: 保存成功或失败的逐例评测输出
         if: always() && steps.changes.outputs.ai == 'true'
         uses: actions/upload-artifact@v7

@@ -330,7 +330,7 @@
     filings: []
     earnings: []
   expect:
-    reference: 无直接来源不猜涨跌原因；同步只用输入withSector；事件为季度业绩
+    reference: 没有新闻、公告或财报材料，不得编造事件或猜涨跌原因；输入withSector为true且涨跌幅为+3.00%，只概述与QQQ同步上涨，来源ID为空。
   tags:
   - edge
 - id: ticker-17
@@ -345,7 +345,7 @@
     filings: []
     earnings: []
   expect:
-    reference: 无直接来源不猜涨跌原因；同步只用输入withSector；事件为加密清算
+    reference: 没有新闻、公告或财报材料，且withSector为false，应明确未找到直接相关消息，不得编造事件、板块同步或涨跌原因，来源ID为空。
   tags:
   - edge
 - id: ticker-18

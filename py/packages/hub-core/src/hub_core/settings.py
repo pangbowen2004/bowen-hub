@@ -1,6 +1,7 @@
 """只读进程环境；不自动打开 .env，也不展示密钥。"""
 
 from pathlib import Path
+from typing import Literal
 
 from pydantic import Field, SecretStr
 from pydantic_settings import BaseSettings, SettingsConfigDict
@@ -12,6 +13,7 @@ class Settings(BaseSettings):
     )
     hub_api_url: str = "http://localhost:8787"
     hub_service_token: SecretStr | None = Field(default=None, repr=False)
+    hub_ai_backend: Literal["gateway", "subscription"] = "gateway"
     openai_api_key: SecretStr | None = Field(default=None, repr=False)
     cloudflare_account_id: str | None = None
     ai_gateway_id: str = "bowen-hub"
