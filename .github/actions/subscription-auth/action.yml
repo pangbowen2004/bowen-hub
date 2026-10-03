@@ -21,6 +21,7 @@ runs:
       if: inputs.phase == 'restore'
       shell: bash
       run: |
+        echo "CODEX_HOME=$RUNNER_TEMP/bowen-codex" >> "$GITHUB_ENV"
         mise exec -- npm install --global --prefix "$RUNNER_TEMP/bowen-codex-bin" @openai/codex@0.160.0
         echo "$RUNNER_TEMP/bowen-codex-bin/bin" >> "$GITHUB_PATH"
     - name: 恢复独立会话

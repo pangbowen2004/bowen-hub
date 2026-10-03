@@ -13,6 +13,7 @@ permissions:
 
 concurrency:
   group: ${{ vars.HUB_AI_BACKEND == 'subscription' && 'hub-subscription-auth' || format('ci-{0}', github.ref) }}
+  queue: max
   cancel-in-progress: false
 
 jobs:
@@ -23,7 +24,6 @@ jobs:
     timeout-minutes: 90
     env:
       HUB_AI_BACKEND: ${{ vars.HUB_AI_BACKEND || 'gateway' }}
-      CODEX_HOME: ${{ runner.temp }}/bowen-codex
       # pnpm 的包缓存放在工作区外的固定位置，方便下面缓存
       pnpm_config_store_dir: /home/runner/.pnpm-store
     steps:

@@ -21,6 +21,7 @@ permissions:
   contents: read
 concurrency:
   group: ${{ vars.HUB_AI_BACKEND == 'subscription' && 'hub-subscription-auth' || 'news-premarket' }}
+  queue: max
   cancel-in-progress: false
 jobs:
   publish:
@@ -28,7 +29,6 @@ jobs:
     timeout-minutes: 90
     env:
       HUB_AI_BACKEND: ${{ vars.HUB_AI_BACKEND || 'gateway' }}
-      CODEX_HOME: ${{ runner.temp }}/bowen-codex
       CI: "true"
       HUB_API_URL: ${{ secrets.HUB_API_URL }}
       HUB_SERVICE_TOKEN: ${{ secrets.HUB_SERVICE_TOKEN }}
