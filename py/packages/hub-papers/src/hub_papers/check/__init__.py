@@ -46,6 +46,13 @@ def measurement_numbers(text: str) -> tuple[str, ...]:
         text,
         flags=re.IGNORECASE,
     )
+    # WMT 后的四位年份标识数据集版本；显式句数等量词仍表示样本数量。
+    text = re.sub(
+        r"(?<![A-Za-z0-9_])WMT\s+\d{4}(?!\d)(?!\s*(?:测试)?(?:条|句|个|份|项|样本))",
+        " ",
+        text,
+        flags=re.IGNORECASE,
+    )
     text = re.sub(r"(?<![A-Za-z0-9_.])[A-Za-z_][A-Za-z0-9_]*(?:-[A-Za-z0-9_]+)*", " ", text)
     pattern = r"(?<![\d.])[-+]?\d+(?:,\d{3})*(?:\.\d+)?(?:[eE][-+]?\d+)?"
     return tuple(number.replace(",", "") for number in re.findall(pattern, text))
