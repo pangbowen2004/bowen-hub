@@ -16,7 +16,6 @@ permissions:
   contents: read
 concurrency:
   group: ${{ vars.HUB_AI_BACKEND == 'subscription' && 'hub-subscription-auth' || 'news-weekly' }}
-  queue: max
   cancel-in-progress: false
 jobs:
   publish:
