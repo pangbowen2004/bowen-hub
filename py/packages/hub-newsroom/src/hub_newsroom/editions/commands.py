@@ -77,7 +77,8 @@ def create_publisher(
         registry = Registry(root)
         adapter = (
             GatewayAdapter(registry, environment)
-            if environment.openai_api_key and environment.cloudflare_account_id
+            if environment.hub_ai_backend == "subscription"
+            or (environment.openai_api_key and environment.cloudflare_account_id)
             else UnavailableAdapter()
         )
         runtime = Runtime(registry, adapter)

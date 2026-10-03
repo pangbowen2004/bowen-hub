@@ -11,6 +11,7 @@ describe("改动区域", () => {
       "prompts/news_brief.md",
       "evals/news.brief/cases.yaml",
       "config/llm.yaml",
+      "config/codex-models.json",
       "packages/ai/src/runtime.ts",
       "py/packages/hub-ai/src/hub_ai/runtime.py",
     ]) {

@@ -239,18 +239,19 @@ def test_model_test_adapter() -> None:
 def test_registry_and_selection() -> None:
     registry = Registry(ROOT)
     assert len(registry.capabilities) == 11
-    assert (
-        select_capabilities(
-            registry,
-            changed=True,
-            changed_paths=["capabilities/_schema.json", "packages/ai/src/runtime.ts"],
-        )
-        == []
-    )
+    assert select_capabilities(
+        registry,
+        changed=True,
+        changed_paths=["capabilities/_schema.json", "packages/ai/src/runtime.ts"],
+    ) == sorted(registry.capabilities)
     assert select_capabilities(registry, changed=True, changed_paths=["prompts/news_brief.md"]) == [
         "news.brief"
     ]
     assert len(select_capabilities(registry, changed=True, changed_paths=["config/llm.yaml"])) == 11
+    for path in ("config/codex-models.json", "py/packages/hub-ai/src/hub_ai/subscription.py"):
+        assert select_capabilities(registry, changed=True, changed_paths=[path]) == sorted(
+            registry.capabilities
+        )
     assert "papers.author" not in select_capabilities(registry, weekly=True)
 
 
