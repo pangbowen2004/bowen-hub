@@ -1,7 +1,7 @@
 # 读整篇论文原文，写导读草稿（Paper 草稿：导读、证据、结构）
 # 格式说明见 docs/10 第 3 节；输入输出模型在 contracts/capabilities.tsp
 id: papers.author
-version: 5
+version: 6
 summary: 读整篇论文原文，写导读草稿（Paper 草稿：导读、证据、结构）
 owner: papers
 runtime: python
