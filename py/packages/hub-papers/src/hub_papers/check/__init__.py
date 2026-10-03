@@ -46,9 +46,10 @@ def measurement_numbers(text: str) -> tuple[str, ...]:
         text,
         flags=re.IGNORECASE,
     )
-    # WMT 后的四位年份标识数据集版本；显式句数等量词仍表示样本数量。
+    # 只接受独立年份及明确的数据集/语言对说明；数量单位、指数等不能被吞掉。
     text = re.sub(
-        r"(?<![A-Za-z0-9_])WMT\s+\d{4}(?!\d)(?!\s*(?:测试)?(?:条|句|个|份|项|样本))",
+        r"(?<![A-Za-z0-9_])WMT\s+(?:19|20)\d{2}"
+        r"(?=\s*$|[：:；;、，。]|\s+(?:数据集|测试集|训练集|[^\W\d_]+[—→-]))",
         " ",
         text,
         flags=re.IGNORECASE,
