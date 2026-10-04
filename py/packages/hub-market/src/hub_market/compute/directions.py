@@ -78,10 +78,22 @@ def directions(
         code = config["code"]
         member_codes = sorted(set(tables[f"ths_member/{code}"]["con_code"].to_list()))
         members = current.filter(pl.col("ts_code").is_in(member_codes))
+        frame = tables[f"ths_daily/{code}"]
+        # 板块上市前接口返回零行，DataFrame 没有任何列；先判列再过滤。
         official = (
-            tables[f"ths_daily/{code}"].filter(pl.col("trade_date") <= stamp).sort("trade_date")
+            frame.filter(pl.col("trade_date") <= stamp).sort("trade_date")
+            if "trade_date" in frame.columns
+            else frame
         )
-        if members.is_empty() or official.is_empty() or official["trade_date"][-1] != stamp:
+        # 当日没有官方日线（板块还没上市，或数据源缺这一天），或上市首日没有涨跌幅：
+        # 只有这个方向当日不可得，不进当日方向列表；其余方向照常计算、排名。
+        if (
+            official.is_empty()
+            or official["trade_date"][-1] != stamp
+            or official["pct_change"][-1] is None
+        ):
+            continue
+        if members.is_empty():
             return None
         close = float(official["close"][-1])
         r1 = float(official["pct_change"][-1]) / 100
@@ -159,6 +171,8 @@ def directions(
                 state=state(r1, r5, advance),
             )
         )
+    if not output:
+        return None
     return MarketDirections(
         membershipAsOf=membership_as_of,
         items=sorted(output, key=lambda row: (-row.return1d, row.name)),

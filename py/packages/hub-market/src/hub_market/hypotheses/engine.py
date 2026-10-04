@@ -198,7 +198,9 @@ def _resolved(
 ) -> Hypothesis:
     return Hypothesis.model_validate(
         {
-            **hypothesis.model_dump(),
+            # 只带回原来设置过的字段：可选字段（如 memberCodes、engineVersion）没有就保持缺失，
+            # 不能变成显式 null，否则 API 的可选（非可空）校验会拒绝整批写入。
+            **hypothesis.model_dump(exclude_unset=True),
             "result": result,
             "settledOn": on,
             "actual": actual,
