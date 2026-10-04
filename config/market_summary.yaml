@@ -11,7 +11,7 @@ structure:
   weak: '单日广度显著转弱，但{m:.1%}样本仍站在MA20上方，同时有{limit_up}家封板、{limit_down}家跌停，更接近结构分歧，而不是所有趋势同步失效。'
   mixed: '涨跌覆盖处于分化区，{m:.1%}样本位于MA20上方；{limit_up}家封板、{limit_down}家跌停，尚不能仅凭单日截面确认统一方向。'
 support: '{touched}家触板、封板率{seal}，最高{height}板。'
-directionSupport: '16方向中{best}当日{best_return:+.2%}居前；'
+directionSupport: '{direction_count}方向中{best}当日{best_return:+.2%}居前；'
 counterIndustry: '{weak_industry}当日等权{weak_industry_return:+.2%}'
 counterDirection: '，{worst}方向{worst_return:+.2%}'
 counterTurnover: '；成交额环比{c:+.2%}'

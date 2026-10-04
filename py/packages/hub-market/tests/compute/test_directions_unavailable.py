@@ -39,6 +39,8 @@ def test_recorded_day_still_has_all_sixteen_directions() -> None:
     assert result.directions is not None
     assert len(result.directions.items) == 16
     assert "directions" not in result.data_status.missing
+    # 平常摘要文字不变：仍写“16方向中”。
+    assert result.summary.support.startswith("16方向中")
 
 
 def check_only_that_board_is_left_out(update: dict[str, pl.DataFrame], name: str) -> None:
@@ -58,6 +60,12 @@ def check_only_that_board_is_left_out(update: dict[str, pl.DataFrame], name: str
     assert len(summary.directionsRelative) == 15
     assert result.temperature.value == 51.9
     assert result.market.sampleCount == full.market.sampleCount
+    # 少了方向就记入 missing（页面显示“部分未就绪”），摘要里的方向个数是当日实际个数。
+    assert "directions" in result.data_status.missing
+    assert result.data_status.complete is False
+    assert summary.complete is False
+    assert result.summary.support.startswith("15方向中")
+    assert "16方向" not in result.summary.support
 
 
 def test_board_with_zero_rows_is_left_out() -> None:
@@ -101,6 +109,7 @@ def test_new_board_with_short_history_stays_with_empty_long_returns() -> None:
     assert row.return20d is None
     assert row.return1d == float(frame["pct_change"][-1]) / 100
     assert len(result.directions.items) == 16
+    assert "directions" not in result.data_status.missing
 
 
 def test_no_direction_block_when_no_board_has_data_for_the_day() -> None:
