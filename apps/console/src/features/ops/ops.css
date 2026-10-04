@@ -1,0 +1,263 @@
+.ops-page {
+  --over: #b3261e;
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) .ops-page {
+    --over: #ff8a80;
+  }
+}
+:root[data-theme="dark"] .ops-page {
+  --over: #ff8a80;
+}
+.ops-summary strong {
+  font-size: 36px;
+}
+.ops-summary p {
+  max-width: 24ch;
+}
+.ops-anchors {
+  gap: 4px 24px;
+  margin-top: 24px;
+}
+.ops-anchors a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+}
+.ops-section {
+  min-width: 0;
+  border-top: 1px solid var(--border);
+  padding-block: 32px 8px;
+  margin-top: 32px;
+}
+.ops-section h2 {
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: 32px;
+  margin: 0 0 8px;
+}
+.ops-section h3 {
+  font-size: 18px;
+  margin: 24px 0 8px;
+}
+.ops-controls {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: end;
+  gap: 16px;
+  margin-block: 20px;
+}
+.ops-controls label {
+  display: grid;
+  gap: 8px;
+  min-width: 0;
+  flex: 1 1 220px;
+}
+.ops-controls select {
+  width: 100%;
+  min-height: 44px;
+  padding: 10px 12px;
+  color: var(--text);
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+}
+.ops-controls .ops-check {
+  display: flex;
+  flex: 0 0 auto;
+  align-items: center;
+  gap: 10px;
+  min-height: 44px;
+}
+.ops-check input {
+  width: 20px;
+  height: 20px;
+  accent-color: var(--accent);
+}
+.ops-toggle {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  min-width: 0;
+  margin: 16px 0;
+  padding: 0;
+  border: 0;
+}
+.ops-toggle .button {
+  color: var(--text);
+  background: transparent;
+}
+.ops-toggle .button[aria-pressed="true"] {
+  color: var(--bg);
+  background: var(--accent);
+}
+.ops-runs {
+  display: grid;
+  margin: 16px 0;
+  padding: 0;
+  list-style: none;
+}
+.ops-run {
+  min-width: 0;
+  padding: 16px 0 16px 12px;
+  border-top: 1px solid var(--border);
+  border-left: 3px solid transparent;
+}
+.ops-run[data-status="failed"] {
+  border-left-color: var(--warning);
+}
+.ops-run-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 4px 12px;
+}
+.ops-run h3 {
+  margin: 0;
+}
+.ops-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0 16px;
+  margin: 4px 0;
+}
+.ops-meta > span {
+  white-space: nowrap;
+}
+.ops-error {
+  margin: 8px 0;
+  color: var(--warning);
+  font-weight: 600;
+}
+.ops-mono {
+  font-family: var(--font-mono);
+  font-size: 13px;
+  overflow-wrap: anywhere;
+}
+.ops-wrap {
+  min-width: 200px;
+  overflow-wrap: anywhere;
+}
+.ops-facts {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 260px), 1fr));
+  gap: 8px 24px;
+  margin: 12px 0;
+}
+.ops-facts > div {
+  min-width: 0;
+}
+.ops-facts dt {
+  color: var(--muted);
+  font-size: 13px;
+}
+.ops-facts dd {
+  margin: 0;
+}
+.ops-page details > summary {
+  cursor: pointer;
+  min-height: 44px;
+  display: flex;
+  align-items: center;
+  list-style: none;
+}
+.ops-page details > summary::-webkit-details-marker {
+  display: none;
+}
+.ops-page details > summary::before {
+  content: "▸";
+  flex: none;
+  width: 1.2em;
+  color: var(--muted);
+}
+.ops-page details[open] > summary::before {
+  content: "▾";
+}
+.ops-budget {
+  max-width: 640px;
+  margin-block: 24px;
+}
+.ops-budget-figure {
+  margin: 4px 0 12px;
+  font-size: 20px;
+}
+.ops-budget-figure strong {
+  font-family: var(--font-latin);
+  font-size: 44px;
+  font-weight: 400;
+  font-variant-numeric: tabular-nums;
+}
+.ops-meter {
+  height: 10px;
+  overflow: hidden;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 999px;
+}
+.ops-meter > div {
+  height: 100%;
+  background: var(--accent);
+}
+.ops-budget[data-over="true"] .ops-meter > div {
+  background: var(--over);
+}
+.ops-over {
+  color: var(--over);
+  font-weight: 600;
+}
+.ops-bars {
+  margin: 16px 0;
+}
+.ops-bars svg {
+  display: block;
+  width: 100%;
+  height: 96px;
+  color: var(--accent);
+}
+.ops-capabilities {
+  display: grid;
+  margin-top: 16px;
+}
+.ops-capability {
+  min-width: 0;
+  padding: 4px 0 8px;
+  border-top: 1px solid var(--border);
+  border-left: 3px solid transparent;
+  padding-left: 12px;
+}
+.ops-capability[data-status="failed"] {
+  border-left-color: var(--warning);
+}
+.ops-page .ops-capability > summary {
+  flex-wrap: wrap;
+  gap: 4px 12px;
+}
+.ops-cap-summary {
+  flex: 1 1 260px;
+  min-width: 0;
+}
+/* Tailwind 预设把 svg 设成块级，这里的小折线要跟文字排在一行。 */
+.ops-spark {
+  display: inline-block;
+  color: var(--accent);
+  vertical-align: middle;
+}
+.ops-cost-trend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 32px;
+}
+@media (max-width: 767px) {
+  .ops-summary strong {
+    font-size: 30px;
+  }
+  .ops-section h2 {
+    font-size: 26px;
+  }
+  .ops-budget-figure strong {
+    font-size: 36px;
+  }
+}

@@ -37,8 +37,11 @@ for (const path of [
       await expect(
         page.getByRole("status").filter({ hasText: /样例连接成功|样例数据 · 操作仅用于页面预览/ }),
       ).toBeVisible();
-    } else {
+    } else if (path === "/ops") {
+      for (const title of ["运行记录", "AI 用量与费用", "数据源健康", "能力清单与评测走势"])
+        await expect(page.getByRole("heading", { name: title, exact: true })).toBeVisible();
       await expect(page.getByRole("status")).toContainText("样例连接成功");
+      await expect(page.locator("body")).not.toContainText("内容准备中");
     }
     expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(
       true,
