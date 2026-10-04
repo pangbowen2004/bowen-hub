@@ -574,6 +574,8 @@ tasks:
       - "services/api/test/auth/mcp-access.test.ts：仅回归MCP当前授权与撤销后旧访问令牌拒绝"
       - "apps/console/e2e/mcp/**：仅官方Inspector本地真实OAuth及12工具验收，不替代本人Claude或通行密钥验收"
       - "apps/console/playwright.config.ts：仅接入上述Inspector项目与隔离启动器，保留其他项目和断言"
+      - "services/api/test/platform/lib.test.ts：仅将MCP占位501断言改为真实未授权401与12工具注册断言，保留工具接线、日志等其他断言"
+      - "apps/console/e2e/_setup/smoke.spec.ts：仅把运维路由旧占位断言换成真实运维页内容，保留其他任务断言"
     read: [docs/09 第 6 节, docs/10 第 7 节, docs/12 第 7 节]
     deliver:
       - /mcp：Streamable HTTP，OAuth 保护；汇总各模块 mcp.ts 的工具
@@ -624,6 +626,11 @@ tasks:
     owns: [py/packages/hub-market/src/hub_market/migrate/**, py/packages/hub-market/tests/migrate/**]
     sharedEdits:
       - "py/apps/hub-cli/tests/test_commands.py：仅将market-ledger和market-events旧占位断言换成真实命令帮助/行为断言，保留其他任务断言"
+      - "py/packages/hub-market/src/hub_market/compute/directions.py：仅处理同花顺板块当日没有官方日线或首日涨跌幅为空的情况（该板块不进当日方向列表、missing 记 directions、历史不足时 5/20 日收益为空），不改其他口径"
+      - "py/packages/hub-market/tests/compute/test_directions_unavailable.py：仅新增上述情况的回归测试"
+      - "py/packages/hub-market/src/hub_market/hypotheses/engine.py：仅把结算副本的序列化改为不写出未设置的可选字段"
+      - "py/packages/hub-market/tests/hypotheses/test_engine.py：仅新增上述序列化的回归测试"
+      - "py/packages/hub-market/src/hub_market/eod/commands.py：仅给 hub market backfill 增加 --no-dispatch 选项，默认行为不变"
     read: [docs/06 第 0、2、4 节, docs/03 第 5 节]
     deliver: ["`hub migrate market-ledger|market-events`；执行 `hub market backfill --start 2026-07-01`"]
     accept:

@@ -125,7 +125,7 @@
 | 测试 | `mise run test`（Vitest、Workers 测试环境、pytest；全部离线） |
 | 契约随机测试 | Schemathesis 对本地 `wrangler dev` 跑基于契约的随机测试（`08` 第 6 节）；还没有 `services/api` 时跳过 |
 | 端到端 | `mise run e2e`（Playwright；三个前端都用样例数据构建） |
-| 评测 | 改到智能平面文件时：`hub evals run --changed`（需要 `OPENAI_API_KEY`、`CLOUDFLARE_ACCOUNT_ID`、`AI_GATEWAY_ID`；只出报告，不写 API） |
+| 评测 | 改到智能平面文件且 PR 带 `run-evals` 标签（或手动触发）时：`hub evals run --changed`（只出报告，不写 API）。为节省 Actions 分钟，任务验收用的真实评测在本机跑 `mise run evals`，报告贴进进度记录 |
 | 性能 | 改到 `apps/markets` 或 `apps/papers` 时：Lighthouse CI（样例数据构建） |
 
 测试全部离线：外部 HTTP 用录制的响应（`fixtures/http/`），模型用假模型。
