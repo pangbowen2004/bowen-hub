@@ -1,18 +1,26 @@
-# CI：每个 PR 和推到 main 时运行（docs/11 第 8 节、docs/12 第 3 节）。
+# CI：每个 PR 运行，也可手动触发（docs/11 第 8 节、docs/12 第 3、5 节）。
+# 为节省 Actions 分钟（2026-10-04）：合并到 main 后不再重跑；只改文档的 PR 不跑；
+# 真实评测只在 PR 带 run-evals 标签或手动触发时跑，验收评测在本机跑并把报告贴进进度记录。
 # 这里只调用 `mise run <任务>`；还没有内容的步骤由 mise 任务自己跳过（打印“尚未接入”并按成功返回）。
 # 注意：CI 用触发时的 PR 标题检查路径所有权；改了标题要推一个新提交（或关闭再打开 PR）才会用新标题重跑。
 name: ci
 
 on:
   pull_request:
-  push:
-    branches: [main]
+    types: [opened, synchronize, reopened, labeled]
+    paths-ignore:
+      - "docs/**"
+      - "README.md"
+      - "AGENTS.md"
+      - "CLAUDE.md"
+  workflow_dispatch:
 
 permissions:
   contents: read
 
 concurrency:
-  group: ${{ vars.HUB_AI_BACKEND == 'subscription' && 'hub-subscription-auth' || format('ci-{0}', github.ref) }}
+  # 只有要跑真实评测时才进入套餐会话的串行组，平时不和新闻任务排队
+  group: ${{ (vars.HUB_AI_BACKEND == 'subscription' && (github.event_name == 'workflow_dispatch' || contains(github.event.pull_request.labels.*.name, 'run-evals'))) && 'hub-subscription-auth' || format('ci-{0}', github.ref) }}
   queue: max
   cancel-in-progress: false
 
@@ -94,15 +102,15 @@ jobs:
 
       - name: 准备套餐登录
         id: subscription
-        if: steps.changes.outputs.ai == 'true' && vars.HUB_AI_BACKEND == 'subscription'
+        if: steps.changes.outputs.ai == 'true' && vars.HUB_AI_BACKEND == 'subscription' && (github.event_name == 'workflow_dispatch' || contains(github.event.pull_request.labels.*.name, 'run-evals'))
         uses: ./.github/actions/subscription-auth
         with:
           phase: restore
           account-id: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
           api-token: ${{ secrets.CLOUDFLARE_API_TOKEN }}
-      - name: 评测（改到智能平面时）
+      - name: 评测（改到智能平面且带 run-evals 标签或手动触发时）
         timeout-minutes: 120
-        if: steps.changes.outputs.ai == 'true'
+        if: steps.changes.outputs.ai == 'true' && (github.event_name == 'workflow_dispatch' || contains(github.event.pull_request.labels.*.name, 'run-evals'))
         env:
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
           CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
@@ -117,7 +125,7 @@ jobs:
           account-id: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
           api-token: ${{ secrets.CLOUDFLARE_API_TOKEN }}
       - name: 保存成功或失败的逐例评测输出
-        if: always() && steps.changes.outputs.ai == 'true'
+        if: always() && steps.changes.outputs.ai == 'true' && (github.event_name == 'workflow_dispatch' || contains(github.event.pull_request.labels.*.name, 'run-evals'))
         uses: actions/upload-artifact@v7
         with:
           name: eval-cases
