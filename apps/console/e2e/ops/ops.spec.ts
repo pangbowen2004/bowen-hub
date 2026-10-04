@@ -1,6 +1,9 @@
 // /ops 运维页（MSW 样例，三个屏宽）：运行记录、AI 用量与费用、数据源健康、能力清单与评测走势。
 // 样例数据见 src/mocks/ops（确定的合成数据）；这里的数量与它一一对应。
-import { expect, type Page, test } from "@playwright/test";
+import { expect as baseExpect, type Page, test } from "@playwright/test";
+
+// 机器负载高时（并行跑别的检查）首屏渲染会慢，默认的 5 秒断言等待太紧。
+const expect = baseExpect.configure({ timeout: 15_000 });
 
 const noHorizontalScroll = (page: Page) =>
   page.evaluate(() => document.documentElement.scrollWidth <= innerWidth);

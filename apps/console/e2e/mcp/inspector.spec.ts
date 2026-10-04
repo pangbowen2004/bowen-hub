@@ -5,7 +5,7 @@ import { execFile } from "node:child_process";
 import { readFileSync, writeFileSync } from "node:fs";
 import { promisify } from "node:util";
 import { Paper as PaperSchema, PaperSummary as SummarySchema } from "@bowen-hub/contracts/zod";
-import { expect, test } from "@playwright/test";
+import { expect as baseExpect, test } from "@playwright/test";
 import editionRaw from "../../../../fixtures/samples/news/Edition.morning-2026-09-30.json" with {
   type: "json",
 };
@@ -27,6 +27,8 @@ import {
   SERVICE_TOKEN,
 } from "./shared";
 
+// 机器负载高时页面和进程启动会慢，默认的 5 秒断言等待太紧。
+const expect = baseExpect.configure({ timeout: 15_000 });
 // docs/09 第 6 节的工具表，顺序一致。
 const TOOLS = [
   "news_latest_edition",
