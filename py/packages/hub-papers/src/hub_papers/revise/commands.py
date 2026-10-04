@@ -1,8 +1,8 @@
-"""本目录命令预接线；替换实现时保留登记入口。"""
+"""论文命令复用统一流水线，写入与派生只经API。"""
 
 import typer
 
-from hub_core.cli import pending
+from hub_papers.ingest.cli import run_pipeline
 
 
 def register(groups: dict[str, typer.Typer]) -> None:
@@ -10,4 +10,4 @@ def register(groups: dict[str, typer.Typer]) -> None:
 
 
 def revise(id: str = typer.Argument(...), instructions: str | None = None) -> None:
-    pending("T31")
+    run_pipeline(paper_id=id, instructions=instructions)

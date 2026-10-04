@@ -1,0 +1,98 @@
+capability: papers.author
+version: 6
+casesSha256: f697c134b803b111606d0e11b442d5b9c85c9e19185d8e7498f3715bbf51b307
+capabilitySha256: 32a4e0b5e7f6397f72f3bedae7c968b6246f4faae3fd2d358e6b82c46a1f7634
+promptSha256: 054c860843c50111192520b0df2722f0a890570fc174103c59b2414f3cb0662a
+thresholds:
+  schema_valid: 1.0
+  paper_draft: 0.9
+  judge_explains: 0.8
+limits:
+  maxInputTokens: 400000
+  maxOutputTokens: 64000
+  timeoutSec: 900
+sources:
+- paperId: arxiv-2505.07078
+  url: https://arxiv.org/pdf/2505.07078v6
+  pdfSha256: 5bdd2d6e5267bc18089e3fd9113a6a98caeb576291e9c6b0320f9a60b9b1382a
+  totalPages: 15
+- paperId: arxiv-1706.03762
+  url: https://arxiv.org/pdf/1706.03762v7
+  pdfSha256: bdfaa68d8984f0dc02beaca527b76f207d99b666d31d1da728ee0728182df697
+  totalPages: 15
+- paperId: acl-2021.acl-long.500
+  url: https://aclanthology.org/2021.acl-long.500.pdf
+  pdfSha256: 87a52a2b535aff6179c23e94e302c8eeaec07f682ef706b48a067c8d4cc88ee7
+  totalPages: 14
+cases:
+- id: first_read
+  paperId: arxiv-2505.07078
+  inputSha256: 4cb5c852a2d8f357925be0be9ef93adcd60ec618efbb05319359338e1ca1d165
+  expectSha256: 736ed4a3f1800e79e1e40cd5595a500c66986ddb3de24f9a342914ceb52c2f2c
+  totalPages: 15
+  material: complete_t30_extraction
+  pageImages: []
+- id: selection_timing
+  paperId: arxiv-2505.07078
+  inputSha256: 32fcd66d2ee4ce555f4455b2fc0e5cae7fe1868fa95d4653c604b0aa54264892
+  expectSha256: 736ed4a3f1800e79e1e40cd5595a500c66986ddb3de24f9a342914ceb52c2f2c
+  totalPages: 15
+  material: complete_t30_extraction
+  pageImages: []
+- id: absolute_risk
+  paperId: arxiv-2505.07078
+  inputSha256: 329661e6409bf76929fac96240e4d505ec4c1f62d6b4a9062f78f3ba9681d384
+  expectSha256: 736ed4a3f1800e79e1e40cd5595a500c66986ddb3de24f9a342914ceb52c2f2c
+  totalPages: 15
+  material: complete_t30_extraction
+  pageImages: []
+- id: statistical_boundary
+  paperId: arxiv-2505.07078
+  inputSha256: 1dc5cf4752e009454b79215400f935fc414f3b6d93f0128cac5f92e4f7ae5c82
+  expectSha256: 736ed4a3f1800e79e1e40cd5595a500c66986ddb3de24f9a342914ceb52c2f2c
+  totalPages: 15
+  material: complete_t30_extraction
+  pageImages: []
+- id: attention_first_read
+  paperId: arxiv-1706.03762
+  inputSha256: fcd26ea56e07bc0b008236993b93c88a81e9033114c19f55543236f9eda0f0b2
+  expectSha256: 20b01716283c47c36bbe192bc94abc7026cd4726e38ce99b954156f6591f9364
+  totalPages: 15
+  material: complete_t30_extraction
+  pageImages: []
+- id: attention_mask_scaling
+  paperId: arxiv-1706.03762
+  inputSha256: 4ff45549d9efa665f7b98c27162f497bddb1b241c212c07147f29ea51946448e
+  expectSha256: 20b01716283c47c36bbe192bc94abc7026cd4726e38ce99b954156f6591f9364
+  totalPages: 15
+  material: complete_t30_extraction
+  pageImages: []
+- id: attention_comparison
+  paperId: arxiv-1706.03762
+  inputSha256: 8074126590afcea70b40560fe442ec83c053c021f4107e2218e573d39d54e446
+  expectSha256: 20b01716283c47c36bbe192bc94abc7026cd4726e38ce99b954156f6591f9364
+  totalPages: 15
+  material: complete_t30_extraction
+  pageImages: []
+- id: openmeva_first_read
+  paperId: acl-2021.acl-long.500
+  inputSha256: 47946a714a4db12fc839c7bde66654912a3efa589fb8f9d899b3a3f1609e990c
+  expectSha256: 20b01716283c47c36bbe192bc94abc7026cd4726e38ce99b954156f6591f9364
+  totalPages: 14
+  material: complete_t30_extraction
+  pageImages: []
+- id: openmeva_perturbation
+  paperId: acl-2021.acl-long.500
+  inputSha256: 56ff44874cbc22fb0b90bc94c502740c10c2629a446daf2f565bb2c13eea9a84
+  expectSha256: 20b01716283c47c36bbe192bc94abc7026cd4726e38ce99b954156f6591f9364
+  totalPages: 14
+  material: complete_t30_extraction
+  pageImages: []
+- id: openmeva_generalisation
+  paperId: acl-2021.acl-long.500
+  inputSha256: 2307988f3654956597025e720a19e2596642cd4ec3e6dbd4fb7dd6b88bf864fd
+  expectSha256: 20b01716283c47c36bbe192bc94abc7026cd4726e38ce99b954156f6591f9364
+  totalPages: 14
+  material: complete_t30_extraction
+  pageImages: []
+judgeSha256: d5686a887ba0eba4925f36934fa58c533f5896670c546f7f5056914dc4787427

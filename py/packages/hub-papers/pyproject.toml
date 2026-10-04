@@ -3,7 +3,9 @@ name = "hub-papers"
 version = "0.1.0"
 description = "领域预接线，业务由后续任务实现"
 requires-python = ">=3.14"
-dependencies = ["hub-core", "hub-contracts", "typer>=0.24,<1", "pymupdf>=1.26,<2"]
+dependencies = ["hub-core", "hub-contracts", "hub-ai", "typer>=0.24,<1", "pymupdf>=1.26,<2"]
+[project.entry-points."hub.ai_checks"]
+paper_draft = "hub_papers.ingest.checks:paper_draft_check"
 [project.entry-points."hub.commands"]
 ingest = "hub_papers.ingest.commands:register"
 revise = "hub_papers.revise.commands:register"
@@ -14,6 +16,7 @@ migrate = "hub_papers.migrate.commands:register"
 [tool.uv.sources]
 hub-core = { workspace = true }
 hub-contracts = { workspace = true }
+hub-ai = { workspace = true }
 [build-system]
 requires = ["uv_build>=0.12.21,<0.13"]
 build-backend = "uv_build"

@@ -1,7 +1,7 @@
 # 按六项检查审核导读草稿，给出 pass / revise / escalate 和问题清单
 # 格式说明见 docs/10 第 3 节；输入输出模型在 contracts/capabilities.tsp
 id: papers.review
-version: 1
+version: 5
 summary: 按六项检查审核导读草稿，给出 pass / revise / escalate 和问题清单
 owner: papers
 runtime: python
