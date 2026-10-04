@@ -626,6 +626,11 @@ tasks:
     owns: [py/packages/hub-market/src/hub_market/migrate/**, py/packages/hub-market/tests/migrate/**]
     sharedEdits:
       - "py/apps/hub-cli/tests/test_commands.py：仅将market-ledger和market-events旧占位断言换成真实命令帮助/行为断言，保留其他任务断言"
+      - "py/packages/hub-market/src/hub_market/compute/directions.py：仅处理同花顺板块当日没有官方日线或首日涨跌幅为空的情况（该板块不进当日方向列表、missing 记 directions、历史不足时 5/20 日收益为空），不改其他口径"
+      - "py/packages/hub-market/tests/compute/test_directions_unavailable.py：仅新增上述情况的回归测试"
+      - "py/packages/hub-market/src/hub_market/hypotheses/engine.py：仅把结算副本的序列化改为不写出未设置的可选字段"
+      - "py/packages/hub-market/tests/hypotheses/test_engine.py：仅新增上述序列化的回归测试"
+      - "py/packages/hub-market/src/hub_market/eod/commands.py：仅给 hub market backfill 增加 --no-dispatch 选项，默认行为不变"
     read: [docs/06 第 0、2、4 节, docs/03 第 5 节]
     deliver: ["`hub migrate market-ledger|market-events`；执行 `hub market backfill --start 2026-07-01`"]
     accept:
