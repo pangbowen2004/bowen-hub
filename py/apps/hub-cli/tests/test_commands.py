@@ -1,5 +1,6 @@
 """完整 docs09 命令表；用 entry point 安装结果，不直接注册替身。"""
 
+import re
 from importlib.metadata import entry_points
 
 import pytest
@@ -51,14 +52,42 @@ def test_command_help_and_placeholder(args: list[str], task: str) -> None:
     help_result = runner.invoke(app, [*args, "--help"])
     assert help_result.exit_code == 0, help_result.output
     assert "Usage:" in help_result.output
-    if task in {"T04", "T10", "T10/T20", "T30", "T21", "T13", "T23", "T31", "T42", "T50"} or (
-        task == "T16" and args[:2] in (["migrate", "news-legacy"], ["migrate", "watchlist"])
-    ):
+    if task in {
+        "T04",
+        "T10",
+        "T10/T20",
+        "T30",
+        "T21",
+        "T13",
+        "T23",
+        "T31",
+        "T42",
+        "T50",
+        "T51",
+    } or (task == "T16" and args[:2] in (["migrate", "news-legacy"], ["migrate", "watchlist"])):
         # 已实现命令在这里验证帮助入口；领域测试负责真实退出码与离线行为。
         return
     result = runner.invoke(app, args)
     assert result.exit_code == 2, result.output
     assert f"任务 {task}" in result.output
+
+
+@pytest.mark.parametrize("name", ["market-ledger", "market-events"])
+def test_market_migrations_are_real_commands(name: str) -> None:
+    runner = CliRunner()
+    app = create_app()
+    help_result = runner.invoke(app, ["migrate", name, "--help"])
+    assert help_result.exit_code == 0, help_result.output
+    # Rich 在强制着色的终端里可能把选项名拆开，先去掉 ANSI 样式再断言。
+    plain = re.sub(r"\x1b\[[0-9;]*m", "", help_result.output)
+    for option in ("--dry-run", "--verify", "--source"):
+        assert option in plain
+    assert "尚未实现" not in plain
+    # 真实行为：--dry-run 与 --verify 互斥，先于读取环境、老数据和任何网络访问就退出 1。
+    both = runner.invoke(app, ["migrate", name, "--dry-run", "--verify"])
+    assert both.exit_code == 1, both.output
+    assert "不能同时使用" in both.output
+    assert "任务 T51" not in both.output
 
 
 @pytest.mark.parametrize("group", [None, *GROUPS])
