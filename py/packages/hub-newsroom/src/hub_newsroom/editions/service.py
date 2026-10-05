@@ -85,7 +85,7 @@ def render_context(
     console_url: str | None,
 ) -> RenderContext:
     references = {
-        row.id: Link(row.title, row.url, settings.source(row.sourceId).name)
+        row.id: Link(row.title, row.url, settings.source(row.sourceId).name, row.publishedAt)
         for row in data.articles
     }
     references.update(
@@ -123,6 +123,7 @@ def render_context(
                         row.title,
                         row.url,
                         references[row.id].source if row.id in references else "",
+                        references[row.id].published_at if row.id in references else None,
                     )
                     for row in rows
                 }

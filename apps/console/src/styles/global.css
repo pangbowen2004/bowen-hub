@@ -1,6 +1,7 @@
 @import "tailwindcss";
 @import "@bowen-hub/ui/styles/tokens.css";
 @import "@bowen-hub/ui/styles/base.css";
+@import "@bowen-hub/ui/styles/product.css";
 .console-shell {
   min-height: 100vh;
 }
@@ -130,4 +131,22 @@
     text-decoration: underline;
     text-underline-offset: 8px;
   }
+}
+
+.paper-management {
+  margin-left: auto;
+  margin-bottom: 24px;
+  max-width: 560px;
+}
+.paper-management > summary {
+  cursor: pointer;
+  min-height: 44px;
+  padding: 12px 20px;
+  text-align: right;
+  border: 1px solid var(--border);
+  font-size: 13px;
+}
+.paper-management[open] {
+  padding: 20px;
+  background: var(--surface);
 }

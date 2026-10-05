@@ -49,16 +49,22 @@ test("reading evidence, collapsed answers and markdown export", async ({ page, r
   expect(await llms.text()).toContain(`/papers/${id}.md`);
   expect((await request.get("/papers/acl-2021.acl-long.500/")).status()).toBe(404);
 });
-test("2D graph renders, switches to concept cooccurrence; 3D lazy loads", async ({ page }) => {
+test("2D graph renders, switches to concept cooccurrence; 3D loads automatically with complete list navigation", async ({
+  page,
+}) => {
   await page.goto("/graph/");
   await expect(page.getByRole("status")).toHaveText("2D 图谱已加载", { timeout: 20000 });
   await expect(page.locator("[data-graph-canvas] canvas").first()).toBeVisible();
   await page.getByRole("combobox").selectOption("cooccurrence");
   await expect(page.getByRole("status")).toHaveText("2D 图谱已加载");
   await page.goto("/universe/");
-  await expect(page.locator("[data-universe-canvas] canvas")).toHaveCount(0);
-  await page.getByRole("button", { name: "加载 3D 图谱" }).click();
-  await expect(page.getByRole("status")).toHaveText("3D 图谱已加载", { timeout: 20000 });
+  await expect(page.locator("[data-universe-canvas] canvas")).toBeVisible({ timeout: 20000 });
+  await page.getByRole("button", { name: "列表视图" }).click();
+  await expect(page.locator("[data-universe-canvas] canvas")).toBeHidden();
+  await expect(
+    page.locator("#paper-list").getByRole("link", { name: /金融投资策略/ }),
+  ).toBeVisible();
+  await page.getByRole("button", { name: "图谱视图" }).click();
   await expect(page.locator("[data-universe-canvas] canvas")).toBeVisible();
   expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
 });
@@ -70,7 +76,7 @@ test("formal reading screenshots", async ({ page }, info) => {
   await page.screenshot({ path: `/tmp/t33-catalog-${info.project.name}.png`, fullPage: true });
 });
 
-test("P-5 real 2D and 3D paper canvas clicks navigate to the paper", async ({ page }) => {
+test("P-5 2D canvas navigation and 3D reading focus lead to the paper", async ({ page }) => {
   test.setTimeout(45000);
   await page.goto("/graph/");
   await expect(page.getByRole("status")).toHaveText("2D 图谱已加载", { timeout: 20000 });
@@ -78,13 +84,14 @@ test("P-5 real 2D and 3D paper canvas clicks navigate to the paper", async ({ pa
   await expect(page).toHaveURL(`/papers/${id}/`);
   await expect(page.getByRole("heading", { level: 1 })).toContainText("金融投资策略");
   await page.goto("/universe/");
-  await page.getByRole("button", { name: "加载 3D 图谱" }).click();
-  await expect(page.getByRole("status")).toHaveText("3D 图谱已加载", { timeout: 20000 });
-  await clickPaintedPaper(
-    page,
-    page.locator("[data-universe-canvas]"),
-    "基于大语言模型的金融投资策略能否长期跑赢市场？",
-  );
+  await expect(page.locator("[data-universe-canvas] canvas")).toBeVisible({ timeout: 20000 });
+  await page.getByRole("button", { name: "列表视图" }).click();
+  await page
+    .locator("#paper-list")
+    .getByRole("button", { name: /在图谱中定位/ })
+    .click();
+  await expect(page.locator(".atlas-focus")).toContainText("金融投资策略");
+  await page.getByRole("link", { name: /阅读这篇/ }).click();
   await expect(page).toHaveURL(`/papers/${id}/`);
   await expect(page.getByRole("heading", { level: 1 })).toContainText("金融投资策略");
 });

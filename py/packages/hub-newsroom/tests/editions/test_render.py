@@ -1,6 +1,7 @@
 """邮件结构、真实正文计数、链接安全与金融事实的边界。"""
 
 from dataclasses import replace
+from datetime import UTC
 
 import pytest
 
@@ -163,3 +164,28 @@ def test_point_sources_link_once_and_visible_label_counts(
     )
     assert len(body_text(edition, larger)) - len(text) == 2
     assert render_mail(edition, context, "测试").text.count("https://source.test/a") == 1
+
+
+def test_each_original_source_keeps_its_own_label() -> None:
+    from datetime import datetime
+
+    from hub_newsroom.render.mail import source_link_label
+
+    first = Link(
+        "Amazon nuclear agreement",
+        "https://example.test/one",
+        "Benzinga",
+        datetime(2026, 10, 1, 12, 0, tzinfo=UTC),
+    )
+    second = Link(
+        "AWS AI costs",
+        "https://example.test/two",
+        "Benzinga",
+        datetime(2026, 10, 1, 14, 0, tzinfo=UTC),
+    )
+    assert source_link_label(first) == "Benzinga · 10-01 20:00 ↗"
+    assert source_link_label(second) == "Benzinga · 10-01 22:00 ↗"
+    assert (
+        source_link_label(Link("各自的中文原文标题", first.url, "Benzinga"))
+        == "Benzinga · 各自的中文原文标题 ↗"
+    )

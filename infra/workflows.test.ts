@@ -5,7 +5,7 @@ import { parse } from "yaml";
 interface Workflow {
   on: {
     push: { branches: string[] };
-    workflow_dispatch: unknown;
+    workflow_dispatch: { inputs: { data_source?: { options: string[] } } };
     repository_dispatch?: { types: string[] };
   };
   permissions: { contents: string };
@@ -63,11 +63,12 @@ describe("部署工作流", () => {
     ["markets", "markets-updated"],
     ["papers", "papers-changed"],
   ]) {
-    it(`${site}数据触发读API，默认样例预览，生产由SITES_LIVE控制`, () => {
+    it(`${site}数据触发和合并均读API，默认预览，生产由SITES_LIVE控制`, () => {
       const value = workflow(site ?? "");
       expect(value.on.repository_dispatch?.types).toEqual([event]);
       expect(value.jobs.deploy.env.DATA_SOURCE).toContain("'api'");
-      expect(value.jobs.deploy.env.DATA_SOURCE).toContain("'fixtures'");
+      expect(value.jobs.deploy.env.DATA_SOURCE).toContain("inputs.data_source || 'api'");
+      expect(value.on.workflow_dispatch.inputs.data_source?.options).toContain("fixtures");
       expect(value.jobs.deploy.env.TARGET).toContain("vars.SITES_LIVE == 'true'");
       expect(value.jobs.deploy.env.TARGET).toContain("'preview'");
     });

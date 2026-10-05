@@ -18,6 +18,7 @@ test("问答流、解释卡、自动保存笔记及原文页", async ({ page }) 
   await page.goto("/papers/arxiv-2505.07078");
   await page.getByLabel("私人笔记").fill("本次验证：先核对回测与材料边界。");
   await expect(page.getByText("已保存", { exact: true })).toBeVisible();
+  await page.locator("summary").filter({ hasText: "管理" }).click();
   await page.getByRole("button", { name: "问这篇论文", exact: true }).click();
   await page.getByLabel("你的问题").fill("指标的适用边界是什么？");
   await page.getByRole("button", { name: "提问", exact: true }).click();
@@ -46,6 +47,7 @@ test("问答流、解释卡、自动保存笔记及原文页", async ({ page }) 
 });
 test("失败回答不能保存；上传重试刷新后保留队列状态", async ({ page }) => {
   await page.goto("/papers/arxiv-2505.07078");
+  await page.locator("summary").filter({ hasText: "管理" }).click();
   await page.getByRole("button", { name: "问这篇论文", exact: true }).click();
   await page.getByLabel("你的问题").fill("模拟失败");
   await page.getByRole("button", { name: "提问", exact: true }).click();

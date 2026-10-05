@@ -8,6 +8,7 @@ export * from "./react/DropdownMenu/index";
 export * from "./react/EditionView/index";
 export * from "./react/GraphView/index";
 export * from "./react/Input/index";
+export * from "./react/NewsMarketStage/index";
 export * from "./react/PageImage/index";
 export * from "./react/PaperReader/index";
 export * from "./react/SearchBox/index";

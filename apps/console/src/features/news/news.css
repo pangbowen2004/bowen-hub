@@ -116,3 +116,21 @@
     padding: 16px;
   }
 }
+
+.compact-feedback {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  padding-block: 20px;
+  border-top: 1px solid var(--border);
+}
+.compact-feedback h2 {
+  margin: 0;
+  font-size: 14px;
+}
+.compact-feedback button {
+  font-size: 12px;
+  padding: 6px 12px;
+}

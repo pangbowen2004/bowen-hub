@@ -33,6 +33,26 @@ export function PaperReader({
       </article>
     );
   const { guide, evidence, structure, learning, resources, citations } = paper;
+  const sourceUrl = paper.meta.sourceUrl ?? resources?.landingPage;
+  let pdfUrl: string | null = null;
+  try {
+    if (sourceUrl) {
+      const url = new URL(sourceUrl);
+      if (["https:", "http:"].includes(url.protocol)) {
+        if (
+          (url.hostname === "arxiv.org" || url.hostname === "www.arxiv.org") &&
+          url.pathname.startsWith("/abs/")
+        )
+          pdfUrl = `https://arxiv.org/pdf/${url.pathname.slice(5)}`;
+        else if (url.hostname === "aclanthology.org" && /^\/[a-zA-Z0-9.-]+\/$/.test(url.pathname))
+          pdfUrl = `https://aclanthology.org${url.pathname.slice(0, -1)}.pdf`;
+        else if (url.pathname.endsWith(".pdf") || url.pathname.startsWith("/pdf/"))
+          pdfUrl = url.href.split("#")[0] ?? null;
+      }
+    }
+  } catch {
+    /* 无可靠PDF地址时只显示已有页码。 */
+  }
   const coverage =
     suppliedCoverage === undefined ? readingCoverage(structure?.coverage) : suppliedCoverage;
   const questions = {
@@ -134,48 +154,47 @@ export function PaperReader({
               <option value="definition">定义</option>
             </select>
           </label>
-          <div className="table-scroll">
-            <table>
-              <caption className="sr-only">论文主张与原文证据</caption>
-              <thead>
-                <tr>
-                  <th scope="col">类型</th>
-                  <th scope="col">主张</th>
-                  <th scope="col">指标</th>
-                  <th scope="col">条件</th>
-                  <th scope="col">定位与边界</th>
-                </tr>
-              </thead>
-              <tbody>
-                {evidence?.claims?.map((claim) => (
-                  <tr
-                    key={claim.id}
-                    data-claim-kind={claim.kind}
-                    hidden={kind !== "all" && kind !== claim.kind}
-                  >
-                    <td>
-                      {
-                        { method: "方法", result: "结果", limitation: "限制", definition: "定义" }[
-                          claim.kind
-                        ]
-                      }
-                    </td>
-                    <td>
-                      {claim.claim}
-                      {claim.claimOrigin === "llm_inferred" && <p className="muted">解释性推断</p>}
-                    </td>
-                    <td>{claim.metric ?? "—"}</td>
-                    <td>{claim.condition ?? "—"}</td>
-                    <td>
-                      {claim.anchor}
-                      {claim.pdfPage && ` · PDF p.${claim.pdfPage}`}
-                      {claim.interpretationBoundary && <p>{claim.interpretationBoundary}</p>}
-                      <EvidenceMark claims={[claim]} label="查看证据" onPage={onPage} />
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
+          <div className="evidence-cards">
+            {evidence?.claims?.map((claim) => (
+              <article
+                className="evidence-card"
+                key={claim.id}
+                data-claim-kind={claim.kind}
+                hidden={kind !== "all" && kind !== claim.kind}
+              >
+                <p className="evidence-kind">
+                  {
+                    { method: "方法", result: "结果", limitation: "限制", definition: "定义" }[
+                      claim.kind
+                    ]
+                  }
+                  {claim.claimOrigin === "llm_inferred" && " · 解释性推断"}
+                </p>
+                <h3>{claim.claim}</h3>
+                {claim.sourceExcerpt && <blockquote>{claim.sourceExcerpt}</blockquote>}
+                {claim.condition && <p className="muted">条件：{claim.condition}</p>}
+                {claim.metric && <p className="muted">指标：{claim.metric}</p>}
+                <div className="evidence-location">
+                  {claim.pdfPage &&
+                    (onPage ? (
+                      <button type="button" onClick={() => onPage(claim.pdfPage as number)}>
+                        原文第 {claim.pdfPage} 页 ↗
+                      </button>
+                    ) : pdfUrl ? (
+                      <a href={`${pdfUrl}#page=${claim.pdfPage}`} target="_blank" rel="noreferrer">
+                        原文第 {claim.pdfPage} 页 ↗
+                      </a>
+                    ) : (
+                      <span>PDF p.{claim.pdfPage}</span>
+                    ))}
+                  {claim.anchor && <span>{claim.anchor}</span>}
+                  <EvidenceMark claims={[claim]} label="查看证据" onPage={onPage} />
+                </div>
+                {claim.interpretationBoundary && (
+                  <p className="muted">{claim.interpretationBoundary}</p>
+                )}
+              </article>
+            ))}
           </div>
         </section>
       )}
@@ -290,7 +309,7 @@ export function PaperReader({
               <ContentTree value={citations?.forward} labels={labels} />
             </>
           )}
-          {resources?.code?.note && <p>{resources.code.note}</p>}
+          {resources?.code?.note && <p>{resources.code.note.split(/\s+\{'label':/)[0]}</p>}
           {Boolean(resources?.secondary?.length) && (
             <>
               <h3>二手材料</h3>

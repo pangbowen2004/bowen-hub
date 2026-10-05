@@ -1,126 +1,216 @@
-import type { GraphData } from "@bowen-hub/contracts";
-import type { ForceGraph3DInstance, NodeObject } from "3d-force-graph";
-import { useEffect, useRef, useState } from "react";
+import type { GraphData, PapersCatalog } from "@bowen-hub/contracts";
+import { useEffect, useMemo, useRef, useState } from "react";
+import { useReducedMotion } from "../../hooks/motion";
+import { atlasPapers } from "./atlas";
+import type { createAtlas } from "./scene";
+import "./atlas.css";
 
-type UniverseNode = NodeObject & GraphData["nodes"][number];
-export function Universe3D({ data }: { data: GraphData }) {
+export function Universe3D({
+  data,
+  catalog,
+  privateLibrary = false,
+}: {
+  data: GraphData;
+  catalog?: PapersCatalog;
+  privateLibrary?: boolean;
+}) {
+  const papers = useMemo(() => atlasPapers(data, catalog), [data, catalog]);
+  const spaces = useMemo(
+    () =>
+      catalog?.spaces ??
+      data.nodes.filter((n) => n.kind === "space").map((n) => ({ id: n.id, label: n.label })),
+    [catalog, data],
+  );
+  const [selected, setSelected] = useState(papers[0]?.id ?? "");
+  const [space, setSpace] = useState("all");
+  const [query, setQuery] = useState("");
+  const [list, setList] = useState(false);
+  const [concept, setConcept] = useState<string | null>(null);
+  const [failure, setFailure] = useState(false);
+  const reduced = useReducedMotion();
   const container = useRef<HTMLDivElement>(null);
-  const instance = useRef<ForceGraph3DInstance | null>(null);
-  const [enabled, setEnabled] = useState(false);
-  const [status, setStatus] = useState("尚未加载 3D 图谱");
+  const instance = useRef<Awaited<ReturnType<typeof createAtlas>> | null>(null);
+  const focus = useRef({ id: selected, space, concept, reduced });
+  focus.current = { id: selected, space, concept, reduced };
+  const current = papers.find((p) => p.id === selected) ?? papers[0];
+  const pool = papers.filter(
+    (p) =>
+      (space === "all" || p.spaces.includes(space)) &&
+      (!query ||
+        [p.title, p.titleZh, ...p.concepts.map((c) => c.label)].some((t) =>
+          t?.toLowerCase().includes(query.trim().toLowerCase()),
+        )),
+  );
   useEffect(() => {
     let disposed = false;
-    let resize: ResizeObserver | undefined;
-    let theme: MutationObserver | undefined;
-    if (!enabled) return;
-    setStatus("正在加载 3D 图谱…");
-    void (async () => {
-      try {
-        const { default: ForceGraph3D } = await import("3d-force-graph");
+    void import("./scene")
+      .then(async ({ createAtlas }) => {
         if (disposed || !container.current) return;
-        const style = getComputedStyle(document.documentElement);
-        const graph = new ForceGraph3D(container.current, { controlType: "orbit" })
-          .width(container.current.clientWidth)
-          .height(520)
-          .backgroundColor(style.getPropertyValue("--bg").trim() || "#f2f1ed")
-          .graphData({
-            nodes: data.nodes.map((n) => ({ ...n })),
-            links: data.edges.map((e) => ({ ...e })),
-          })
-          .nodeColor((node) =>
-            (node as UniverseNode).kind === "paper"
-              ? style.getPropertyValue("--accent").trim() || "#30594d"
-              : (node as UniverseNode).kind === "space"
-                ? style.getPropertyValue("--text").trim() || "#616765"
-                : style.getPropertyValue("--muted").trim() || "#8fa79e",
-          )
-          .nodeLabel((node) => {
-            const label = document.createElement("span");
-            label.textContent = String((node as UniverseNode).label ?? node.id);
-            return label;
-          })
-          .linkColor(() =>
-            getComputedStyle(document.documentElement).getPropertyValue("--border").trim(),
-          )
-          .showNavInfo(false)
-          .onNodeClick((node) => {
-            if ((node as UniverseNode).kind === "paper")
-              window.location.assign(`/papers/${encodeURIComponent(String(node.id))}/`);
-          });
-        instance.current = graph;
-        resize = new ResizeObserver(() => {
-          if (container.current) graph.width(container.current.clientWidth);
-        });
-        resize.observe(container.current);
-        theme = new MutationObserver(() => {
-          const tokens = getComputedStyle(document.documentElement);
-          graph.backgroundColor(tokens.getPropertyValue("--bg").trim());
-          graph.nodeColor((node) =>
-            tokens
-              .getPropertyValue(
-                (node as UniverseNode).kind === "paper"
-                  ? "--accent"
-                  : (node as UniverseNode).kind === "space"
-                    ? "--text"
-                    : "--muted",
-              )
-              .trim(),
-          );
-          graph.linkColor(() => tokens.getPropertyValue("--border").trim());
-        });
-        theme.observe(document.documentElement, {
-          attributes: true,
-          attributeFilter: ["data-theme", "class"],
-        });
-        if (matchMedia("(prefers-reduced-motion: reduce)").matches) graph.cooldownTicks(0);
-        setStatus("3D 图谱已加载");
-      } catch {
-        if (!disposed) setStatus("3D 图谱无法加载，请使用 2D 图谱或下方论文链接。");
-      }
-    })();
+        const atlas = await createAtlas(
+          container.current,
+          papers,
+          spaces,
+          (id) => {
+            setSelected(id);
+            setConcept(null);
+          },
+          setConcept,
+        );
+        if (disposed) {
+          atlas.dispose();
+          return;
+        }
+        instance.current = atlas;
+        atlas.setFocus(focus.current);
+      })
+      .catch(() => {
+        if (!disposed) setFailure(true);
+      });
     return () => {
       disposed = true;
-      resize?.disconnect();
-      theme?.disconnect();
-      instance.current?._destructor();
+      instance.current?.dispose();
       instance.current = null;
     };
-  }, [data, enabled]);
+  }, [papers, spaces]);
+  useEffect(() => {
+    instance.current?.setFocus({ id: selected, space, concept, reduced });
+  }, [selected, space, concept, reduced]);
+  const title = (p: (typeof papers)[number]) => p.titleZh ?? p.title;
+  const readHref = (id: string) => `/papers/${encodeURIComponent(id)}${privateLibrary ? "" : "/"}`;
+  const select = (id: string) => {
+    setSelected(id);
+    setConcept(null);
+    setList(false);
+    setQuery("");
+  };
   return (
-    <section
-      aria-label="3D 论文宇宙"
-      style={{ minWidth: 0, maxWidth: "100%", overflowWrap: "anywhere" }}
-    >
-      <p>电脑体验更好。拖动旋转，滚轮缩放，点击论文节点进入导读。</p>
-      <p>
-        <a href="/graph/">前往 2D 图谱</a>
-      </p>
-      {!enabled && (
-        <button type="button" onClick={() => setEnabled(true)} style={{ minHeight: 44 }}>
-          加载 3D 图谱
-        </button>
-      )}
-      <p role="status">{status}</p>
-      <div
-        ref={container}
-        data-universe-canvas
-        style={{
-          width: "100%",
-          maxWidth: "100%",
-          height: enabled ? 520 : 0,
-          overflow: "hidden",
-          position: "relative",
-        }}
-      />
-      <ul aria-label="宇宙论文">
-        {data.nodes
-          .filter((n) => n.kind === "paper")
-          .map((n) => (
-            <li key={n.id}>
-              <a href={`/papers/${n.id}/`}>{n.label}</a>
+    <section className="research-atlas" aria-label="论文宇宙">
+      <div className="data-stage atlas-stage">
+        <header className="atlas-heading">
+          <div>
+            <p className="eyebrow">研究图谱 / RESEARCH ATLAS</p>
+            {privateLibrary ? <h2>全部研究空间</h2> : <h1>知识宇宙</h1>}
+          </div>
+          <dl>
+            <div>
+              <dt>论文</dt>
+              <dd>{papers.length}</dd>
+            </div>
+            <div>
+              <dt>概念</dt>
+              <dd>{data.nodes.filter((n) => n.kind === "concept").length}</dd>
+            </div>
+            <div>
+              <dt>关系</dt>
+              <dd>{data.edges.filter((e) => e.type === "discusses").length}</dd>
+            </div>
+          </dl>
+        </header>
+        <div className="atlas-toolbar">
+          <button type="button" aria-pressed={space === "all"} onClick={() => setSpace("all")}>
+            全部论文
+          </button>
+          {spaces.map((s) => (
+            <button
+              type="button"
+              key={s.id}
+              aria-pressed={space === s.id}
+              onClick={() => {
+                setSpace(s.id);
+                const first = papers.find((p) => p.spaces.includes(s.id));
+                if (first) select(first.id);
+              }}
+            >
+              {s.label}
+            </button>
+          ))}
+          <button type="button" aria-pressed={list} onClick={() => setList(!list)}>
+            {list ? "图谱视图" : "列表视图"}
+          </button>
+          <input
+            type="search"
+            value={query}
+            aria-label="查找论文或概念"
+            placeholder="查找论文或概念…"
+            onChange={(e) => setQuery(e.target.value)}
+          />
+        </div>
+        <div className="atlas-frame" hidden={list}>
+          <div className="atlas-scene" ref={container} data-universe-canvas>
+            <div className="atlas-space-labels">
+              {spaces.map((s) => (
+                <span key={s.id}>
+                  {s.label} <small>{papers.filter((p) => p.spaces.includes(s.id)).length}</small>
+                </span>
+              ))}
+            </div>
+            {failure && (
+              <p className="atlas-webgl-fallback" role="status">
+                三维视图暂不可用，论文列表仍可阅读。
+              </p>
+            )}
+          </div>
+          {current && (
+            <aside className="atlas-focus" aria-live="polite">
+              <p className="eyebrow">阅读焦点 / READING FOCUS</p>
+              <h2>{title(current)}</h2>
+              <p className="atlas-meta">
+                {[current.year, spaces.find((s) => current.spaces.includes(s.id))?.label]
+                  .filter(Boolean)
+                  .join(" · ")}
+              </p>
+              {current.oneSentence && <p>{current.oneSentence}</p>}
+              <div className="atlas-chips">
+                {current.concepts.map((c) => (
+                  <button
+                    key={c.id}
+                    type="button"
+                    aria-pressed={concept === c.id}
+                    onClick={() => setConcept(concept === c.id ? null : c.id)}
+                  >
+                    {c.label}
+                  </button>
+                ))}
+              </div>
+              <a className="read-paper" href={readHref(current.id)}>
+                阅读这篇 <span aria-hidden="true">↗</span>
+              </a>
+            </aside>
+          )}
+        </div>
+      </div>
+      <div className="atlas-reading" id="paper-list">
+        <header>
+          <h2>
+            {query ? "搜索结果" : privateLibrary ? "全部论文" : "公开论文"}{" "}
+            <span>{pool.length} 篇</span>
+          </h2>
+        </header>
+        <ul aria-label="宇宙论文">
+          {pool.map((p) => (
+            <li key={p.id} data-paper-id={p.id} className={p.id === selected ? "selected" : ""}>
+              <div>
+                <a className="atlas-paper-title" href={readHref(p.id)}>
+                  {title(p)}
+                </a>
+                <p className="atlas-list-meta">
+                  {p.spaces.map((id) => spaces.find((s) => s.id === id)?.label ?? id).join(" · ")}
+                  {p.year && ` · ${p.year}`}
+                </p>
+                {p.oneSentence && <p>{p.oneSentence}</p>}
+              </div>
+              <button
+                type="button"
+                onClick={() => select(p.id)}
+                aria-label={`在图谱中定位 ${title(p)}`}
+              >
+                定位 ↗
+              </button>
             </li>
           ))}
-      </ul>
+        </ul>
+        {pool.length === 0 && <p>没有匹配的论文。</p>}
+      </div>
     </section>
   );
 }

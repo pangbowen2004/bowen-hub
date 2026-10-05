@@ -66,7 +66,7 @@ test("纸面主题和全部导航入口", async ({ page }) => {
   await page.emulateMedia({ reducedMotion: "reduce", colorScheme: "light" });
   await page.goto("/");
   await expect(page.locator("html")).not.toHaveAttribute("data-theme");
-  await expect(page.locator("body")).toHaveCSS("background-color", "rgb(242, 241, 237)");
+  await expect(page.locator("body")).toHaveCSS("background-color", "rgb(239, 238, 232)");
   await page.getByRole("button", { name: "主题：跟随系统" }).click();
   await page.getByRole("button", { name: "主题：浅色" }).click();
   await expect(page.locator("html")).toHaveAttribute("data-theme", "dark");
@@ -97,8 +97,8 @@ test("主题按钮悬停与手机触控目标", async ({ page }) => {
   await page.goto("/");
   const theme = page.getByRole("button", { name: "主题：跟随系统" });
   await theme.hover();
-  await expect(theme).toHaveCSS("background-color", "rgb(36, 40, 42)");
-  await expect(theme).toHaveCSS("color", "rgb(242, 241, 237)");
+  await expect(theme).toHaveCSS("background-color", "rgb(37, 48, 46)");
+  await expect(theme).toHaveCSS("color", "rgb(239, 238, 232)");
   await theme.click();
   await page.getByRole("button", { name: "主题：浅色" }).click();
   await page.getByRole("button", { name: "主题：深色" }).hover();

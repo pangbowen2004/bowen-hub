@@ -1,7 +1,9 @@
 """邮件纯渲染；不读取环境、文件、网络或发信。"""
 
+import re
 from collections.abc import Mapping, Sequence
 from dataclasses import dataclass, field
+from datetime import datetime
 from urllib.parse import urlsplit
 from zoneinfo import ZoneInfo
 
@@ -30,6 +32,14 @@ class Link:
     title: str
     url: str
     source: str = ""
+    published_at: datetime | None = None
+
+
+def source_link_label(link: Link) -> str:
+    label = link.title if re.search(r"[\u3400-\u9fff]", link.title) else ""
+    if not label and link.published_at is not None:
+        label = link.published_at.astimezone(ZoneInfo("Asia/Singapore")).strftime("%m-%d %H:%M")
+    return (link.source or "原文") + (" · " + label if label else "") + " ↗"
 
 
 @dataclass(frozen=True)
@@ -148,10 +158,7 @@ def sections(edition: Edition, context: RenderContext) -> tuple[Section, ...]:
                 else:
                     refs = [
                         Link(
-                            (ref.source or "原文")
-                            + " · "
-                            + chinese_title("", data.whatHappened)
-                            + " ↗",
+                            source_link_label(ref),
                             ref.url,
                         )
                         for ref in refs
@@ -187,7 +194,14 @@ def sections(edition: Edition, context: RenderContext) -> tuple[Section, ...]:
                                 Link(
                                     "原文 →"
                                     if context.headline_only
-                                    else source + " · " + title + " ↗",
+                                    else source_link_label(
+                                        Link(
+                                            data.article.title,
+                                            data.article.url,
+                                            source,
+                                            data.article.publishedAt,
+                                        )
+                                    ),
                                     data.article.url,
                                 )
                             ]
@@ -289,10 +303,16 @@ def sections(edition: Edition, context: RenderContext) -> tuple[Section, ...]:
                                     Link(
                                         "原文 →"
                                         if context.headline_only
-                                        else context.settings.source(digest.article.sourceId).name
-                                        + " · "
-                                        + chinese_title(digest.article.title, digest.summary)
-                                        + " ↗",
+                                        else source_link_label(
+                                            Link(
+                                                digest.article.title,
+                                                digest.article.url,
+                                                context.settings.source(
+                                                    digest.article.sourceId
+                                                ).name,
+                                                digest.article.publishedAt,
+                                            )
+                                        ),
                                         digest.article.url,
                                     )
                                 ]

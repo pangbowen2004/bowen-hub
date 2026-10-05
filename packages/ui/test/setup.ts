@@ -4,3 +4,8 @@ Object.assign(HTMLElement.prototype, {
   releasePointerCapture: () => {},
   scrollIntoView: () => {},
 });
+
+Object.defineProperty(window, "matchMedia", {
+  writable: true,
+  value: () => ({ matches: true, addEventListener: () => {}, removeEventListener: () => {} }),
+});

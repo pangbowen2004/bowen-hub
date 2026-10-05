@@ -1,0 +1,21 @@
+---
+import type { MarketDay } from "@bowen-hub/contracts";
+import { MarketInstrument } from "@bowen-hub/ui/react/MarketInstrument";
+
+const { day } = Astro.props as { day: MarketDay };
+---
+<div data-static-instrument>
+  <MarketInstrument day={day} />
+  {(day.directions?.items ?? []).map((_, index) => (
+    <template data-direction-panel={index}><MarketInstrument day={day} initialIndex={index} detailOnly /></template>
+  ))}
+</div>
+<script>
+  import { mountMarketInstrument } from "../../../../packages/ui/src/react/MarketInstrument/static";
+  for (const wrapper of document.querySelectorAll<HTMLElement>("[data-static-instrument]")) {
+    const root = wrapper.querySelector<HTMLElement>(".market-instrument");
+    if (!root) continue;
+    for (const template of wrapper.querySelectorAll("template")) root.append(template);
+    mountMarketInstrument(root);
+  }
+</script>
