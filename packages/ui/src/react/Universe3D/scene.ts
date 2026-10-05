@@ -44,7 +44,7 @@ export async function createAtlas(
   composer.addPass(new RenderPass(scene, camera));
   const bokeh = new BokehPass(scene, camera, { focus: 15, aperture: 0.00004, maxblur: 0.002 });
   composer.addPass(bokeh);
-  composer.addPass(new UnrealBloomPass(new T.Vector2(1000, 570), 0.65, 0.45, 0.7));
+  composer.addPass(new UnrealBloomPass(new T.Vector2(1000, 570), 0.95, 0.45, 0.85));
   composer.addPass(new OutputPass());
   const root = new T.Group(),
     connections = new T.Group();
@@ -132,7 +132,7 @@ export async function createAtlas(
         side: T.DoubleSide,
         clearcoat: 0.5,
       });
-      const mesh = new T.Mesh(new T.BoxGeometry(0.18, h, 0.018), m);
+      const mesh = new T.Mesh(new T.BoxGeometry(papers.length > 40 ? 0.3 : 0.62, h, 0.018), m);
       mesh.position.set(Math.sin(t) * r, h / 2 + 0.12, Math.cos(t) * r - r + 1);
       mesh.rotation.y = t;
       mesh.rotation.z = -0.1;
@@ -171,19 +171,29 @@ export async function createAtlas(
     if (!active) return;
     root.updateWorldMatrix(true, true);
     const origin = active.mesh.getWorldPosition(new T.Vector3());
+    const orientation = active.mesh.getWorldQuaternion(new T.Quaternion());
+    const right = new T.Vector3(1, 0, 0).applyQuaternion(orientation);
+    right.y = 0;
+    right.normalize();
+    const front = new T.Vector3(0, 0, 1).applyQuaternion(orientation);
+    front.y = 0;
+    front.normalize();
     const concepts = focus.concept
       ? active.paper.concepts.filter((c) => c.id === focus.concept)
       : active.paper.concepts;
     concepts.forEach((c, i) => {
       const cols = Math.ceil(Math.sqrt(concepts.length) * 1.8),
-        position = new T.Vector3(
-          -2.8 + ((i % cols) * 5.6) / Math.max(1, cols - 1),
-          3 + Math.floor(i / cols) * 0.6,
-          2.5,
-        );
+        position = origin
+          .clone()
+          .addScaledVector(front, 0.7)
+          .addScaledVector(right, -2.1 + ((i % cols) * 4.2) / Math.max(1, cols - 1));
+      position.y = origin.y + 2.1 + Math.floor(i / cols) * 0.6;
       const curve = new T.QuadraticBezierCurve3(
         origin,
-        new T.Vector3(origin.x * 0.3, 4.4, 1),
+        origin
+          .clone()
+          .lerp(position, 0.5)
+          .add(new T.Vector3(0, 0.65, 0)),
         position,
       );
       connections.add(
@@ -207,13 +217,17 @@ export async function createAtlas(
     if (active) {
       root.updateWorldMatrix(true, true);
       const pos = active.mesh.getWorldPosition(new T.Vector3());
-      const gi = spaces.findIndex((s) => s.id === (active.paper.spaces[0] ?? spaces[0]?.id));
-      targetPos.set(
-        value.space === "all" ? pos.x * 0.18 + 0.7 : (gi - 1) * 1.9,
-        4.2 + gi * 0.2,
-        el.clientWidth < 600 ? 18 : 10.5,
+      // 沿选中书页的正面法线移动镜头，而不是从远处只看见侧边。
+      const normal = new T.Vector3(0, 0, 1).applyQuaternion(
+        active.mesh.getWorldQuaternion(new T.Quaternion()),
       );
-      targetLook.set(pos.x * 0.22, 0.7 + gi * 0.25, 0.2 - gi * 0.3);
+      normal.y = 0;
+      normal.normalize();
+      const distance = el.clientWidth < 600 ? 15 : 9;
+      targetPos.copy(pos).addScaledVector(normal, distance);
+      targetPos.y = pos.y + 3.2;
+      targetLook.copy(pos);
+      targetLook.y += 0.8;
     }
     rebuild();
     if (value.reduced) {
@@ -234,8 +248,15 @@ export async function createAtlas(
       const visible = focus.space === "all" || paper.spaces.includes(focus.space),
         selected = paper.id === focus.id,
         related = paper.concepts.some((c) => cs.includes(c.id));
-      mesh.material.opacity = visible ? (selected ? 0.8 : related ? 0.56 : 0.18) : 0.03;
-      mesh.material.emissiveIntensity = visible ? (selected ? 1.6 : related ? 0.75 : 0.025) : 0.01;
+      mesh.material.opacity = visible ? (selected ? 0.94 : related ? 0.65 : 0.24) : 0.03;
+      mesh.material.emissive.set(
+        selected
+          ? "#fff0d5"
+          : (colors[
+              spaces.findIndex((s) => s.id === (paper.spaces[0] ?? spaces[0]?.id)) % colors.length
+            ] ?? "#a497b4"),
+      );
+      mesh.material.emissiveIntensity = visible ? (selected ? 3.4 : related ? 1.35 : 0.08) : 0.01;
       const progress = focus.reduced
         ? 1
         : Math.min(1, Math.max(0, (now - started - 260 - i * 4) / 600));
@@ -245,8 +266,7 @@ export async function createAtlas(
         (selected ? 0.22 : 0) +
         (focus.reduced ? 0 : Math.sin(now * 0.0004 + i * 0.12) * 0.018);
       mesh.children.forEach((c) => {
-        if (c instanceof T.LineSegments)
-          c.material.opacity = selected ? 0.7 : related ? 0.38 : 0.08;
+        if (c instanceof T.LineSegments) c.material.opacity = selected ? 1 : related ? 0.65 : 0.18;
       });
     });
     if (!focus.reduced) {

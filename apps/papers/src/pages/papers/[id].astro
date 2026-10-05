@@ -37,7 +37,7 @@ const related = relatedPapers(
  <p class="muted">{[meta.venue,meta.year,meta.version].filter(Boolean).join(' · ')}</p>
  <p>{[meta.paperType,meta.studyDesign].filter(Boolean).join(' · ')}</p>
  <div class="tag-row">{paper.spaces?.map(space=><a class="badge" href={`/spaces/${space}/`}>{catalog.spaces.find(s=>s.id===space)?.label??space}</a>)}{resources?.code && <span class="badge">代码：{{verified:'已核查',unverified:'待核查',not_found:'未找到'}[resources.code.status]}</span>}</div>
- <nav class="reading-links" aria-label="论文资源">{links.source && <a href={links.source}>原文主页 ↗</a>}{links.code && <a href={links.code}>代码 ↗</a>}<details class="public-paper-management"><summary>管理</summary><a href={`/papers/${paper.id}.md`}>导出 Markdown</a></details><a href="#evidence">原文证据</a></nav>
+ <nav class="reading-links" aria-label="论文资源">{links.source && <a href={links.source}>原文主页 ↗</a>}{links.code && <a href={links.code}>代码 ↗</a>}<details class="public-paper-management"><summary>导出</summary><a href={`/papers/${paper.id}.md`}>导出 Markdown</a></details><a href="#evidence">原文证据</a></nav>
 </header>
 <PaperReader paper={paper} paragraphs={paragraphs} coverage={coverage} related={related}/>
 </BaseLayout>

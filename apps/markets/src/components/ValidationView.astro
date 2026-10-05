@@ -1,6 +1,7 @@
 ---
 import type { Hypothesis, MarketDay } from "@bowen-hub/contracts";
 import { pct } from "@bowen-hub/ui/format";
+import { actualText, resultLabels as labels, resultNote, ruleLabels } from "./hypothesis-text";
 import MarketTable from "./MarketTable.astro";
 
 interface Props {
@@ -14,25 +15,11 @@ const stats = day.validation
       { title: "近20个交易日", rows: day.validation.stats.last20TradingDays },
     ]
   : [];
-const ruleLabels: Record<string, string> = {
-  MARKET_PERSISTENCE: "市场持续性",
-  LIMIT_ECOLOGY: "涨停生态",
-  DIRECTION_PERSISTENCE: "强势方向延续",
-  DIRECTION_REPAIR: "弱势方向修复",
-  DIRECTION_SPREAD: "方向剪刀差",
-  manual: "手写（无规则）",
-};
-const labels: Record<string, string> = {
-  PENDING: "待结算",
-  CONFIRMED: "已确认",
-  NOT_CONFIRMED: "未确认",
-  INCONCLUSIVE: "证据不足",
-};
 ---
-<section><h2>判断也要接受检验</h2><p>Research Error 只包含未确认，证据不足单列；分母为已结算条数，近20交易日按结算日。</p>{stats.map(({title,rows})=><MarketTable caption={title} columns={['规则','已结算','确认','未确认','证据不足','确认率','未确认率','证据不足率'].map((label,i)=>({label,numeric:i>0}))} rows={rows.map(x=>({cells:[ruleLabels[x.ruleType??'manual']??x.ruleType,x.settledCount,x.confirmedCount,x.notConfirmedCount,x.inconclusiveCount,pct(x.confirmedShare,{sign:false}),pct(x.notConfirmedShare,{sign:false}),pct(x.inconclusiveShare,{sign:false})]}))}/>)}</section>
+<section><h2>判断也要接受检验</h2><p>未确认判断单独统计，证据不足单列；分母为已结算条数，近20交易日按结算日。</p>{stats.map(({title,rows})=><MarketTable caption={title} columns={['规则','已结算','确认','未确认','证据不足','确认率','未确认率','证据不足率'].map((label,i)=>({label,numeric:i>0}))} rows={rows.map(x=>({cells:[ruleLabels[x.ruleType??'manual']??x.ruleType,x.settledCount,x.confirmedCount,x.notConfirmedCount,x.inconclusiveCount,pct(x.confirmedShare,{sign:false}),pct(x.notConfirmedShare,{sign:false}),pct(x.inconclusiveShare,{sign:false})]}))}/>)}</section>
 <form class="filters" data-hypothesis-filter><label>日期<input type="date" name="date" aria-label="日期"/></label><label>类型<select name="type" aria-label="类型"><option value="">全部规则</option>{Array.from(new Set(hypotheses.map(x=>x.rule?.type??'manual'))).map(type=><option value={type}>{ruleLabels[type]??type}</option>)}</select></label><label>结果<select name="result" aria-label="结果"><option value="">全部结果</option>{Object.entries(labels).map(([value,label])=><option value={value}>{label}</option>)}</select></label><button type="reset">清除筛选</button></form>
 <p role="status" data-filter-count>共 {hypotheses.length} 条假设</p>
-<section aria-label="全部假设">{hypotheses.map(row=><article class="hypothesis" data-hypothesis data-date={row.createdOn} data-type={row.rule?.type??'manual'} data-result={row.result}><p class="eyebrow">{row.createdOn} → {row.dueOn} · {labels[row.result]}{day.validation?.createdToday.includes(row.id)?' · 今日生成':''}{day.validation?.settledToday.includes(row.id)?' · 今日结算':''}</p><h3>{row.title}</h3><p>{row.resultNote}</p><details><summary>查看确认、失效与反证</summary><dl><dt>确认条件</dt><dd>{row.confirmation}</dd><dt>失效条件</dt><dd>{row.invalidation}</dd><dt>风险</dt><dd>{row.risk}</dd><dt>反证</dt><dd>{row.counterEvidence}</dd></dl>{row.actual && <pre>{JSON.stringify(row.actual,null,2)}</pre>}</details></article>)}</section>
+<section aria-label="全部假设">{hypotheses.map(row=><article class="hypothesis" data-hypothesis data-date={row.createdOn} data-type={row.rule?.type??'manual'} data-result={row.result}><p class="eyebrow">{row.createdOn} → {row.dueOn} · {labels[row.result]}{day.validation?.createdToday.includes(row.id)?' · 今日生成':''}{day.validation?.settledToday.includes(row.id)?' · 今日结算':''}</p><h3>{row.title}</h3><p>{resultNote(row)}</p><details><summary>查看确认、失效与反证</summary><dl><dt>确认条件</dt><dd>{row.confirmation}</dd><dt>失效条件</dt><dd>{row.invalidation}</dd><dt>风险</dt><dd>{row.risk}</dd><dt>反证</dt><dd>{row.counterEvidence}</dd></dl>{row.actual && <p>{actualText(row.actual)}</p>}</details></article>)}</section>
 <script>
 const form=document.querySelector<HTMLFormElement>('[data-hypothesis-filter]');
 if(form){const update=()=>{const values=new FormData(form);let count=0;for(const article of document.querySelectorAll<HTMLElement>('[data-hypothesis]')){const visible=['date','type','result'].every(key=>!values.get(key)||values.get(key)===article.dataset[key]);article.hidden=!visible;if(visible)count++;}const status=document.querySelector('[data-filter-count]');if(status)status.textContent=`显示 ${count} 条假设`;};form.addEventListener('change',update);form.addEventListener('reset',()=>setTimeout(update,0));}

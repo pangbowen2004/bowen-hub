@@ -112,12 +112,18 @@ it("证据卡保留原文摘录，物理页链接不跳到论文首页", () => {
           sourceExcerpt: "Original quotation",
           pdfPage: 7,
         },
+        {
+          id: "c2",
+          kind: "result" as const,
+          claim: "尚未找到摘录的证据",
+        },
       ],
     },
   };
   const { container } = render(<PaperReader paper={paper} />);
   expect(container.textContent).toContain("已核对官方代码。");
   expect(container.textContent).not.toContain("{'label':");
+  expect(screen.getAllByText("原文未找到").length).toBeGreaterThan(0);
   expect(
     screen.getAllByText("Original quotation").every((node) => node.tagName === "BLOCKQUOTE"),
   ).toBe(true);
