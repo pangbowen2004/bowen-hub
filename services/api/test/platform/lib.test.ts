@@ -5,7 +5,7 @@ import { app } from "../../src/app";
 import { dispatch } from "../../src/lib/github";
 import { readFile, writeFile } from "../../src/lib/r2";
 import { tools as marketTools } from "../../src/modules/markets/mcp";
-import { tools } from "../../src/modules/mcp/registry";
+import { exposedTools, tools } from "../../src/modules/mcp/registry";
 import { tools as newsTools } from "../../src/modules/news/mcp";
 import { tools as paperTools } from "../../src/modules/papers/mcp";
 import { tools as watchlistTools } from "../../src/modules/watchlist/mcp";
@@ -73,13 +73,26 @@ describe("存储和GitHub薄封装", () => {
       logs.mockRestore();
     }
   });
-  it("MCP入口仍是任务占位，领域工具已接线", async () => {
-    for (const [path, task] of [["/mcp", "T41"]]) {
-      const response = await app.request(`http://localhost${path}`, { method: "POST" }, env);
-      expect(response.status).toBe(501);
-      expect(schemas.Problem.parse(await response.json()).detail).toBe(`未实现（任务 ${task}）`);
-    }
+  it("MCP入口是受OAuth保护的真实服务，领域工具已接线，对外正好是文档列出的12个", async () => {
+    const response = await app.request("http://localhost/mcp", { method: "POST" }, env);
+    expect(response.status).toBe(401);
+    expect(response.headers.get("www-authenticate")).toContain("resource_metadata=");
     expect(tools).toEqual([...newsTools, ...watchlistTools, ...marketTools, ...paperTools]);
     expect(new Set(tools.map((tool) => tool.name)).size).toBe(tools.length);
+    // docs/09 第 6 节的工具表，顺序一致。
+    expect(exposedTools().map((tool) => tool.name)).toEqual([
+      "news_latest_edition",
+      "news_search",
+      "news_ticker_timeline",
+      "watchlist_list",
+      "watchlist_add",
+      "watchlist_remove",
+      "markets_day",
+      "markets_hypotheses",
+      "papers_search",
+      "papers_get",
+      "papers_ask",
+      "papers_ingest_url",
+    ]);
   });
 });

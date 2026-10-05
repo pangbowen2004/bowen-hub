@@ -57,6 +57,14 @@ export function createAuth(env: Bindings) {
         allowDynamicClientRegistration: true,
         allowUnauthenticatedClientRegistration: true,
         scopes: ["openid", "profile", "offline_access", "mcp"],
+        // 将JWT绑定到签发时存在的授权记录，避免秒级iat无法区分撤销再授权。
+        customAccessTokenClaims: async ({ user, scopes }) => {
+          if (!user || !scopes.includes("mcp")) return {};
+          const { results } = await env.DB.prepare("SELECT id FROM oauth_consent WHERE user_id=?")
+            .bind(user.id)
+            .all<{ id: string }>();
+          return { hub_mcp_grants: results.map((row) => row.id) };
+        },
       }),
       bootstrapPlugin(env),
     ],
