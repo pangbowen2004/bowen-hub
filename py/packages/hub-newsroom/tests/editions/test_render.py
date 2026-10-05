@@ -94,6 +94,10 @@ def test_budget_removes_whole_rows_not_text(
     before = {item.id: item.model_dump() for section in edition.sections for item in section.items}
     trimmed = trim_edition(edition, settings, lambda row: body_text(row, context))
     assert trimmed.removed_ids
+    # 无新闻评分的行情快照不能因预算被整块丢掉，邮件和归档保留全部行情。
+    kept = next(s for s in trimmed.edition.sections if isinstance(s, NewsSnapshotSection))
+    original = next(s for s in edition.sections if isinstance(s, NewsSnapshotSection))
+    assert kept == original
     assert trimmed.body_chars <= settings.newsroom.editions["morning"].readingBudgetChars
     for section in trimmed.edition.sections:
         for item in section.items:

@@ -1,5 +1,22 @@
 [
   {
+    "kind": "close_snapshot",
+    "title": "收盘快照",
+    "items": [
+      {
+        "id": "snapshot",
+        "data": {
+          "indices": [],
+          "watchlist": [],
+          "treasury10Year": null,
+          "vix": 16.34
+        },
+        "ruleScore": null,
+        "clusterId": null
+      }
+    ]
+  },
+  {
     "kind": "ticker_digests",
     "title": "自选股动态",
     "items": [

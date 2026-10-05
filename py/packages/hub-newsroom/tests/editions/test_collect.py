@@ -219,3 +219,61 @@ def test_calendar_importance_is_unspecified(settings: Settings, calendar: NyseCa
     assert all(row.importance == "unspecified" for row in result.events)
     assert result.events[-1].at is None
     assert result.events[-1].timing == "amc"
+
+
+def test_quotes_cover_quiet_stocks_etfs_and_crypto(
+    settings: Settings, calendar: NyseCalendar, watchlist: list[WatchItem]
+) -> None:
+    from datetime import date
+
+    # 没有任何新闻：行情仍覆盖全部活跃股票、杠杆ETF和两种加密货币。
+    watches = [w for w in watchlist if w.symbol != "TEST"]
+    watches.append(watches[-1].model_copy(update={"symbol": "XRP"}))
+    watches.append(watches[0].model_copy(update={"symbol": "INACTIVE", "active": False}))
+    requested: set[str] = set()
+
+    def response(request: httpx.Request) -> httpx.Response:
+        symbols = request.url.params["symbols"].split(",")
+        requested.update(symbols)
+        crypto = "/crypto/" in request.url.path
+        days = (
+            ["2026-09-29", "2026-09-30"] if crypto else ["2026-09-28", "2026-09-29", "2026-09-30"]
+        )
+        return httpx.Response(
+            200,
+            json={
+                "bars": {
+                    symbol: [
+                        {"t": day + ("T00:00:00Z" if crypto else "T04:00:00Z"), "c": 100 + i}
+                        for i, day in enumerate(days)
+                    ]
+                    for symbol in symbols
+                },
+                "next_page_token": None,
+            },
+            request=request,
+        )
+
+    sources = [
+        s
+        for s in sources_config(load_config(ROOT / "config/news_sources.yaml"))
+        if s.type == "alpaca_bars"
+    ]
+    environment = EnvironmentSettings.model_construct(
+        alpaca_api_key_id=SecretStr("offline"), alpaca_api_secret_key=SecretStr("offline")
+    )
+    with httpx.Client(transport=httpx.MockTransport(response)) as client:
+        result = Collector(
+            environment, settings, sources, HttpClient(client=client, retries=0), calendar
+        ).collect(
+            edition_window("morning", datetime(2026, 10, 1, 4, tzinfo=UTC), settings, calendar),
+            watches,
+        )
+    assert not result.articles
+    assert result.snapshot_session == date(2026, 9, 30)
+    assert result.snapshot is not None
+    assert {q.symbol for q in result.snapshot.watchlist} == {w.symbol for w in watches if w.active}
+    assert "TSMX" in requested
+    assert "BTC/USD" in requested
+    assert "XRP/USD" in requested
+    assert "INACTIVE" not in requested

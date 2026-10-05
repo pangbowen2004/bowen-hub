@@ -3,7 +3,7 @@
 from collections.abc import Callable
 from dataclasses import dataclass
 
-from hub_contracts import Edition, NewsInternationalSection
+from hub_contracts import Edition, NewsInternationalSection, NewsSnapshotSection
 from hub_newsroom.common.settings import Settings
 
 
@@ -26,6 +26,9 @@ def trim_to_budget(
         # 每个候选路径指向一条完整内容，国际栏目内部也按文章逐条删除。
         candidates: list[tuple[float, int, int, str, int, str]] = []
         for section_index, section in enumerate(current.sections):
+            # 行情事实包覆盖全部自选股，不参与新闻相关性排名，不能整块裁掉。
+            if isinstance(section, NewsSnapshotSection):
+                continue
             for item_index, item in enumerate(section.items):
                 if isinstance(section, NewsInternationalSection):
                     for group in ("top5", "briefs"):

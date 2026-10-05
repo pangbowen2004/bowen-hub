@@ -76,6 +76,15 @@
   color: #a8b7c0;
   font-size: 12px;
 }
+.overnight-missing {
+  margin-top: 12px;
+}
+.overnight-missing summary {
+  color: #a8b7c0;
+  padding: 10px 0;
+  cursor: pointer;
+  font-size: 13px;
+}
 .overnight-events {
   display: grid;
   gap: 12px;
@@ -151,7 +160,23 @@
     gap: 8px;
   }
   .overnight-grid {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-template-columns: 1fr;
+    border: 0;
+  }
+  .overnight-grid button {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    padding: 9px 12px;
+    gap: 3px 12px;
+  }
+  .overnight-grid strong {
+    grid-column: 2;
+    grid-row: 1 / 3;
+    align-self: center;
+    font-size: 22px;
+  }
+  .overnight-name {
+    grid-column: 1;
   }
   .overnight-events > div {
     flex-direction: column;

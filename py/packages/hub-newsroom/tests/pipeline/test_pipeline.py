@@ -638,10 +638,12 @@ def test_budget_deletes_whole_lowest_item(
     result = trim_to_budget(edition, 400, body)
     assert result.body_chars <= 400
     assert edition.model_dump_json() == original
-    assert "snapshot" in result.removed_ids
+    assert "snapshot" not in result.removed_ids
+    assert any(isinstance(section, NewsSnapshotSection) for section in result.edition.sections)
     assert "ticker:NVDA" not in result.removed_ids
-    result0 = trim_to_budget(edition, 0, body)
-    assert result0.body_chars == 0
+    # 行情本身装不进预算时明确失败，不能再静默丢掉全自选行情。
+    with pytest.raises(ValueError, match="非条目正文"):
+        trim_to_budget(edition, 0, body)
     impossible = edition.model_copy(
         update={"sections": [], "lede": EditionLede(lines=["长导语"], generatedBy=None)}
     )
