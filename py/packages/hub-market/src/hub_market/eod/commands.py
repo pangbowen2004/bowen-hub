@@ -153,6 +153,9 @@ def backfill(
     start: str = typer.Option(...),
     end: str = typer.Option(...),
     warmup_cache: Path | None = None,
+    force: Annotated[
+        bool, typer.Option(help="重建已有完整日与周报；按日期顺序修复历史摘要")
+    ] = False,
     dispatch: Annotated[
         bool,
         typer.Option(
@@ -168,7 +171,7 @@ def backfill(
         resources = create(
             repository(), Settings(), warmup_cache=warmup_cache, dispatch_enabled=dispatch
         )
-        results = resources[0].backfill(first, last)
+        results = resources[0].backfill(first, last, force=force)
         typer.echo(
             f"回填处理 {len(results)} 个真实交易日；发布 {sum(value.published for value in results)} 日"
             + ("" if dispatch else "；未派发部署（--no-dispatch）")

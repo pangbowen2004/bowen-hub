@@ -34,6 +34,26 @@ def verify_history(
     check.differences.extend(f"非交易日却有 MarketDay：{day}" for day in extra)
     incomplete = sorted(day for day, row in summaries.items() if not row.complete)
 
+    # 完整日期不等于内容一致：旧完整日可能嵌着补丁前预热摘要，必须逐日核对。
+    for on in sorted(set(sessions) & summaries.keys()):
+        document = store.day(on)
+        if document is None:
+            check.differences.append(f"缺 MarketDay 正文：{on}")
+            continue
+        for row in document.evolution.rows:
+            canonical = summaries.get(row.date)
+            if canonical is None:
+                continue  # 起点之前的真实预热摘要没有正式日文档，不伪造比较。
+            fields = [
+                key
+                for key in type(canonical).model_fields
+                if getattr(row, key) != getattr(canonical, key)
+            ]
+            if fields:
+                check.differences.append(
+                    f"MarketDay {on} 演化摘要 {row.date} 与正式摘要不一致（{','.join(fields)}）"
+                )
+
     # 没有到期日早于最近一个交易日的 PENDING；到期日恰为该日的只作提示（缺数据时允许保持待结算）。
     ledger = store.ledger()
     stale = [row for row in ledger if row.result == "PENDING" and row.dueOn < through]

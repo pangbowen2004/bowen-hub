@@ -27,10 +27,10 @@ def app() -> typer.Typer:
 
 class StubEod:
     def __init__(self) -> None:
-        self.calls: list[tuple[date, date]] = []
+        self.calls: list[tuple[date, date, bool]] = []
 
-    def backfill(self, first: date, last: date) -> list[Any]:
-        self.calls.append((first, last))
+    def backfill(self, first: date, last: date, *, force: bool = False) -> list[Any]:
+        self.calls.append((first, last, force))
         return []
 
 
@@ -70,13 +70,13 @@ def test_default_still_dispatches_and_no_dispatch_turns_it_off(
     assert result.exit_code == 0, result.output
     assert captured[0]["dispatch_enabled"] is True
     assert "未派发" not in result.output
-    assert stub.calls == [(date(2026, 8, 6), date(2026, 8, 7))]
+    assert stub.calls == [(date(2026, 8, 6), date(2026, 8, 7), False)]
 
     result, captured, stub = invoke(monkeypatch, "--no-dispatch")
     assert result.exit_code == 0, result.output
     assert captured[0]["dispatch_enabled"] is False
     assert "未派发部署（--no-dispatch）" in result.output
-    assert stub.calls == [(date(2026, 8, 6), date(2026, 8, 7))]
+    assert stub.calls == [(date(2026, 8, 6), date(2026, 8, 7), False)]
 
     result, captured, _ = invoke(monkeypatch, "--dispatch")
     assert captured[0]["dispatch_enabled"] is True
@@ -122,3 +122,10 @@ def test_dispatch_closure_posts_markets_updated_only_when_enabled(
     assert requests[0].url.path == "/repos/owner/repo/dispatches"
     assert b"markets-updated" in requests[0].content
     assert b"2026-09-30" in requests[0].content
+
+
+def test_explicit_force_rebuilds_existing_without_dispatch(monkeypatch: pytest.MonkeyPatch) -> None:
+    result, captured, stub = invoke(monkeypatch, "--force", "--no-dispatch")
+    assert result.exit_code == 0, result.output
+    assert captured[0]["dispatch_enabled"] is False
+    assert stub.calls == [(date(2026, 8, 6), date(2026, 8, 7), True)]

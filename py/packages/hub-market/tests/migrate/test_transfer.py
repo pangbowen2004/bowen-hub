@@ -48,6 +48,7 @@ class FakeApi:
         self.events: dict[str, MarketEvent] = {}
         self.days: dict[date, MarketDaySummary] = {}
         self.weeklies: dict[date, WeeklyReport] = {}
+        self.embedded: dict[date, list[MarketDaySummary]] = {}
         self.writes: list[tuple[str, int]] = []
         self.repeat_cursor = False
         self.fail_writes_with: int | None = None
@@ -66,6 +67,22 @@ class FakeApi:
             before = date.fromisoformat(params["before"]) if "before" in params else date.max
             rows = [self.days[day] for day in sorted(self.days, reverse=True) if day < before]
             return self.page(request, [row.model_dump(mode="json") for row in rows])
+        if path.startswith("/v1/public/markets/days/"):
+            day = date.fromisoformat(unquote(path.rsplit("/", 1)[1]))
+            payload = json.loads(
+                (ROOT / "fixtures/samples/markets/MarketDay.2026-08-28.json").read_text()
+            )
+            index = SESSIONS.index(day)
+            rows = self.embedded.get(
+                day,
+                [
+                    self.days.get(value, summary_of(value))
+                    for value in SESSIONS[index - 4 : index + 1]
+                ],
+            )
+            payload["date"] = day.isoformat()
+            payload["evolution"]["rows"] = [row.model_dump(mode="json") for row in rows]
+            return httpx.Response(200, json=payload)
         if path == "/v1/public/markets/events":
             start, end = date.fromisoformat(params["from"]), date.fromisoformat(params["to"])
             rows = [
@@ -312,7 +329,7 @@ def summary_of(day: date, *, complete: bool = True) -> MarketDaySummary:
 
 START = date(2026, 7, 1)
 THROUGH = date(2026, 7, 10)
-SESSIONS = weekdays(date(2026, 6, 29), date(2026, 7, 24))
+SESSIONS = weekdays(date(2026, 6, 25), date(2026, 7, 24))
 
 
 def weekly_of(day: date, ledger: list[Hypothesis]) -> WeeklyReport:
@@ -652,3 +669,20 @@ def test_failures_do_not_print_upstream_bodies_urls_or_exception_text(
     assert crashed.exit_code == 1
     assert "RuntimeError" in crashed.output
     assert "upstream-sensitive-do-not-print" not in crashed.output
+
+
+def test_history_rejects_stale_embedded_summary_even_when_every_date_exists() -> None:
+    api, store, calendar = finished_api()
+    on = date(2026, 7, 7)
+    index = SESSIONS.index(on)
+    rows = [
+        api.days.get(value, summary_of(value)).model_copy(deep=True)
+        for value in SESSIONS[index - 4 : index + 1]
+    ]
+    rows[0].directionsRelative = None
+    rows[0].complete = False
+    api.embedded[on] = rows
+    text = "\n".join(verify_history(store, calendar, start=START, through=THROUGH).differences)
+    assert "演化摘要 2026-07-01 与正式摘要不一致" in text
+    assert "directionsRelative" in text
+    assert "complete" in text

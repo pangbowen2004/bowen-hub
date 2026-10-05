@@ -285,7 +285,7 @@ class Eod:
             self.store.run(run)
         return result
 
-    def backfill(self, start: date, end: date) -> list[Result]:
+    def backfill(self, start: date, end: date, *, force: bool = False) -> list[Result]:
         if start > end:
             raise ValueError("回填起止日期顺序无效")
         run = Run(
@@ -305,7 +305,7 @@ class Eod:
             results: list[Result] = []
             for on in sessions:
                 try:
-                    results.append(self.run(on, mode="backfill", dispatch=False))
+                    results.append(self.run(on, mode="backfill", dispatch=False, force=force))
                 except MarketJobError:
                     child_failed = True
                     raise
