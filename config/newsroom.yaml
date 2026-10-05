@@ -20,9 +20,9 @@ editions:
     readingBudgetChars: 1000       # 约 3 分钟
     maxMarketItems: 5
   weekly:
-    weekday: sat                   # 周六
-    start: "09:10"
-    sendBy: "09:30"
+    weekday: mon                   # 周一，与早报同一次运行
+    start: "07:10"
+    sendBy: "07:30"
     readingBudgetChars: 4000       # 约 10 分钟
     internationalTop: 5
 

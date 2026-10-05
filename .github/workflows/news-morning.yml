@@ -22,7 +22,7 @@ concurrency:
 jobs:
   publish:
     runs-on: ubuntu-24.04
-    timeout-minutes: 90
+    timeout-minutes: 150
     env:
       HUB_AI_BACKEND: ${{ vars.HUB_AI_BACKEND || 'gateway' }}
       CI: "true"
@@ -71,6 +71,19 @@ jobs:
         run: |
           args=(news morning)
           if [[ -n "$NEWS_DATE" ]]; then args+=(--date "$NEWS_DATE"); fi
+          if [[ "$NEWS_FORCE" == "true" ]]; then args+=(--force); fi
+          mise exec -- uv run --project py --no-sync hub "${args[@]}"
+
+      - name: 周一同一次运行归档并发送周报
+        timeout-minutes: 60
+        env:
+          NEWS_DATE: ${{ inputs.date }}
+          NEWS_FORCE: ${{ inputs.force }}
+        shell: bash
+        run: |
+          business_day="${NEWS_DATE:-$(TZ=Asia/Singapore date +%F)}"
+          if [[ "$(date -d "$business_day" +%u)" != "1" ]]; then exit 0; fi
+          args=(news weekly --date "$business_day")
           if [[ "$NEWS_FORCE" == "true" ]]; then args+=(--force); fi
           mise exec -- uv run --project py --no-sync hub "${args[@]}"
 

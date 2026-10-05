@@ -53,9 +53,13 @@ def edition_window(
     day = now.astimezone(sg).date()
     et_day = now.astimezone(et).date()
     if kind == "weekly":
-        monday = et_day - timedelta(days=et_day.weekday())
+        monday = (
+            day - timedelta(days=7)
+            if day.weekday() == 0
+            else et_day - timedelta(days=et_day.weekday())
+        )
         start = datetime.combine(monday, time.min, et)
-        sessions = tuple(calendar.sessions(monday, et_day))
+        sessions = tuple(calendar.sessions(monday, min(monday + timedelta(days=4), et_day)))
         return WindowPlan(kind, day, utc(start), now, "weekly", sessions)
     if kind == "premarket":
         if not calendar.is_session(et_day):
@@ -103,9 +107,10 @@ def edition_window(
 
 
 def calendar_range(plan: WindowPlan, settings: Settings) -> tuple[date, date]:
-    et_day = plan.end.astimezone(ZoneInfo(settings.newsroom.usMarket["timezone"])).date()
     if plan.kind == "weekly":
-        monday = et_day - timedelta(days=et_day.weekday()) + timedelta(days=7)
+        monday = plan.start.astimezone(
+            ZoneInfo(settings.newsroom.usMarket["timezone"])
+        ).date() + timedelta(days=7)
         return monday, monday + timedelta(days=4)
     if plan.mode == "lookahead":
         monday = plan.day - timedelta(days=plan.day.weekday())

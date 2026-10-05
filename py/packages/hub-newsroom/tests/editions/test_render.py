@@ -49,7 +49,7 @@ def test_html_escape_inline_table_anchors_and_budget(
 ) -> None:
     edition, context = sample(settings, calendar, watchlist)
     section = next(s for s in edition.sections if isinstance(s, NewsArticlesSection))
-    section.items[0].data.article.title = '<script>alert("x")</script>'
+    section.items[0].data.article.title = "<script>中文标题</script>"
     section.items[0].data.article.url = "javascript:alert(1)"
     snapshot = next(s for s in edition.sections if isinstance(s, NewsSnapshotSection))
     snapshot.items[0].data.watchlist[0].change = -0.03

@@ -42,6 +42,7 @@ def test_no_alpaca_rss_matches_watchlist(
     ]
     env = EnvironmentSettings.model_construct()
     store = FakeStore(watchlist)
+    transport = FakeTransport(store)
     with httpx.Client(transport=httpx.MockTransport(response)) as client:
         collector = Collector(
             env, settings, sources, HttpClient(client=client, retries=0), calendar
@@ -51,14 +52,15 @@ def test_no_alpaca_rss_matches_watchlist(
             store,
             collector,
             calendar,
-            FakeTransport(store),
+            transport,
             clock=lambda: now,
             subjects={"morning": "合成早报｜{date}"},
         )
-        result = asyncio.run(service.publish(Options("morning", no_ai=True)))
+        result = asyncio.run(service.publish(Options("morning", no_ai=True, no_email=True)))
     assert result.edition
     assert result.mail
-    assert result.sent
+    assert not result.sent
+    assert not transport.messages
     assert "Nvidia signs synthetic contract" in result.mail.text
     assert "RSS 匹配" in result.mail.text
     assert any(row.id == "alpaca-news" and row.status == "failed" for row in result.edition.sources)

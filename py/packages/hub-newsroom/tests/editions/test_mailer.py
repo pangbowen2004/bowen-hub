@@ -45,7 +45,7 @@ def test_real_mailer_three_retries_and_chinese_sender(
     service.transport = Mailer(
         environment, from_name="美股新闻室", connector=lambda _: Smtp(), sleeper=delays.append
     )
-    result = asyncio.run(service.publish(Options("morning", no_ai=True)))
+    result = asyncio.run(service.publish(Options("morning")))
     assert result.sent
     assert len(attempts) == 4
     assert delays == [1, 2, 4]
