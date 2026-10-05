@@ -52,7 +52,7 @@ export function parseScopes(raw: unknown): string[] {
 }
 
 interface ConsentRow {
-  createdAt: number;
+  id: string;
   scopes: unknown;
 }
 
@@ -60,16 +60,17 @@ interface ConsentRow {
  * 固定使用者对这个客户端当前仍有有效授权：
  * - 授权记录存在（设置页撤销会删除它）且包含 mcp 范围；
  * - 客户端没有被停用；
- * - 令牌签发时间不早于这条授权建立的时间——撤销后重新授权不会让旧令牌复活。
+ * - 令牌绑定这条授权的唯一ID——即使同一秒内撤销再授权，旧令牌也不会复活。
  */
 export async function hasCurrentMcpGrant(
   db: D1Database,
   clientId: string,
-  issuedAtSeconds: number,
+  grantIds: unknown,
 ): Promise<boolean> {
+  if (!Array.isArray(grantIds) || !grantIds.every((id) => typeof id === "string")) return false;
   const { results } = await db
     .prepare(
-      `SELECT c.created_at AS createdAt, c.scopes AS scopes
+      `SELECT c.id AS id, c.scopes AS scopes
        FROM oauth_consent c
        JOIN oauth_client k ON k.client_id = c.client_id
        JOIN user u ON u.id = c.user_id
@@ -79,10 +80,7 @@ export async function hasCurrentMcpGrant(
     .bind(OWNER_ID, clientId)
     .all<ConsentRow>();
   return results.some(
-    (row) =>
-      parseScopes(row.scopes).includes(MCP_SCOPE) &&
-      // 授权建立时间是毫秒，令牌的 iat 是向下取整的秒，同一秒内签发的令牌仍然有效。
-      Math.floor(Number(row.createdAt) / 1000) <= issuedAtSeconds,
+    (row) => parseScopes(row.scopes).includes(MCP_SCOPE) && grantIds.includes(row.id),
   );
 }
 
@@ -129,7 +127,7 @@ export async function verifyMcpAccess(env: Bindings, token: string): Promise<Mcp
   const scopes = typeof claims.scope === "string" ? claims.scope.split(" ").filter(Boolean) : [];
   if (!scopes.includes(MCP_SCOPE))
     throw new McpAccessError("insufficient_scope", "令牌没有 mcp 范围");
-  if (!(await hasCurrentMcpGrant(env.DB, clientId, claims.iat)))
+  if (!(await hasCurrentMcpGrant(env.DB, clientId, claims.hub_mcp_grants)))
     throw new McpAccessError("invalid_token", "授权已被撤销或不存在");
   return { clientId, scopes, expiresAt: claims.exp, issuedAt: claims.iat };
 }

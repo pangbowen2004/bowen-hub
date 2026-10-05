@@ -177,6 +177,11 @@ export async function forgeToken(
 ): Promise<string> {
   const context = await getAuth(bindings).$context;
   const now = Math.floor(Date.now() / 1000);
+  const { results: consents } = await bindings.DB.prepare(
+    "SELECT id FROM oauth_consent WHERE user_id=?",
+  )
+    .bind(OWNER_ID)
+    .all<{ id: string }>();
   return signJWT({ context } as unknown as GenericEndpointContext, {
     payload: {
       sub: OWNER_ID,
@@ -188,6 +193,7 @@ export async function forgeToken(
       iat: now,
       exp: now + 3600,
       jti: crypto.randomUUID(),
+      hub_mcp_grants: consents.map((row) => row.id),
       ...claims,
     },
     header,

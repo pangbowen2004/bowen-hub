@@ -12,7 +12,7 @@ import {
   verifyMcpAccess,
 } from "../../src/lib/auth/mcp-access";
 import { getAuth } from "../../src/lib/auth/runtime";
-import { forgeToken, issueGrant, revokeConsent } from "../mcp/oauth";
+import { decodeClaims, forgeToken, issueGrant, revokeConsent } from "../mcp/oauth";
 import { authenticatedCookie } from "./fixture";
 
 beforeEach(async () => {
@@ -33,6 +33,30 @@ describe("令牌核对", () => {
     expect(access.issuedAt).toBeLessThanOrEqual(now());
     // 受众与授权服务器签发时绑定的资源逐字一致。
     expect(mcpResource(env)).toBe(`${env.AUTH_BASE_URL}/mcp`);
+  });
+  it("真实刷新令牌签发的访问令牌保持当前授权绑定", async () => {
+    const grant = await issueGrant();
+    expect(grant.refreshToken).toBeTruthy();
+    const response = await app.request(
+      `${env.AUTH_BASE_URL}/auth/oauth2/token`,
+      {
+        method: "POST",
+        headers: { "Content-Type": "application/x-www-form-urlencoded" },
+        body: new URLSearchParams({
+          grant_type: "refresh_token",
+          client_id: grant.clientId,
+          refresh_token: grant.refreshToken!,
+          resource: mcpResource(env),
+        }),
+      },
+      env,
+    );
+    expect(response.status).toBe(200);
+    const data = (await response.json()) as { access_token: string };
+    expect(decodeClaims(data.access_token).hub_mcp_grants).toContain(grant.consentId);
+    await expect(verifyMcpAccess(env, data.access_token)).resolves.toMatchObject({
+      clientId: grant.clientId,
+    });
   });
   it("签名有效但只有一处不对的令牌都被拒绝，对照令牌正常通过", async () => {
     const grant = await issueGrant();
@@ -118,14 +142,13 @@ describe("撤销授权", () => {
     await expect(verifyMcpAccess(env, grant.accessToken)).rejects.toMatchObject({
       code: "invalid_token",
     });
-    expect(await hasCurrentMcpGrant(env.DB, grant.clientId, now())).toBe(false);
+    expect(await hasCurrentMcpGrant(env.DB, grant.clientId, [grant.consentId])).toBe(false);
   });
   it("撤销后重新授权，新令牌可用，撤销前签发的旧令牌不会复活", async () => {
     const cookie = await authenticatedCookie();
     const first = await issueGrant({ cookie });
     expect((await revokeConsent(cookie, first.consentId)).status).toBe(200);
-    // 授权建立时间按毫秒记、令牌签发时间按秒记；隔开一秒才能区分“同一秒内签发”与“撤销之后重新授权”。
-    await new Promise((resolve) => setTimeout(resolve, 1100));
+    // 无需跨秒等待：签名声明绑定授权ID，重新授权必定产生不同ID。
     const second = await issueGrant({ cookie, clientId: first.clientId });
     await expect(verifyMcpAccess(env, second.accessToken)).resolves.toMatchObject({
       clientId: first.clientId,
@@ -133,6 +156,28 @@ describe("撤销授权", () => {
     await expect(verifyMcpAccess(env, first.accessToken)).rejects.toMatchObject({
       code: "invalid_token",
     });
+  });
+});
+
+describe("同秒撤销再授权", () => {
+  it("相同iat的新令牌通过，旧令牌和缺少授权绑定的令牌被拒", async () => {
+    const clock = vi.spyOn(Date, "now").mockReturnValue(Math.floor(Date.now() / 1000) * 1000 + 100);
+    try {
+      const cookie = await authenticatedCookie();
+      const first = await issueGrant({ cookie });
+      expect((await revokeConsent(cookie, first.consentId)).status).toBe(200);
+      const second = await issueGrant({ cookie, clientId: first.clientId });
+      expect(decodeClaims(first.accessToken).iat).toBe(decodeClaims(second.accessToken).iat);
+      expect(second.consentId).not.toBe(first.consentId);
+      await expect(verifyMcpAccess(env, second.accessToken)).resolves.toBeTruthy();
+      await expect(verifyMcpAccess(env, first.accessToken)).rejects.toMatchObject({
+        code: "invalid_token",
+      });
+      const missing = await forgeToken({ azp: first.clientId, hub_mcp_grants: undefined });
+      await expect(verifyMcpAccess(env, missing)).rejects.toMatchObject({ code: "invalid_token" });
+    } finally {
+      clock.mockRestore();
+    }
   });
 });
 
