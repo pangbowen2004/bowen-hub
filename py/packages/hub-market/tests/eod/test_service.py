@@ -454,7 +454,8 @@ def test_backfill_true_calendar_sequential_only_final_dispatch(
     job, store, _, _, source = setup(actual, tmp_path)
     calls: list[tuple[date, str, bool]] = []
 
-    def run(on: date, *, mode: str, dispatch: bool) -> Result:
+    def run(on: date, *, mode: str, dispatch: bool, force: bool = False) -> Result:
+        assert force is False
         calls.append((on, mode, dispatch))
         return Result(
             "已经完成" if on == date(2026, 8, 27) else "已发布", published=on != date(2026, 8, 27)
@@ -497,5 +498,29 @@ def test_collection_crossing_deadline_uses_completion_clock(actual: Any, tmp_pat
         assert store.runs[-1].status == "failed"
         assert len(notice.calls) == 1
         assert not any(event in store.events for event in ("day", "hypotheses", "reference"))
+    finally:
+        source.close()
+
+
+def test_force_backfill_rebuilds_complete_day_and_embedded_summary(
+    actual: Any, tmp_path: Path
+) -> None:
+    job, store, collector, _, source = setup(actual, tmp_path)
+    on = date(2026, 8, 28)
+    try:
+        job.run(on, dispatch=False)
+        existing = store.days[on]
+        expected = existing.evolution.rows[0].model_copy(deep=True)
+        existing.evolution.rows[0].directionsRelative = None
+        existing.evolution.rows[0].complete = False
+        collector.calls.clear()
+        skipped = job.backfill(on, on)
+        assert not skipped[0].published
+        assert collector.calls == []
+        assert store.days[on].evolution.rows[0].directionsRelative is None
+        rebuilt = job.backfill(on, on, force=True)
+        assert rebuilt[0].published
+        assert collector.calls == [on]
+        assert store.days[on].evolution.rows[0] == expected
     finally:
         source.close()

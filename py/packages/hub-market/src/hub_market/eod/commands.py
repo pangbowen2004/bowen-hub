@@ -38,7 +38,11 @@ def repository() -> Path:
 
 
 def create(
-    root: Path, environment: Settings, *, warmup_cache: Path | None = None
+    root: Path,
+    environment: Settings,
+    *,
+    warmup_cache: Path | None = None,
+    dispatch_enabled: bool = True,
 ) -> tuple[Eod, TushareSource, HttpClient]:
     if environment.tushare_token is None:
         raise ValueError("缺少 TUSHARE_TOKEN")
@@ -61,6 +65,8 @@ def create(
         )
 
         def dispatch(on: Date) -> None:
+            if not dispatch_enabled:
+                return
             if not environment.gh_automation_token or not repo:
                 raise MarketJobError(
                     "缺少 GitHub 派发配置；数据可能已写入，补配置后使用 --force 重跑"
@@ -144,17 +150,31 @@ def eod(
 
 
 def backfill(
-    start: str = typer.Option(...), end: str = typer.Option(...), warmup_cache: Path | None = None
+    start: str = typer.Option(...),
+    end: str = typer.Option(...),
+    warmup_cache: Path | None = None,
+    force: Annotated[
+        bool, typer.Option(help="重建已有完整日与周报；按日期顺序修复历史摘要")
+    ] = False,
+    dispatch: Annotated[
+        bool,
+        typer.Option(
+            help="补跑结束后派发一次 markets-updated 触发网站部署；--no-dispatch 只写数据"
+        ),
+    ] = True,
 ) -> None:
     resources: tuple[Eod, TushareSource, HttpClient] | None = None
     try:
         first, last = Date.fromisoformat(start), Date.fromisoformat(end)
         if first > last:
             raise ValueError("起止日期顺序无效")
-        resources = create(repository(), Settings(), warmup_cache=warmup_cache)
-        results = resources[0].backfill(first, last)
+        resources = create(
+            repository(), Settings(), warmup_cache=warmup_cache, dispatch_enabled=dispatch
+        )
+        results = resources[0].backfill(first, last, force=force)
         typer.echo(
             f"回填处理 {len(results)} 个真实交易日；发布 {sum(value.published for value in results)} 日"
+            + ("" if dispatch else "；未派发部署（--no-dispatch）")
         )
     except Exception as error:
         typer.echo(

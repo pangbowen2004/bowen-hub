@@ -195,3 +195,23 @@ def test_rerun_preserves_settled_and_stats_exclude_pending_denominator() -> None
         stats.stats.last20TradingDays
         == validation([failed, inconclusive], DUE, [DUE]).stats.cumulative
     )
+
+
+def test_settled_copy_keeps_unset_optional_fields_unset() -> None:
+    """老账本的假设没有 memberCodes、engineVersion；结算后序列化不能多出显式 null，
+    否则 API 的可选（非可空）校验会拒绝整批写入（HTTP 400）。"""
+    generated = hypothesis("TOP-DIRECTION")
+    assert generated.rule is not None
+    assert generated.rule.type == "DIRECTION_PERSISTENCE"
+    old = Hypothesis.model_validate(
+        {k: v for k, v in generated.model_dump(exclude_unset=True).items() if k != "engineVersion"}
+    )
+    assert old.rule is not None
+    assert old.rule.type == "DIRECTION_PERSISTENCE"
+    settled = settle(old, member_day(), DUE, baseline_members={old.rule.entity: ["A", "B"]})
+    assert settled.result != "PENDING"
+    body = settled.model_dump(mode="json", exclude_unset=True)
+    assert "memberCodes" not in body["rule"]["baseline"]
+    assert "engineVersion" not in body
+    assert "actual" in body
+    assert None not in body["rule"]["baseline"].values()

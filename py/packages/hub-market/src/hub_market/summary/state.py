@@ -66,6 +66,7 @@ def build(
         "industry2": ranked[-1].name,
         "r1": ranked[-2].return1d,
         "r2": ranked[-1].return1d,
+        "direction_count": len(directions.items) if directions else None,
         "best": best.name if best else None,
         "best_return": best.return1d if best else None,
         "worst": worst.name if worst else None,

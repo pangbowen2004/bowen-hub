@@ -115,7 +115,8 @@ def compute(inputs: ComputeInput, templates: dict[str, Any]) -> Computed:
         missing.append("moneyflow")
     if detail is None:
         missing.append("limitDetail")
-    if direction is None:
+    # 方向整块缺失，或个别板块当日没有官方日线（方向列表比配置的少）：都记入 missing。
+    if direction is None or len(direction.items) < len(inputs.directions):
         missing.append("directions")
     if etfs is None:
         missing.append("etfGroups")
