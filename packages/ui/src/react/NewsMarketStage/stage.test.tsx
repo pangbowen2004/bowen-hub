@@ -32,6 +32,7 @@ it("shows every watchlist entry without substituting an underlying quote for a l
   expect(overnightQuotes(edition).get("TSMX")).toBeUndefined();
   expect(container.querySelectorAll(".overnight-grid button")).toHaveLength(2);
   expect(container.querySelectorAll(".overnight-grid button")[1]?.textContent).toContain("—");
+  expect(container.querySelector(".overnight-missing")?.hasAttribute("open")).toBe(false);
   fireEvent.click(screen.getByRole("button", { name: /TSMX/ }));
   expect(select).toHaveBeenCalledWith("TSM");
 });
@@ -65,4 +66,33 @@ it("each original article keeps its own title or publication time, never the sha
     screen.getByRole("link", { name: /benzinga.com · AWS自己的中文标题/ }).getAttribute("href"),
   ).toBe(second.url);
   expect(container.textContent).not.toContain("今晚日程");
+});
+
+it("prioritizes news, sorts other available quotes by absolute move and folds missing data", () => {
+  const edition = structuredClone(raw) as Edition;
+  const snapshot = edition.sections.find((s) => s.kind === "close_snapshot");
+  const digests = edition.sections.find((s) => s.kind === "ticker_digests");
+  if (snapshot?.kind !== "close_snapshot" || digests?.kind !== "ticker_digests")
+    throw Error("missing fixture");
+  snapshot.items[0]!.data.watchlist = [
+    { symbol: "NEWS", change: 0.001 },
+    { symbol: "DROP", change: -0.08 },
+    { symbol: "RISE", change: 0.02 },
+  ];
+  digests.items = digests.items.slice(0, 1);
+  digests.items[0]!.data.symbol = "NEWS";
+  digests.items[0]!.data.whatHappened = "真实中文测试消息";
+  const { container } = render(
+    <NewsMarketStage
+      edition={edition}
+      watchlist={[watch("RISE"), watch("DROP"), watch("NEWS"), watch("MISSING")]}
+    />,
+  );
+  const main = container.querySelector(".overnight-grid");
+  expect(
+    [...main!.querySelectorAll(".overnight-symbol")].map((e) => e.textContent?.split("●")[0]),
+  ).toEqual(["NEWS", "DROP", "RISE"]);
+  expect(container.querySelector(".overnight-missing summary")?.textContent).toBe(
+    "暂无行情 · 1 只",
+  );
 });

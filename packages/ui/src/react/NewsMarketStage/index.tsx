@@ -48,11 +48,6 @@ export function NewsMarketStage({
         group: "自选股",
         underlying: null,
       }));
-  const rows = [...entries].sort(
-    (a, b) =>
-      Number(prices.get(b.symbol) != null) - Number(prices.get(a.symbol) != null) ||
-      Math.abs(prices.get(b.symbol) ?? 0) - Math.abs(prices.get(a.symbol) ?? 0),
-  );
   const news = new Map<string, Set<string>>();
   for (const section of edition.sections) {
     if (section.kind !== "ticker_digests" && section.kind !== "ticker_weekly") continue;
@@ -61,6 +56,38 @@ export function NewsMarketStage({
       news.set(data.symbol, new Set(data.sourceIds));
     }
   }
+  const rows = [...entries].sort(
+    (a, b) =>
+      Number((news.get(b.underlying ?? b.symbol)?.size ?? 0) > 0) -
+        Number((news.get(a.underlying ?? a.symbol)?.size ?? 0) > 0) ||
+      Number(prices.get(b.symbol) != null) - Number(prices.get(a.symbol) != null) ||
+      Math.abs(prices.get(b.symbol) ?? 0) - Math.abs(prices.get(a.symbol) ?? 0),
+  );
+  const available = rows.filter((row) => prices.get(row.symbol) != null);
+  const missing = rows.filter((row) => prices.get(row.symbol) == null);
+  const quoteButton = (row: (typeof rows)[number], i: number) => {
+    const symbol = row.underlying ?? row.symbol;
+    const count = news.get(symbol)?.size ?? 0;
+    return (
+      <button
+        type="button"
+        key={row.symbol}
+        aria-pressed={selected === row.symbol}
+        style={{ "--order": i } as React.CSSProperties}
+        onClick={() => {
+          setSelected(row.symbol);
+          onSelect?.(symbol);
+        }}
+      >
+        <span className="overnight-symbol">
+          {row.symbol}
+          <small>{count > 0 ? `● ${count} 篇` : ""}</small>
+        </span>
+        <Quote value={prices.get(row.symbol) ?? null} reduced={reduced} />
+        <span className="overnight-name">{row.name}</span>
+      </button>
+    );
+  };
   const referenceIds = new Set([...news.values()].flatMap((ids) => [...ids]));
   const events = articles.filter(
     (a) =>
@@ -80,31 +107,13 @@ export function NewsMarketStage({
         </div>
         <p className="stage-muted">{edition.date}</p>
       </header>
-      <div className="overnight-grid">
-        {rows.map((row, i) => {
-          const symbol = row.underlying ?? row.symbol;
-          const count = news.get(symbol)?.size ?? 0;
-          return (
-            <button
-              type="button"
-              key={row.symbol}
-              aria-pressed={selected === row.symbol}
-              style={{ "--order": i } as React.CSSProperties}
-              onClick={() => {
-                setSelected(row.symbol);
-                onSelect?.(symbol);
-              }}
-            >
-              <span className="overnight-symbol">
-                {row.symbol}
-                <small>{count > 0 ? `● ${count} 篇` : ""}</small>
-              </span>
-              <Quote value={prices.get(row.symbol) ?? null} reduced={reduced} />
-              <span className="overnight-name">{row.name}</span>
-            </button>
-          );
-        })}
-      </div>
+      <div className="overnight-grid">{available.map(quoteButton)}</div>
+      {missing.length > 0 && (
+        <details className="overnight-missing">
+          <summary>暂无行情 · {missing.length} 只</summary>
+          <div className="overnight-grid">{missing.map(quoteButton)}</div>
+        </details>
+      )}
       {events.length > 0 && (
         <div className="overnight-events">
           {events.map((article) => (
