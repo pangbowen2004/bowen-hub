@@ -1,0 +1,108 @@
+capability: papers.review
+version: 5
+casesSha256: 25c199b0c6b033712243e1bd94280a20408a98ae2d465550dc4e57e1a904246a
+capabilitySha256: 87ca3c9e84f4509867ab972e7dd28fdf7313b1e5e5e10bf5f7dff05ed8203603
+promptSha256: d32860e38a141f4454fc4cef27243e522dc9958436738e0db9c244dda6a51264
+thresholds:
+  schema_valid: 1.0
+  labels_match: 0.8
+  must_include: 0.7
+limits:
+  maxInputTokens: 400000
+  maxOutputTokens: 8000
+  timeoutSec: 600
+sources:
+- paperId: arxiv-2505.07078
+  url: https://arxiv.org/pdf/2505.07078v6
+  pdfSha256: 5bdd2d6e5267bc18089e3fd9113a6a98caeb576291e9c6b0320f9a60b9b1382a
+  totalPages: 15
+- paperId: arxiv-1706.03762
+  url: https://arxiv.org/pdf/1706.03762v7
+  pdfSha256: bdfaa68d8984f0dc02beaca527b76f207d99b666d31d1da728ee0728182df697
+  totalPages: 15
+- paperId: acl-2021.acl-long.500
+  url: https://aclanthology.org/2021.acl-long.500.pdf
+  pdfSha256: 87a52a2b535aff6179c23e94e302c8eeaec07f682ef706b48a067c8d4cc88ee7
+  totalPages: 14
+cases:
+- id: wrong_identity
+  paperId: arxiv-2505.07078
+  inputSha256: 2d9f34f02c6baea91259a057b5ebe74a59443ec754ae35cc33b2424466ac5a74
+  expectSha256: ece5f1e62e2eefa8bff28148d78df8d3882eb0414f7bb134f78c98f9cb5e38c8
+  totalPages: 15
+  material: complete_t30_extraction
+  pageImages: []
+- id: null_is_zero
+  paperId: arxiv-2505.07078
+  inputSha256: 5c4ef7537316a65fed047f2bc69260136efa1f65d66ed446e1feb3de70400ce3
+  expectSha256: bd782c4259eb70ffe6c5843ebaadeae292ed097c9b3cfad155def5a4ff6638c8
+  totalPages: 15
+  material: complete_t30_extraction
+  pageImages: []
+- id: percentage_unit
+  paperId: arxiv-2505.07078
+  inputSha256: 5053fc24a4179651c02416af0ae85d8d4ec93920e95942f1e4de0032557181b5
+  expectSha256: c19d4b895f3c2f95fa60e875671e552a3f6c866576eae6f19ee001b7d2b65c61
+  totalPages: 15
+  material: complete_t30_extraction
+  pageImages: []
+- id: negative_direction
+  paperId: arxiv-2505.07078
+  inputSha256: c7d220fe0012560baa38a5f3411affa83b576924265e50dfeefa59f192fc1a5c
+  expectSha256: cdb846b8e65fec3c137144475b78ae343f032d8ea410b55023baa306319f101b
+  totalPages: 15
+  material: complete_t30_extraction
+  pageImages: []
+- id: attention_future_mask
+  paperId: arxiv-1706.03762
+  inputSha256: ee3544d60a822c1aeb513e9d78d585716e00f1dfe28b63c14d0411d772404801
+  expectSha256: 6634e16792f88f34cd362f4f377da4b9c7316f78d8fed65a905d3817c3f90a64
+  totalPages: 15
+  material: complete_t30_extraction
+  pageImages: []
+- id: attention_bleu_accuracy
+  paperId: arxiv-1706.03762
+  inputSha256: a9a0d72eab6233d81dc1efd6569a38f7426e7ce22f9e37d3212b88a1c7e5cfda
+  expectSha256: c9a0732f2c85ecaa8c917f7554c5bf3dea110421162cd47207cf67e05f335fec
+  totalPages: 15
+  material: complete_t30_extraction
+  pageImages: []
+- id: attention_two_errors
+  paperId: arxiv-1706.03762
+  inputSha256: 83e1e9659ab097a52f3e785699dec00ef5b09b16ec290868f8db7c0786324223
+  expectSha256: ca7e0b219c5e578923df126bcfd2abc87ca7d525b7bfa15032f4c31bfb3e88a3
+  totalPages: 15
+  material: complete_t30_extraction
+  pageImages: []
+- id: openmeva_invariance_direction
+  paperId: acl-2021.acl-long.500
+  inputSha256: 36a8024bc19a19ad0afbbe1082cb40c76341dc901a90cdf7133cc505373ce77e
+  expectSha256: 11a0383715bf81635c9c52774018577dfede0d8190164b35d34fb8f149e094d8
+  totalPages: 14
+  material: complete_t30_extraction
+  pageImages: []
+- id: openmeva_generator_confusion
+  paperId: acl-2021.acl-long.500
+  inputSha256: 4f3f48488fe9783de392eded9bc6ab6338e758af3c21999c6be8e27858e8dab0
+  expectSha256: 65c95548d5cf46bd3410cd8bd4632626699d496ea19bf212a5e59c0a65ed4b4c
+  totalPages: 14
+  material: complete_t30_extraction
+  pageImages: []
+- id: openmeva_missing_original
+  paperId: acl-2021.acl-long.500
+  inputSha256: 0d73d31b27980cd1317e62e1132fbe2fc8d2ca1b12c802564ce684c6d73b59c1
+  expectSha256: 68ae1b67a1db14b89ab2bc97bbce8ad19d3fb0774b99b8ccc9be771d8b12ea04
+  totalPages: 14
+  material: incomplete_on_purpose
+  pageImages: []
+labelCorrections:
+  priorCasesSha256: b91bcef43a67fac7e02def456d21ec542846a305448692c7ff214414e96257c3
+  unchangedInputs: true
+  caseIds:
+  - attention_bleu_accuracy
+  - attention_future_mask
+  - negative_direction
+  - null_is_zero
+  - percentage_unit
+  - wrong_identity
+  basis: 独立核对真实PDF p.8原文自相矛盾，既定rubric要求escalate；保留v2实际失败及两例非连续引文问题。

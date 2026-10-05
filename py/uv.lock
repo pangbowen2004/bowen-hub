@@ -615,6 +615,7 @@ name = "hub-papers"
 version = "0.1.0"
 source = { editable = "packages/hub-papers" }
 dependencies = [
+    { name = "hub-ai" },
     { name = "hub-contracts" },
     { name = "hub-core" },
     { name = "pymupdf" },
@@ -623,6 +624,7 @@ dependencies = [
 
 [package.metadata]
 requires-dist = [
+    { name = "hub-ai", editable = "packages/hub-ai" },
     { name = "hub-contracts", editable = "packages/hub-contracts" },
     { name = "hub-core", editable = "packages/hub-core" },
     { name = "pymupdf", specifier = ">=1.26,<2" },
