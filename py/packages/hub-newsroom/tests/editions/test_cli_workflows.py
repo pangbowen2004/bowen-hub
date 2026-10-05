@@ -72,7 +72,6 @@ def test_installed_cli_runs_real_domain(
     [
         ("morning", ["10 23 * * *", "40 23 * * *"]),
         ("premarket", ["40 12 * * 1-5", "40 13 * * 1-5"]),
-        ("weekly", ["10 1 * * 6"]),
     ],
 )
 def test_three_workflows_exact_cron_and_safe_argument_arrays(kind: str, crons: list[str]) -> None:
@@ -93,3 +92,21 @@ def test_three_workflows_exact_cron_and_safe_argument_arrays(kind: str, crons: l
     assert '"${args[@]}"' in run
     assert any("mise run gen" in step.get("run", "") for step in steps)
     assert "HUB_SERVICE_TOKEN" in workflow["jobs"]["publish"]["env"]
+
+
+def test_weekly_runs_with_monday_morning_and_has_no_separate_schedule() -> None:
+    weekly = yaml.load(
+        (ROOT / ".github/workflows/news-weekly.yml").read_text(), Loader=yaml.BaseLoader
+    )
+    assert "schedule" not in weekly["on"]
+    assert "workflow_dispatch" in weekly["on"]
+    morning = yaml.load(
+        (ROOT / ".github/workflows/news-morning.yml").read_text(), Loader=yaml.BaseLoader
+    )
+    step = next(
+        step for step in morning["jobs"]["publish"]["steps"] if "周一" in step.get("name", "")
+    )
+    assert "TZ=Asia/Singapore date +%F" in step["run"]
+    assert '!= "1"' in step["run"]
+    assert 'args=(news weekly --date "$business_day")' in step["run"]
+    assert '"${args[@]}"' in step["run"]

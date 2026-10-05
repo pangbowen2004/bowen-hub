@@ -19,6 +19,7 @@ from hub_contracts import (
 )
 from hub_core.protocols import TradingCalendar
 from hub_newsroom.ai import EnrichmentResult, enrich_edition
+from hub_newsroom.common.chinese import chinese_edition
 from hub_newsroom.common.settings import Settings
 from hub_newsroom.pipeline import PipelineInput, build_edition, trim_edition
 from hub_newsroom.pipeline.windows import (
@@ -83,7 +84,10 @@ def render_context(
     no_ai: bool,
     console_url: str | None,
 ) -> RenderContext:
-    references = {row.id: Link(row.title, row.url) for row in data.articles}
+    references = {
+        row.id: Link(row.title, row.url, settings.source(row.sourceId).name)
+        for row in data.articles
+    }
     references.update(
         {row.accession: Link(row.ticker + " " + row.form, row.url) for row in data.filings}
     )
@@ -113,7 +117,16 @@ def render_context(
     if enriched:
         for symbol, rows in enriched.headlines.items():
             headlines[symbol] = tuple(Link(row.title, row.url) for row in rows)
-            references.update({row.id: Link(row.title, row.url) for row in rows})
+            references.update(
+                {
+                    row.id: Link(
+                        row.title,
+                        row.url,
+                        references[row.id].source if row.id in references else "",
+                    )
+                    for row in rows
+                }
+            )
     reasons = (
         tuple(f"{row.capability}（{row.key}）降级：{row.reason}" for row in enriched.fallbacks)
         if enriched
@@ -227,6 +240,19 @@ class Publisher:
                 )
                 if enriched.edition is not None:
                     edition = enriched.edition
+            chinese_stories = 0
+            if not options.no_ai:
+                edition, chinese_stories = chinese_edition(edition)
+                if not options.no_email and chinese_stories == 0:
+                    run.stats = {
+                        "chineseStories": 0,
+                        "aiCalls": len(enriched.calls) if enriched else 0,
+                    }
+                    if enriched:
+                        self.store.batch("/v1/internal/ai-calls/batch", enriched.calls)
+                    raise NoChineseNewsError("本期没有中文新闻正文")
+            elif not options.no_email:
+                raise NoChineseNewsError("--no-ai 只能生成不发送的检查稿")
             # 上游API归一字段由T11统一；出处链接映射也采用其归一/关联股票结果。
             data = replace(data, articles=pipeline.articles)
             context = render_context(
@@ -257,6 +283,10 @@ class Publisher:
                     edition, self.settings, lambda value: body_text(value, context)
                 )
                 edition = trimmed.edition
+            if not options.no_ai:
+                edition, chinese_stories = chinese_edition(edition)
+                if not options.no_email and chinese_stories == 0:
+                    raise NoChineseNewsError("裁剪后没有中文新闻正文")
             # 重发失败不能抹去此前已确认的发送事实；不生成新的sentAt。
             edition.email = (
                 existing.email.model_copy(deep=True)
@@ -268,6 +298,7 @@ class Publisher:
             )
             run.stats = {
                 "bodyChars": mail.body_chars,
+                "chineseStories": chinese_stories,
                 "removedIds": sorted(original_item_ids(original) - original_item_ids(edition)),
                 "aiCalls": len(enriched.calls) if enriched else 0,
                 "fallbacks": list(context.fallbacks),
@@ -288,9 +319,11 @@ class Publisher:
             return Outcome(edition, mail, None, sent)
         except Exception as error:
             # 类型是安全分类；不把Pydantic/provider异常原文、URL或输入正文写日志/邮件。
-            summary = f"发行失败（{type(error).__name__}）" + (
-                "；SMTP已成功，但发送标记/API记录未完成，重跑前核对邮箱" if sent else ""
-            )
+            summary = (
+                "本期没有中文新闻正文，未发送简报"
+                if isinstance(error, NoChineseNewsError)
+                else f"发行失败（{type(error).__name__}）"
+            ) + ("；SMTP已成功，但发送标记/API记录未完成，重跑前核对邮箱" if sent else "")
             run.status = "failed"
             run.finishedAt = self.clock()
             run.error = summary
@@ -347,6 +380,10 @@ class Publisher:
             self.store.health(source)
         self.store.edition(edition)
         self.store.html(edition.id, mail.html)
+
+
+class NoChineseNewsError(RuntimeError):
+    pass
 
 
 class PublicationError(RuntimeError):

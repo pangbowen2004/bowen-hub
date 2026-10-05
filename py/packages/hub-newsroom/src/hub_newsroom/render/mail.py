@@ -20,6 +20,7 @@ from hub_contracts import (
     NewsTickerSection,
     WatchItem,
 )
+from hub_newsroom.common.chinese import chinese_title
 from hub_newsroom.common.settings import Settings
 from hub_newsroom.pipeline.facts import filing_label, insider_text
 
@@ -28,6 +29,7 @@ from hub_newsroom.pipeline.facts import filing_label, insider_text
 class Link:
     title: str
     url: str
+    source: str = ""
 
 
 @dataclass(frozen=True)
@@ -144,6 +146,16 @@ def sections(edition: Edition, context: RenderContext) -> tuple[Section, ...]:
                         )
                     )
                 else:
+                    refs = [
+                        Link(
+                            (ref.source or "原文")
+                            + " · "
+                            + chinese_title("", data.whatHappened)
+                            + " ↗",
+                            ref.url,
+                        )
+                        for ref in refs
+                    ]
                     change = f" {data.change:+.2%}" if data.change is not None else ""
                     lines = [company(data.symbol, context) + change, data.whatHappened]
                     if data.whyItMatters:
@@ -159,10 +171,29 @@ def sections(edition: Edition, context: RenderContext) -> tuple[Section, ...]:
             for item in section.items:
                 data = item.data
                 source = context.settings.source(data.article.sourceId).name
-                lines = [data.article.title + " · " + source]
+                title = (
+                    data.article.title
+                    if context.headline_only
+                    else chinese_title(data.article.title, data.summary)
+                )
+                lines = [title + " · " + source]
                 if not context.headline_only:
                     lines.extend(value for value in (data.summary, data.whyItMatters) if value)
-                rows.append(Row(tuple(lines), links([Link("原文 →", data.article.url)])))
+                rows.append(
+                    Row(
+                        tuple(lines),
+                        links(
+                            [
+                                Link(
+                                    "原文 →"
+                                    if context.headline_only
+                                    else source + " · " + title + " ↗",
+                                    data.article.url,
+                                )
+                            ]
+                        ),
+                    )
+                )
         elif isinstance(section, NewsEarningsSection):
             for item in section.items:
                 data = item.data
@@ -238,7 +269,11 @@ def sections(edition: Edition, context: RenderContext) -> tuple[Section, ...]:
                 for nested in [*data.top5, *data.briefs]:
                     digest = nested.data
                     lines = [
-                        digest.article.title
+                        (
+                            digest.article.title
+                            if context.headline_only
+                            else chinese_title(digest.article.title, digest.summary)
+                        )
                         + " · "
                         + context.settings.source(digest.article.sourceId).name
                     ]
@@ -246,7 +281,24 @@ def sections(edition: Edition, context: RenderContext) -> tuple[Section, ...]:
                         lines.extend(
                             value for value in (digest.summary, digest.whyItMatters) if value
                         )
-                    rows.append(Row(tuple(lines), links([Link("原文 →", digest.article.url)])))
+                    rows.append(
+                        Row(
+                            tuple(lines),
+                            links(
+                                [
+                                    Link(
+                                        "原文 →"
+                                        if context.headline_only
+                                        else context.settings.source(digest.article.sourceId).name
+                                        + " · "
+                                        + chinese_title(digest.article.title, digest.summary)
+                                        + " ↗",
+                                        digest.article.url,
+                                    )
+                                ]
+                            ),
+                        )
+                    )
         if rows:
             result.append(Section(section.kind, section.title, tuple(rows)))
     return tuple(result)

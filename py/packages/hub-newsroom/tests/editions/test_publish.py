@@ -48,6 +48,7 @@ def publisher(
             },
             console_url="https://console.test",
             run_suffix="offline",
+            runtime=Runtime(Registry(ROOT), SuccessfulAdapter(), sleep=no_sleep),
         ),
         store,
         collector,
@@ -60,7 +61,7 @@ def test_three_editions_archive_then_send(
     kind: EditionKind, settings: Settings, calendar: NyseCalendar, watchlist: list[WatchItem]
 ) -> None:
     service, store, collector, transport = publisher(kind, settings, calendar, watchlist)
-    outcome = asyncio.run(service.publish(Options(kind, no_ai=True)))
+    outcome = asyncio.run(service.publish(Options(kind)))
     assert outcome.edition
     assert outcome.mail
     assert outcome.sent
@@ -75,11 +76,11 @@ def test_three_editions_archive_then_send(
     assert "控制台网页版" in transport.messages[0][1]
     assert len(collector.calls) == 1
     # 备用触发点复用同一期：不重新采集、不重复SMTP。
-    again = asyncio.run(service.publish(Options(kind, no_ai=True)))
+    again = asyncio.run(service.publish(Options(kind)))
     assert again.skipped
     assert len(transport.messages) == 1
     assert len(collector.calls) == 1
-    forced = asyncio.run(service.publish(Options(kind, no_ai=True, force=True)))
+    forced = asyncio.run(service.publish(Options(kind, force=True)))
     assert forced.sent
     assert len(transport.messages) == 2
 
@@ -88,8 +89,8 @@ def test_force_morning_reuses_full_period_instead_of_current_sent_marker(
     settings: Settings, calendar: NyseCalendar, watchlist: list[WatchItem]
 ) -> None:
     service, _, collector, _ = publisher("morning", settings, calendar, watchlist)
-    original = asyncio.run(service.publish(Options("morning", no_ai=True)))
-    resent = asyncio.run(service.publish(Options("morning", no_ai=True, force=True)))
+    original = asyncio.run(service.publish(Options("morning")))
+    resent = asyncio.run(service.publish(Options("morning", force=True)))
     assert original.edition
     assert resent.edition
     assert resent.edition.window.fromAt == original.edition.window.fromAt
@@ -124,7 +125,7 @@ def test_failure_retains_archive_and_failed_run(
     store.fail_at = stage
     transport.fail = stage == "smtp"
     with pytest.raises(PublicationError) as caught:
-        asyncio.run(service.publish(Options("morning", no_ai=True)))
+        asyncio.run(service.publish(Options("morning")))
     assert store.runs[-1].status == "failed"
     assert "敏感" not in str(caught.value)
     assert all("敏感" not in text for text in transport.notifications)
@@ -201,22 +202,21 @@ def test_missing_morning_is_explicit_failure(
     assert store.runs[-1].status == "failed"
 
 
-def test_wrong_model_key_runtime_fallback(
+def test_wrong_model_key_notifies_instead_of_sending_english(
     settings: Settings, calendar: NyseCalendar, watchlist: list[WatchItem]
 ) -> None:
     service, store, _, transport = publisher("morning", settings, calendar, watchlist)
     service.runtime = Runtime(Registry(ROOT), FailedAdapter(), sleep=no_sleep)
-    outcome = asyncio.run(service.publish(Options("morning")))
-    assert outcome.edition
-    assert outcome.mail
-    assert outcome.sent
-    assert "标题清单版" in outcome.mail.text
+    with pytest.raises(PublicationError, match="没有中文新闻正文"):
+        asyncio.run(service.publish(Options("morning")))
+    assert not transport.messages
+    assert not store.htmls
+    assert not any(row.email and row.email.sentAt for row in store.items.values())
+    assert store.runs[-1].status == "failed"
+    assert transport.notifications == ["本期没有中文新闻正文，未发送简报"]
     calls = store.batches["/v1/internal/ai-calls/batch"]
     assert calls
     assert all(not row.model_dump()["ok"] for row in calls)
-    assert outcome.edition.aiUsage
-    assert outcome.edition.aiUsage.costUsd == 0
-    assert transport.messages
 
 
 def test_date_preserves_sg_wall_clock() -> None:
@@ -251,6 +251,8 @@ def test_trim_omits_stale_lede_and_international_overview(
         for section in value.sections:
             if isinstance(section, NewsInternationalSection):
                 section.items[0].data.overview = "裁剪前国际综述。"
+                for item in [*section.items[0].data.top5, *section.items[0].data.briefs]:
+                    item.data.summary = "用于验证阅读预算裁剪的合成中文正文。" * 12
         return EnrichmentResult(value, (), (), (), {}, False)
 
     monkeypatch.setattr("hub_newsroom.editions.service.enrich_edition", enriched)
@@ -306,6 +308,19 @@ class SuccessfulAdapter:
             "BriefOutput": {"briefs": []},
             "EditionLedeOutput": {"lines": ["合成测试正文。"] * 3},
         }
+        if request.output_model.__name__ == "TickerDigestOutput":
+            import re
+
+            identifiers = re.findall(r'"id": "([^"\n]+)"', request.prompt["user"])
+            sources = identifiers[:1]
+            outputs["TickerDigestOutput"] = {
+                "whatHappened": "合成测试正文",
+                "whyItMatters": None,
+                "sourceIds": sources,
+                "points": [{"text": "合成测试正文", "sourceIds": sources}]
+                if "模式：weekly" in request.prompt["user"]
+                else [],
+            }
         return Response(outputs[request.output_model.__name__], Usage(10, 5))
 
 

@@ -1,7 +1,5 @@
 name: news-weekly
 on:
-  schedule:
-    - cron: "10 1 * * 6"
   workflow_dispatch:
     inputs:
       date:
