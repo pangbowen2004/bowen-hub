@@ -171,7 +171,14 @@ export function PaperReader({
                   {claim.claimOrigin === "llm_inferred" && " · 解释性推断"}
                 </p>
                 <h3>{claim.claim}</h3>
-                {claim.sourceExcerpt && <blockquote>{claim.sourceExcerpt}</blockquote>}
+                {claim.sourceExcerpt ? (
+                  <details className="evidence-original">
+                    <summary>原文摘录</summary>
+                    <blockquote>{claim.sourceExcerpt}</blockquote>
+                  </details>
+                ) : (
+                  <p className="muted">原文未找到</p>
+                )}
                 {claim.condition && <p className="muted">条件：{claim.condition}</p>}
                 {claim.metric && <p className="muted">指标：{claim.metric}</p>}
                 <div className="evidence-location">

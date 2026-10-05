@@ -41,7 +41,7 @@ test("关闭JS仍有完整数据表与验证条件", async ({ browser, baseURL }
   await page.goto(`${baseURL}/directions/`);
   await expect(page.locator("tbody tr").first()).toBeVisible();
   await page.goto(`${baseURL}/weekly/2026-08-28/`);
-  await expect(page.getByRole("heading", { name: "Research Error" })).toBeVisible();
+  await expect(page.getByRole("heading", { name: "未确认判断" })).toBeVisible();
   await expect(page.getByRole("heading", { name: "下周只验证三件事" })).toBeVisible();
   await context.close();
 });

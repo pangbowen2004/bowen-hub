@@ -29,7 +29,7 @@ const max: Record<string, number> = {
 };
 const formats = (x: unknown) => (typeof x === "number" ? num(x, 2) : JSON.stringify(x));
 ---
-<section class="editorial-lead"><p class="eyebrow">收盘观察 · {day.date}</p><h2 class="editorial-title">{day.summary.headline}</h2><p>{day.summary.text}</p><p class="muted">{day.summary.tags.join(' · ')}</p><div class="editorial-grid"><div><h3>支持证据</h3><p>{day.summary.support}</p></div><div><h3>反证与边界</h3><p>{day.summary.counterEvidence}</p></div></div></section>
+<section class="editorial-lead"><p class="eyebrow">{day.date}</p><h2 class="editorial-title">结论与证据</h2><p>{day.summary.text}</p><p class="muted">{day.summary.tags.join(' · ')}</p><div class="editorial-grid"><div><h3>支持证据</h3><p>{day.summary.support}</p></div><div><h3>反证与边界</h3><p>{day.summary.counterEvidence}</p></div></div></section>
 <section aria-labelledby="key-numbers"><h2 id="key-numbers">把市场拆成可核对的数字</h2><dl class="numbers">{[
 ['成交额',cny(m.turnoverCny)],['成交环比',m.turnoverChange==null?'—':pct(m.turnoverChange)],['上涨 / 下跌 / 平盘',`${m.advanceCount} / ${m.declineCount} / ${m.flatCount}`],['上涨覆盖',pct(m.advanceShare,{sign:false})],['中位涨幅',pct(m.medianReturn1d)],['MA20上方',pct(m.aboveMa20Share,{sign:false})],['20日新高 / 新低',`${m.newHigh20Count} / ${m.newLow20Count}`],['涨停 / 跌停',`${e.limitUpCount} / ${e.limitDownCount}`],['触板 / 未封',`${e.touchedCount} / ${e.failedCount}`],['封板率',e.sealRate==null?'—':pct(e.sealRate,{sign:false})],['最高连板',`${e.maxBoardHeight} 板`]
 ].map(([label,value])=><div><dt>{label}</dt><dd>{value}</dd></div>)}</dl></section>
