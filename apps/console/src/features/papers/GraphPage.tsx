@@ -1,5 +1,5 @@
-import { privatePapersGetGraph } from "@bowen-hub/contracts/client";
-import { GraphView } from "@bowen-hub/ui";
+import { privatePapersGetCatalog, privatePapersGetGraph } from "@bowen-hub/contracts/client";
+import { Universe3D } from "@bowen-hub/ui/react/Universe3D";
 import { useQuery } from "@tanstack/react-query";
 import { PaperHeader, QueryState } from "./shared";
 export function GraphPage() {
@@ -7,14 +7,18 @@ export function GraphPage() {
     queryKey: ["papers", "graph"],
     queryFn: ({ signal }) => privatePapersGetGraph({ signal }),
   });
+  const catalog = useQuery({
+    queryKey: ["papers", "catalog"],
+    queryFn: ({ signal }) => privatePapersGetCatalog({ signal }),
+  });
   return (
     <section className="papers-page">
-      <PaperHeader
-        title="在概念之间，找到下一条线索。"
-        lead="全部论文与研究空间的关系；私人档案只在这里显示。"
-      />
+      <PaperHeader title="知识宇宙" lead="" />
+      <QueryState loading={catalog.isPending} error={catalog.error} retry={catalog.refetch} />
       <QueryState loading={query.isPending} error={query.error} retry={query.refetch} />
-      {query.data && <GraphView data={query.data} />}
+      {query.data && catalog.data && (
+        <Universe3D data={query.data} catalog={catalog.data} privateLibrary />
+      )}
     </section>
   );
 }

@@ -53,3 +53,35 @@
 .edition-view .row {
   flex-wrap: wrap;
 }
+
+.edition-view {
+  margin-inline: auto;
+  padding: 28px;
+}
+.edition-ticker-meta {
+  display: flex;
+  gap: 16px;
+  align-items: center;
+}
+.edition-ticker-meta span {
+  font: 500 30px var(--font-mono);
+}
+.edition-view article[data-selected="true"] {
+  border-left: 2px solid #527b91;
+  padding-left: 20px;
+}
+.edition-sources {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  font-size: 13px;
+  margin-top: 16px;
+}
+@media (max-width: 600px) {
+  .edition-view {
+    padding: 20px 8px;
+  }
+  .edition-view h3 {
+    font-size: 22px;
+  }
+}

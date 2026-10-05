@@ -85,3 +85,43 @@ it("证据页按钮把实际物理页交给控制台，公开阅读不产生私�
   rerender(<EvidencePopover claims={[{ id: "c1", kind: "result", claim: "原文", pdfPage: 3 }]} />);
   expect(screen.queryByRole("button", { name: "打开原文第 3 页", hidden: true })).toBeNull();
 });
+
+it("证据卡保留原文摘录，物理页链接不跳到论文首页", () => {
+  const paper = {
+    id: "evidence",
+    resources: {
+      code: {
+        status: "verified" as const,
+        note: "已核对官方代码。\n{'label': '官方仓库', 'url': 'https://example.org'}",
+      },
+    },
+    meta: { title: "Evidence", sourceUrl: "https://aclanthology.org/2025.acl-long.773/" },
+    status: {
+      visibility: "public" as const,
+      review: "passed" as const,
+      readingDepth: "R1" as const,
+      nextAction: "",
+      updatedAt: "2026-10-05",
+    },
+    evidence: {
+      claims: [
+        {
+          id: "c1",
+          kind: "result" as const,
+          claim: "有条件的结果",
+          sourceExcerpt: "Original quotation",
+          pdfPage: 7,
+        },
+      ],
+    },
+  };
+  const { container } = render(<PaperReader paper={paper} />);
+  expect(container.textContent).toContain("已核对官方代码。");
+  expect(container.textContent).not.toContain("{'label':");
+  expect(
+    screen.getAllByText("Original quotation").every((node) => node.tagName === "BLOCKQUOTE"),
+  ).toBe(true);
+  expect(screen.getByRole("link", { name: "原文第 7 页 ↗" }).getAttribute("href")).toBe(
+    "https://aclanthology.org/2025.acl-long.773.pdf#page=7",
+  );
+});

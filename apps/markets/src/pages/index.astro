@@ -2,6 +2,7 @@
 import DayOverview from "../components/DayOverview.astro";
 import { hypotheses, indexBars } from "../components/data";
 import IndexChart from "../components/IndexChart.astro";
+import MarketInstrument from "../components/MarketInstrument.astro";
 import MarketPage from "../components/MarketPage.astro";
 import RankingPreview from "../components/RankingPreview.astro";
 import ValidationView from "../components/ValidationView.astro";
@@ -14,4 +15,4 @@ const todays = (await hypotheses()).filter(
     day.validation?.createdToday.includes(row.id) || day.validation?.settledToday.includes(row.id),
 );
 ---
-<MarketPage title="驾驶舱" lead="先看结构，再沿着证据验证。" day={day}><DayOverview day={day}/><RankingPreview day={day}/><IndexChart day={day} bars={bars}/><ValidationView day={day} hypotheses={todays}/><nav aria-label="继续观察"><a href="/directions/">方向与ETF →</a> · <a href="/industries/">行业与涨停 →</a> · <a href="/validation/">验证中心 →</a></nav></MarketPage>
+<MarketPage title="驾驶舱" lead={day.summary.headline} day={day} cockpit><MarketInstrument day={day}/><div class="reading-content"><DayOverview day={day}/><RankingPreview day={day}/><IndexChart day={day} bars={bars}/><ValidationView day={day} hypotheses={todays}/><nav aria-label="继续观察"><a href="/directions/">方向与ETF →</a> · <a href="/industries/">行业与涨停 →</a> · <a href="/validation/">验证中心 →</a></nav></div></MarketPage>

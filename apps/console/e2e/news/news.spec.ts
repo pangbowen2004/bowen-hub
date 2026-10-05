@@ -12,7 +12,7 @@ test("归档版次筛选、游标和刷新", async ({ page }) => {
   await page.getByRole("button", { name: "刷新", exact: true }).click();
   await expect(page.getByRole("heading", { name: "盘前简报" })).toBeVisible();
 });
-test("期次全部栏目、打分与单条反馈实际保存", async ({ page }) => {
+test("期次全部栏目、隔夜自选股和底部评分实际保存", async ({ page }) => {
   await page.goto("/news/morning-2026-09-30");
   for (const title of [
     "收盘快照",
@@ -30,17 +30,10 @@ test("期次全部栏目、打分与单条反馈实际保存", async ({ page }) 
     "aria-pressed",
     "true",
   );
-  await page.getByRole("button", { name: "没用", exact: true }).first().click();
-  await expect(page.getByRole("button", { name: "没用", exact: true }).first()).toHaveAttribute(
-    "aria-pressed",
-    "true",
-  );
-  await page.getByRole("button", { name: "有错", exact: true }).first().click();
-  await expect(page.getByRole("button", { name: "有错", exact: true }).first()).toBeEnabled();
+  await expect(page.getByRole("region", { name: "全部自选股隔夜涨跌" })).toBeVisible();
+  await expect(page.getByRole("button", { name: "没用", exact: true })).toHaveCount(0);
   const rows = await page.evaluate(async () => (await fetch("/v1/news/feedback")).json());
   expect(rows.some((row: { score?: number }) => row.score === 4)).toBe(true);
-  expect(rows.some((row: { reason?: string }) => row.reason === "useless")).toBe(true);
-  expect(rows.some((row: { reason?: string }) => row.reason === "incorrect")).toBe(true);
   expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
 });
 test("评分失败回滚且重试可恢复", async ({ page }) => {

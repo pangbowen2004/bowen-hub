@@ -50,6 +50,6 @@ it("下周日程保留已知日期，空态不混淆今晚", () => {
   expect(view.container.textContent).toContain("2026-10-08 · 时间待确认");
   edition.sections = [{ kind: "next_week_calendar", title: "下周日程", items: [] }];
   view.rerender(<EditionView edition={edition} />);
-  expect(view.container.textContent).toContain("下周没有重要日程");
+  expect(view.container.querySelectorAll("section").length).toBe(0);
   expect(view.container.textContent).not.toContain("今晚没有重要日程");
 });

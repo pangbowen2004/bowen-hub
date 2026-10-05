@@ -34,7 +34,7 @@ export function PaperHeader({
     <header className="page-header">
       <p className="eyebrow">私人研究 · 论文阅读馆</p>
       <h1>{title}</h1>
-      <p className="page-lead">{lead}</p>
+      {lead && <p className="page-lead">{lead}</p>}
       {useMocks && (
         <p role="status" className="muted">
           样例数据 · 操作仅用于页面预览

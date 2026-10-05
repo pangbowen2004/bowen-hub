@@ -29,7 +29,7 @@ jobs:
       CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
       HUB_API_URL: ${{ secrets.HUB_API_URL }}
       SITES_LIVE: ${{ vars.SITES_LIVE }}
-      DATA_SOURCE: ${{ github.event_name == 'repository_dispatch' && 'api' || inputs.data_source || 'fixtures' }}
+      DATA_SOURCE: ${{ github.event_name == 'repository_dispatch' && 'api' || inputs.data_source || 'api' }}
       TARGET: ${{ github.event_name == 'repository_dispatch' && (vars.SITES_LIVE == 'true' && 'production' || 'preview') || inputs.target || 'preview' }}
       CLOUDFLARE_LOAD_DEV_VARS_FROM_DOT_ENV: "false"
     steps:

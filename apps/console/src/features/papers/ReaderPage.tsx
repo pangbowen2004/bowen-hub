@@ -413,10 +413,6 @@ export function ReaderPage({ id }: { id: string }) {
           <div className="row">
             <span className="paper-tag">{current.meta.paperType}</span>
             <span className="paper-tag">{current.status.readingDepth}</span>
-            <span className="paper-tag">
-              {current.status.visibility === "public" ? "已公开" : "未公开"}
-            </span>
-            <span className="paper-tag">{reviewLabels[current.status.review]}</span>
             {current.meta.sourceUrl && /^https?:\/\//.test(current.meta.sourceUrl) && (
               <a href={current.meta.sourceUrl} target="_blank" rel="noreferrer">
                 原文主页 ↗
@@ -429,14 +425,70 @@ export function ReaderPage({ id }: { id: string }) {
             )}
           </div>
           <p>{current.meta.studyDesign}</p>
-          <div className="row">
-            <PaperQuestion key={id} id={id} onPage={setPage} />
-            <Button onClick={download}>导出 Markdown</Button>
-            <Button onClick={() => void cache.invalidateQueries({ queryKey: ["papers"] })}>
-              刷新论文
-            </Button>
-          </div>
-          <Settings key={id} paper={current} />
+          <details className="paper-management">
+            <summary>管理</summary>
+            <div className="row">
+              <PaperQuestion key={id} id={id} onPage={setPage} />
+              <Button onClick={download}>导出 Markdown</Button>
+              <Button onClick={() => void cache.invalidateQueries({ queryKey: ["papers"] })}>
+                刷新论文
+              </Button>
+            </div>
+            <Settings key={id} paper={current} />
+            <section className="paper-panel">
+              <h2>审核记录</h2>
+              <QueryState
+                loading={reviews.isPending}
+                error={reviews.error}
+                retry={reviews.refetch}
+              />
+              {reviews.data?.length === 0 && <p>还没有审核记录。</p>}
+              {reviews.data?.map((review) => (
+                <article className="paper-panel" key={review.id}>
+                  <h3>
+                    {review.decision === "pass"
+                      ? "通过"
+                      : review.decision === "revise"
+                        ? "需要修订"
+                        : "需要人工判断"}
+                  </h3>
+                  <p>
+                    {review.createdAt} · {review.generatedBy.model}
+                  </p>
+                  {review.findings.map((finding) => (
+                    <p key={`${finding.severity}-${finding.location}-${finding.fix}`}>
+                      <strong>{finding.severity}</strong> · {finding.location}：{finding.fix}
+                    </p>
+                  ))}
+                  <div className="row">
+                    {review.pagesChecked.map((value) => (
+                      <Button key={value} onClick={() => setPage(value)}>
+                        核对原文第 {value} 页
+                      </Button>
+                    ))}
+                  </div>
+                </article>
+              ))}
+            </section>
+            <form
+              className="paper-panel"
+              onSubmit={(event) => {
+                event.preventDefault();
+                revise.mutate(String(new FormData(event.currentTarget).get("instructions")).trim());
+              }}
+            >
+              <h2>按意见重写</h2>
+              <label>
+                修改意见
+                <textarea name="instructions" required />
+              </label>
+              <Button type="submit" disabled={revise.isPending}>
+                提交修改意见
+              </Button>
+              {revisionNotice && <p role="status">{revisionNotice}</p>}
+              {revise.error && <p role="alert">提交失败：{errorMessage(revise.error)}</p>}
+            </form>
+          </details>
           <PaperReader paper={current} paragraphs={articleParagraphs(current)} onPage={setPage} />
           <RelatedPapers paper={current} />
           <section className="paper-private">
@@ -491,59 +543,6 @@ export function ReaderPage({ id }: { id: string }) {
                 )}
               </>
             )}
-            <section className="paper-panel">
-              <h2>审核记录</h2>
-              <QueryState
-                loading={reviews.isPending}
-                error={reviews.error}
-                retry={reviews.refetch}
-              />
-              {reviews.data?.length === 0 && <p>还没有审核记录。</p>}
-              {reviews.data?.map((review) => (
-                <article className="paper-panel" key={review.id}>
-                  <h3>
-                    {review.decision === "pass"
-                      ? "通过"
-                      : review.decision === "revise"
-                        ? "需要修订"
-                        : "需要人工判断"}
-                  </h3>
-                  <p>
-                    {review.createdAt} · {review.generatedBy.model}
-                  </p>
-                  {review.findings.map((finding) => (
-                    <p key={`${finding.severity}-${finding.location}-${finding.fix}`}>
-                      <strong>{finding.severity}</strong> · {finding.location}：{finding.fix}
-                    </p>
-                  ))}
-                  <div className="row">
-                    {review.pagesChecked.map((value) => (
-                      <Button key={value} onClick={() => setPage(value)}>
-                        核对原文第 {value} 页
-                      </Button>
-                    ))}
-                  </div>
-                </article>
-              ))}
-            </section>
-            <form
-              className="paper-panel"
-              onSubmit={(event) => {
-                event.preventDefault();
-                revise.mutate(String(new FormData(event.currentTarget).get("instructions")).trim());
-              }}
-            >
-              <h2>按意见重写</h2>
-              <label>
-                修改意见
-                <textarea name="instructions" required />
-              </label>
-              <Button type="submit" disabled={revise.isPending}>
-                提交修改意见
-              </Button>
-              {revisionNotice && <p role="status">{revisionNotice}</p>}
-              {revise.error && <p role="alert">提交失败：{errorMessage(revise.error)}</p>}
-            </form>
           </section>
         </>
       )}

@@ -26,3 +26,18 @@ for (const path of routes) {
     expect(api).toEqual([]);
   });
 }
+
+// 静态首屏的轻量表盘仍须支持键盘选择，并保持减弱动态偏好。
+test("驾驶舱方向可用键盘选择，面板与指针同步", async ({ page }) => {
+  await page.emulateMedia({ reducedMotion: "reduce" });
+  await page.goto("/");
+  const sectors = page.locator(".dial-sector");
+  expect(await sectors.count()).toBeGreaterThan(1);
+  const nextName = (await sectors.nth(1).getAttribute("aria-label"))?.split("，")[0];
+  await sectors.nth(0).focus();
+  await sectors.nth(0).press("ArrowRight");
+  await expect(sectors.nth(1)).toHaveAttribute("aria-pressed", "true");
+  await expect(page.locator(".instrument-side h2")).toHaveText(nextName ?? "");
+  await expect(page.locator(".instrument-side")).toContainText("相对全 A");
+  expect(await page.locator("astro-island[component-url*=MarketInstrument]").count()).toBe(0);
+});

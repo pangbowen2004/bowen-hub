@@ -10,8 +10,9 @@ interface Props {
   title: string;
   lead: string;
   day: MarketDay;
+  cockpit?: boolean;
 }
-const { title, lead, day } = Astro.props;
+const { title, lead, day, cockpit = false } = Astro.props;
 const missingLabels: Record<string, string> = {
   moneyflow: "资金流",
   directions: "方向",
@@ -24,7 +25,7 @@ const previous = days[index + 1];
 const next = index > 0 ? days[index - 1] : undefined;
 ---
 <BaseLayout title={title} description={lead} date={day.date}>
-<PageHeader title={title} lead={lead} date={day.date}/>
+{!cockpit && <PageHeader title={title} lead={lead} date={day.date}/>}
 <DateNav previous={previous?{href:`/archive/${previous.date}/`,label:previous.date}:undefined} next={next?{href:`/archive/${next.date}/`,label:next.date}:undefined}/>
 {day.dataStatus.missing.length>0 && <MissingData text={"数据尚不完整："+day.dataStatus.missing.map(key=>missingLabels[key]??key).join("、")}/>}
 <slot/>
