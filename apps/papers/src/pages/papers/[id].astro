@@ -7,6 +7,7 @@ import {
   publicGraph,
   relatedPapers,
 } from "../../components/paper";
+import tableEvidence from "../../components/table-evidence.json";
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import { getCatalog, getGraph, getPaper } from "../../lib/data";
 export async function getStaticPaths() {
@@ -39,9 +40,24 @@ const related = relatedPapers(
  <div class="tag-row">{paper.spaces?.map(space=><a class="badge" href={`/spaces/${space}/`}>{catalog.spaces.find(s=>s.id===space)?.label??space}</a>)}{resources?.code && <span class="badge">代码：{{verified:'已核查',unverified:'待核查',not_found:'未找到'}[resources.code.status]}</span>}</div>
  <nav class="reading-links" aria-label="论文资源">{links.source && <a href={links.source}>原文主页 ↗</a>}{links.code && <a href={links.code}>代码 ↗</a>}<details class="public-paper-management"><summary>导出</summary><a href={`/papers/${paper.id}.md`}>导出 Markdown</a></details><a href="#evidence">原文证据</a></nav>
 </header>
-<PaperReader paper={paper} paragraphs={paragraphs} coverage={coverage} related={related}/>
+<div class="reading-layout">
+<PaperReader paper={paper} paragraphs={paragraphs} coverage={coverage} related={related} tableEvidence={tableEvidence[paper.id as keyof typeof tableEvidence] ?? {}}/>
+<aside class="reading-toc"><nav aria-label="本文目录"><p>本文目录</p><ol id="reading-toc"></ol></nav></aside>
+</div>
 </BaseLayout>
-<script>document.getElementById('claim-filter')?.addEventListener('change',(event)=>{const kind=(event.target as HTMLSelectElement).value;document.querySelectorAll<HTMLElement>('[data-claim-kind]').forEach(row=>{row.hidden=kind!=='all'&&row.dataset.claimKind!==kind;});});</script>
+<script>
+document.getElementById('claim-filter')?.addEventListener('change',(event)=>{const kind=(event.target as HTMLSelectElement).value;document.querySelectorAll<HTMLElement>('[data-claim-kind]').forEach(row=>{row.hidden=kind!=='all'&&row.dataset.claimKind!==kind;});});
+const toc=document.getElementById('reading-toc');
+document.querySelectorAll<HTMLElement>('.paper-reader h2').forEach((heading,index)=>{
+ heading.id ||= `reading-section-${index}`;
+ const item=document.createElement('li'),link=document.createElement('a');
+ link.href=`#${heading.id}`;link.textContent=heading.textContent;
+ link.addEventListener('click',()=>heading.closest('details')?.setAttribute('open',''));
+ item.append(link);toc?.append(item);
+});
+</script>
 <style>
 .reading-header{max-width:820px;margin-inline:auto;padding-block:2rem 3rem;border-bottom:1px solid var(--border);margin-bottom:2rem}.reading-header h1{font-size:clamp(2rem,4vw,3.4rem);line-height:1.3}.original-title{font-family:var(--font-display);font-size:1.4rem}.tag-row,.reading-links{display:flex;flex-wrap:wrap;gap:.75rem}.public-paper-management{margin-left:auto;position:relative;padding:12px;border:1px solid var(--border)}.public-paper-management[open]{background:var(--surface)}.reading-links a{min-height:44px;display:flex;align-items:center}
+.reading-layout{width:100%;min-width:0;max-width:1100px;margin-inline:auto}.reading-toc{display:none}.reading-layout :global(h2){scroll-margin-top:2rem}
+@media(min-width:1280px){.reading-layout{display:grid;grid-template-columns:minmax(0,820px) 220px;gap:3rem}.reading-toc{display:block;align-self:stretch}.reading-toc nav{position:sticky;top:2rem;max-height:calc(100vh - 4rem);overflow:auto;border-left:1px solid var(--border);padding-left:1.25rem}.reading-toc p{font-size:.8rem;letter-spacing:.08em;color:var(--muted)}.reading-toc ol{list-style:none;padding:0}.reading-toc a{display:block;font-size:.85rem;padding:.5rem 0;color:var(--text)}.reading-toc a:hover{color:var(--accent)}}
 </style>

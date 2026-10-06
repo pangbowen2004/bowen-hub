@@ -182,7 +182,7 @@ export async function createAtlas(
       ? active.paper.concepts.filter((c) => c.id === focus.concept)
       : active.paper.concepts;
     concepts.forEach((c, i) => {
-      const cols = Math.ceil(Math.sqrt(concepts.length) * 1.8),
+      const cols = Math.min(3, Math.max(1, concepts.length)),
         position = origin
           .clone()
           .addScaledVector(front, 0.7)
@@ -213,6 +213,7 @@ export async function createAtlas(
   }
   function setFocus(value: Focus) {
     focus = value;
+    rebuild();
     const active = pages.find((p) => p.paper.id === value.id);
     if (active) {
       root.updateWorldMatrix(true, true);
@@ -223,13 +224,38 @@ export async function createAtlas(
       );
       normal.y = 0;
       normal.normalize();
-      const distance = el.clientWidth < 600 ? 15 : 9;
-      targetPos.copy(pos).addScaledVector(normal, distance);
-      targetPos.y = pos.y + 3.2;
       targetLook.copy(pos);
       targetLook.y += 0.8;
+      // 沿书页正面看向焦点，同时用整个研究空间的边界计算距离，避免切掉弧形层。
+      const direction = normal.clone().setY(0.32).normalize();
+      const horizontal = new T.Vector3()
+        .crossVectors(new T.Vector3(0, 1, 0), direction)
+        .normalize();
+      const vertical = new T.Vector3().crossVectors(direction, horizontal).normalize();
+      const tanY = Math.tan(T.MathUtils.degToRad(camera.fov / 2)) * 0.9;
+      const tanX = tanY * Math.max(0.5, el.clientWidth / el.clientHeight);
+      let distance = 9;
+      const fitPoint = (point: T.Vector3) => {
+        const delta = point.clone().sub(targetLook);
+        distance = Math.max(
+          distance,
+          delta.dot(direction) + Math.abs(delta.dot(horizontal)) / tanX,
+          delta.dot(direction) + Math.abs(delta.dot(vertical)) / tanY,
+        );
+      };
+      root.traverse((object) => {
+        if (!(object instanceof T.Mesh || object instanceof T.Line)) return;
+        const vertices = object.geometry.getAttribute("position");
+        for (let i = 0; i < vertices.count; i++)
+          fitPoint(
+            new T.Vector3().fromBufferAttribute(vertices, i).applyMatrix4(object.matrixWorld),
+          );
+      });
+      labelNodes.forEach(({ position }) => {
+        fitPoint(position);
+      });
+      targetPos.copy(targetLook).addScaledVector(direction, distance + 0.8);
     }
-    rebuild();
     if (value.reduced) {
       camera.position.copy(targetPos);
       look.copy(targetLook);
@@ -251,12 +277,12 @@ export async function createAtlas(
       mesh.material.opacity = visible ? (selected ? 0.94 : related ? 0.65 : 0.24) : 0.03;
       mesh.material.emissive.set(
         selected
-          ? "#fff0d5"
+          ? "#e4ad62"
           : (colors[
               spaces.findIndex((s) => s.id === (paper.spaces[0] ?? spaces[0]?.id)) % colors.length
             ] ?? "#a497b4"),
       );
-      mesh.material.emissiveIntensity = visible ? (selected ? 3.4 : related ? 1.35 : 0.08) : 0.01;
+      mesh.material.emissiveIntensity = visible ? (selected ? 2.4 : related ? 0.85 : 0.08) : 0.01;
       const progress = focus.reduced
         ? 1
         : Math.min(1, Math.max(0, (now - started - 260 - i * 4) / 600));

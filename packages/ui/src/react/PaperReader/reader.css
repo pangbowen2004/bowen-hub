@@ -78,6 +78,22 @@
 .paper-reader img {
   max-width: 100%;
 }
+.original-table {
+  margin: 0;
+  background: #fff;
+  padding: 0.75rem;
+  border: 1px solid var(--border);
+}
+.original-table img {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+.original-table figcaption {
+  font-size: 0.75rem;
+  color: var(--muted);
+  margin-top: 0.5rem;
+}
 .paper-reader .article-content table {
   min-width: 0;
   max-width: 100%;
