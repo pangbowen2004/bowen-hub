@@ -13,6 +13,14 @@ export interface Bindings {
   HUB_SERVICE_TOKEN?: string;
   GH_AUTOMATION_TOKEN?: string;
   OPENAI_API_KEY?: string;
+  OBSERVATION_STARTED_ON?: string;
+  EMAIL_SMTP_HOST?: string;
+  EMAIL_SMTP_PORT?: string;
+  EMAIL_SMTP_USER?: string;
+  EMAIL_SMTP_PASSWORD?: string;
+  EMAIL_FROM?: string;
+  EMAIL_TO?: string;
+
   BETTER_AUTH_SECRET?: string;
   HUB_BOOTSTRAP_TOKEN?: string;
 }
