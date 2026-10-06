@@ -1,9 +1,14 @@
 import { app } from "./app";
+import { checkClock, observeProduction } from "./lib/cloud-clock";
 import type { Bindings } from "./lib/env";
 
 export { PaperQaRuntime } from "./lib/paper-qa-object";
 
 export default {
+  async scheduled(_event: ScheduledController, env: Bindings, _ctx: ExecutionContext) {
+    await checkClock(env);
+    await observeProduction(env);
+  },
   fetch(request: Request, env: Bindings, ctx: ExecutionContext) {
     const path = new URL(request.url).pathname;
     if (

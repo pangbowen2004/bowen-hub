@@ -1,0 +1,10 @@
+{
+  "intervalMinutes": 10,
+  "retryMinutes": 30,
+  "morningStart": "07:10",
+  "morningDeadline": "08:00",
+  "marketStart": "17:05",
+  "marketDeadline": "21:00",
+  "backupStart": "03:30",
+  "premarketMinutesBeforeOpen": 45
+}
