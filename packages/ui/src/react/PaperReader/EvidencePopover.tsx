@@ -1,15 +1,18 @@
 import type { PaperClaim } from "@bowen-hub/contracts";
 import { useId } from "react";
+import { type EvidenceImage, OriginalEvidence } from "./OriginalEvidence";
 export function EvidencePopover({
   claims = [],
   inferred = false,
   label = "原文证据",
   onPage,
+  tableEvidence = {},
 }: {
   claims?: PaperClaim[];
   inferred?: boolean;
   label?: string;
   onPage?: (page: number) => void;
+  tableEvidence?: Record<string, EvidenceImage>;
 }) {
   const id = useId();
   if (!claims.length && !inferred) return null;
@@ -51,7 +54,9 @@ export function EvidencePopover({
                 打开原文第 {claim.pdfPage} 页
               </button>
             )}
-            {claim.sourceExcerpt && <blockquote>{claim.sourceExcerpt}</blockquote>}
+            {claim.sourceExcerpt && (
+              <OriginalEvidence claim={claim} image={tableEvidence[claim.id]} />
+            )}
             {claim.interpretationBoundary && <p>解释边界：{claim.interpretationBoundary}</p>}
           </section>
         ))}

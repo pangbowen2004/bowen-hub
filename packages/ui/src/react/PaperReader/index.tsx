@@ -2,6 +2,7 @@ import type { Paper, PaperArticleBlock, PaperClaim, PaperCoverage } from "@bowen
 import { Fragment, type ReactNode, useState } from "react";
 import { ContentTree, labels } from "./ContentTree";
 import { EvidencePopover as EvidenceMark } from "./EvidencePopover";
+import { type EvidenceImage, OriginalEvidence } from "./OriginalEvidence";
 import "./reader.css";
 export interface ReadingParagraph {
   html: string;
@@ -15,6 +16,7 @@ export interface PaperReaderProps {
   related?: { concepts: Paper[]; spaces: Paper[]; relations: Paper[] };
   children?: ReactNode;
   onPage?: (page: number) => void;
+  tableEvidence?: Record<string, EvidenceImage>;
 }
 /** Host parses Markdown safely before supplying paragraphs; ordinary pages render without hydration. */
 export function PaperReader({
@@ -24,6 +26,7 @@ export function PaperReader({
   related = { concepts: [], spaces: [], relations: [] },
   children,
   onPage,
+  tableEvidence = {},
 }: PaperReaderProps) {
   const [kind, setKind] = useState("all");
   if (!paper)
@@ -129,6 +132,7 @@ export function PaperReader({
               <div dangerouslySetInnerHTML={{ __html: block.html }} />
               <EvidenceMark
                 claims={block.claims}
+                tableEvidence={tableEvidence}
                 onPage={onPage}
                 inferred={block.evidence?.claimOrigin === "llm_inferred"}
               />
@@ -174,7 +178,7 @@ export function PaperReader({
                 {claim.sourceExcerpt ? (
                   <details className="evidence-original">
                     <summary>原文摘录</summary>
-                    <blockquote>{claim.sourceExcerpt}</blockquote>
+                    <OriginalEvidence claim={claim} image={tableEvidence[claim.id]} />
                   </details>
                 ) : (
                   <p className="muted">原文未找到</p>
@@ -195,7 +199,12 @@ export function PaperReader({
                       <span>PDF p.{claim.pdfPage}</span>
                     ))}
                   {claim.anchor && <span>{claim.anchor}</span>}
-                  <EvidenceMark claims={[claim]} label="查看证据" onPage={onPage} />
+                  <EvidenceMark
+                    claims={[claim]}
+                    label="查看证据"
+                    onPage={onPage}
+                    tableEvidence={tableEvidence}
+                  />
                 </div>
                 {claim.interpretationBoundary && (
                   <p className="muted">{claim.interpretationBoundary}</p>

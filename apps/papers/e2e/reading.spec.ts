@@ -24,7 +24,7 @@ test("catalog is SSR; local search and filters never fetch APIs", async ({ page 
 test("reading evidence, collapsed answers and markdown export", async ({ page, request }) => {
   await page.goto(`/papers/${id}/`);
   await expect(page.getByRole("heading", { name: "30 秒读懂" })).toBeVisible();
-  await expect(page.getByText("读完，试着回答")).toBeVisible();
+  await expect(page.getByRole("heading", { name: "读完，试着回答" })).toBeVisible();
   const answer = page.locator("details").filter({ hasText: "论文研究什么问题？" }).first();
   if (await answer.count()) {
     await expect(answer).not.toHaveAttribute("open", "");
