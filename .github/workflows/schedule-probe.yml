@@ -1,0 +1,13 @@
+name: schedule-probe
+on:
+  schedule:
+    - cron: "*/15 * * * *"
+permissions:
+  contents: read
+jobs:
+  clock:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 1
+    steps:
+      - name: 仅打印UTC时间
+        run: date -u +%FT%TZ
