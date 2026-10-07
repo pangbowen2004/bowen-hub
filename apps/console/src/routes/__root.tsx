@@ -1,18 +1,15 @@
-import { Button } from "@bowen-hub/ui";
 import { createRootRoute, Link, Outlet } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { requireSession } from "../features/auth";
+import { AccountMenu } from "../features/auth/AccountMenu";
 
 const desktop = [
   { to: "/", label: "今日" },
-  { to: "/news", label: "新闻" },
+  { to: "/news", label: "新闻室" },
   { to: "/papers", label: "论文" },
-  { to: "/watchlist", label: "自选股" },
   { to: "/markets/events", label: "事件日历" },
-  { to: "/ops", label: "运维" },
-  { to: "/settings", label: "设置" },
 ] as const;
-const mobile = [desktop[0], desktop[1], desktop[2], { to: "/ops", label: "更多" }] as const;
+const mobile = desktop;
 function Root() {
   const [theme, setTheme] = useState<string>(localStorage.getItem("theme") ?? "system");
   useEffect(() => {
@@ -42,9 +39,10 @@ function Root() {
             </Link>
           ))}
         </nav>
-        <Button className="theme-button" onClick={changeTheme}>
-          主题：{theme === "system" ? "跟随系统" : theme === "dark" ? "深色" : "浅色"}
-        </Button>
+        <AccountMenu
+          onTheme={changeTheme}
+          themeLabel={theme === "system" ? "跟随系统" : theme === "dark" ? "深色" : "浅色"}
+        />
       </header>
       <div className="console-content">
         <main id="content" className="container">

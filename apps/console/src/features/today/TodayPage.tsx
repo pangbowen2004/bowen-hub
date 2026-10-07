@@ -3,7 +3,6 @@ import {
   privateNewsListEditions,
   privatePapersListPapers,
   privatePlatformGetAiUsage,
-  privatePlatformListRuns,
   publicMarketsGetLatestDay,
 } from "@bowen-hub/contracts/client";
 import { Button, count, usd } from "@bowen-hub/ui";
@@ -75,10 +74,6 @@ export function TodayPage() {
     queryKey: ["today-papers-pending"],
     queryFn: ({ signal }) => pendingCount(signal),
   });
-  const runs = useQuery({
-    queryKey: ["today-failed-runs"],
-    queryFn: ({ signal }) => privatePlatformListRuns({ limit: 20 }, { signal }),
-  });
   const usage = useQuery({
     queryKey: ["today-ai-usage"],
     queryFn: ({ signal }) => privatePlatformGetAiUsage(undefined, { signal }),
@@ -98,7 +93,6 @@ export function TodayPage() {
             void queryClient.refetchQueries({ queryKey: ["today-edition"], type: "active" });
             void market.refetch();
             void papers.refetch();
-            void runs.refetch();
             void usage.refetch();
           }}
         >
@@ -141,24 +135,6 @@ export function TodayPage() {
                 {usd(usage.data.monthCostUsd)} / 预算 {usd(usage.data.monthlyBudgetUsd)}
               </p>
             )}
-          </section>
-          <section className="today-reading">
-            <h2>最近失败任务</h2>
-            <QueryState loading={runs.isPending} error={runs.error} retry={runs.refetch} />
-            {runs.data?.items.filter((run) => run.status === "failed").length === 0 && (
-              <p>最近没有失败任务。</p>
-            )}
-            {runs.data?.items
-              .filter((run) => run.status === "failed")
-              .slice(0, 5)
-              .map((run) => (
-                <p key={run.id}>
-                  {run.job} · {run.date}
-                  <br />
-                  <span className="muted">{run.error ?? "没有错误摘要"}</span>
-                </p>
-              ))}
-            <Link to="/ops">运行记录 →</Link>
           </section>
         </div>
       </div>

@@ -103,3 +103,101 @@
     padding-top: 20px;
   }
 }
+.account-trigger {
+  font-size: 12px !important;
+  gap: 12px;
+}
+.account-dialog {
+  position: fixed;
+  inset: 86px 28px auto auto;
+  margin: 0;
+  width: min(430px, calc(100vw - 40px));
+  max-height: calc(100vh - 115px);
+  overflow: auto;
+  border: 1px solid var(--border);
+  box-shadow: 0 16px 60px #0002;
+  background: var(--bg);
+  color: var(--text);
+  padding: 24px;
+}
+.account-dialog::backdrop {
+  background: #16161622;
+}
+.account-dialog > header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 18px;
+}
+.account-dialog > header h2 {
+  font-size: 18px;
+  margin: 0;
+}
+.account-dialog > header button {
+  border: 0;
+  background: none;
+  color: var(--muted);
+  font-size: 24px;
+  cursor: pointer;
+}
+.account-dialog .auth-settings {
+  padding: 0;
+}
+.account-dialog .auth-settings section {
+  margin: 0;
+  padding: 16px 0;
+  border: 0;
+}
+.account-dialog .auth-settings p {
+  font-size: 11px;
+}
+.account-dialog .auth-settings li {
+  padding: 12px 0;
+  font-size: 13px;
+  gap: 12px;
+}
+.account-dialog .auth-settings li p {
+  margin: 6px 0 0;
+}
+.account-dialog .auth-settings input {
+  font-size: 12px;
+  margin: 8px 0 12px;
+}
+.account-dialog .auth-settings label {
+  font-size: 11px;
+  color: var(--muted);
+}
+.account-dialog .auth-settings button {
+  min-height: 34px;
+  font-size: 11px;
+}
+.access-tabs {
+  display: flex;
+  gap: 18px;
+  border-bottom: 1px solid var(--border);
+}
+.access-tabs button {
+  font: 12px var(--font-sans);
+  border: 0;
+  background: none;
+  color: var(--muted);
+  padding: 0 0 12px;
+  cursor: pointer;
+}
+.access-tabs button[aria-selected="true"] {
+  border-bottom: 1px solid var(--accent);
+  color: var(--text);
+}
+.access-session {
+  margin-top: 12px;
+  padding-top: 16px;
+  border-top: 1px solid var(--border);
+}
+.account-theme {
+  font: 11px var(--font-sans);
+  color: var(--muted);
+  border: 0;
+  background: none;
+  padding: 16px 0 0;
+  cursor: pointer;
+}

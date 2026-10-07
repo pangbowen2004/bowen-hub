@@ -155,13 +155,17 @@ test("官方Inspector：真实OAuth、12个工具、调用工具，撤销授权�
       automaticPresenceSimulation: true,
     },
   });
-  await page.goto("/settings");
+  await page.goto("/markets/events");
   await expect(page).toHaveURL(/\/login/);
   await page.getByText("第一次使用？登记通行密钥").click();
   await page.getByLabel("一次性登记口令").fill(BOOTSTRAP_TOKEN);
   await page.getByRole("button", { name: "登记我的通行密钥" }).click();
-  await expect(page).toHaveURL(/\/settings$/, { timeout: 20000 });
+  await expect(page).toHaveURL(/\/markets\/events$/, { timeout: 20000 });
+  await page.getByRole("button", { name: "账户", exact: false }).click();
+  await page.getByRole("tab", { name: "已授权的应用（MCP）" }).click();
   await expect(page.getByText("还没有授权任何客户端。")).toBeVisible();
+
+  await page.getByRole("button", { name: "关闭账户菜单" }).click();
 
   // 二、没有令牌时 /mcp 返回 OAuth 挑战，指向同源的资源元数据。
   const anonymous = await rpc(null, { jsonrpc: "2.0", id: 1, method: "tools/list" });
@@ -254,8 +258,10 @@ test("官方Inspector：真实OAuth、12个工具、调用工具，撤销授权�
     await callTool("papers_ingest_url", { url: "https://arxiv.org/abs/2505.07078" }),
   ).toMatchObject({ arxivUrl: "https://arxiv.org/abs/2505.07078", status: "queued" });
 
-  // 八、设置页撤销授权后，同一个访问令牌立刻被拒（它的签名与有效期都还没过）。
-  await page.goto("/settings");
+  // 八、账户弹层撤销授权后，同一个访问令牌立刻被拒（它的签名与有效期都还没过）。
+  await page.goto("/markets/events");
+  await page.getByRole("button", { name: "账户", exact: false }).click();
+  await page.getByRole("tab", { name: "已授权的应用（MCP）" }).click();
   await expect(page.getByRole("button", { name: "撤销授权" })).toBeVisible();
   await page.getByRole("button", { name: "撤销授权" }).click();
   await expect(page.getByText("还没有授权任何客户端。")).toBeVisible();

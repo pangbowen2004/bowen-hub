@@ -12,9 +12,6 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as ConsentRouteImport } from './routes/consent'
 import { Route as LoginRouteImport } from './routes/login'
-import { Route as OpsRouteImport } from './routes/ops'
-import { Route as SettingsRouteImport } from './routes/settings'
-import { Route as WatchlistRouteImport } from './routes/watchlist'
 import { Route as MarketsEventsRouteImport } from './routes/markets/events'
 import { Route as NewsIndexRouteImport } from './routes/news/index'
 import { Route as NewsIdRouteImport } from './routes/news/$id'
@@ -38,21 +35,6 @@ const ConsentRoute = ConsentRouteImport.update({
 const LoginRoute = LoginRouteImport.update({
   id: '/login',
   path: '/login',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const OpsRoute = OpsRouteImport.update({
-  id: '/ops',
-  path: '/ops',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const SettingsRoute = SettingsRouteImport.update({
-  id: '/settings',
-  path: '/settings',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const WatchlistRoute = WatchlistRouteImport.update({
-  id: '/watchlist',
-  path: '/watchlist',
   getParentRoute: () => rootRouteImport,
 } as any)
 const MarketsEventsRoute = MarketsEventsRouteImport.update({
@@ -105,9 +87,6 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/consent': typeof ConsentRoute
   '/login': typeof LoginRoute
-  '/ops': typeof OpsRoute
-  '/settings': typeof SettingsRoute
-  '/watchlist': typeof WatchlistRoute
   '/markets/events': typeof MarketsEventsRoute
   '/news/$id': typeof NewsIdRoute
   '/news/search': typeof NewsSearchRoute
@@ -122,9 +101,6 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/consent': typeof ConsentRoute
   '/login': typeof LoginRoute
-  '/ops': typeof OpsRoute
-  '/settings': typeof SettingsRoute
-  '/watchlist': typeof WatchlistRoute
   '/markets/events': typeof MarketsEventsRoute
   '/news/$id': typeof NewsIdRoute
   '/news/search': typeof NewsSearchRoute
@@ -140,9 +116,6 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/consent': typeof ConsentRoute
   '/login': typeof LoginRoute
-  '/ops': typeof OpsRoute
-  '/settings': typeof SettingsRoute
-  '/watchlist': typeof WatchlistRoute
   '/markets/events': typeof MarketsEventsRoute
   '/news/$id': typeof NewsIdRoute
   '/news/search': typeof NewsSearchRoute
@@ -159,9 +132,6 @@ export interface FileRouteTypes {
     | '/'
     | '/consent'
     | '/login'
-    | '/ops'
-    | '/settings'
-    | '/watchlist'
     | '/markets/events'
     | '/news/$id'
     | '/news/search'
@@ -176,9 +146,6 @@ export interface FileRouteTypes {
     | '/'
     | '/consent'
     | '/login'
-    | '/ops'
-    | '/settings'
-    | '/watchlist'
     | '/markets/events'
     | '/news/$id'
     | '/news/search'
@@ -193,9 +160,6 @@ export interface FileRouteTypes {
     | '/'
     | '/consent'
     | '/login'
-    | '/ops'
-    | '/settings'
-    | '/watchlist'
     | '/markets/events'
     | '/news/$id'
     | '/news/search'
@@ -211,9 +175,6 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   ConsentRoute: typeof ConsentRoute
   LoginRoute: typeof LoginRoute
-  OpsRoute: typeof OpsRoute
-  SettingsRoute: typeof SettingsRoute
-  WatchlistRoute: typeof WatchlistRoute
   MarketsEventsRoute: typeof MarketsEventsRoute
   NewsIdRoute: typeof NewsIdRoute
   NewsSearchRoute: typeof NewsSearchRoute
@@ -246,27 +207,6 @@ declare module '@tanstack/react-router' {
       path: '/login'
       fullPath: '/login'
       preLoaderRoute: typeof LoginRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/ops': {
-      id: '/ops'
-      path: '/ops'
-      fullPath: '/ops'
-      preLoaderRoute: typeof OpsRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/settings': {
-      id: '/settings'
-      path: '/settings'
-      fullPath: '/settings'
-      preLoaderRoute: typeof SettingsRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/watchlist': {
-      id: '/watchlist'
-      path: '/watchlist'
-      fullPath: '/watchlist'
-      preLoaderRoute: typeof WatchlistRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/markets/events': {
@@ -339,9 +279,6 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   ConsentRoute: ConsentRoute,
   LoginRoute: LoginRoute,
-  OpsRoute: OpsRoute,
-  SettingsRoute: SettingsRoute,
-  WatchlistRoute: WatchlistRoute,
   MarketsEventsRoute: MarketsEventsRoute,
   NewsIdRoute: NewsIdRoute,
   NewsSearchRoute: NewsSearchRoute,

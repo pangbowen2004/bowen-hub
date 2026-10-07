@@ -1,216 +1,222 @@
-import "./events.css";
 import type { MarketEvent } from "@bowen-hub/contracts";
-import {
-  privateMarketsCreateEvent,
-  privateMarketsDeleteEvent,
-  privateMarketsPutEvent,
-  publicMarketsListEvents,
-} from "@bowen-hub/contracts/client";
-import { MarketEvent as EventSchema } from "@bowen-hub/contracts/zod";
-import { Button, Input } from "@bowen-hub/ui";
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { useState } from "react";
+import { publicMarketsListEvents } from "@bowen-hub/contracts/client";
+import { useQuery } from "@tanstack/react-query";
+import { useEffect, useRef, useState } from "react";
+import { chronological, dateKey, monthStart, monthWeeks, shiftMonth, weekBars } from "./calendar";
+import "./events.css";
 
-const statuses = [
-  { value: "confirmed", label: "已确认" },
-  { value: "pending", label: "待确认" },
-] as const;
-function message(error: unknown) {
-  return error instanceof Error ? error.message : "请求失败，请重试";
-}
+const status = { confirmed: "已确认", pending: "待确认" } as const;
 export function EventsPage() {
-  const query = useQuery({ queryKey: ["market-events"], queryFn: () => publicMarketsListEvents() });
-  const cache = useQueryClient();
-  const [editing, setEditing] = useState<MarketEvent | null>(null);
-  const [formOpen, setFormOpen] = useState(false);
-  const [error, setError] = useState("");
-  const [notice, setNotice] = useState("");
-  const save = useMutation({
-    mutationFn: (row: MarketEvent) =>
-      editing ? privateMarketsPutEvent(editing.id, row) : privateMarketsCreateEvent(row),
-    onSuccess: () => {
-      setFormOpen(false);
-      setEditing(null);
-      setError("");
-      setNotice("事件已保存；下一次网站部署后更新。");
-      void cache.invalidateQueries({ queryKey: ["market-events"] });
-    },
-    onError: (e) => setError(message(e)),
+  const todayKey = new Intl.DateTimeFormat("en-CA", {
+    timeZone: "Asia/Shanghai",
+    year: "numeric",
+    month: "2-digit",
+    day: "2-digit",
+  }).format(new Date());
+  const [month, setMonth] = useState(() => monthStart(new Date(`${todayKey}T00:00:00Z`)));
+  const [selected, setSelected] = useState<MarketEvent | null>(null);
+  const dialog = useRef<HTMLDialogElement>(null);
+  const query = useQuery({
+    queryKey: ["market-events"],
+    queryFn: ({ signal }) => publicMarketsListEvents({}, { signal }),
   });
-  const remove = useMutation({
-    mutationFn: (id: string) => privateMarketsDeleteEvent(id),
-    onSuccess: () => {
-      setNotice("事件已删除；下一次网站部署后更新。");
-      void cache.invalidateQueries({ queryKey: ["market-events"] });
-    },
-    onError: (e) => setError(message(e)),
-  });
-  function submit(event: React.FormEvent<HTMLFormElement>) {
-    event.preventDefault();
-    const form = new FormData(event.currentTarget);
-    const text = (key: string) => String(form.get(key) ?? "").trim();
-    const lines = (key: string) =>
-      text(key)
-        .split("\n")
-        .map((x) => x.trim())
-        .filter(Boolean);
-    const parsed = EventSchema.safeParse({
-      id: editing?.id ?? `EVT-${crypto.randomUUID()}`,
-      title: text("title"),
-      sourceLabel: text("sourceLabel"),
-      sourceUrl: text("sourceUrl") || null,
-      confirmation: text("confirmation"),
-      invalidation: text("invalidation"),
-      startDate: text("startDate"),
-      endDate: text("endDate"),
-      status: text("status"),
-      watchItems: lines("watchItems"),
-      aShareMappings: lines("aShareMappings"),
-    });
-    if (!parsed.success) {
-      setError("请完整填写事件、来源、时间、确认和失效条件。");
-      return;
-    }
-    if (parsed.data.startDate > parsed.data.endDate) {
-      setError("结束日期不能早于开始日期。");
-      return;
-    }
-    setError("");
-    save.mutate(parsed.data);
-  }
+  const weeks = monthWeeks(month),
+    prefix = dateKey(month).slice(0, 7);
+  const end = dateKey(new Date(Date.UTC(month.getUTCFullYear(), month.getUTCMonth() + 1, 0)));
+  const events = chronological(query.data ?? []).filter(
+    (event) => event.startDate <= end && event.endDate >= dateKey(month),
+  );
+  useEffect(() => {
+    if (selected) dialog.current?.showModal();
+  }, [selected]);
   return (
-    <section className="stack">
-      <header className="page-header">
-        <p className="eyebrow">观察条件 · 数据维护</p>
-        <h1>事件日历</h1>
-        <p className="page-lead">记录来源、验证条件和期限，让观察可以被复核。</p>
-        <Button
-          onClick={() => {
-            setEditing(null);
-            setFormOpen(true);
-            setError("");
-          }}
-        >
-          新增事件
-        </Button>
+    <section className="events-page">
+      <header className="events-header">
+        <div>
+          <p className="eyebrow">EVENT CALENDAR</p>
+          <h1>事件日历</h1>
+        </div>
+        <div className="month-controls">
+          <button type="button" aria-label="上个月" onClick={() => setMonth(shiftMonth(month, -1))}>
+            ←
+          </button>
+          <h2 aria-live="polite">
+            {month.getUTCFullYear()} 年 {month.getUTCMonth() + 1} 月
+          </h2>
+          <button type="button" aria-label="下个月" onClick={() => setMonth(shiftMonth(month, 1))}>
+            →
+          </button>
+          <button
+            type="button"
+            onClick={() => setMonth(monthStart(new Date(`${todayKey}T00:00:00Z`)))}
+          >
+            本月
+          </button>
+        </div>
       </header>
-      {notice && <p role="status">{notice}</p>}
-      {error && <p role="alert">{error}</p>}
       {query.isPending && <p role="status">正在加载事件…</p>}
-      {query.isError && (
+      {query.error && (
         <p role="alert">
-          事件加载失败：{message(query.error)}{" "}
-          <Button onClick={() => void query.refetch()}>重试</Button>
+          事件加载失败。
+          <button type="button" onClick={() => void query.refetch()}>
+            重试
+          </button>
         </p>
       )}
-      {formOpen && (
-        <form className="events-editor" onSubmit={submit} key={editing?.id ?? "new"}>
-          <h2>{editing ? "编辑事件" : "新事件"}</h2>
-          {[
-            { name: "title", label: "事件标题", required: true },
-            { name: "sourceLabel", label: "来源名称", required: true },
-            { name: "sourceUrl", label: "来源网址", type: "url" },
-            { name: "startDate", label: "开始日期", type: "date", required: true },
-            { name: "endDate", label: "结束日期", type: "date", required: true },
-          ].map((field) => (
-            <Input
-              key={field.name}
-              label={field.label}
-              name={field.name}
-              type={field.type ?? "text"}
-              required={field.required}
-              defaultValue={(editing?.[field.name as keyof MarketEvent] as string) ?? ""}
-            />
-          ))}
-          <label>
-            状态
-            <select name="status" defaultValue={editing?.status ?? "pending"}>
-              {statuses.map((x) => (
-                <option key={x.value} value={x.value}>
-                  {x.label}
-                </option>
-              ))}
-            </select>
-          </label>
-          {[
-            {
-              name: "confirmation",
-              label: "确认条件",
-              value: editing?.confirmation,
-              required: true,
-            },
-            {
-              name: "invalidation",
-              label: "失效条件",
-              value: editing?.invalidation,
-              required: true,
-            },
-            {
-              name: "watchItems",
-              label: "观察项（每行一项）",
-              value: editing?.watchItems.join("\n"),
-            },
-            {
-              name: "aShareMappings",
-              label: "A股映射（每行一项）",
-              value: editing?.aShareMappings.join("\n"),
-            },
-          ].map((field) => (
-            <label key={field.name}>
-              {field.label}
-              <textarea
-                name={field.name}
-                required={field.required}
-                rows={3}
-                defaultValue={field.value ?? ""}
-              />
-            </label>
-          ))}
-          <div className="row">
-            <Button type="submit" disabled={save.isPending}>
-              {save.isPending ? "保存中…" : "保存事件"}
-            </Button>
-            <Button type="button" onClick={() => setFormOpen(false)}>
-              取消
-            </Button>
+      <div className="calendar-scroll">
+        <section
+          className="month-grid"
+          aria-label={`${month.getUTCFullYear()}年${month.getUTCMonth() + 1}月月历`}
+        >
+          <div className="calendar-weekdays">
+            {["周一", "周二", "周三", "周四", "周五", "周六", "周日"].map((day) => (
+              <span key={day}>{day}</span>
+            ))}
           </div>
-        </form>
-      )}
-      {query.data?.length === 0 && <p>尚无事件，添加第一条观察条件。</p>}
-      {query.data?.map((row) => (
-        <article key={row.id} className="surface-panel">
-          <p className="eyebrow">
-            {row.startDate}—{row.endDate} ·{" "}
-            {statuses.find((x) => x.value === row.status)?.label ?? row.status}
-          </p>
-          <h2>{row.title}</h2>
-          <p>
-            {row.sourceUrl ? (
-              <a href={row.sourceUrl} rel="noopener noreferrer">
-                {row.sourceLabel} →
-              </a>
-            ) : (
-              row.sourceLabel
-            )}
-          </p>
-          <p>确认：{row.confirmation}</p>
-          <p>失效：{row.invalidation}</p>
-          <div className="row">
-            <Button
-              onClick={() => {
-                setEditing(row);
-                setFormOpen(true);
-                setError("");
-              }}
+          {weeks.map((days) => (
+            <div className="calendar-week" key={dateKey(days[0]!)}>
+              <div className="calendar-background" aria-hidden="true">
+                {days.map((day) => (
+                  <span
+                    key={dateKey(day)}
+                    className={dateKey(day).startsWith(prefix) ? "" : "outside-month"}
+                  />
+                ))}
+              </div>
+              <div className="calendar-dates">
+                {days.map((day) => (
+                  <time
+                    key={dateKey(day)}
+                    dateTime={dateKey(day)}
+                    className={`${dateKey(day) === todayKey ? "is-today" : ""} ${dateKey(day).startsWith(prefix) ? "" : "outside-month"}`}
+                  >
+                    {day.getUTCDate()}
+                  </time>
+                ))}
+              </div>
+              <div className="calendar-bars">
+                {weekBars(days, events).map((bar) => (
+                  <button
+                    type="button"
+                    key={bar.event.id}
+                    className={`calendar-event ${bar.event.status}`}
+                    style={{
+                      gridColumn: `${bar.start + 1} / ${bar.end + 2}`,
+                      gridRow: bar.lane + 1,
+                    }}
+                    onClick={() => setSelected(bar.event)}
+                    aria-label={`${bar.event.title}，${bar.event.startDate}至${bar.event.endDate}`}
+                  >
+                    {bar.continuesBefore && <span aria-hidden="true">← </span>}
+                    {bar.event.title}
+                    {bar.continuesAfter && <span aria-hidden="true"> →</span>}
+                  </button>
+                ))}
+              </div>
+            </div>
+          ))}
+        </section>
+      </div>
+      <section className="events-agenda" aria-label="本月事件列表">
+        <header>
+          <h2>本月日程</h2>
+          <span>{events.length} 项</span>
+        </header>
+        {!query.isPending && !query.error && !events.length && (
+          <p className="muted">本月暂无事件。</p>
+        )}
+        {events.map((event) => (
+          <article key={event.id}>
+            <time dateTime={event.startDate}>
+              {event.startDate.slice(5).replace("-", "/")}
+              {event.endDate !== event.startDate && (
+                <> — {event.endDate.slice(5).replace("-", "/")}</>
+              )}
+            </time>
+            <div>
+              <h3>
+                <button type="button" onClick={() => setSelected(event)}>
+                  {event.title}
+                </button>
+              </h3>
+              <p>
+                {event.sourceLabel} <span>· {status[event.status]}</span>
+              </p>
+            </div>
+            <button
+              type="button"
+              aria-label={`查看${event.title}`}
+              onClick={() => setSelected(event)}
             >
-              编辑
-            </Button>
-            <Button disabled={remove.isPending} onClick={() => remove.mutate(row.id)}>
-              删除
-            </Button>
-          </div>
-        </article>
-      ))}
+              ↗
+            </button>
+          </article>
+        ))}
+      </section>
+      <dialog
+        ref={dialog}
+        onKeyDown={(event) => {
+          if (event.key === "Escape") dialog.current?.close();
+        }}
+        className="event-dialog"
+        aria-label="事件详情"
+        onClose={() => setSelected(null)}
+        onClick={(event) => {
+          if (event.target === dialog.current) dialog.current?.close();
+        }}
+      >
+        {selected && (
+          <>
+            <header>
+              <p>{status[selected.status]}</p>
+              <button
+                type="button"
+                aria-label="关闭事件详情"
+                onClick={() => dialog.current?.close()}
+              >
+                ×
+              </button>
+            </header>
+            <h2>{selected.title}</h2>
+            <p className="event-date">
+              {selected.startDate} — {selected.endDate}
+            </p>
+            <p>
+              {selected.sourceUrl ? (
+                <a href={selected.sourceUrl} target="_blank" rel="noreferrer">
+                  {selected.sourceLabel} ↗
+                </a>
+              ) : (
+                selected.sourceLabel
+              )}
+            </p>
+            <dl>
+              <dt>确认条件</dt>
+              <dd>{selected.confirmation}</dd>
+              <dt>失效条件</dt>
+              <dd>{selected.invalidation}</dd>
+              {selected.watchItems.length > 0 && (
+                <>
+                  <dt>观察项</dt>
+                  <dd>
+                    <ul>
+                      {selected.watchItems.map((item) => (
+                        <li key={item}>{item}</li>
+                      ))}
+                    </ul>
+                  </dd>
+                </>
+              )}
+              {selected.aShareMappings.length > 0 && (
+                <>
+                  <dt>A 股映射</dt>
+                  <dd>{selected.aShareMappings.join("、")}</dd>
+                </>
+              )}
+            </dl>
+          </>
+        )}
+      </dialog>
     </section>
   );
 }
