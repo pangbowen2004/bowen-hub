@@ -1,26 +1,14 @@
 ---
-import PaperCards from "../components/PaperCards.astro";
+import { Universe3D } from "@bowen-hub/ui/react/Universe3D";
 import BaseLayout from "../layouts/BaseLayout.astro";
-import { getCatalog, getPaper, getSearchIndex } from "../lib/data";
+import { getSearchIndex, getStudyCatalog, getStudyGraph } from "../lib/data";
+import { getReadingTaxonomy } from "../lib/topics";
 
-const catalog = await getCatalog();
+const catalog = await getStudyCatalog();
 const searchIndex = await getSearchIndex();
-const papers = catalog.papers.filter((p) => p.visibility === "public");
-const details = await Promise.all(papers.map((p) => getPaper(p.id)));
-const featured = papers[0];
+const data = await getStudyGraph();
+const taxonomy = getReadingTaxonomy(
+  catalog.papers.filter((paper) => paper.visibility === "public").map((paper) => paper.id),
+);
 ---
-<BaseLayout title="论文阅读馆" description="中文导读与原文证据">
-<header class="stack"><p class="eyebrow">原文 · 导读 · 证据</p><h1 class="editorial-title">论文阅读馆</h1><p class="muted">沿着问题进入，沿着证据读下去。</p><p>公开论文 {catalog.stats.paperCount} 篇 · 研究空间 {catalog.stats.spaceCount} 个 · 核心概念 {catalog.stats.conceptCount} 个</p></header>
-{featured&&<section class="paper-feature"><div class="paper-cover" aria-hidden="true"><small>论文阅读馆</small><div class="paper-cover-title">{featured.title}</div><small>READ / QUESTION / VERIFY</small></div><article><p class="eyebrow">最新导读</p><h2 class="editorial-title">{featured.titleZh??featured.title}</h2><p class="muted">{featured.oneSentence}</p><a class="editorial-link" href={`/papers/${featured.id}/`}>阅读论文 ↗</a></article></section>}
-<form class="paper-filters" role="search" aria-label="查找论文" onsubmit="return false"><label class="search">搜索论文<input type="search" id="paper-search" placeholder="标题、作者、概念或研究空间"/></label><label>研究空间<select id="space-filter"><option value="">全部空间</option>{catalog.spaces.map(s=><option value={s.id}>{s.label}</option>)}</select></label><label>年份<select id="year-filter"><option value="">全部年份</option>{[...new Set(papers.map(p=>p.year).filter(Boolean))].sort((a,b)=>Number(b)-Number(a)).map(year=><option value={year}>{year}</option>)}</select></label><label>论文类型<select id="kind-filter"><option value="">全部类型</option>{[...new Set(papers.map(p=>p.paperKind).filter(Boolean))].map(kind=><option value={kind}>{{empirical:"实证研究",theory:"理论研究",survey:"综述",system:"系统论文"}[kind!]}</option>)}</select></label><label>阅读深度<select id="depth-filter"><option value="">全部深度</option>{['R0','R1','R2','R3'].map(depth=><option>{depth}</option>)}</select></label><label>排序<select id="paper-sort"><option value="recent">最近更新</option><option value="year">发表年份</option></select></label></form>
-<p id="result-count" role="status">{papers.length} 篇公开论文</p><PaperCards papers={papers} details={details} searchIndex={searchIndex} spaceLabels={Object.fromEntries(catalog.spaces.map(s=>[s.id,s.label]))}/><p id="empty-results" hidden>没有匹配的论文，请调整搜索或筛选。</p>
-</BaseLayout>
-<script>
-import {paperSearch,type PaperSearchDocument} from "../components/search";
-const cards=[...document.querySelectorAll<HTMLElement>('[data-paper-card]')];
-const value=(id:string)=>(document.getElementById(id) as HTMLInputElement)?.value??'';
-const search=paperSearch(cards.map(card=>JSON.parse(card.dataset.searchDocument??"{}") as PaperSearchDocument));
-function update(){const matching=search(value('paper-search'));let count=0;for(const card of cards){card.hidden=!(matching.has(card.dataset.id??'')&&(!value('space-filter')||card.dataset.space?.split(' ').includes(value('space-filter')))&&(!value('year-filter')||card.dataset.year===value('year-filter'))&&(!value('kind-filter')||card.dataset.kind===value('kind-filter'))&&(!value('depth-filter')||card.dataset.depth===value('depth-filter')));if(!card.hidden)count++;}cards.sort((a,b)=>value('paper-sort')==='year'?Number(b.dataset.year)-Number(a.dataset.year):String(b.dataset.updated).localeCompare(String(a.dataset.updated))).forEach(card=>document.getElementById('paper-list')?.append(card));document.getElementById('result-count')!.textContent=`${count} 篇公开论文`;document.getElementById('empty-results')!.hidden=count>0;}
-document.querySelector('.paper-filters')?.addEventListener('input',update);update();
-</script>
-<style>.paper-filters{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:1rem;padding-block:2rem;border-top:1px solid var(--border)}label{display:grid;gap:.5rem;font-size:.875rem;color:var(--muted)}.search{grid-column:1/-1}input,select{width:100%;min-height:44px;background:var(--bg);color:var(--text);border:1px solid var(--border);padding:.75rem;border-radius:0}header{padding-block:2rem}@media(max-width:600px){.paper-filters{grid-template-columns:repeat(2,minmax(0,1fr))}}</style>
+<BaseLayout title="知识宇宙" description="从研究方向、具体主题与方法标签找到下一篇论文" home><Universe3D data={data} catalog={{...catalog,papers:catalog.papers.filter(p=>p.visibility==='public')}} searchIndex={searchIndex} taxonomy={taxonomy} client:load/></BaseLayout>

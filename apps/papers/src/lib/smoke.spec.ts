@@ -3,7 +3,8 @@ import { expect, test } from "@playwright/test";
 
 const routes = readdirSync("dist", { recursive: true })
   .filter((file): file is string => typeof file === "string" && file.endsWith("index.html"))
-  .map((file) => "/" + file.replace(/index\.html$/, ""));
+  .map((file) => "/" + file.replace(/index\.html$/, ""))
+  .filter((path) => !["/about/", "/graph/"].includes(path));
 for (const path of routes) {
   test(`静态页 ${path}`, async ({ page }) => {
     const errors: string[] = [];

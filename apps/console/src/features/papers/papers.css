@@ -140,3 +140,24 @@
     flex-wrap: wrap;
   }
 }
+
+.publication-note {
+  font-size: 11px;
+  color: var(--muted);
+  line-height: 1.7;
+}
+.paper-version-switch {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 12px;
+  margin: 18px 0;
+}
+.paper-version-switch a {
+  padding: 6px 12px;
+  border: 1px solid var(--border);
+}
+.paper-version-switch a[aria-current] {
+  border-color: var(--accent);
+  color: var(--accent);
+}

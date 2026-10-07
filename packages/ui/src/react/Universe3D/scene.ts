@@ -1,5 +1,4 @@
 import * as T from "three";
-import { BokehPass } from "three/addons/postprocessing/BokehPass.js";
 import { EffectComposer } from "three/addons/postprocessing/EffectComposer.js";
 import { OutputPass } from "three/addons/postprocessing/OutputPass.js";
 import { RenderPass } from "three/addons/postprocessing/RenderPass.js";
@@ -7,412 +6,409 @@ import { UnrealBloomPass } from "three/addons/postprocessing/UnrealBloomPass.js"
 import type { AtlasPaper } from "./atlas";
 
 type Focus = { id: string; space: string; concept: string | null; reduced: boolean };
+type Dot = {
+  object: T.Mesh<T.SphereGeometry, T.MeshBasicMaterial>;
+  paper: AtlasPaper;
+  space: string;
+  color: T.Color;
+  size: number;
+};
+const tones = [0xaea3dc, 0xd8bd8c, 0x91bcb1];
+const hash = (id: string) =>
+  [...id].reduce((n, c) => ((n << 5) - n + c.charCodeAt(0)) | 0, 0) >>> 0;
+function onShell(index: number, count: number, radius: number, seed: number) {
+  const y = 1 - (2 * (index + 0.5)) / Math.max(count, 1);
+  const a = index * Math.PI * (3 - Math.sqrt(5)) + seed;
+  const r = Math.sqrt(1 - y * y);
+  return new T.Vector3(Math.cos(a) * r * radius, y * radius * 0.84, Math.sin(a) * r * radius);
+}
+function curve(points: T.Vector3[], color: number, opacity: number) {
+  const geometry = new T.BufferGeometry().setFromPoints(
+    new T.CatmullRomCurve3(points).getPoints(48),
+  );
+  return new T.Line(
+    geometry,
+    new T.LineBasicMaterial({ color, transparent: true, opacity, depthWrite: false }),
+  );
+}
+/** 每个亮点是一篇论文或概念；连线仅来自其真实概念关系。 */
 export async function createAtlas(
   el: HTMLElement,
   papers: AtlasPaper[],
   spaces: { id: string; label: string }[],
-  select: (id: string) => void,
-  selectConcept: (id: string) => void,
+  selectPaper: (id: string) => void,
+  selectSpace: (id: string) => void,
 ) {
   const scene = new T.Scene();
-  scene.background = new T.Color("#15131b");
-  scene.fog = new T.FogExp2("#191720", 0.017);
-  const camera = new T.PerspectiveCamera(40, 1, 0.1, 80);
-  camera.position.set(0, 4.7, 11.6);
-  const look = new T.Vector3(0, 0.15, 0),
-    targetPos = camera.position.clone(),
-    targetLook = look.clone();
-  camera.lookAt(look);
-  const renderer = new T.WebGLRenderer({ antialias: true, powerPreference: "default" });
+  scene.background = new T.Color(0x101117);
+  scene.fog = new T.FogExp2(0x101117, 0.028);
+  const camera = new T.PerspectiveCamera(38, 1, 0.1, 60);
+  camera.position.set(0, 0.6, 9.2);
+  camera.lookAt(0, 0.25, 0);
+  const renderer = new T.WebGLRenderer({
+    antialias: true,
+    alpha: false,
+    powerPreference: "low-power",
+  });
   renderer.setPixelRatio(Math.min(devicePixelRatio, 1.5));
   renderer.toneMapping = T.ACESFilmicToneMapping;
-  renderer.toneMappingExposure = 0.82;
-  el.prepend(renderer.domElement);
-  renderer.domElement.setAttribute("aria-label", `${papers.length}篇论文的三维研究空间`);
-  renderer.domElement.tabIndex = 0;
-  scene.add(new T.HemisphereLight("#dccbd9", "#262032", 0.65));
-  const key = new T.DirectionalLight("#fff2dc", 0.9);
-  key.position.set(-5, 9, 7);
-  scene.add(key);
-  const fill = new T.PointLight("#afa0d2", 14, 22, 2);
-  fill.position.set(-4, 3, -2);
-  scene.add(fill);
-  const gold = new T.PointLight("#e0bd97", 18, 18, 2);
-  gold.position.set(5, 1, 4);
-  scene.add(gold);
+  renderer.toneMappingExposure = 1.08;
+  renderer.domElement.setAttribute("aria-label", `${papers.length}篇论文的研究空间`);
+  renderer.domElement.tabIndex = -1;
+  el.append(renderer.domElement);
   const composer = new EffectComposer(renderer);
   composer.addPass(new RenderPass(scene, camera));
-  const bokeh = new BokehPass(scene, camera, { focus: 15, aperture: 0.00004, maxblur: 0.002 });
-  composer.addPass(bokeh);
-  composer.addPass(new UnrealBloomPass(new T.Vector2(1000, 570), 0.95, 0.45, 0.85));
+  const bloom = new UnrealBloomPass(new T.Vector2(1, 1), 0.8, 0.6, 0.55);
+  composer.addPass(bloom);
   composer.addPass(new OutputPass());
-  const root = new T.Group(),
-    connections = new T.Group();
-  scene.add(root, connections);
-  const pages: {
-    paper: AtlasPaper;
-    mesh: T.Mesh<T.BoxGeometry, T.MeshPhysicalMaterial>;
-    baseY: number;
-  }[] = [];
-  const labels = document.createElement("div");
-  labels.className = "atlas-labels";
-  el.append(labels);
-  let labelNodes: { node: HTMLElement; position: T.Vector3 }[] = [];
-  const colors = ["#a497b4", "#b7a28d", "#879aa6"];
-  spaces.forEach((space, gi) => {
-    const g = new T.Group();
-    g.position.set(0, gi * 1.05 - 1.4, -gi * 0.95);
-    root.add(g);
-    const r = 5.8 - gi * 0.55,
-      a = -1.1,
-      b = 1.1,
-      shape = new T.Shape();
-    shape.moveTo(Math.sin(a) * (r - 0.33), Math.cos(a) * (r - 0.33));
-    for (let i = 0; i <= 120; i++) {
-      const t = a + ((b - a) * i) / 120;
-      shape.lineTo(Math.sin(t) * (r - 0.33), Math.cos(t) * (r - 0.33));
+  const root = new T.Group();
+  root.position.y = spaces.length <= 2 ? 0.12 : 0.82;
+  scene.add(root);
+  const sphere = new T.SphereGeometry(0.025, 12, 8);
+  const centers =
+    spaces.length === 1
+      ? [new T.Vector3(0, 0, 0)]
+      : spaces.length === 2
+        ? [new T.Vector3(0, 1.35, -0.15), new T.Vector3(0.06, -1.35, 0.1)]
+        : [
+            new T.Vector3(-1.2, 1.07, -0.15),
+            new T.Vector3(1.05, -0.08, 0.1),
+            new T.Vector3(-0.86, -1.27, -0.4),
+          ];
+  const groups: T.Group[] = [],
+    dots: Dot[] = [],
+    lines: {
+      line: T.Line<T.BufferGeometry, T.LineBasicMaterial>;
+      papers: string[];
+      space: string;
+      concepts: string[];
+    }[] = [];
+  for (const [i, space] of spaces.entries()) {
+    const members = papers.filter((p) => (p.categoryIds ?? p.spaces).includes(space.id));
+    const color = tones[i % tones.length]!;
+    const center = centers[i % centers.length]!.clone();
+    const radius = 0.72 + Math.sqrt(members.length) * 0.034;
+    const group = new T.Group();
+    group.position.copy(center);
+    root.add(group);
+    groups.push(group);
+    const conceptIds = [...new Set(members.flatMap((p) => p.concepts.map((c) => c.id)))];
+    const conceptPositions = new Map(
+      conceptIds.map((id, j) => [
+        id,
+        onShell(j, conceptIds.length, radius * 0.86, (hash(space.id) % 100) / 10),
+      ]),
+    );
+    // 研究空间的外轮廓由真实论文与概念数量共同确定。
+    const shellGeometry = new T.IcosahedronGeometry(radius, 3);
+    const vertices = shellGeometry.attributes.position!;
+    for (let j = 0; j < vertices.count; j++) {
+      const v = new T.Vector3().fromBufferAttribute(vertices, j);
+      const f = 1 + 0.085 * Math.sin(v.x * 3 + i) * Math.cos(v.y * 3 - i);
+      vertices.setXYZ(j, v.x * f, v.y * f * 0.84, v.z * f);
     }
-    for (let i = 120; i >= 0; i--) {
-      const t = a + ((b - a) * i) / 120;
-      shape.lineTo(Math.sin(t) * (r + 0.33), Math.cos(t) * (r + 0.33));
-    }
-    const geo = new T.ExtrudeGeometry(shape, {
-      depth: 0.15,
-      bevelEnabled: true,
-      bevelSize: 0.05,
-      bevelThickness: 0.04,
-      bevelSegments: 2,
-      steps: 1,
-    });
-    geo.rotateX(Math.PI / 2);
-    geo.translate(0, 0, -r + 1);
-    const shelf = new T.Mesh(
-      geo,
-      new T.MeshPhysicalMaterial({
-        color: colors[gi % colors.length],
-        metalness: 0.5,
-        roughness: 0.3,
+    shellGeometry.computeVertexNormals();
+    const shell = new T.Mesh(
+      shellGeometry,
+      new T.MeshBasicMaterial({
+        color,
         transparent: true,
-        opacity: 0.2,
+        opacity: 0.012,
         side: T.DoubleSide,
-        emissive: colors[gi % colors.length],
-        emissiveIntensity: 0.08,
+        depthWrite: false,
       }),
     );
-    g.add(shelf);
-    for (const rr of [r - 0.32, r + 0.32]) {
-      const pts = [];
-      for (let j = 0; j <= 100; j++) {
-        const t = a + ((b - a) * j) / 100;
-        pts.push(new T.Vector3(Math.sin(t) * rr, 0.06, Math.cos(t) * rr - r + 1));
-      }
-      g.add(
-        new T.Line(
-          new T.BufferGeometry().setFromPoints(pts),
-          new T.LineBasicMaterial({
-            color: colors[gi % colors.length],
-            transparent: true,
-            opacity: 0.55,
-          }),
-        ),
-      );
-    }
-    const pp = papers.filter((p) => (p.spaces[0] ?? spaces[0]?.id) === space.id);
-    pp.forEach((p, i) => {
-      const t = a + ((b - a) * (i + 0.5)) / pp.length,
-        h = 0.74 + Math.min(p.concepts.length, 8) * 0.1;
-      const m = new T.MeshPhysicalMaterial({
-        color: colors[gi % colors.length],
-        metalness: 0.13,
-        roughness: 0.3,
+    group.add(shell);
+    const contour = new T.LineSegments(
+      new T.WireframeGeometry(shellGeometry),
+      new T.LineBasicMaterial({ color, transparent: true, opacity: 0.022, depthWrite: false }),
+    );
+    group.add(contour);
+    const pointGeometry = new T.BufferGeometry().setFromPoints([...conceptPositions.values()]);
+    group.add(
+      new T.Points(
+        pointGeometry,
+        new T.PointsMaterial({
+          color,
+          size: 0.025,
+          transparent: true,
+          opacity: 0.52,
+          depthWrite: false,
+          sizeAttenuation: true,
+        }),
+      ),
+    );
+    members.forEach((p, j) => {
+      const position = onShell(j, members.length, radius, hash(space.id) % 10);
+      const material = new T.MeshBasicMaterial({
+        color: new T.Color(color).multiplyScalar(1.6),
         transparent: true,
-        opacity: 0.4,
-        emissive: colors[gi % colors.length],
-        emissiveIntensity: 0.04,
-        side: T.DoubleSide,
-        clearcoat: 0.5,
+        opacity: 0.75,
       });
-      const mesh = new T.Mesh(new T.BoxGeometry(papers.length > 40 ? 0.3 : 0.62, h, 0.018), m);
-      mesh.position.set(Math.sin(t) * r, h / 2 + 0.12, Math.cos(t) * r - r + 1);
-      mesh.rotation.y = t;
-      mesh.rotation.z = -0.1;
-      g.add(mesh);
-      pages.push({ paper: p, mesh, baseY: mesh.position.y });
-      mesh.add(
-        new T.LineSegments(
-          new T.EdgesGeometry(mesh.geometry),
-          new T.LineBasicMaterial({ color: "#bdaabf", transparent: true, opacity: 0.18 }),
-        ),
-      );
-    });
-  });
-  let focus: Focus = { id: papers[0]?.id ?? "", space: "all", concept: null, reduced: true };
-  let pointerX = 0,
-    pointerY = 0,
-    frame = 0;
-  let inView = true;
-  const started = performance.now();
-  const ray = new T.Raycaster(),
-    mouse = new T.Vector2();
-  function rebuild() {
-    connections.traverse((o) => {
-      if (o instanceof T.Mesh) {
-        o.geometry.dispose();
-        const materials = Array.isArray(o.material) ? o.material : [o.material];
-        materials.forEach((m) => {
-          m.dispose();
-        });
+      const dot = new T.Mesh(sphere, material);
+      dot.position.copy(position);
+      dot.userData.paper = p.id;
+      group.add(dot);
+      const size = 0.66 + Math.min(p.concepts.length, 12) * 0.07;
+      dot.scale.setScalar(size);
+      dots.push({ object: dot, paper: p, space: space.id, color: new T.Color(color), size });
+      for (const concept of p.concepts) {
+        const target = conceptPositions.get(concept.id);
+        if (!target) continue;
+        const mid = position.clone().add(target).multiplyScalar(0.52);
+        mid.z += 0.12;
+        const line = curve([position, mid, target], color, 0.1);
+        group.add(line);
+        lines.push({ line, papers: [p.id], space: space.id, concepts: [concept.id] });
       }
     });
-    connections.clear();
-    labels.replaceChildren();
-    labelNodes = [];
-    const active = pages.find((p) => p.paper.id === focus.id);
-    if (!active) return;
-    root.updateWorldMatrix(true, true);
-    const origin = active.mesh.getWorldPosition(new T.Vector3());
-    const orientation = active.mesh.getWorldQuaternion(new T.Quaternion());
-    const right = new T.Vector3(1, 0, 0).applyQuaternion(orientation);
-    right.y = 0;
-    right.normalize();
-    const front = new T.Vector3(0, 0, 1).applyQuaternion(orientation);
-    front.y = 0;
-    front.normalize();
-    const concepts = focus.concept
-      ? active.paper.concepts.filter((c) => c.id === focus.concept)
-      : active.paper.concepts;
-    concepts.forEach((c, i) => {
-      const cols = Math.min(3, Math.max(1, concepts.length)),
-        position = origin
-          .clone()
-          .addScaledVector(front, 0.7)
-          .addScaledVector(right, -2.1 + ((i % cols) * 4.2) / Math.max(1, cols - 1));
-      position.y = origin.y + 2.1 + Math.floor(i / cols) * 0.6;
-      const curve = new T.QuadraticBezierCurve3(
-        origin,
-        origin
-          .clone()
-          .lerp(position, 0.5)
-          .add(new T.Vector3(0, 0.65, 0)),
-        position,
+    const ids = members.map((p) => p.id);
+    // 相邻论文之间只连接实际共享概念的节点，不制造装饰性关系。
+    for (let j = 0; j < members.length; j++) {
+      const a = members[j]!;
+      const b = members.find(
+        (p, k) => k > j && p.concepts.some((c) => a.concepts.some((ac) => ac.id === c.id)),
       );
-      connections.add(
-        new T.Mesh(
-          new T.TubeGeometry(curve, 48, 0.008, 5, false),
-          new T.MeshBasicMaterial({ color: "#d6b38c", transparent: true, opacity: 0.48 }),
-        ),
-      );
-      const node = document.createElement("button");
-      node.type = "button";
-      node.className = "atlas-concept-label";
-      node.textContent = c.label;
-      node.onclick = () => selectConcept(c.id);
-      labels.append(node);
-      labelNodes.push({ node, position });
-    });
+      if (!b) continue;
+      const one = dots.find((d) => d.paper.id === a.id && d.space === space.id)!,
+        two = dots.find((d) => d.paper.id === b.id && d.space === space.id)!;
+      const mid = one.object.position.clone().add(two.object.position).multiplyScalar(0.4);
+      const line = curve([one.object.position, mid, two.object.position], color, 0.16);
+      group.add(line);
+      lines.push({
+        line,
+        papers: [a.id, b.id],
+        space: space.id,
+        concepts: a.concepts
+          .filter((c) => b.concepts.some((bc) => bc.id === c.id))
+          .map((c) => c.id),
+      });
+    }
+    shell.userData.space = space.id;
+    group.userData = { space: space.id, ids };
   }
-  function setFocus(value: Focus) {
-    focus = value;
-    rebuild();
-    const active = pages.find((p) => p.paper.id === value.id);
-    if (active) {
-      root.updateWorldMatrix(true, true);
-      const pos = active.mesh.getWorldPosition(new T.Vector3());
-      // 沿选中书页的正面法线移动镜头，而不是从远处只看见侧边。
-      const normal = new T.Vector3(0, 0, 1).applyQuaternion(
-        active.mesh.getWorldQuaternion(new T.Quaternion()),
-      );
-      normal.y = 0;
-      normal.normalize();
-      targetLook.copy(pos);
-      targetLook.y += 0.8;
-      // 沿书页正面看向焦点，同时用整个研究空间的边界计算距离，避免切掉弧形层。
-      const direction = normal.clone().setY(0.32).normalize();
-      const horizontal = new T.Vector3()
-        .crossVectors(new T.Vector3(0, 1, 0), direction)
-        .normalize();
-      const vertical = new T.Vector3().crossVectors(direction, horizontal).normalize();
-      const tanY = Math.tan(T.MathUtils.degToRad(camera.fov / 2)) * 0.9;
-      const tanX = tanY * Math.max(0.5, el.clientWidth / el.clientHeight);
-      let distance = 9;
-      const fitPoint = (point: T.Vector3) => {
-        const delta = point.clone().sub(targetLook);
-        distance = Math.max(
-          distance,
-          delta.dot(direction) + Math.abs(delta.dot(horizontal)) / tanX,
-          delta.dot(direction) + Math.abs(delta.dot(vertical)) / tanY,
-        );
-      };
-      root.traverse((object) => {
-        if (!(object instanceof T.Mesh || object instanceof T.Line)) return;
-        const vertices = object.geometry.getAttribute("position");
-        for (let i = 0; i < vertices.count; i++)
-          fitPoint(
-            new T.Vector3().fromBufferAttribute(vertices, i).applyMatrix4(object.matrixWorld),
-          );
-      });
-      labelNodes.forEach(({ position }) => {
-        fitPoint(position);
-      });
-      targetPos.copy(targetLook).addScaledVector(direction, distance + 0.8);
-    }
-    if (value.reduced) {
-      camera.position.copy(targetPos);
-      look.copy(targetLook);
-    }
-    render();
-    if (!value.reduced && inView && !document.hidden && !frame) frame = requestAnimationFrame(loop);
-    if (value.reduced) {
-      cancelAnimationFrame(frame);
-      frame = 0;
+  // 跨研究空间的桥梁来自多空间论文，避免把所有类别任意连在一起。
+  for (const p of papers.filter((p) => (p.categoryIds ?? p.spaces).length > 1)) {
+    const linked = dots.filter((d) => d.paper.id === p.id);
+    for (let j = 1; j < linked.length; j++) {
+      const a = linked[0]!,
+        b = linked[j]!;
+      const pa = a.object.position.clone().add(a.object.parent!.position),
+        pb = b.object.position.clone().add(b.object.parent!.position);
+      const mid = pa.clone().add(pb).multiplyScalar(0.5);
+      mid.z -= 0.65;
+      const line = curve([pa, mid, pb], 0xb7b2c8, 0.07);
+      root.add(line);
+      lines.push({ line, papers: [p.id], space: "all", concepts: p.concepts.map((c) => c.id) });
     }
   }
-  function render(now = performance.now()) {
-    const active = pages.find((p) => p.paper.id === focus.id),
-      cs = focus.concept ? [focus.concept] : (active?.paper.concepts.map((c) => c.id) ?? []);
-    pages.forEach(({ paper, mesh, baseY }, i) => {
-      const visible = focus.space === "all" || paper.spaces.includes(focus.space),
-        selected = paper.id === focus.id,
-        related = paper.concepts.some((c) => cs.includes(c.id));
-      mesh.material.opacity = visible ? (selected ? 0.94 : related ? 0.65 : 0.24) : 0.03;
-      mesh.material.emissive.set(
-        selected
-          ? "#e4ad62"
-          : (colors[
-              spaces.findIndex((s) => s.id === (paper.spaces[0] ?? spaces[0]?.id)) % colors.length
-            ] ?? "#a497b4"),
+  const selection = new T.Group();
+  root.add(selection);
+  const haloGeometry = new T.SphereGeometry(0.08, 16, 10);
+  const halo = new T.Mesh(
+    haloGeometry,
+    new T.MeshBasicMaterial({
+      color: 0xdfbb83,
+      transparent: true,
+      opacity: 0.16,
+      depthWrite: false,
+    }),
+  );
+  selection.add(halo);
+  const orbit = new T.LineLoop(
+    new T.BufferGeometry().setFromPoints(
+      Array.from(
+        { length: 80 },
+        (_, i) =>
+          new T.Vector3(
+            Math.cos((i * Math.PI) / 40) * 0.12,
+            Math.sin((i * Math.PI) / 40) * 0.12,
+            0,
+          ),
+      ),
+    ),
+    new T.LineBasicMaterial({ color: 0xe2c7a0, transparent: true, opacity: 0.8 }),
+  );
+  selection.add(orbit);
+  let focus: Focus = { id: "", space: "all", concept: null, reduced: false };
+  let visible = true,
+    running = false,
+    frame = 0,
+    disposed = false,
+    ticks = 0;
+  const pointer = new T.Vector2(),
+    raycaster = new T.Raycaster(),
+    targetRotation = new T.Vector2();
+  const targetCamera = new T.Vector3(0, 0.6, 9.2),
+    targetLook = new T.Vector3(0, 0.25, 0),
+    look = targetLook.clone();
+  let start = performance.now();
+  function setFocus(next: Focus) {
+    focus = next;
+    const current = papers.find((p) => p.id === next.id);
+    const concepts = new Set(current?.concepts.map((c) => c.id) ?? []);
+    for (const d of dots) {
+      const active = d.paper.id === next.id;
+      const related = d.paper.concepts.some((c) =>
+        next.concept ? c.id === next.concept : concepts.has(c.id),
       );
-      mesh.material.emissiveIntensity = visible ? (selected ? 2.4 : related ? 0.85 : 0.08) : 0.01;
-      const progress = focus.reduced
+      const inSpace = next.space === "all" || d.space === next.space;
+      d.object.material.color.copy(
+        active ? new T.Color(0xe5bd82).multiplyScalar(2.1) : d.color.clone().multiplyScalar(1.5),
+      );
+      d.object.material.opacity = active
         ? 1
-        : Math.min(1, Math.max(0, (now - started - 260 - i * 4) / 600));
-      mesh.scale.y = 0.02 + 0.98 * (1 - (1 - progress) ** 3);
-      mesh.position.y =
-        baseY +
-        (selected ? 0.22 : 0) +
-        (focus.reduced ? 0 : Math.sin(now * 0.0004 + i * 0.12) * 0.018);
-      mesh.children.forEach((c) => {
-        if (c instanceof T.LineSegments) c.material.opacity = selected ? 1 : related ? 0.65 : 0.18;
-      });
-    });
+        : !inSpace
+          ? 0.15
+          : related
+            ? 0.9
+            : next.concept
+              ? 0.2
+              : 0.48;
+      d.object.scale.setScalar(d.size * (active ? 2.1 : related ? 1.2 : 1));
+    }
+    for (const { line, papers: ids, space: id, concepts: labels } of lines) {
+      const chosen = next.concept ? labels.includes(next.concept) : ids.includes(next.id);
+      line.material.color.set(chosen ? 0xd8bb91 : 0x89819f);
+      line.material.opacity = chosen
+        ? 0.62
+        : next.space !== "all" && id !== next.space
+          ? 0.035
+          : 0.1;
+    }
+    const selectedDot = dots.find(
+      (d) => d.paper.id === next.id && (next.space === "all" || d.space === next.space),
+    );
+    if (selectedDot) {
+      selection.position.copy(selectedDot.object.position).add(selectedDot.object.parent!.position);
+      selection.visible = true;
+    } else selection.visible = false;
+    const index = spaces.findIndex((s) => s.id === next.space);
+    const center =
+      index >= 0 ? centers[index % centers.length]!.clone() : new T.Vector3(0, 0.25, 0);
+    targetCamera.set(
+      index >= 0 ? center.x * 0.28 : 0,
+      0.6 + center.y * 0.16,
+      index >= 0 ? 8.3 : 9.2,
+    );
+    targetLook.set(center.x * 0.3, 0.25 + center.y * 0.12, 0);
+    if (next.reduced) {
+      camera.position.copy(targetCamera);
+      look.copy(targetLook);
+      root.rotation.set(0, 0, 0);
+    }
+    requestRender();
+  }
+  function render(now: number) {
+    running = false;
+    if (disposed || !visible || document.hidden) return;
+    const elapsed = (now - start) / 1000;
     if (!focus.reduced) {
-      camera.position.lerp(targetPos, 0.045);
-      look.lerp(targetLook, 0.045);
+      camera.position.lerp(targetCamera, 0.05);
+      look.lerp(targetLook, 0.05);
+      root.rotation.y +=
+        (targetRotation.x * 0.11 + Math.sin(elapsed * 0.14) * 0.025 - root.rotation.y) * 0.025;
+      root.rotation.x += (targetRotation.y * 0.055 - root.rotation.x) * 0.025;
+      halo.scale.setScalar(1 + Math.sin(elapsed * 1.1) * 0.12);
+      orbit.rotation.z = elapsed * 0.065;
     }
-    root.rotation.y = focus.reduced ? 0 : pointerX;
-    root.rotation.x = focus.reduced ? 0 : pointerY;
     camera.lookAt(look);
-    const focusUniform = (bokeh.uniforms as Record<string, { value: number }>).focus;
-    if (focusUniform) focusUniform.value = camera.position.distanceTo(look);
+    orbit.quaternion.copy(camera.quaternion);
+    const reveal = focus.reduced ? 1 : Math.min(1, Math.max(0, (elapsed - 0.1) / 1.2));
+    root.scale.setScalar(0.975 + reveal * 0.025);
+    bloom.strength = 0.68 * reveal;
+    // 30fps 足够微动；不可见、后台或减少动态时完全停帧。
     composer.render();
-    labelNodes.forEach(({ node, position }) => {
-      const v = position.clone().project(camera);
-      node.style.left = `${Math.max(70, Math.min(el.clientWidth - 70, (v.x * 0.5 + 0.5) * el.clientWidth))}px`;
-      node.style.top = `${(-v.y * 0.5 + 0.5) * el.clientHeight}px`;
-      node.hidden = v.z > 1 || v.z < 0;
-    });
-  }
-  function loop(now: number) {
-    frame = 0;
-    render(now);
-    if (!focus.reduced && inView && !document.hidden) frame = requestAnimationFrame(loop);
-  }
-  function resize() {
-    const w = el.clientWidth,
-      h = el.clientHeight;
-    if (!w || !h) return;
-    renderer.setSize(w, h);
-    composer.setSize(w, h);
-    camera.aspect = w / h;
-    camera.updateProjectionMatrix();
-    render();
-  }
-  const observer = new ResizeObserver(resize);
-  observer.observe(el);
-  function syncAnimation() {
-    cancelAnimationFrame(frame);
-    frame = 0;
-    if (inView && !document.hidden) {
-      resize();
-      if (!focus.reduced) frame = requestAnimationFrame(loop);
+    ticks++;
+    if (!focus.reduced) {
+      running = true;
+      frame = requestAnimationFrame((t) => {
+        if (ticks % 2 === 0) render(t);
+        else {
+          ticks++;
+          frame = requestAnimationFrame(render);
+        }
+      });
     }
   }
-  const intersection = new IntersectionObserver(([entry]) => {
-    inView = entry?.isIntersecting ?? false;
-    syncAnimation();
+  function requestRender() {
+    if (!running && !disposed && visible && !document.hidden) {
+      running = true;
+      frame = requestAnimationFrame(render);
+    }
+  }
+  const resize = new ResizeObserver(() => {
+    const { width, height } = el.getBoundingClientRect();
+    if (!width || !height) return;
+    renderer.setSize(width, height);
+    composer.setSize(width, height);
+    camera.aspect = width / height;
+    camera.updateProjectionMatrix();
+    requestRender();
+  });
+  resize.observe(el);
+  const intersection = new IntersectionObserver((entries) => {
+    visible = entries[0]?.isIntersecting ?? false;
+    if (!visible) {
+      cancelAnimationFrame(frame);
+      running = false;
+    } else requestRender();
   });
   intersection.observe(el);
-  document.addEventListener("visibilitychange", syncAnimation);
-  function click(event: MouseEvent) {
-    const rect = renderer.domElement.getBoundingClientRect();
-    mouse.set(
-      ((event.clientX - rect.left) / rect.width) * 2 - 1,
-      (-(event.clientY - rect.top) / rect.height) * 2 + 1,
-    );
-    ray.setFromCamera(mouse, camera);
-    const hit = ray
-      .intersectObjects(
-        pages.map((p) => p.mesh),
-        false,
-      )
-      .find((h) => {
-        const p = pages.find((p) => p.mesh === h.object);
-        return p && (focus.space === "all" || p.paper.spaces.includes(focus.space));
-      });
-    const paper = pages.find((p) => p.mesh === hit?.object)?.paper;
-    if (paper) select(paper.id);
-  }
-  function move(event: PointerEvent) {
+  const move = (event: PointerEvent) => {
     if (focus.reduced) return;
-    const rect = el.getBoundingClientRect();
-    pointerX = ((event.clientX - rect.left) / rect.width - 0.5) * 0.2;
-    pointerY = ((event.clientY - rect.top) / rect.height - 0.5) * 0.1;
-  }
-  function leave() {
-    pointerX = pointerY = 0;
-  }
-  function keydown(event: KeyboardEvent) {
-    if (event.key === "ArrowRight" || event.key === "ArrowLeft") {
-      event.preventDefault();
-      const pool = papers.filter((p) => focus.space === "all" || p.spaces.includes(focus.space));
-      const index = pool.findIndex((p) => p.id === focus.id);
-      const p = pool[(index + (event.key === "ArrowRight" ? 1 : -1) + pool.length) % pool.length];
-      if (p) select(p.id);
-    }
-  }
-  renderer.domElement.addEventListener("click", click);
-  renderer.domElement.addEventListener("pointermove", move);
-  renderer.domElement.addEventListener("pointerleave", leave);
-  renderer.domElement.addEventListener("keydown", keydown);
-  await renderer.compileAsync(scene, camera);
-  resize();
+    const r = el.getBoundingClientRect();
+    targetRotation.set(
+      (event.clientX - r.left) / r.width - 0.5,
+      (event.clientY - r.top) / r.height - 0.5,
+    );
+  };
+  const leave = () => targetRotation.set(0, 0);
+  const click = (event: MouseEvent) => {
+    const r = el.getBoundingClientRect();
+    pointer.set(
+      ((event.clientX - r.left) / r.width) * 2 - 1,
+      (-(event.clientY - r.top) / r.height) * 2 + 1,
+    );
+    raycaster.setFromCamera(pointer, camera);
+    const hit = raycaster.intersectObjects(root.children, true)[0];
+    if (hit?.object.userData.paper) selectPaper(hit.object.userData.paper);
+    else if (hit?.object.userData.space) selectSpace(hit.object.userData.space);
+  };
+  const visibility = () => {
+    if (document.hidden) {
+      cancelAnimationFrame(frame);
+      running = false;
+    } else requestRender();
+  };
+  el.addEventListener("pointermove", move);
+  el.addEventListener("pointerleave", leave);
+  el.addEventListener("click", click);
+  document.addEventListener("visibilitychange", visibility);
+  start = performance.now();
+  requestRender();
   return {
     setFocus,
     dispose() {
+      disposed = true;
       cancelAnimationFrame(frame);
-      observer.disconnect();
+      resize.disconnect();
       intersection.disconnect();
-      document.removeEventListener("visibilitychange", syncAnimation);
-      renderer.domElement.removeEventListener("click", click);
-      renderer.domElement.removeEventListener("pointermove", move);
-      renderer.domElement.removeEventListener("pointerleave", leave);
-      renderer.domElement.removeEventListener("keydown", keydown);
-      scene.traverse((o) => {
-        if (o instanceof T.Mesh || o instanceof T.Line) {
-          o.geometry.dispose();
-          const mats = Array.isArray(o.material) ? o.material : [o.material];
-          mats.forEach((m) => {
+      el.removeEventListener("pointermove", move);
+      el.removeEventListener("pointerleave", leave);
+      el.removeEventListener("click", click);
+      document.removeEventListener("visibilitychange", visibility);
+      scene.traverse((object) => {
+        const mesh = object as T.Mesh;
+        mesh.geometry?.dispose();
+        if (mesh.material) {
+          for (const m of Array.isArray(mesh.material) ? mesh.material : [mesh.material])
             m.dispose();
-          });
         }
-      });
-      composer.passes.forEach((p) => {
-        p.dispose();
       });
       composer.dispose();
       renderer.dispose();
       renderer.domElement.remove();
-      labels.remove();
     },
   };
 }

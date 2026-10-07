@@ -1,20 +1,26 @@
 ---
 import "../styles/global.css";
-import SiteFooter from "@bowen-hub/ui/astro/SiteFooter";
-import SiteHeader from "@bowen-hub/ui/astro/SiteHeader";
 
 interface Props {
   title: string;
   description: string;
   date?: string;
+  home?: boolean;
 }
-const { title, description, date } = Astro.props;
-const links = [
-  { label: "论文", href: "/" },
-  { label: "图谱", href: "/graph/" },
-  { label: "知识宇宙", href: "/universe/" },
-  { label: "关于", href: "/about/" },
-];
+const { title, description, date, home = false } = Astro.props;
 const canonical = new URL(Astro.url.pathname, Astro.site);
+const path = Astro.url.pathname;
 ---
-<!doctype html><html lang="zh-CN" data-product="papers" data-theme="light"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width"/><title>{title} · 论文阅读馆</title><meta name="description" content={description}/><meta property="og:title" content={title}/><meta property="og:description" content={description}/><meta property="og:type" content="website"/><meta property="og:url" content={canonical}/><link rel="canonical" href={canonical}/><link rel="icon" href="/favicon.svg" type="image/svg+xml"/></head><body><a class="sr-only" href="#content">跳到正文</a><SiteHeader name="论文阅读馆" links={links}/><main id="content" class="container stack"><slot/></main><SiteFooter sources="论文原文" updatedAt={date} /></body></html>
+<!doctype html>
+<html lang="zh-CN" data-product="papers" data-theme={home ? "dark" : "light"}>
+<head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width"/><title>{title} · 论文阅读馆</title><meta name="description" content={description}/><meta property="og:title" content={title}/><meta property="og:description" content={description}/><meta property="og:type" content="website"/><meta property="og:url" content={canonical}/><link rel="canonical" href={canonical}/><link rel="icon" href="/favicon.svg" type="image/svg+xml"/></head>
+<body class={home ? "paper-home" : "paper-page"}>
+<a class="sr-only" href="#content">跳到正文</a>
+<header class="paper-site-header"><div class="paper-nav-shell">
+<a href="/" class="paper-brand" aria-label="论文阅读馆首页"><svg width="25" height="27" viewBox="0 0 25 27" fill="none" aria-hidden="true"><path d="M3 5.5 12.5 1 22 5.5v15L12.5 25 3 20.5z" stroke="currentColor" stroke-width=".8"/><path d="m3 5.5 9.5 5L22 5.5M12.5 10.5V25M6 10v8.5M19 10v8.5" stroke="currentColor" stroke-width=".8"/></svg><span>论文阅读馆<small>THE RESEARCH LIBRARY</small></span></a>
+<nav aria-label="主导航"><a href="/" aria-current={path === '/' ? 'page' : undefined}>知识宇宙</a><a href="/library/" aria-current={path.startsWith('/library') || path.startsWith('/spaces') ? 'page' : undefined}>论文库</a></nav>
+<a class="paper-nav-search" href="/library/#paper-search"><svg width="13" height="13" viewBox="0 0 20 20" fill="none" aria-hidden="true"><circle cx="8" cy="8" r="5.5" stroke="currentColor"/><path d="m12 12 5 5" stroke="currentColor"/></svg>查找论文</a>
+</div></header>
+<main id="content" class={home ? "paper-universe-shell" : "paper-content-shell"}><slot/></main>
+{!home && <footer class="paper-site-footer"><a href="/">论文阅读馆</a><span>中文导读 · 原文证据{date && <> · <time datetime={date}>{date.slice(0,10)}</time></>}</span><a href="/library/">返回论文库 ↗</a></footer>}
+</body></html>

@@ -1,0 +1,620 @@
+{
+  "version": 1,
+  "basis": "按现有中文导读主要研究问题人工整理；Kevin于2026-10-07确认大类下分小类。",
+  "topics": [
+    {
+      "id": "ai-research",
+      "label": "AI 研究与应用",
+      "description": "大模型创作、角色仿真、智能体系统、评测与机器学习方法。",
+      "parentId": null
+    },
+    {
+      "id": "finance",
+      "label": "金融与量化",
+      "description": "因子、投资策略、执行、预测与回测可靠性。",
+      "parentId": null
+    },
+    {
+      "id": "story-planning",
+      "label": "长篇故事与规划",
+      "description": "如何把大纲、节奏、记忆和世界状态组织成连贯的长篇故事。",
+      "parentId": "ai-research"
+    },
+    {
+      "id": "interactive-drama",
+      "label": "剧本与互动叙事",
+      "description": "如何创作剧本、回应参与者，并让角色互动推动故事。",
+      "parentId": "ai-research"
+    },
+    {
+      "id": "character-society",
+      "label": "角色与社会模拟",
+      "description": "如何保持人格、训练角色扮演，并评价社交行为。",
+      "parentId": "ai-research"
+    },
+    {
+      "id": "illustrated-stories",
+      "label": "绘本与图像一致性",
+      "description": "如何把故事画成连续的图像、绘本，并保持人物与叙事一致。",
+      "parentId": "ai-research"
+    },
+    {
+      "id": "film-video",
+      "label": "电影、视频与动画",
+      "description": "如何规划镜头、控制动态画面，并组织完整视听制作。",
+      "parentId": "ai-research"
+    },
+    {
+      "id": "agent-cooperation",
+      "label": "智能体协作与通信",
+      "description": "如何组织代理分工、消息、信息流和通信成本。",
+      "parentId": "ai-research"
+    },
+    {
+      "id": "workflow-harness",
+      "label": "工作流、技能与 Harness",
+      "description": "如何构建、搜索和改进代理的执行层及长时程能力。",
+      "parentId": "ai-research"
+    },
+    {
+      "id": "evaluation-reliability",
+      "label": "评测与可靠性",
+      "description": "如何判断文本、视频与代理输出可靠，定位失效与评价偏差。",
+      "parentId": "ai-research"
+    },
+    {
+      "id": "learning-foundations",
+      "label": "机器学习基础",
+      "description": "学习算法、通用预测结构与泛化；不把未测金融效果当成投资论文。",
+      "parentId": "ai-research"
+    },
+    {
+      "id": "factor-research",
+      "label": "因子挖掘与评价",
+      "description": "因子搜索、风险因子、多维评价与样本外检验。",
+      "parentId": "finance"
+    },
+    {
+      "id": "strategy-backtesting",
+      "label": "策略、执行与回测",
+      "description": "投资策略、持仓、市场冲击与回测审计。",
+      "parentId": "finance"
+    },
+    {
+      "id": "financial-prediction",
+      "label": "金融预测与压力测试",
+      "description": "收益预测、金融时间序列与参数化压力测试。",
+      "parentId": "finance"
+    }
+  ],
+  "assignments": [
+    {
+      "paperId": "acl-2023.acl-long.190",
+      "topicId": "story-planning",
+      "methodTags": ["大纲控制"],
+      "reason": "细粒度大纲约束长故事延续"
+    },
+    {
+      "paperId": "acl-2023.findings-emnlp.723",
+      "topicId": "story-planning",
+      "methodTags": ["节奏规划"],
+      "reason": "规划细节的具体程度影响故事节奏"
+    },
+    {
+      "paperId": "acl-2024.acl-long.117",
+      "topicId": "story-planning",
+      "methodTags": ["素材规划"],
+      "reason": "组合故事前提与事件依赖"
+    },
+    {
+      "paperId": "acl-2024.acl-long.494",
+      "topicId": "story-planning",
+      "methodTags": ["分层规划", "记忆"],
+      "reason": "逐层扩写小说并维护实体状态"
+    },
+    {
+      "paperId": "arxiv-2210.06774",
+      "topicId": "story-planning",
+      "methodTags": ["大纲控制", "修订"],
+      "reason": "递归补充计划并修改长篇故事"
+    },
+    {
+      "paperId": "arxiv-2410.02603",
+      "topicId": "story-planning",
+      "methodTags": ["多智能体", "模型训练"],
+      "reason": "分工代理按规划与写作阶段合作生成长篇故事"
+    },
+    {
+      "paperId": "acl-2024.eacl-long.147",
+      "topicId": "story-planning",
+      "methodTags": ["规划", "人类评测"],
+      "reason": "迭代规划故事中的悬念"
+    },
+    {
+      "paperId": "acl-2025.naacl-long.144",
+      "topicId": "story-planning",
+      "methodTags": ["记忆与状态", "一致性"],
+      "reason": "按时间区间追踪故事事实与矛盾"
+    },
+    {
+      "paperId": "acl-2025.naacl-long.63",
+      "topicId": "story-planning",
+      "methodTags": ["分层规划", "记忆"],
+      "reason": "层次大纲结合章节记忆生成长故事"
+    },
+    {
+      "paperId": "doi-10.1145-3544548.3581225",
+      "topicId": "interactive-drama",
+      "methodTags": ["人机协作", "剧本"],
+      "reason": "专业创作者参与剧本与戏剧协作写作"
+    },
+    {
+      "paperId": "acl-2024.findings-emnlp.474",
+      "topicId": "interactive-drama",
+      "methodTags": ["多智能体", "角色扮演"],
+      "reason": "用角色扮演与按事件调用的演员创作剧本"
+    },
+    {
+      "paperId": "acl-2024.acl-long.88",
+      "topicId": "interactive-drama",
+      "methodTags": ["多智能体", "角色扮演"],
+      "reason": "导演引导演员并响应玩家的戏剧生成"
+    },
+    {
+      "paperId": "acl-2025.in2writing-1.9",
+      "topicId": "interactive-drama",
+      "methodTags": ["多智能体", "角色模拟"],
+      "reason": "按角色已知信息模拟事件，再写成故事"
+    },
+    {
+      "paperId": "acl-2025.acl-long.773",
+      "topicId": "interactive-drama",
+      "methodTags": ["多智能体", "角色模拟", "记忆与状态"],
+      "reason": "以角色与世界互动为素材生成小说；角色社会是方法"
+    },
+    {
+      "paperId": "arxiv-2604.11741",
+      "topicId": "interactive-drama",
+      "methodTags": ["多智能体", "不完全信息"],
+      "reason": "协作生成剧本杀材料并训练不完全信息推理"
+    },
+    {
+      "paperId": "arxiv-2604.12776",
+      "topicId": "interactive-drama",
+      "methodTags": ["多智能体", "角色模拟", "记忆与状态"],
+      "reason": "持续演化角色与世界来组织开放式叙事"
+    },
+    {
+      "paperId": "acl-2023.emnlp-main.814",
+      "topicId": "character-society",
+      "methodTags": ["角色扮演", "模型训练"],
+      "reason": "人物资料与合成经历用于训练角色代理"
+    },
+    {
+      "paperId": "acl-2024.acl-long.102",
+      "topicId": "character-society",
+      "methodTags": ["角色扮演", "评测基准"],
+      "reason": "心理学访谈测量角色人格保真度"
+    },
+    {
+      "paperId": "acl-2024.findings-emnlp.853",
+      "topicId": "character-society",
+      "methodTags": ["角色扮演", "模型训练"],
+      "reason": "人格指示数据增强角色语言模型"
+    },
+    {
+      "paperId": "icml-2025.wang25dk",
+      "topicId": "character-society",
+      "methodTags": ["角色扮演", "模型训练", "评测基准"],
+      "reason": "名著角色数据用于角色训练与表演评价"
+    },
+    {
+      "paperId": "arxiv-2304.03442",
+      "topicId": "character-society",
+      "methodTags": ["多智能体", "记忆与状态"],
+      "reason": "记忆、反思和计划组织虚拟小镇社会"
+    },
+    {
+      "paperId": "arxiv-2310.11667",
+      "topicId": "character-society",
+      "methodTags": ["角色模拟", "评测基准"],
+      "reason": "在带私人目标的社交场景评价语言代理"
+    },
+    {
+      "paperId": "arxiv-2211.13319",
+      "topicId": "illustrated-stories",
+      "methodTags": ["视觉记忆", "扩散模型"],
+      "reason": "利用历史图文条件生成连续故事图像"
+    },
+    {
+      "paperId": "arxiv-2306.00973",
+      "topicId": "illustrated-stories",
+      "methodTags": ["视觉记忆", "扩散模型"],
+      "reason": "从历史图文上下文继续绘制故事"
+    },
+    {
+      "paperId": "arxiv-2312.02252",
+      "topicId": "illustrated-stories",
+      "methodTags": ["人物一致性", "模型训练"],
+      "reason": "把代词与人物对应关系传给图像生成器"
+    },
+    {
+      "paperId": "arxiv-2404.05979",
+      "topicId": "illustrated-stories",
+      "methodTags": ["人物一致性", "掩码生成"],
+      "reason": "在统一分镜框架中生成、续写或补全故事图像"
+    },
+    {
+      "paperId": "custom-p37",
+      "topicId": "illustrated-stories",
+      "methodTags": ["人物一致性", "共享注意力"],
+      "reason": "共享图像特征保持身份并扩展到视频过渡"
+    },
+    {
+      "paperId": "acl-2026.findings-acl.108",
+      "topicId": "illustrated-stories",
+      "methodTags": ["多智能体", "验证与修复"],
+      "reason": "逐页生成与全书检查修复图文故事书"
+    },
+    {
+      "paperId": "arxiv-2503.02399",
+      "topicId": "illustrated-stories",
+      "methodTags": ["多智能体", "人物一致性"],
+      "reason": "组织主体、背景和布局来可视化故事"
+    },
+    {
+      "paperId": "arxiv-2503.05242",
+      "topicId": "illustrated-stories",
+      "methodTags": ["多智能体", "多模态"],
+      "reason": "整合故事、插画、旁白和声效生成有声绘本"
+    },
+    {
+      "paperId": "arxiv-2309.15091",
+      "topicId": "film-video",
+      "methodTags": ["规划", "布局控制", "人物一致性"],
+      "reason": "先规划跨场景布局与实体，再生成视频"
+    },
+    {
+      "paperId": "custom-p42",
+      "topicId": "film-video",
+      "methodTags": ["分层规划", "人物一致性"],
+      "reason": "从多模态脚本生成连贯关键帧和视频"
+    },
+    {
+      "paperId": "custom-p43",
+      "topicId": "film-video",
+      "methodTags": ["规划", "人物一致性"],
+      "reason": "实体参考条件维持多场景视频的一致性"
+    },
+    {
+      "paperId": "arxiv-2411.04925",
+      "topicId": "film-video",
+      "methodTags": ["人物一致性", "模型训练"],
+      "reason": "人物重绘和定制动画保持参考身份"
+    },
+    {
+      "paperId": "arxiv-2411.16657",
+      "topicId": "film-video",
+      "methodTags": ["检索增强", "布局控制", "模型训练"],
+      "reason": "检索动作样本并学习区域化人物与动作控制"
+    },
+    {
+      "paperId": "doi-10.1145-3680528.3687688",
+      "topicId": "film-video",
+      "methodTags": ["规划", "人物一致性"],
+      "reason": "按故事和人物参考组织可控动画制作"
+    },
+    {
+      "paperId": "arxiv-2501.12909",
+      "topicId": "film-video",
+      "methodTags": ["多智能体", "虚拟场景"],
+      "reason": "在虚拟三维环境组织剧本、表演与摄影"
+    },
+    {
+      "paperId": "arxiv-2503.07314",
+      "topicId": "film-video",
+      "methodTags": ["多智能体", "分层规划"],
+      "reason": "将故事逐层拆成场景和可生成镜头"
+    },
+    {
+      "paperId": "arxiv-2506.10540",
+      "topicId": "film-video",
+      "methodTags": ["多智能体", "搜索与评价"],
+      "reason": "搜索候选片段序列来组织连贯动画"
+    },
+    {
+      "paperId": "arxiv-2506.18899",
+      "topicId": "film-video",
+      "methodTags": ["检索增强", "剪辑"],
+      "reason": "参考镜头语言并用剪辑调节叙事节奏"
+    },
+    {
+      "paperId": "arxiv-2508.08487",
+      "topicId": "film-video",
+      "methodTags": ["验证与修复", "工具适配"],
+      "reason": "让多阶段生成流程和剧本适应视听生成工具"
+    },
+    {
+      "paperId": "arxiv-2508.13602",
+      "topicId": "film-video",
+      "methodTags": ["多智能体", "多模态"],
+      "reason": "合作生成、校正个性化 Vlog 的视听素材"
+    },
+    {
+      "paperId": "arxiv-2508.18781",
+      "topicId": "film-video",
+      "methodTags": ["多智能体", "记忆与状态"],
+      "reason": "用资产记忆与任务依赖组织长动画制作"
+    },
+    {
+      "paperId": "arxiv-2512.12372",
+      "topicId": "film-video",
+      "methodTags": ["视觉记忆", "模型训练"],
+      "reason": "联合预测镜头首尾后补全运动"
+    },
+    {
+      "paperId": "arxiv-2606.24107",
+      "topicId": "film-video",
+      "methodTags": ["检索增强", "布局控制"],
+      "reason": "用几何参考约束短剧镜头生成"
+    },
+    {
+      "paperId": "arxiv-2412.04440",
+      "topicId": "film-video",
+      "methodTags": ["多智能体", "验证与修复", "布局控制"],
+      "reason": "按反馈改布局和控制参数，修复组合式视频生成"
+    },
+    {
+      "paperId": "arxiv-2303.17760",
+      "topicId": "agent-cooperation",
+      "methodTags": ["多智能体", "角色分工"],
+      "reason": "角色交互与任务细化组织协作"
+    },
+    {
+      "paperId": "arxiv-2308.08155",
+      "topicId": "agent-cooperation",
+      "methodTags": ["多智能体", "执行控制"],
+      "reason": "消息与可执行回复构成应用闭环"
+    },
+    {
+      "paperId": "arxiv-2308.10848",
+      "topicId": "agent-cooperation",
+      "methodTags": ["多智能体", "协作反馈"],
+      "reason": "按任务组队、讨论、执行和评价"
+    },
+    {
+      "paperId": "acl-2024.acl-long.810",
+      "topicId": "agent-cooperation",
+      "methodTags": ["多智能体", "软件开发"],
+      "reason": "聊天链串起软件设计、代码、审查和测试"
+    },
+    {
+      "paperId": "arxiv-2402.16823",
+      "topicId": "agent-cooperation",
+      "methodTags": ["多智能体", "工作流搜索"],
+      "reason": "优化计算图中的节点提示与协作连边"
+    },
+    {
+      "paperId": "acl-2025.acl-long.1170",
+      "topicId": "agent-cooperation",
+      "methodTags": ["多智能体", "通信效率"],
+      "reason": "学习并裁剪代理和通信连接"
+    },
+    {
+      "paperId": "custom-p30",
+      "topicId": "agent-cooperation",
+      "methodTags": ["多智能体", "通信效率"],
+      "reason": "用可训练掩码裁剪通信图"
+    },
+    {
+      "paperId": "custom-p35",
+      "topicId": "agent-cooperation",
+      "methodTags": ["多智能体", "长上下文"],
+      "reason": "以代理接力传递长文证据"
+    },
+    {
+      "paperId": "arxiv-2510.12872",
+      "topicId": "agent-cooperation",
+      "methodTags": ["多智能体", "推理缓存"],
+      "reason": "校正上下文差异后复用兼容模型缓存"
+    },
+    {
+      "paperId": "arxiv-2405.06373",
+      "topicId": "agent-cooperation",
+      "methodTags": ["多智能体", "创意讨论"],
+      "reason": "独立发散、交换观点、最终收敛的创意合作"
+    },
+    {
+      "paperId": "arxiv-2410.06153",
+      "topicId": "workflow-harness",
+      "methodTags": ["工作流搜索", "模块组合"],
+      "reason": "进化或重组规划、推理、工具和记忆模块"
+    },
+    {
+      "paperId": "arxiv-2410.10762",
+      "topicId": "workflow-harness",
+      "methodTags": ["工作流搜索", "执行反馈"],
+      "reason": "依据验证反馈搜索可执行流程"
+    },
+    {
+      "paperId": "custom-p32",
+      "topicId": "workflow-harness",
+      "methodTags": ["工作流搜索", "程序生成"],
+      "reason": "元代理生成和评价可执行代理系统设计"
+    },
+    {
+      "paperId": "arxiv-2605.23904",
+      "topicId": "workflow-harness",
+      "methodTags": ["技能优化", "留出评价"],
+      "reason": "通过轨迹反馈优化冻结代理的技能文档"
+    },
+    {
+      "paperId": "arxiv-2608.06301",
+      "topicId": "workflow-harness",
+      "methodTags": ["Harness", "评测基准"],
+      "reason": "以隔离测试衡量执行层优化能力"
+    },
+    {
+      "paperId": "arxiv-2605.27922",
+      "topicId": "workflow-harness",
+      "methodTags": ["Harness", "评测基准"],
+      "reason": "固定任务与预算比较不同执行层"
+    },
+    {
+      "paperId": "arxiv-2607.08964",
+      "topicId": "workflow-harness",
+      "methodTags": ["长时程任务", "评测基准"],
+      "reason": "用可执行科学工程任务测量长程终端代理"
+    },
+    {
+      "paperId": "arxiv-2503.13657",
+      "topicId": "evaluation-reliability",
+      "methodTags": ["多智能体", "失效分析"],
+      "reason": "用轨迹标签体系分析多智能体失败"
+    },
+    {
+      "paperId": "acl-2025.acl-long.421",
+      "topicId": "evaluation-reliability",
+      "methodTags": ["多智能体", "评测基准"],
+      "reason": "在多领域任务评价代理合作与竞争"
+    },
+    {
+      "paperId": "arxiv-2308.07201",
+      "topicId": "evaluation-reliability",
+      "methodTags": ["多智能体", "模型裁判"],
+      "reason": "比较不同角色与通信方式的裁判讨论"
+    },
+    {
+      "paperId": "acl-2021.acl-long.500",
+      "topicId": "evaluation-reliability",
+      "methodTags": ["文本评测", "扰动测试"],
+      "reason": "检验故事评价指标的泛化与鲁棒性"
+    },
+    {
+      "paperId": "acl-2023.emnlp-main.153",
+      "topicId": "evaluation-reliability",
+      "methodTags": ["文本评测", "模型裁判"],
+      "reason": "评价步骤与概率加权改善文本评分"
+    },
+    {
+      "paperId": "arxiv-2406.08656",
+      "topicId": "evaluation-reliability",
+      "methodTags": ["视频评测", "评测基准"],
+      "reason": "检验视频中的时序变化与组合条件"
+    },
+    {
+      "paperId": "arxiv-2411.15262",
+      "topicId": "evaluation-reliability",
+      "methodTags": ["视频评测", "数据集"],
+      "reason": "整理电影场景、镜头和人物身份的评价数据"
+    },
+    {
+      "paperId": "custom-p54",
+      "topicId": "evaluation-reliability",
+      "methodTags": ["视频评测", "评测基准"],
+      "reason": "从一致性、动态、审美等维度评价视频"
+    },
+    {
+      "paperId": "custom-p55",
+      "topicId": "evaluation-reliability",
+      "methodTags": ["视频评测", "评测基准"],
+      "reason": "分解评价视频的属性、数量、关系与动作"
+    },
+    {
+      "paperId": "arxiv-2409.06289-v1",
+      "topicId": "factor-research",
+      "methodTags": ["因子挖掘", "大语言模型"],
+      "reason": "用语言模型提出并筛选量化因子，档案 v1"
+    },
+    {
+      "paperId": "arxiv-2409.06289-v2",
+      "topicId": "factor-research",
+      "methodTags": ["因子挖掘", "大语言模型"],
+      "reason": "同一研究的另一份版本档案，保留 v2"
+    },
+    {
+      "paperId": "arxiv-2501.07274",
+      "topicId": "factor-research",
+      "methodTags": ["因子挖掘", "强化学习"],
+      "reason": "分层强化学习搜索日内风险因子"
+    },
+    {
+      "paperId": "arxiv-2505.11122",
+      "topicId": "factor-research",
+      "methodTags": ["因子挖掘", "搜索与评价"],
+      "reason": "语言模型与 MCTS 共同搜索公式因子"
+    },
+    {
+      "paperId": "arxiv-2508.13174",
+      "topicId": "factor-research",
+      "methodTags": ["因子评价", "模型裁判"],
+      "reason": "对公式因子做多维预筛评价"
+    },
+    {
+      "paperId": "arxiv-2212.10317",
+      "topicId": "factor-research",
+      "methodTags": ["因子评价", "样本外验证"],
+      "reason": "在同一协议比较发表因子与会计比率候选"
+    },
+    {
+      "paperId": "ssrn-4115411",
+      "topicId": "strategy-backtesting",
+      "methodTags": ["投资策略", "交易成本"],
+      "reason": "短期信号结合持仓缓冲降低交易摩擦"
+    },
+    {
+      "paperId": "doi-10.1016-j.jfineco.2011.11.003",
+      "topicId": "strategy-backtesting",
+      "methodTags": ["投资策略", "时间序列"],
+      "reason": "跨期货合约检验时间序列动量"
+    },
+    {
+      "paperId": "arxiv-2505.07078",
+      "topicId": "strategy-backtesting",
+      "methodTags": ["金融回测", "大语言模型"],
+      "reason": "长期历史检验语言模型投资策略"
+    },
+    {
+      "paperId": "arxiv-2603.29086",
+      "topicId": "strategy-backtesting",
+      "methodTags": ["交易执行", "强化学习"],
+      "reason": "为交易环境加入现实市场冲击"
+    },
+    {
+      "paperId": "ssrn-6591063",
+      "topicId": "strategy-backtesting",
+      "methodTags": ["回测审计", "数据泄漏"],
+      "reason": "审计因子模型的前视偏差"
+    },
+    {
+      "paperId": "arxiv-2501.03938",
+      "topicId": "strategy-backtesting",
+      "methodTags": ["样本外验证", "泛化"],
+      "reason": "分析线性金融预测的 Sharpe 折损"
+    },
+    {
+      "paperId": "arxiv-2606.03184",
+      "topicId": "financial-prediction",
+      "methodTags": ["时间序列", "压力测试"],
+      "reason": "用已知金融机制压力测试预测模型"
+    },
+    {
+      "paperId": "arxiv-2606.04153",
+      "topicId": "financial-prediction",
+      "methodTags": ["时间序列", "收益预测"],
+      "reason": "以幅度为条件预测金融收益方向"
+    },
+    {
+      "paperId": "arxiv-2010.01412",
+      "topicId": "learning-foundations",
+      "methodTags": ["训练优化", "泛化"],
+      "reason": "通过参数邻域损失优化改善泛化"
+    },
+    {
+      "paperId": "arxiv-2405.14616",
+      "topicId": "learning-foundations",
+      "methodTags": ["时间序列", "多尺度"],
+      "reason": "通用时间序列的季节与趋势分解，没有金融交易验证"
+    }
+  ]
+}

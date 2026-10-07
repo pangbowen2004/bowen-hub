@@ -1,0 +1,20 @@
+---
+import type { ReadingTaxonomy } from "@bowen-hub/ui/react/Universe3D";
+import { topicContains } from "../lib/topics";
+
+interface Props {
+  taxonomy: ReadingTaxonomy;
+}
+const { taxonomy } = Astro.props;
+const count = (id: string) =>
+  taxonomy.assignments.filter((item) => topicContains(taxonomy.topics, item.topicId, id)).length;
+---
+<aside class="library-spaces library-topics">
+  <p class="paper-overline">主题目录</p>
+  <a href="/library/" data-topic-filter="" aria-current="page">全部论文<span>{taxonomy.assignments.length}</span></a>
+  {taxonomy.topics.filter(topic => topic.parentId === null).map(root => <div class="library-topic-group">
+    <a href={`/library/?topic=${root.id}`} data-topic-filter={root.id}>{root.label}<span>{count(root.id)}</span></a>
+    <ul>{taxonomy.topics.filter(topic => topic.parentId === root.id).map(topic => <li><a href={`/library/?topic=${topic.id}`} data-topic-filter={topic.id}>{topic.label}<span>{count(topic.id)}</span></a></li>)}</ul>
+  </div>)}
+  <a class="library-universe" href="/">进入知识宇宙 ↗</a>
+</aside>

@@ -8,6 +8,7 @@ for (const path of [
   "/news/tickers/NVDA",
   "/news/search",
   "/papers",
+  "/papers/library",
   "/papers/arxiv-2505.07078",
   "/papers/inbox",
   "/papers/graph",
@@ -17,7 +18,7 @@ for (const path of [
     const errors: string[] = [];
     page.on("pageerror", (error) => errors.push(error.message));
     await page.goto(path);
-    await expect(page.locator("h1")).toBeVisible();
+    await expect(page.locator("h1").first()).toBeVisible();
     await expect(page.locator("body")).not.toContainText(/Bowen/i);
     if (path === "/markets/events")
       await expect(

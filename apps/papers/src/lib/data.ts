@@ -14,6 +14,7 @@ import {
   Paper as PaperSchema,
   SearchIndex as SearchSchema,
 } from "@bowen-hub/contracts/zod";
+import { groupStudies, studyGraph } from "@bowen-hub/ui/react/Universe3D";
 
 const source = process.env.DATA_SOURCE ?? "fixtures";
 if (!["fixtures", "api"].includes(source)) throw new Error("DATA_SOURCE只支持fixtures或api");
@@ -26,12 +27,27 @@ async function fixture(name: string): Promise<unknown> {
     await readFile(resolve(process.cwd(), `../../fixtures/samples/papers/${name}`), "utf8"),
   );
 }
-export async function getCatalog(): Promise<PapersCatalog> {
-  return source === "api"
-    ? publicPapersGetCatalog()
-    : CatalogSchema.parse(await fixture("PapersCatalog.public.json"));
+let catalogPromise: Promise<PapersCatalog> | undefined;
+let graphPromise: Promise<GraphData> | undefined;
+let searchPromise: Promise<SearchIndex> | undefined;
+const paperPromises = new Map<string, Promise<Paper>>();
+// 一次构建内复用公开投影；公开范围始终由API状态决定。
+export function getCatalog(): Promise<PapersCatalog> {
+  catalogPromise ??=
+    source === "api"
+      ? publicPapersGetCatalog()
+      : fixture("PapersCatalog.public.json").then((value) => CatalogSchema.parse(value));
+  return catalogPromise;
 }
-export async function getPaper(id: string): Promise<Paper> {
+export function getPaper(id: string): Promise<Paper> {
+  let pending = paperPromises.get(id);
+  if (!pending) {
+    pending = loadPaper(id);
+    paperPromises.set(id, pending);
+  }
+  return pending;
+}
+async function loadPaper(id: string): Promise<Paper> {
   const catalog = await getCatalog();
   if (!catalog.papers.some((paper) => paper.id === id && paper.visibility === "public"))
     throw new Error("公开论文不存在");
@@ -42,13 +58,41 @@ export async function getPaper(id: string): Promise<Paper> {
   if (paper.status.visibility !== "public") throw new Error("公开论文不存在");
   return paper;
 }
-export async function getGraph(): Promise<GraphData> {
-  return source === "api"
-    ? publicPapersGetGraph()
-    : GraphSchema.parse(await fixture("GraphData.public.json"));
+export function getGraph(): Promise<GraphData> {
+  graphPromise ??=
+    source === "api"
+      ? publicPapersGetGraph()
+      : fixture("GraphData.public.json").then((value) => GraphSchema.parse(value));
+  return graphPromise;
 }
-export async function getSearchIndex(): Promise<SearchIndex> {
-  return source === "api"
-    ? publicPapersGetSearchIndex()
-    : SearchSchema.parse(await fixture("SearchIndex.public.json"));
+export function getSearchIndex(): Promise<SearchIndex> {
+  searchPromise ??=
+    source === "api"
+      ? publicPapersGetSearchIndex()
+      : fixture("SearchIndex.public.json").then((value) => SearchSchema.parse(value));
+  return searchPromise;
+}
+
+export async function getStudyCatalog(): Promise<PapersCatalog> {
+  const catalog = await getCatalog();
+  return {
+    ...catalog,
+    papers: groupStudies(catalog.papers.filter((p) => p.visibility === "public")).map(
+      (group) => group.paper,
+    ),
+  };
+}
+export async function getStudyGraph(): Promise<GraphData> {
+  return studyGraph(
+    await getGraph(),
+    (await getCatalog()).papers.filter((p) => p.visibility === "public"),
+  );
+}
+export async function getVisibleVersions(id: string) {
+  const catalog = await getCatalog();
+  return (
+    groupStudies(catalog.papers.filter((p) => p.visibility === "public")).find((group) =>
+      group.versions.some((p) => p.id === id),
+    )?.versions ?? []
+  );
 }

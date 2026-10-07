@@ -1,10 +1,14 @@
 ---
 import { Universe3D } from "@bowen-hub/ui/react/Universe3D";
-import { publicGraph } from "../components/paper";
 import BaseLayout from "../layouts/BaseLayout.astro";
-import { getCatalog, getGraph } from "../lib/data";
+import { getSearchIndex, getStudyCatalog, getStudyGraph } from "../lib/data";
+import { getReadingTaxonomy } from "../lib/topics";
 
-const catalog = await getCatalog();
-const data = publicGraph(await getGraph(), catalog.papers);
+const catalog = await getStudyCatalog();
+const searchIndex = await getSearchIndex();
+const data = await getStudyGraph();
+const taxonomy = getReadingTaxonomy(
+  catalog.papers.filter((paper) => paper.visibility === "public").map((paper) => paper.id),
+);
 ---
-<BaseLayout title="知识宇宙" description="在研究空间与概念之间找到公开论文"><Universe3D data={data} catalog={{...catalog,papers:catalog.papers.filter(p=>p.visibility==='public')}} client:load/></BaseLayout>
+<BaseLayout title="知识宇宙" description="从研究方向、具体主题与方法标签找到下一篇论文" home><Universe3D data={data} catalog={{...catalog,papers:catalog.papers.filter(p=>p.visibility==='public')}} searchIndex={searchIndex} taxonomy={taxonomy} client:load/></BaseLayout>
