@@ -4,8 +4,8 @@ import { OutputPass } from "three/addons/postprocessing/OutputPass.js";
 import { RenderPass } from "three/addons/postprocessing/RenderPass.js";
 import { UnrealBloomPass } from "three/addons/postprocessing/UnrealBloomPass.js";
 import type { AtlasPaper } from "./atlas";
+import type { AtlasFocus, AtlasSpace } from "./protocol";
 
-type Focus = { id: string; space: string; concept: string | null; reduced: boolean };
 type Dot = {
   object: T.Mesh<T.SphereGeometry, T.MeshBasicMaterial>;
   paper: AtlasPaper;
@@ -32,10 +32,11 @@ function curve(points: T.Vector3[], color: number, opacity: number) {
   );
 }
 /** 每个亮点是一篇论文或概念；连线仅来自其真实概念关系。 */
-export async function createAtlas(
-  el: HTMLElement,
+export function createScene(
+  canvas: HTMLCanvasElement | OffscreenCanvas,
   papers: AtlasPaper[],
-  spaces: { id: string; label: string }[],
+  spaces: AtlasSpace[],
+  pixelRatio: number,
   selectPaper: (id: string) => void,
   selectSpace: (id: string) => void,
 ) {
@@ -46,16 +47,14 @@ export async function createAtlas(
   camera.position.set(0, 0.6, 9.2);
   camera.lookAt(0, 0.25, 0);
   const renderer = new T.WebGLRenderer({
+    canvas,
     antialias: true,
     alpha: false,
     powerPreference: "low-power",
   });
-  renderer.setPixelRatio(Math.min(devicePixelRatio, 1.5));
+  renderer.setPixelRatio(pixelRatio);
   renderer.toneMapping = T.ACESFilmicToneMapping;
   renderer.toneMappingExposure = 1.08;
-  renderer.domElement.setAttribute("aria-label", `${papers.length}篇论文的研究空间`);
-  renderer.domElement.tabIndex = -1;
-  el.append(renderer.domElement);
   const composer = new EffectComposer(renderer);
   composer.addPass(new RenderPass(scene, camera));
   const bloom = new UnrealBloomPass(new T.Vector2(1, 1), 0.8, 0.6, 0.55);
@@ -230,8 +229,8 @@ export async function createAtlas(
     new T.LineBasicMaterial({ color: 0xe2c7a0, transparent: true, opacity: 0.8 }),
   );
   selection.add(orbit);
-  let focus: Focus = { id: "", space: "all", concept: null, reduced: false };
-  let visible = true,
+  let focus: AtlasFocus = { id: "", space: "all", concept: null, reduced: true };
+  let visible = false,
     running = false,
     frame = 0,
     disposed = false,
@@ -243,7 +242,7 @@ export async function createAtlas(
     targetLook = new T.Vector3(0, 0.25, 0),
     look = targetLook.clone();
   let start = performance.now();
-  function setFocus(next: Focus) {
+  function setFocus(next: AtlasFocus) {
     focus = next;
     const current = papers.find((p) => p.id === next.id);
     const concepts = new Set(current?.concepts.map((c) => c.id) ?? []);
@@ -301,7 +300,7 @@ export async function createAtlas(
   }
   function render(now: number) {
     running = false;
-    if (disposed || !visible || document.hidden) return;
+    if (disposed || !visible) return;
     const elapsed = (now - start) / 1000;
     if (!focus.reduced) {
       camera.position.lerp(targetCamera, 0.05);
@@ -332,72 +331,50 @@ export async function createAtlas(
     }
   }
   function requestRender() {
-    if (!running && !disposed && visible && !document.hidden) {
+    if (!running && !disposed && visible) {
       running = true;
       frame = requestAnimationFrame(render);
     }
   }
-  const resize = new ResizeObserver(() => {
-    const { width, height } = el.getBoundingClientRect();
+  function resize(width: number, height: number) {
     if (!width || !height) return;
-    renderer.setSize(width, height);
+    renderer.setSize(width, height, false);
     composer.setSize(width, height);
     camera.aspect = width / height;
     camera.updateProjectionMatrix();
     requestRender();
-  });
-  resize.observe(el);
-  const intersection = new IntersectionObserver((entries) => {
-    visible = entries[0]?.isIntersecting ?? false;
+  }
+  function setVisible(next: boolean) {
+    visible = next;
     if (!visible) {
       cancelAnimationFrame(frame);
       running = false;
     } else requestRender();
-  });
-  intersection.observe(el);
-  const move = (event: PointerEvent) => {
+  }
+  const move = (x: number, y: number) => {
     if (focus.reduced) return;
-    const r = el.getBoundingClientRect();
-    targetRotation.set(
-      (event.clientX - r.left) / r.width - 0.5,
-      (event.clientY - r.top) / r.height - 0.5,
-    );
+    targetRotation.set(x, y);
   };
   const leave = () => targetRotation.set(0, 0);
-  const click = (event: MouseEvent) => {
-    const r = el.getBoundingClientRect();
-    pointer.set(
-      ((event.clientX - r.left) / r.width) * 2 - 1,
-      (-(event.clientY - r.top) / r.height) * 2 + 1,
-    );
+  const click = (x: number, y: number) => {
+    pointer.set(x, y);
     raycaster.setFromCamera(pointer, camera);
     const hit = raycaster.intersectObjects(root.children, true)[0];
     if (hit?.object.userData.paper) selectPaper(hit.object.userData.paper);
     else if (hit?.object.userData.space) selectSpace(hit.object.userData.space);
   };
-  const visibility = () => {
-    if (document.hidden) {
-      cancelAnimationFrame(frame);
-      running = false;
-    } else requestRender();
-  };
-  el.addEventListener("pointermove", move);
-  el.addEventListener("pointerleave", leave);
-  el.addEventListener("click", click);
-  document.addEventListener("visibilitychange", visibility);
   start = performance.now();
   requestRender();
   return {
     setFocus,
+    resize,
+    setVisible,
+    move,
+    leave,
+    click,
     dispose() {
       disposed = true;
       cancelAnimationFrame(frame);
-      resize.disconnect();
-      intersection.disconnect();
-      el.removeEventListener("pointermove", move);
-      el.removeEventListener("pointerleave", leave);
-      el.removeEventListener("click", click);
-      document.removeEventListener("visibilitychange", visibility);
       scene.traverse((object) => {
         const mesh = object as T.Mesh;
         mesh.geometry?.dispose();
@@ -408,7 +385,6 @@ export async function createAtlas(
       });
       composer.dispose();
       renderer.dispose();
-      renderer.domElement.remove();
     },
   };
 }

@@ -5,7 +5,7 @@ import { Universe3D } from "./index";
 
 afterEach(cleanup);
 
-vi.mock("./scene", () => ({
+vi.mock("./renderer", () => ({
   createAtlas: () => {
     throw Error("No WebGL");
   },

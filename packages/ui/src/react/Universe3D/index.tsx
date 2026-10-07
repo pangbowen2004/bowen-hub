@@ -2,7 +2,7 @@ import type { GraphData, PapersCatalog, SearchIndex } from "@bowen-hub/contracts
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useReducedMotion } from "../../hooks/motion";
 import { atlasPapers } from "./atlas";
-import type { createAtlas } from "./scene";
+import type { createAtlas } from "./renderer";
 import { publicationLabel } from "./studies";
 import { type ReadingTaxonomy, topicContains, topicPath, visibleTaxonomy } from "./taxonomy";
 import "./atlas.css";
@@ -137,7 +137,7 @@ export function Universe3D({
   );
   useEffect(() => {
     let disposed = false;
-    void import("./scene")
+    void import("./renderer")
       .then(async ({ createAtlas }) => {
         if (disposed || !container.current) return;
         const atlas = await createAtlas(
@@ -146,6 +146,9 @@ export function Universe3D({
           spaces,
           select,
           chooseSpace,
+          () => {
+            if (!disposed) setFailure(true);
+          },
         );
         if (disposed) {
           atlas.dispose();
