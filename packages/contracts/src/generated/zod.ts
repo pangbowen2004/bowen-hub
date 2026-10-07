@@ -2868,6 +2868,18 @@ export const PrivatePlatformGetAiUsageResponse = AiUsageSummary
 
 
 /**
+ * 登录后读取日期范围内的美股财报与美国宏观日程。
+ */
+export const PrivateCalendarListEventsQueryParams = zod.object({
+  "from": zod.iso.date(),
+  "to": zod.iso.date()
+})
+
+export const PrivateCalendarListEventsResponseItem = CalendarEvent
+export const PrivateCalendarListEventsResponse = zod.array(PrivateCalendarListEventsResponseItem)
+
+
+/**
  * 能力清单（读 packages/ai 构建时生成的注册表）+ 各能力最近一次评测结果
  */
 export const PrivatePlatformListCapabilitiesResponseItem = CapabilityInfo

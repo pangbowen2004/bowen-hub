@@ -16,6 +16,12 @@ export const ROUTES = [
   },
   {
     "method": "GET",
+    "path": "/v1/calendar/events",
+    "operationId": "PrivateCalendar_listEvents",
+    "task": "T14"
+  },
+  {
+    "method": "GET",
     "path": "/v1/capabilities",
     "operationId": "PrivatePlatform_listCapabilities",
     "task": "T41"

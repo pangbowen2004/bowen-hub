@@ -40,6 +40,7 @@ import {
 import type {
   AiUsageSummary,
   Article,
+  CalendarEvent,
   CapabilityInfo,
   Edition,
   EditionFeedback,
@@ -75,6 +76,8 @@ import type {
 
 
 export const getPrivatePlatformGetAiUsageResponseMock = (overrideResponse: Partial<Extract<AiUsageSummary, object>> = {}): AiUsageSummary => ({days: (() => faker.number.int({ min: -2147483648, max: 2147483647 }))(), total: {calls: (() => faker.number.int({ min: -2147483648, max: 2147483647 }))(), failedCalls: (() => faker.number.int({ min: -2147483648, max: 2147483647 }))(), inputTokens: (() => faker.number.int({ min: -2147483648, max: 2147483647 }))(), outputTokens: (() => faker.number.int({ min: -2147483648, max: 2147483647 }))(), costUsd: faker.number.float({fractionDigits: 2})}, byDay: Array.from({ length: faker.number.int({min: 1, max: 10}) }, (_, i) => i + 1).map(() => ({date: faker.date.past().toISOString().slice(0, 10), calls: (() => faker.number.int({ min: -2147483648, max: 2147483647 }))(), failedCalls: (() => faker.number.int({ min: -2147483648, max: 2147483647 }))(), inputTokens: (() => faker.number.int({ min: -2147483648, max: 2147483647 }))(), outputTokens: (() => faker.number.int({ min: -2147483648, max: 2147483647 }))(), costUsd: faker.number.float({fractionDigits: 2})})), byCapability: Array.from({ length: faker.number.int({min: 1, max: 10}) }, (_, i) => i + 1).map(() => ({capability: faker.string.alpha({length: {min: 10, max: 20}}), calls: (() => faker.number.int({ min: -2147483648, max: 2147483647 }))(), failedCalls: (() => faker.number.int({ min: -2147483648, max: 2147483647 }))(), inputTokens: (() => faker.number.int({ min: -2147483648, max: 2147483647 }))(), outputTokens: (() => faker.number.int({ min: -2147483648, max: 2147483647 }))(), costUsd: faker.number.float({fractionDigits: 2})})), monthCostUsd: faker.number.float({fractionDigits: 2}), monthlyBudgetUsd: faker.number.float({fractionDigits: 2}), ...overrideResponse})
+
+export const getPrivateCalendarListEventsResponseMock = (): CalendarEvent[] => (Array.from({ length: faker.number.int({min: 1, max: 10}) }, (_, i) => i + 1).map(() => ({kind: faker.helpers.arrayElement(['macro','earnings','fomc'] as const), date: faker.date.past().toISOString().slice(0, 10), fredReleaseId: faker.helpers.arrayElement([(() => faker.number.int({ min: -2147483648, max: 2147483647 }))(),null,]), at: faker.helpers.arrayElement([faker.date.past().toISOString().slice(0, 19) + 'Z',null,]), title: faker.string.alpha({length: {min: 10, max: 20}}), tickers: Array.from({ length: faker.number.int({min: 1, max: 10}) }, (_, i) => i + 1).map(() => (faker.string.alpha({length: {min: 10, max: 20}}))), timing: faker.helpers.arrayElement([faker.string.alpha({length: {min: 10, max: 20}}),null,]), importance: faker.string.alpha({length: {min: 10, max: 20}})})))
 
 export const getPrivatePlatformListCapabilitiesResponseMock = (): CapabilityInfo[] => (Array.from({ length: faker.number.int({min: 1, max: 10}) }, (_, i) => i + 1).map(() => ({id: faker.string.alpha({length: {min: 10, max: 20}}), version: (() => faker.number.int({ min: -2147483648, max: 2147483647 }))(), summary: faker.string.alpha({length: {min: 10, max: 20}}), owner: faker.string.alpha({length: {min: 10, max: 20}}), runtime: faker.helpers.arrayElement(Object.values(CapabilityRuntime)), tier: faker.helpers.arrayElement(Object.values(ModelTier)), model: faker.string.alpha({length: {min: 10, max: 20}}), reasoning: faker.helpers.arrayElement(Object.values(ReasoningEffort)), autonomy: faker.helpers.arrayElement(Object.values(AutonomyLevel)), prompt: faker.string.alpha({length: {min: 10, max: 20}}), io: {input: faker.string.alpha({length: {min: 10, max: 20}}), output: faker.string.alpha({length: {min: 10, max: 20}})}, limits: {maxInputTokens: (() => faker.number.int({ min: -2147483648, max: 2147483647 }))(), maxOutputTokens: (() => faker.number.int({ min: -2147483648, max: 2147483647 }))(), timeoutSec: (() => faker.number.int({ min: -2147483648, max: 2147483647 }))()}, checks: Array.from({ length: faker.number.int({min: 1, max: 10}) }, (_, i) => i + 1).map(() => (faker.string.alpha({length: {min: 10, max: 20}}))), fallback: faker.string.alpha({length: {min: 10, max: 20}}), params: {}, evals: {dataset: faker.string.alpha({length: {min: 10, max: 20}}), schedule: faker.helpers.arrayElement(Object.values(EvalSchedule)), thresholds: {
         [faker.string.alphanumeric(5)]: faker.number.float({fractionDigits: 2})
@@ -194,6 +197,18 @@ export const getPrivatePlatformGetAiUsageMockHandler = (overrideResponse?: AiUsa
     return HttpResponse.json(overrideResponse !== undefined
     ? (typeof overrideResponse === "function" ? await overrideResponse(info) : overrideResponse)
     : getPrivatePlatformGetAiUsageResponseMock(),
+      { status: 200
+      })
+  }, options)
+}
+
+export const getPrivateCalendarListEventsMockHandler = (overrideResponse?: CalendarEvent[] | ((info: Parameters<Parameters<typeof http.get>[1]>[0]) => Promise<CalendarEvent[]> | CalendarEvent[]), options?: RequestHandlerOptions) => {
+  return http.get('*/v1/calendar/events', async (info: Parameters<Parameters<typeof http.get>[1]>[0]) => {
+
+
+    return HttpResponse.json(overrideResponse !== undefined
+    ? (typeof overrideResponse === "function" ? await overrideResponse(info) : overrideResponse)
+    : getPrivateCalendarListEventsResponseMock(),
       { status: 200
       })
   }, options)
@@ -1110,6 +1125,7 @@ export const getPrivateWatchlistRemoveMockHandler = (overrideResponse?: void | (
 }
 export const getBowenHubAPIMock = () => [
   getPrivatePlatformGetAiUsageMockHandler(),
+  getPrivateCalendarListEventsMockHandler(),
   getPrivatePlatformListCapabilitiesMockHandler(),
   getPrivatePlatformListEvalsMockHandler(),
   getHealthCheckGetMockHandler(),

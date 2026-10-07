@@ -53,6 +53,7 @@ import type {
   PaperUploadPatch,
   PaperWrite,
   PapersCatalog,
+  PrivateCalendarListEventsParams,
   PrivateNewsGetFullTimelineParams,
   PrivateNewsGetTimelineParams,
   PrivateNewsListEditionsParams,
@@ -118,6 +119,51 @@ export const privatePlatformGetAiUsage = async (params?: PrivatePlatformGetAiUsa
     throw err;
   }
   const data: AiUsageSummary = body ? JSON.parse(body) : {}
+  return data
+}
+
+
+
+export const getPrivateCalendarListEventsUrl = (params: PrivateCalendarListEventsParams,) => {
+  const normalizedParams = new URLSearchParams();
+
+  Object.entries(params || {}).forEach(([key, value]) => {
+
+    if (value !== undefined) {
+      normalizedParams.append(key, value === null ? 'null' : String(value))
+    }
+  });
+
+  const stringifiedParams = normalizedParams.toString();
+
+  return stringifiedParams.length > 0 ? `${getBaseUrl()}/v1/calendar/events?${stringifiedParams}` : `${getBaseUrl()}/v1/calendar/events`
+}
+
+/**
+ * 登录后读取日期范围内的美股财报与美国宏观日程。
+ */
+export const privateCalendarListEvents = async (params: PrivateCalendarListEventsParams, options?: RequestInit): Promise<CalendarEvent[]> => {
+
+  const res = await fetch(getPrivateCalendarListEventsUrl(params),
+  {
+    ...options,
+    method: 'GET'
+
+
+  }
+)
+
+
+  const body = [204, 205, 304].includes(res.status) ? null : await res.text();
+  if (!res.ok) {
+
+    const err: globalThis.Error & {info?: CalendarEvent[], status?: number} = new globalThis.Error();
+    const data : CalendarEvent[] = body ? JSON.parse(body) : {}
+    err.info = data;
+    err.status = res.status;
+    throw err;
+  }
+  const data: CalendarEvent[] = body ? JSON.parse(body) : {}
   return data
 }
 

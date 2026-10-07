@@ -72,6 +72,7 @@ import type {
   PaperUploadPatch,
   PaperWrite,
   PapersCatalog,
+  PrivateCalendarListEventsParams,
   PrivateNewsGetFullTimelineParams,
   PrivateNewsGetTimelineParams,
   PrivateNewsListEditionsParams,
@@ -227,6 +228,125 @@ export function usePrivatePlatformGetAiUsage<TData = Awaited<ReturnType<typeof p
  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
 
   const queryOptions = getPrivatePlatformGetAiUsageQueryOptions(params,options)
+
+  const query = useQuery(queryOptions, queryClient) as  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
+
+  return withQueryKey(query, queryOptions.queryKey);
+}
+
+
+
+
+
+
+
+export const getPrivateCalendarListEventsUrl = (params: PrivateCalendarListEventsParams,) => {
+  const normalizedParams = new URLSearchParams();
+
+  Object.entries(params || {}).forEach(([key, value]) => {
+
+    if (value !== undefined) {
+      normalizedParams.append(key, value === null ? 'null' : String(value))
+    }
+  });
+
+  const stringifiedParams = normalizedParams.toString();
+
+  return stringifiedParams.length > 0 ? `${getBaseUrl()}/v1/calendar/events?${stringifiedParams}` : `${getBaseUrl()}/v1/calendar/events`
+}
+
+/**
+ * 登录后读取日期范围内的美股财报与美国宏观日程。
+ */
+export const privateCalendarListEvents = async (params: PrivateCalendarListEventsParams, options?: RequestInit): Promise<CalendarEvent[]> => {
+
+  const res = await fetch(getPrivateCalendarListEventsUrl(params),
+  {
+    ...options,
+    method: 'GET'
+
+
+  }
+)
+
+
+  const body = [204, 205, 304].includes(res.status) ? null : await res.text();
+  if (!res.ok) {
+
+    const err: globalThis.Error & {info?: CalendarEvent[], status?: number} = new globalThis.Error();
+    const data : CalendarEvent[] = body ? JSON.parse(body) : {}
+    err.info = data;
+    err.status = res.status;
+    throw err;
+  }
+  const data: CalendarEvent[] = body ? JSON.parse(body) : {}
+  return data
+}
+
+
+
+
+
+export const getPrivateCalendarListEventsQueryKey = (params?: PrivateCalendarListEventsParams,) => {
+    return [
+    `${getBaseUrl()}/v1/calendar/events`, ...(params ? [params] : [])
+    ] as const;
+    }
+
+
+export const getPrivateCalendarListEventsQueryOptions = <TData = Awaited<ReturnType<typeof privateCalendarListEvents>>, TError = globalThis.Error & { info?: Problem; status?: number }>(params: PrivateCalendarListEventsParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof privateCalendarListEvents>>, TError, TData>>, fetch?: RequestInit}
+) => {
+
+const {query: queryOptions, fetch: fetchOptions} = options ?? {};
+
+  const queryKey =  queryOptions?.queryKey ?? getPrivateCalendarListEventsQueryKey(params);
+
+
+
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof privateCalendarListEvents>>> = ({ signal }) => privateCalendarListEvents(params, { signal, ...fetchOptions });
+
+
+
+
+
+   return  { queryKey, queryFn, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof privateCalendarListEvents>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
+}
+
+export type PrivateCalendarListEventsQueryResult = NonNullable<Awaited<ReturnType<typeof privateCalendarListEvents>>>
+export type PrivateCalendarListEventsQueryError = globalThis.Error & { info?: Problem; status?: number }
+
+
+export function usePrivateCalendarListEvents<TData = Awaited<ReturnType<typeof privateCalendarListEvents>>, TError = globalThis.Error & { info?: Problem; status?: number }>(
+ params: PrivateCalendarListEventsParams, options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof privateCalendarListEvents>>, TError, TData>> & Pick<
+        DefinedInitialDataOptions<
+          Awaited<ReturnType<typeof privateCalendarListEvents>>,
+          TError,
+          Awaited<ReturnType<typeof privateCalendarListEvents>>
+        > , 'initialData'
+      >, fetch?: RequestInit}
+ , queryClient?: QueryClient
+  ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function usePrivateCalendarListEvents<TData = Awaited<ReturnType<typeof privateCalendarListEvents>>, TError = globalThis.Error & { info?: Problem; status?: number }>(
+ params: PrivateCalendarListEventsParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof privateCalendarListEvents>>, TError, TData>> & Pick<
+        UndefinedInitialDataOptions<
+          Awaited<ReturnType<typeof privateCalendarListEvents>>,
+          TError,
+          Awaited<ReturnType<typeof privateCalendarListEvents>>
+        > , 'initialData'
+      >, fetch?: RequestInit}
+ , queryClient?: QueryClient
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function usePrivateCalendarListEvents<TData = Awaited<ReturnType<typeof privateCalendarListEvents>>, TError = globalThis.Error & { info?: Problem; status?: number }>(
+ params: PrivateCalendarListEventsParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof privateCalendarListEvents>>, TError, TData>>, fetch?: RequestInit}
+ , queryClient?: QueryClient
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+
+export function usePrivateCalendarListEvents<TData = Awaited<ReturnType<typeof privateCalendarListEvents>>, TError = globalThis.Error & { info?: Problem; status?: number }>(
+ params: PrivateCalendarListEventsParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof privateCalendarListEvents>>, TError, TData>>, fetch?: RequestInit}
+ , queryClient?: QueryClient
+ ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
+
+  const queryOptions = getPrivateCalendarListEventsQueryOptions(params,options)
 
   const query = useQuery(queryOptions, queryClient) as  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
 
