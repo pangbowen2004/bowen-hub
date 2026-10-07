@@ -5,7 +5,8 @@ import "./auth.css";
 
 type Key = { id: string; name?: string | null; createdAt?: Date | string | null };
 type Consent = { id: string; clientId: string; scopes: string[] };
-export function SettingsPage() {
+export function AccessPanel() {
+  const [tab, setTab] = useState<"keys" | "apps">("keys");
   const [keys, setKeys] = useState<Key[]>([]);
   const [consents, setConsents] = useState<Consent[]>([]);
   const [name, setName] = useState("");
@@ -16,7 +17,7 @@ export function SettingsPage() {
       authClient.passkey.listUserPasskeys(),
       authClient.oauth2.getConsents(),
     ]);
-    if (k.error || c.error) throw new Error("设置加载失败，请重试。");
+    if (k.error || c.error) throw new Error("账户资料加载失败，请重试。");
     setKeys(k.data ?? []);
     setConsents(c.data ?? []);
   }, []);
@@ -40,12 +41,26 @@ export function SettingsPage() {
   }, [run]);
   return (
     <div className="auth-settings">
-      <p className="auth-eyebrow">个人设置 / SECURITY</p>
-      <h1>你的访问方式</h1>
-      <p>管理设备凭据与已授权的研究客户端。</p>
+      <div className="access-tabs" role="tablist" aria-label="账户资料">
+        <button
+          type="button"
+          role="tab"
+          aria-selected={tab === "keys"}
+          onClick={() => setTab("keys")}
+        >
+          通行密钥
+        </button>
+        <button
+          type="button"
+          role="tab"
+          aria-selected={tab === "apps"}
+          onClick={() => setTab("apps")}
+        >
+          已授权的应用（MCP）
+        </button>
+      </div>
       {message && <p role="alert">{message}</p>}
-      <section>
-        <h2>通行密钥</h2>
+      <section hidden={tab !== "keys"} role="tabpanel" aria-label="通行密钥">
         {busy && <p role="status">正在加载或等待设备确认…</p>}
         <ul>
           {keys.map((key) => (
@@ -96,8 +111,7 @@ export function SettingsPage() {
           添加通行密钥
         </Button>
       </section>
-      <section>
-        <h2>已授权 MCP 客户端</h2>
+      <section hidden={tab !== "apps"} role="tabpanel" aria-label="已授权的应用（MCP）">
         {!busy && !consents.length && <p>还没有授权任何客户端。</p>}
         <ul>
           {consents.map((consent) => (
@@ -121,8 +135,7 @@ export function SettingsPage() {
           ))}
         </ul>
       </section>
-      <section>
-        <h2>本次会话</h2>
+      <footer className="access-session">
         <Button
           disabled={busy}
           onClick={() =>
@@ -135,7 +148,7 @@ export function SettingsPage() {
         >
           退出登录
         </Button>
-      </section>
+      </footer>
     </div>
   );
 }

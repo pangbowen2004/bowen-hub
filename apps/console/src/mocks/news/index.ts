@@ -26,7 +26,7 @@ const editions: Edition[] = [
     date: `2026-09-${String(28 - index).padStart(2, "0")}`,
   })),
 ];
-let watch = WatchSchema.array().parse(watchRaw);
+const watch = WatchSchema.array().parse(watchRaw);
 let feedback: Feedback[] = [];
 const article = articleRaw as Article;
 const fullTimeline: NewsFullTimelineItem[] = [
@@ -126,15 +126,4 @@ export const newsHandlers = [
     ),
   ),
   http.get("/v1/watchlist", () => HttpResponse.json(watch)),
-  http.put("/v1/watchlist/:symbol", async ({ request, params }) => {
-    if (failedPaths.has(new URL(request.url).pathname)) return problem("模拟写入失败", 500);
-    const parsed = WatchSchema.safeParse(await request.json());
-    if (!parsed.success || parsed.data.symbol !== params.symbol) return problem("自选股资料无效");
-    watch = [...watch.filter((row) => row.symbol !== params.symbol), parsed.data];
-    return HttpResponse.json(parsed.data);
-  }),
-  http.delete("/v1/watchlist/:symbol", ({ params }) => {
-    watch = watch.filter((row) => row.symbol !== params.symbol);
-    return new HttpResponse(null, { status: 204 });
-  }),
 ];

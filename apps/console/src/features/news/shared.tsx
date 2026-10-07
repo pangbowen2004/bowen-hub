@@ -58,7 +58,6 @@ export function NewsHeader({
       <nav className="row" aria-label="新闻入口">
         <a href="/news">新闻归档</a>
         <a href="/news/search">全文搜索</a>
-        <a href="/watchlist">自选股</a>
       </nav>
       {children}
     </header>

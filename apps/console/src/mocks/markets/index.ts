@@ -1,5 +1,4 @@
 import type { MarketEvent } from "@bowen-hub/contracts";
-import { MarketEvent as EventSchema } from "@bowen-hub/contracts/zod";
 import { HttpResponse, http } from "msw";
 
 const initial: MarketEvent = {
@@ -15,23 +14,6 @@ const initial: MarketEvent = {
   watchItems: ["核对公开披露"],
   aShareMappings: ["应用观察"],
 };
-let rows = [initial];
 export const marketHandlers = [
-  http.get("/v1/public/markets/events", () => HttpResponse.json(rows)),
-  http.post("/v1/markets/events", async ({ request }) => {
-    const parsed = EventSchema.safeParse(await request.json());
-    if (!parsed.success) return HttpResponse.json({ detail: "事件资料无效" }, { status: 400 });
-    rows = [...rows, parsed.data];
-    return HttpResponse.json(parsed.data, { status: 201 });
-  }),
-  http.put("/v1/markets/events/:id", async ({ request, params }) => {
-    const parsed = EventSchema.safeParse(await request.json());
-    if (!parsed.success) return HttpResponse.json({ detail: "事件资料无效" }, { status: 400 });
-    rows = rows.map((row) => (row.id === params.id ? parsed.data : row));
-    return HttpResponse.json(parsed.data);
-  }),
-  http.delete("/v1/markets/events/:id", ({ params }) => {
-    rows = rows.filter((row) => row.id !== params.id);
-    return new HttpResponse(null, { status: 204 });
-  }),
+  http.get("/v1/public/markets/events", () => HttpResponse.json([initial])),
 ];

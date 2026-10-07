@@ -82,38 +82,6 @@ test("个股完整时间线包含内部人交易与财报原文", async ({ page 
   await expect(page.getByText("营收 · GAAP")).toBeVisible();
   await expect(page.getByText("买入 100 股", { exact: false })).toBeVisible();
 });
-test("自选股增删改启停和实际接口状态", async ({ page }) => {
-  await page.goto("/watchlist");
-  await page.getByRole("button", { name: "新增自选股" }).click();
-  await page.getByLabel("代码", { exact: true }).fill("SYN");
-  await page.getByLabel("名称", { exact: true }).fill("合成测试公司");
-  await page.getByLabel("分组", { exact: true }).fill("测试组");
-  await page.getByLabel("别名", { exact: false }).fill("Synthetic\n测试公司");
-  await page.getByRole("button", { name: "保存自选股" }).click();
-  await expect(page.getByRole("heading", { name: "SYN · 合成测试公司" })).toBeVisible();
-  await page.getByRole("button", { name: "编辑 SYN" }).click();
-  await page.getByLabel("名称", { exact: true }).fill("修改后的测试公司");
-  await page.getByRole("button", { name: "保存自选股" }).click();
-  await expect(page.getByRole("heading", { name: "SYN · 修改后的测试公司" })).toBeVisible();
-  await page.getByRole("button", { name: "停用 SYN" }).click();
-  await expect(page.getByRole("button", { name: "启用 SYN" })).toBeVisible();
-  const inactive = await page.evaluate(async () => (await fetch("/v1/watchlist")).json());
-  expect(inactive.find((row: { symbol: string }) => row.symbol === "SYN").active).toBe(false);
-  await page.getByRole("button", { name: "删除 SYN" }).click();
-  await expect(page.getByRole("heading", { name: "SYN · 修改后的测试公司" })).toHaveCount(0);
-});
-test("自选股写入失败恢复原记录", async ({ page }) => {
-  await page.goto("/watchlist");
-  await expect(page.getByRole("button", { name: "停用 TSM", exact: true })).toBeVisible();
-  await page.evaluate(() =>
-    window.dispatchEvent(
-      new CustomEvent("hub-mock-failure", { detail: { path: "/v1/watchlist/TSM", enabled: true } }),
-    ),
-  );
-  await page.getByRole("button", { name: "停用 TSM", exact: true }).click();
-  await expect(page.getByRole("alert")).toContainText("已回滚");
-  await expect(page.getByRole("button", { name: "停用 TSM", exact: true })).toBeVisible();
-});
 test("今日显示真实聚合入口而非占位", async ({ page }) => {
   await page.goto("/");
   await expect(page.getByText("最新一期 · 美股早报")).toBeVisible();

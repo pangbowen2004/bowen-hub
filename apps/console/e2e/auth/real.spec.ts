@@ -14,12 +14,13 @@ test("真实通行密钥首次登记、三个屏幕登录和注销", async ({ pa
       automaticPresenceSimulation: true,
     },
   });
-  await page.goto("/settings");
+  await page.goto("/markets/events");
   await expect(page).toHaveURL(/\/login/);
   await page.getByText("第一次使用？登记通行密钥").click();
   await page.getByLabel("一次性登记口令").fill("e2e-bootstrap-only");
   await page.getByRole("button", { name: "登记我的通行密钥" }).click();
-  await expect(page).toHaveURL(/\/settings$/, { timeout: 20000 });
+  await expect(page).toHaveURL(/\/markets\/events$/, { timeout: 20000 });
+  await page.getByRole("button", { name: "账户", exact: false }).click();
   await expect(page.getByText("我的通行密钥", { exact: true })).toBeVisible();
   expect((await cdp.send("WebAuthn.getCredentials", { authenticatorId })).credentials).toHaveLength(
     1,
@@ -33,10 +34,11 @@ test("真实通行密钥首次登记、三个屏幕登录和注销", async ({ pa
     await page.getByRole("button", { name: "退出登录" }).click();
     await expect(page).toHaveURL(/\/login/);
     expect((await context.request.get("/v1/watchlist")).status()).toBe(401);
-    await page.goto("/settings");
+    await page.goto("/markets/events");
     await page.getByRole("button", { name: "使用通行密钥登录" }).click();
-    await expect(page).toHaveURL(/\/settings$/, { timeout: 20000 });
+    await expect(page).toHaveURL(/\/markets\/events$/, { timeout: 20000 });
     expect((await context.request.get("/v1/watchlist")).status()).toBe(200);
+    await page.getByRole("button", { name: "账户", exact: false }).click();
     await expect(page.getByRole("button", { name: "删除", exact: true })).toBeDisabled();
     expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(
       true,
@@ -112,7 +114,9 @@ test("真实通行密钥首次登记、三个屏幕登录和注销", async ({ pa
   });
   expect(rotated.status()).toBe(200);
   const nextTokens = (await rotated.json()) as { refresh_token: string };
-  await page.goto("/settings");
+  await page.goto("/markets/events");
+  await page.getByRole("button", { name: "账户", exact: false }).click();
+  await page.getByRole("tab", { name: "已授权的应用（MCP）" }).click();
   await expect(page.getByText(client.client_id, { exact: true })).toBeVisible();
   await page.getByRole("button", { name: "撤销授权" }).click();
   await expect(page.getByText("还没有授权任何客户端。")).toBeVisible();
