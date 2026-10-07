@@ -5,6 +5,7 @@
 import "@typespec/http";
 import "../http.tsp";
 import "./private/news.tsp";
+import "./private/calendar.tsp";
 import "./private/watchlist.tsp";
 import "./private/markets.tsp";
 import "./private/papers.tsp";

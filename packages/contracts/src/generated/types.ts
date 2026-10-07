@@ -3473,6 +3473,11 @@ export type PrivatePlatformGetAiUsageParams = {
 days?: number;
 };
 
+export type PrivateCalendarListEventsParams = {
+from: string;
+to: string;
+};
+
 export type PrivatePlatformListEvalsParams = {
 /**
  * 只看某个能力，如 news.ticker_digest
