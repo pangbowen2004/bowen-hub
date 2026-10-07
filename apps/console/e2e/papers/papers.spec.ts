@@ -1,8 +1,8 @@
 import { expect, test } from "@playwright/test";
 
 test("论文筛选、批量公开与刷新保存", async ({ page }) => {
-  await page.goto("/papers");
-  await expect(page.getByRole("heading", { level: 1 })).toContainText("把读过的论文");
+  await page.goto("/papers/library");
+  await expect(page.getByRole("heading", { level: 1 })).toContainText("论文库");
   await expect(page.getByText("样例数据 · 操作仅用于页面预览")).toBeVisible();
   await page.getByLabel("搜索论文", { exact: true }).fill("OpenMEVA");
   await expect(page.locator(".paper-card")).toHaveCount(1);

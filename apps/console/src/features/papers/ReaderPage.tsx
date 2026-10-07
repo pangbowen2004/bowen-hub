@@ -12,7 +12,9 @@ import {
   privatePapersRevise,
 } from "@bowen-hub/contracts/client";
 import { AskDrawer, Button, Input, PageImage, PaperReader } from "@bowen-hub/ui";
+import { groupStudies, publicationLabel, publicationNotes } from "@bowen-hub/ui/react/Universe3D";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { Link } from "@tanstack/react-router";
 import { useEffect, useRef, useState } from "react";
 import { articleParagraphs, exportMarkdown, markdown } from "./markdown";
 import { RelatedPapers } from "./RelatedPapers";
@@ -385,6 +387,14 @@ export function ReaderPage({ id }: { id: string }) {
       void cache.invalidateQueries({ queryKey: ["papers"] });
     },
   });
+  const catalog = useQuery({
+    queryKey: ["papers", "catalog"],
+    queryFn: ({ signal }) => privatePapersGetCatalog({ signal }),
+  });
+  const versions =
+    groupStudies(catalog.data?.papers ?? []).find((group) =>
+      group.versions.some((p) => p.id === id),
+    )?.versions ?? [];
   const current = paper.data;
   function download() {
     if (!current) return;
@@ -407,11 +417,34 @@ export function ReaderPage({ id }: { id: string }) {
       {current && (
         <>
           <p>
-            {current.meta.authors?.join("、")} · {current.meta.venue} · {current.meta.year} ·{" "}
-            {current.meta.version}
+            {[
+              current.meta.authors?.join("、"),
+              publicationLabel(current.meta.venue),
+              current.meta.year,
+              current.meta.version,
+            ]
+              .filter(Boolean)
+              .join(" · ")}
           </p>
+          {publicationNotes(current.meta.venue) && (
+            <p className="publication-note">{publicationNotes(current.meta.venue)}</p>
+          )}
+          {versions.length > 1 && (
+            <nav className="paper-version-switch" aria-label="论文版本">
+              版本{" "}
+              {versions.map((version) => (
+                <Link
+                  key={version.id}
+                  to="/papers/$id"
+                  params={{ id: version.id }}
+                  aria-current={version.id === id ? "page" : undefined}
+                >
+                  {/-?v(\d+)$/.exec(version.id)?.[0].replace("-", "") ?? version.id}
+                </Link>
+              ))}
+            </nav>
+          )}
           <div className="row">
-            <span className="paper-tag">{current.meta.paperType}</span>
             <span className="paper-tag">{current.status.readingDepth}</span>
             {current.meta.sourceUrl && /^https?:\/\//.test(current.meta.sourceUrl) && (
               <a href={current.meta.sourceUrl} target="_blank" rel="noreferrer">

@@ -1,13 +1,19 @@
 ---
 import type { Paper, PaperSummary, SearchIndex } from "@bowen-hub/contracts";
+import type { ReadingTaxonomy } from "@bowen-hub/ui/react/Universe3D";
+import { publicationLabel } from "@bowen-hub/ui/react/Universe3D";
+import { topicPath } from "../lib/topics";
 
 interface Props {
   papers: PaperSummary[];
   details?: Paper[];
   searchIndex?: SearchIndex;
   spaceLabels?: Record<string, string>;
+  taxonomy?: ReadingTaxonomy;
 }
-const { papers, details = [], searchIndex, spaceLabels = {} } = Astro.props;
+const { papers, details = [], searchIndex, spaceLabels = {}, taxonomy } = Astro.props;
+const assignment = (id: string) => taxonomy?.assignments.find((item) => item.paperId === id);
+const path = (id: string) => topicPath(taxonomy?.topics ?? [], assignment(id)?.topicId ?? "");
 ---
-<section class="stack paper-list" aria-label="公开论文" id="paper-list">{papers.filter(p=>p.visibility==='public').map(paper=><article class="card" data-paper-card data-id={paper.id} data-search-document={JSON.stringify({id:paper.id,title:[paper.title,paper.titleZh].filter(Boolean).join(" "),authors:details.find(p=>p.id===paper.id)?.meta.authors?.join(" ")??"",oneSentence:paper.oneSentence??"",concepts:details.find(p=>p.id===paper.id)?.structure?.concepts?.map(c=>c.name).join(" ")??"",spaces:[...paper.spaces,...(searchIndex?.papers.find(p=>p.id===paper.id)?.spaces??[]),...paper.spaces.map(space=>spaceLabels[space]??space)].join(" ")})} data-year={paper.year??''} data-space={paper.spaces.join(' ')} data-kind={paper.paperKind??''} data-depth={paper.readingDepth} data-updated={paper.updatedAt}><p class="eyebrow">{paper.readingDepth} · {[paper.venue,paper.year].filter(Boolean).join(' · ')}</p><h2><a href={`/papers/${paper.id}/`}>{paper.titleZh??paper.title}</a></h2>{paper.titleZh&&<p class="muted">{paper.title}</p>}{paper.oneSentence&&<p>{paper.oneSentence}</p>}<div class="tags">{paper.spaces.map(space=><a href={`/spaces/${space}/`}>{spaceLabels[space]??space}</a>)}</div></article>)}</section>
-<style>.tags{display:flex;flex-wrap:wrap;gap:1rem}.tags a{min-height:44px;display:flex;align-items:center}.card h2{font-family:var(--font-display)}.card{overflow-wrap:anywhere}</style>
+<section class="paper-list" aria-label="公开论文" id="paper-list">{papers.filter(p=>p.visibility==='public').map((paper,index)=><article class="paper-library-card" data-paper-card data-id={paper.id} data-topic={path(paper.id).map(topic=>topic.id).join(' ')} data-methods={JSON.stringify(assignment(paper.id)?.methodTags??[])} data-search-document={JSON.stringify({id:paper.id,title:[paper.title,paper.titleZh].filter(Boolean).join(' '),authors:details.find(p=>p.id===paper.id)?.meta.authors?.join(' ')??'',oneSentence:paper.oneSentence??'',concepts:details.find(p=>p.id===paper.id)?.structure?.concepts?.map(c=>c.name).join(' ')??'',spaces:[...paper.spaces,...(searchIndex?.papers.find(p=>p.id===paper.id)?.spaces??[]),...paper.spaces.map(space=>spaceLabels[space]??space),...path(paper.id).map(topic=>topic.label),...(assignment(paper.id)?.methodTags??[])].join(' ')})} data-year={paper.year??''} data-space={paper.spaces.join(' ')} data-kind={paper.paperKind??''} data-depth={paper.readingDepth} data-updated={paper.updatedAt}>
+<span class="library-card-number">{String(index+1).padStart(2,'0')}</span><div class="library-card-content"><p class="library-card-meta">{[publicationLabel(paper.venue),paper.year].filter(Boolean).join(' · ')}</p><h2><a href={`/papers/${paper.id}/`}>{paper.titleZh??paper.title}</a></h2>{paper.titleZh&&<p class="library-card-original">{paper.title}</p>}{paper.oneSentence&&<p class="library-card-synopsis">{paper.oneSentence}</p>}<div class="library-card-tags">{taxonomy ? <>{path(paper.id).map(topic=><a href={`/library/?topic=${topic.id}`}>{topic.label}</a>)}{assignment(paper.id)?.methodTags.map(tag=><a href={`/library/?tag=${encodeURIComponent(tag)}`}>{tag}</a>)}</> : paper.spaces.map(space=><a href={`/spaces/${space}/`}>{spaceLabels[space]??space}</a>)}</div></div><a class="library-card-read" href={`/papers/${paper.id}/`} aria-label={`阅读 ${paper.titleZh??paper.title}`}>↗</a></article>)}</section>

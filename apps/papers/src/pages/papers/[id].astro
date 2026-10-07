@@ -1,5 +1,6 @@
 ---
 import { PaperReader } from "@bowen-hub/ui/react/PaperReader";
+import { publicationLabel, publicationNotes, studyKey } from "@bowen-hub/ui/react/Universe3D";
 import { paperResourceLinks } from "../../components/links";
 import {
   articleParagraphs,
@@ -9,7 +10,14 @@ import {
 } from "../../components/paper";
 import tableEvidence from "../../components/table-evidence.json";
 import BaseLayout from "../../layouts/BaseLayout.astro";
-import { getCatalog, getGraph, getPaper } from "../../lib/data";
+import {
+  getCatalog,
+  getGraph,
+  getPaper,
+  getStudyCatalog,
+  getVisibleVersions,
+} from "../../lib/data";
+import { readingTaxonomy, topicPath } from "../../lib/topics";
 export async function getStaticPaths() {
   return (await getCatalog()).papers
     .filter((p) => p.visibility === "public")
@@ -17,47 +25,63 @@ export async function getStaticPaths() {
 }
 const catalog = await getCatalog();
 const paper = await getPaper(Astro.params.id!);
-const { meta, guide, structure, resources } = paper;
+const { meta, guide, structure } = paper;
 const links = paperResourceLinks(paper);
 const paragraphs = await articleParagraphs(paper);
 const coverage = coverageRatio(structure?.coverage);
+const topic = readingTaxonomy.assignments.find((item) => item.paperId === paper.id);
+const topicTrail = topicPath(readingTaxonomy.topics, topic?.topicId ?? "");
+const versions = await getVisibleVersions(paper.id);
+const studyCatalog = await getStudyCatalog();
 const related = relatedPapers(
   paper,
   await Promise.all(
-    catalog.papers.filter((p) => p.visibility === "public").map((p) => getPaper(p.id)),
+    studyCatalog.papers.filter((p) => p.visibility === "public").map((p) => getPaper(p.id)),
   ),
-  catalog.papers,
+  studyCatalog.papers.filter((p) => studyKey(p.id) !== studyKey(paper.id)),
   publicGraph(await getGraph(), catalog.papers),
 );
 ---
 <BaseLayout title={meta.titleZh??meta.title} description={guide?.oneSentence??meta.title} date={paper.status.updatedAt}>
-<header class="reading-header stack">
- <p class="eyebrow">论文导读 · {paper.status.readingDepth}</p><h1 class="editorial-title">{meta.titleZh??meta.title}</h1>
- {meta.titleZh && <p class="original-title">{meta.title}</p>}
- {meta.authors?.length && <p class="muted">{meta.authors.join(' · ')}</p>}
- <p class="muted">{[meta.venue,meta.year,meta.version].filter(Boolean).join(' · ')}</p>
- <p>{[meta.paperType,meta.studyDesign].filter(Boolean).join(' · ')}</p>
- <div class="tag-row">{paper.spaces?.map(space=><a class="badge" href={`/spaces/${space}/`}>{catalog.spaces.find(s=>s.id===space)?.label??space}</a>)}{resources?.code && <span class="badge">代码：{{verified:'已核查',unverified:'待核查',not_found:'未找到'}[resources.code.status]}</span>}</div>
- <nav class="reading-links" aria-label="论文资源">{links.source && <a href={links.source}>原文主页 ↗</a>}{links.code && <a href={links.code}>代码 ↗</a>}<details class="public-paper-management"><summary>导出</summary><a href={`/papers/${paper.id}.md`}>导出 Markdown</a></details><a href="#evidence">原文证据</a></nav>
+<div class="reading-topline"><a href="/library/">← 论文库</a><span>{topicTrail.map((item,index)=>(<a href={`/library/?topic=${item.id}`}>{index>0?' / ':''}{item.label}</a>))}</span><a href={`/papers/${paper.id}.md`}>导出 ↗</a></div>
+<header class="reading-header">
+<p class="paper-overline">PAPER / {meta.year??'研究导读'}</p><h1>{meta.titleZh??meta.title}</h1>
+{meta.titleZh && <p class="original-title">{meta.title}</p>}
+{meta.authors?.length && <p class="reading-authors">{meta.authors.join(' · ')}</p>}
+<div class="reading-publication"><span>{[publicationLabel(meta.venue),meta.year].filter(Boolean).join(' · ')}</span></div>
+{publicationNotes(meta.venue) && <p class="publication-note">{publicationNotes(meta.venue)}</p>}
+{versions.length > 1 && <nav class="paper-versions" aria-label="论文版本"><span>版本</span>{versions.map(version => <a href={`/papers/${version.id}/`} aria-current={version.id === paper.id ? 'page' : undefined}>{/-?v(\d+)$/.exec(version.id)?.[0].replace('-', '') ?? version.id}</a>)}</nav>}
+<nav class="reading-links" aria-label="论文资源">{links.source && <a href={links.source}>阅读原文 <span>↗</span></a>}{links.code && <a href={links.code}>代码 <span>↗</span></a>}<a href="#evidence">原文证据 <span>↓</span></a></nav>
 </header>
 <div class="reading-layout">
 <PaperReader paper={paper} paragraphs={paragraphs} coverage={coverage} related={related} tableEvidence={tableEvidence[paper.id as keyof typeof tableEvidence] ?? {}}/>
-<aside class="reading-toc"><nav aria-label="本文目录"><p>本文目录</p><ol id="reading-toc"></ol></nav></aside>
+<aside class="reading-toc"><nav aria-label="本文目录"><p><span>ON THIS PAGE</span>本文目录</p><ol id="reading-toc"></ol><a class="toc-back" href="#content">回到页首 ↑</a></nav></aside>
 </div>
 </BaseLayout>
 <script>
 document.getElementById('claim-filter')?.addEventListener('change',(event)=>{const kind=(event.target as HTMLSelectElement).value;document.querySelectorAll<HTMLElement>('[data-claim-kind]').forEach(row=>{row.hidden=kind!=='all'&&row.dataset.claimKind!==kind;});});
 const toc=document.getElementById('reading-toc');
-document.querySelectorAll<HTMLElement>('.paper-reader h2').forEach((heading,index)=>{
+const articleTitle=document.querySelector('.article-content h2');
+const headings=[...document.querySelectorAll<HTMLElement>('.paper-reader h2')].filter(heading=>heading!==articleTitle&&!heading.closest('details'));
+const names:Record<string,string>={'论文为什么要做这件事':'研究问题','核心方法到底怎么运转':'核心方法','实验怎样检验这个方法':'实验设计','结果说明了什么':'主要结果','这篇论文哪里最强，哪里最危险':'优势与局限','代码从哪里读':'代码阅读','读完后记住这三件事':'带走三点'};
+headings.forEach((heading,index)=>{
  heading.id ||= `reading-section-${index}`;
- const item=document.createElement('li'),link=document.createElement('a');
- link.href=`#${heading.id}`;link.textContent=heading.textContent;
- link.addEventListener('click',()=>heading.closest('details')?.setAttribute('open',''));
- item.append(link);toc?.append(item);
+ const section=heading.closest<HTMLElement>('.paper-reader > section[id]');
+ const target=section?.id??heading.id;
+ heading.dataset.tocTarget=target;
+ const item=document.createElement('li'),link=document.createElement('a'),number=document.createElement('span'),label=document.createElement('span');
+ link.href=`#${target}`;number.className='toc-number';number.textContent=String(index+1).padStart(2,'0');label.textContent=names[heading.textContent?.trim()??'']??heading.textContent;link.append(number,label);item.append(link);toc?.append(item);
 });
+const setCurrent=(id:string)=>toc?.querySelectorAll('a').forEach(link=>{if(link.hash===`#${id}`)link.setAttribute('aria-current','location');else link.removeAttribute('aria-current');});
+if(headings[0])setCurrent(headings[0].dataset.tocTarget??headings[0].id);
+const observer=new IntersectionObserver(entries=>{const current=entries.filter(entry=>entry.isIntersecting).sort((a,b)=>a.boundingClientRect.top-b.boundingClientRect.top)[0];if(current)setCurrent((current.target as HTMLElement).dataset.tocTarget??current.target.id);},{rootMargin:'-5% 0px -70% 0px'});
+headings.forEach(heading=>observer.observe(heading));
 </script>
 <style>
-.reading-header{max-width:820px;margin-inline:auto;padding-block:2rem 3rem;border-bottom:1px solid var(--border);margin-bottom:2rem}.reading-header h1{font-size:clamp(2rem,4vw,3.4rem);line-height:1.3}.original-title{font-family:var(--font-display);font-size:1.4rem}.tag-row,.reading-links{display:flex;flex-wrap:wrap;gap:.75rem}.public-paper-management{margin-left:auto;position:relative;padding:12px;border:1px solid var(--border)}.public-paper-management[open]{background:var(--surface)}.reading-links a{min-height:44px;display:flex;align-items:center}
-.reading-layout{width:100%;min-width:0;max-width:1100px;margin-inline:auto}.reading-toc{display:none}.reading-layout :global(h2){scroll-margin-top:2rem}
-@media(min-width:1280px){.reading-layout{display:grid;grid-template-columns:minmax(0,820px) 220px;gap:3rem}.reading-toc{display:block;align-self:stretch}.reading-toc nav{position:sticky;top:2rem;max-height:calc(100vh - 4rem);overflow:auto;border-left:1px solid var(--border);padding-left:1.25rem}.reading-toc p{font-size:.8rem;letter-spacing:.08em;color:var(--muted)}.reading-toc ol{list-style:none;padding:0}.reading-toc a{display:block;font-size:.85rem;padding:.5rem 0;color:var(--text)}.reading-toc a:hover{color:var(--accent)}}
+.reading-topline{max-width:1004px;margin:0 auto;display:flex;align-items:center;gap:24px;padding-top:34px;font-size:10px;color:#9a9389}.reading-topline a{color:#938778}.reading-topline span{margin-left:10px}.reading-topline > a:last-child{margin-left:auto}
+.reading-header{max-width:1004px;margin:0 auto;padding:43px 0 35px;border-bottom:1px solid var(--border)}.reading-header .paper-overline{margin-bottom:18px}.reading-header h1{max-width:800px;text-wrap:balance;font:500 30px / 1.55 var(--font-sans);color:#38353b;margin:0;letter-spacing:.005em}.original-title{max-width:740px;font:13px / 1.8 Inter,sans-serif;color:#96918c;margin:14px 0 22px}.reading-authors{font:11px / 1.9 Inter,sans-serif;color:#8c8781;max-width:740px;margin:0 0 11px}.reading-publication{display:flex;align-items:center;flex-wrap:wrap;gap:15px;font-size:10px;color:#9b948c}.reading-publication>span+span{border-left:1px solid var(--border);padding-left:15px}.publication-note{font-size:10px;line-height:1.7;color:#9b948c;margin:12px 0 0;max-width:740px}.paper-versions{display:flex;gap:12px;align-items:center;font-size:11px;margin-top:18px}.paper-versions span{color:#9b948c}.paper-versions a{padding:5px 10px;border:1px solid var(--border);color:#8c7a62}.paper-versions a[aria-current]{color:#755b37;border-color:#b39b7c}.reading-links{display:flex;gap:27px;margin-top:27px}.reading-links a{display:flex;align-items:center;gap:12px;font-size:11px;color:#837055}.reading-links span{font-size:12px;color:#b4a58f}
+.reading-layout{width:100%;max-width:1004px;margin:0 auto;min-width:0;display:grid;grid-template-columns:minmax(0,720px) 210px;gap:74px;padding-top:7px}.reading-toc{display:block;align-self:stretch;min-width:0;padding-top:35px}.reading-toc nav{position:sticky;top:32px;max-height:calc(100vh - 70px);overflow:auto;padding-left:23px;border-left:1px solid #c0b6a725;scrollbar-width:thin}.reading-toc p{font-size:11px;font-weight:500;color:#8d806c;letter-spacing:.05em;margin:0 0 23px}.reading-toc p>span{display:block;font:8px / 1.5 Inter,sans-serif;letter-spacing:.12em;color:#b5aa9b;margin-bottom:7px}.reading-toc :global(ol){list-style:none;padding:0;margin:0}.reading-toc :global(a){display:flex;gap:13px;align-items:baseline;color:#82776b;font-size:12px;line-height:1.8;padding:8px 0;position:relative}.reading-toc :global(.toc-number){font:8px / 1.7 'JetBrains Mono',monospace;color:#bbb2a6;flex:none}.reading-toc :global(a[aria-current]){color:#756043}.reading-toc :global(a[aria-current])::before{content:'';position:absolute;left:-24px;height:15px;top:9px;width:2px;background:#a88d68}.reading-toc :global(a[aria-current] .toc-number){color:#a88d68}.reading-toc :global(a:hover){color:#756043}.reading-toc .toc-back{font-size:9px;margin-top:30px;color:#b0a594}.reading-layout :global(h2){scroll-margin-top:32px}
+@media(max-width:1100px){.reading-layout{grid-template-columns:minmax(0,1fr) 175px;gap:45px}.reading-header h1{font-size:30px}}
+@media(max-width:900px){.reading-layout{display:block}.reading-toc{display:none}.reading-header,.reading-topline{max-width:720px}.reading-header h1{font-size:28px}.reading-topline span{display:none}}
+@media(max-width:600px){.reading-header{padding:32px 0}.reading-header h1{font-size:25px}.original-title{font-size:12px}.reading-topline{padding-top:25px}.publication-note{font-size:10px;line-height:1.7;color:#9b948c;margin:12px 0 0;max-width:740px}.paper-versions{display:flex;gap:12px;align-items:center;font-size:11px;margin-top:18px}.paper-versions span{color:#9b948c}.paper-versions a{padding:5px 10px;border:1px solid var(--border);color:#8c7a62}.paper-versions a[aria-current]{color:#755b37;border-color:#b39b7c}.reading-links{gap:20px}}
 </style>

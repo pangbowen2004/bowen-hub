@@ -1,9 +1,1 @@
----
-import { GraphView } from "@bowen-hub/ui/react/GraphView";
-import { publicGraph } from "../components/paper";
-import BaseLayout from "../layouts/BaseLayout.astro";
-import { getCatalog, getGraph } from "../lib/data";
-
-const data = publicGraph(await getGraph(), (await getCatalog()).papers);
----
-<BaseLayout title="知识图谱" description="探索论文、概念与研究空间之间的明确关系"><header class="stack"><p class="eyebrow">关系与共现</p><h1 class="editorial-title">知识图谱</h1><p>从一个概念，走向另一篇论文。</p></header><GraphView data={data} client:visible/></BaseLayout>
+<!doctype html><html lang="zh-CN"><head><meta charset="UTF-8"/><meta http-equiv="refresh" content="0;url=/"/><meta name="robots" content="noindex"/><title>知识宇宙</title><link rel="canonical" href="https://bowen-paper-library.pages.dev/"/></head><body><a href="/">进入知识宇宙</a></body></html>

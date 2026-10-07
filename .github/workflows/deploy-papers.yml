@@ -2,7 +2,7 @@ name: deploy-papers
 on:
   push:
     branches: [main]
-    paths: ["apps/papers/**", "packages/ui/**", "infra/**", ".github/workflows/deploy-papers.yml"]
+    paths: ["apps/papers/**", "packages/ui/**", "config/paper_topics.json", "infra/**", ".github/workflows/deploy-papers.yml"]
   repository_dispatch:
     types: [papers-changed]
   workflow_dispatch:

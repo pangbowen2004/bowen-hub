@@ -41,9 +41,9 @@ export function PaperHeader({
         </p>
       )}
       <nav className="row" aria-label="论文入口">
-        <Link to="/papers">全部论文</Link>
+        <Link to="/papers">知识宇宙</Link>
+        <Link to="/papers/library">论文库</Link>
         <Link to="/papers/inbox">入库与待审</Link>
-        <Link to="/papers/graph">论文图谱</Link>
       </nav>
       {children}
     </header>

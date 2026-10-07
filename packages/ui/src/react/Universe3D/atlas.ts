@@ -1,11 +1,14 @@
 import type { GraphData, PaperSummary, PapersCatalog } from "@bowen-hub/contracts";
 
-export type AtlasPaper = PaperSummary & { concepts: { id: string; label: string }[] };
+export type AtlasPaper = PaperSummary & {
+  concepts: { id: string; label: string }[];
+  categoryIds?: string[];
+};
 export function atlasPapers(data: GraphData, catalog?: PapersCatalog): AtlasPaper[] {
   const concepts = new Map(data.nodes.filter((n) => n.kind === "concept").map((n) => [n.id, n]));
   return data.nodes
     .filter((n) => n.kind === "paper")
-    .map((n) => {
+    .map<AtlasPaper>((n) => {
       const summary = catalog?.papers.find((p) => p.id === n.id);
       return {
         ...(summary ?? {
@@ -31,5 +34,11 @@ export function atlasPapers(data: GraphData, catalog?: PapersCatalog): AtlasPape
           .filter((e) => e.type === "discusses" && e.source === n.id && concepts.has(e.target))
           .map((e) => ({ id: e.target, label: concepts.get(e.target)?.label ?? e.target })),
       };
-    });
+    })
+    .sort(
+      (a, b) =>
+        b.updatedAt.localeCompare(a.updatedAt) ||
+        (b.year ?? 0) - (a.year ?? 0) ||
+        a.id.localeCompare(b.id),
+    );
 }

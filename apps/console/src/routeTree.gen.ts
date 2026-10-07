@@ -20,6 +20,7 @@ import { Route as PapersIndexRouteImport } from './routes/papers/index'
 import { Route as PapersIdRouteImport } from './routes/papers/$id'
 import { Route as PapersGraphRouteImport } from './routes/papers/graph'
 import { Route as PapersInboxRouteImport } from './routes/papers/inbox'
+import { Route as PapersLibraryRouteImport } from './routes/papers/library'
 import { Route as NewsTickersSymbolRouteImport } from './routes/news/tickers/$symbol'
 
 const IndexRoute = IndexRouteImport.update({
@@ -77,6 +78,11 @@ const PapersInboxRoute = PapersInboxRouteImport.update({
   path: '/papers/inbox',
   getParentRoute: () => rootRouteImport,
 } as any)
+const PapersLibraryRoute = PapersLibraryRouteImport.update({
+  id: '/papers/library',
+  path: '/papers/library',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const NewsTickersSymbolRoute = NewsTickersSymbolRouteImport.update({
   id: '/news/tickers/$symbol',
   path: '/news/tickers/$symbol',
@@ -93,6 +99,7 @@ export interface FileRoutesByFullPath {
   '/papers/$id': typeof PapersIdRoute
   '/papers/graph': typeof PapersGraphRoute
   '/papers/inbox': typeof PapersInboxRoute
+  '/papers/library': typeof PapersLibraryRoute
   '/news/': typeof NewsIndexRoute
   '/papers/': typeof PapersIndexRoute
   '/news/tickers/$symbol': typeof NewsTickersSymbolRoute
@@ -107,6 +114,7 @@ export interface FileRoutesByTo {
   '/papers/$id': typeof PapersIdRoute
   '/papers/graph': typeof PapersGraphRoute
   '/papers/inbox': typeof PapersInboxRoute
+  '/papers/library': typeof PapersLibraryRoute
   '/news': typeof NewsIndexRoute
   '/papers': typeof PapersIndexRoute
   '/news/tickers/$symbol': typeof NewsTickersSymbolRoute
@@ -122,6 +130,7 @@ export interface FileRoutesById {
   '/papers/$id': typeof PapersIdRoute
   '/papers/graph': typeof PapersGraphRoute
   '/papers/inbox': typeof PapersInboxRoute
+  '/papers/library': typeof PapersLibraryRoute
   '/news/': typeof NewsIndexRoute
   '/papers/': typeof PapersIndexRoute
   '/news/tickers/$symbol': typeof NewsTickersSymbolRoute
@@ -138,6 +147,7 @@ export interface FileRouteTypes {
     | '/papers/$id'
     | '/papers/graph'
     | '/papers/inbox'
+    | '/papers/library'
     | '/news/'
     | '/papers/'
     | '/news/tickers/$symbol'
@@ -152,6 +162,7 @@ export interface FileRouteTypes {
     | '/papers/$id'
     | '/papers/graph'
     | '/papers/inbox'
+    | '/papers/library'
     | '/news'
     | '/papers'
     | '/news/tickers/$symbol'
@@ -166,6 +177,7 @@ export interface FileRouteTypes {
     | '/papers/$id'
     | '/papers/graph'
     | '/papers/inbox'
+    | '/papers/library'
     | '/news/'
     | '/papers/'
     | '/news/tickers/$symbol'
@@ -181,6 +193,7 @@ export interface RootRouteChildren {
   PapersIdRoute: typeof PapersIdRoute
   PapersGraphRoute: typeof PapersGraphRoute
   PapersInboxRoute: typeof PapersInboxRoute
+  PapersLibraryRoute: typeof PapersLibraryRoute
   NewsIndexRoute: typeof NewsIndexRoute
   PapersIndexRoute: typeof PapersIndexRoute
   NewsTickersSymbolRoute: typeof NewsTickersSymbolRoute
@@ -265,6 +278,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof PapersInboxRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/papers/library': {
+      id: '/papers/library'
+      path: '/papers/library'
+      fullPath: '/papers/library'
+      preLoaderRoute: typeof PapersLibraryRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/news/tickers/$symbol': {
       id: '/news/tickers/$symbol'
       path: '/news/tickers/$symbol'
@@ -285,6 +305,7 @@ const rootRouteChildren: RootRouteChildren = {
   PapersIdRoute: PapersIdRoute,
   PapersGraphRoute: PapersGraphRoute,
   PapersInboxRoute: PapersInboxRoute,
+  PapersLibraryRoute: PapersLibraryRoute,
   NewsIndexRoute: NewsIndexRoute,
   PapersIndexRoute: PapersIndexRoute,
   NewsTickersSymbolRoute: NewsTickersSymbolRoute,

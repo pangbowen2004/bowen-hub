@@ -1,8 +1,16 @@
 import { privatePapersGetCatalog, privatePapersPatchPaper } from "@bowen-hub/contracts/client";
 import { Button, Input } from "@bowen-hub/ui";
+import {
+  groupStudies,
+  publicationLabel,
+  topicContains,
+  topicPath,
+  visibleTaxonomy,
+} from "@bowen-hub/ui/react/Universe3D";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { Link } from "@tanstack/react-router";
 import { useState } from "react";
+import taxonomySource from "../../../../../config/paper_topics.json";
 import { allPapers, errorMessage, PaperHeader, QueryState, reviewLabels } from "./shared";
 export function ListPage() {
   const cache = useQueryClient();
@@ -39,14 +47,22 @@ export function ListPage() {
     },
     onSettled: () => void cache.invalidateQueries({ queryKey: ["papers"] }),
   });
-  const rows = (query.data ?? [])
+  const readable = (query.data ?? []).filter((p) => p.readingDepth !== "R0");
+  const groups = groupStudies(readable);
+  const taxonomy = visibleTaxonomy(
+    taxonomySource,
+    readable.map((p) => p.id),
+  );
+  const assignment = (id: string) => taxonomy.assignments.find((a) => a.paperId === id);
+  const rows = groups
+    .map((group) => group.paper)
     .filter(
       (paper) =>
         (!q ||
           `${paper.title} ${paper.titleZh ?? ""} ${paper.oneSentence ?? ""}`
             .toLocaleLowerCase()
             .includes(q.toLocaleLowerCase())) &&
-        (!space || paper.spaces.includes(space)) &&
+        (!space || topicContains(taxonomy.topics, assignment(paper.id)?.topicId ?? "", space)) &&
         (!visibility || paper.visibility === visibility) &&
         (!review || paper.review === review) &&
         (!depth || paper.readingDepth === depth) &&
@@ -63,17 +79,14 @@ export function ListPage() {
   ].sort((a, b) => b - a);
   return (
     <section className="papers-page">
-      <PaperHeader
-        title="把读过的论文，连成自己的理解。"
-        lead="从问题、机制和证据出发，继续每一次研究。"
-      />
+      <PaperHeader title="论文库" lead="" />
       <div className="paper-controls">
         <Input label="搜索论文" value={q} onChange={(event) => setQ(event.target.value)} />
         <label>
-          研究空间
+          研究主题
           <select value={space} onChange={(event) => setSpace(event.target.value)}>
-            <option value="">全部空间</option>
-            {catalog.data?.spaces.map((item) => (
+            <option value="">全部主题</option>
+            {taxonomy.topics.map((item) => (
               <option key={item.id} value={item.id}>
                 {item.label}
               </option>
@@ -145,7 +158,7 @@ export function ListPage() {
       />
       <div className="paper-list-toolbar">
         <p>
-          {rows.length} 篇论文 · 已选择 {selected.size} 篇
+          {rows.length} 项研究 · {readable.length} 个版本 · 已选择 {selected.size} 篇
         </p>
         <Button disabled={!selected.size || publish.isPending} onClick={() => publish.mutate()}>
           批量公开
@@ -175,7 +188,7 @@ export function ListPage() {
               选择
             </label>
             <p className="eyebrow">
-              {paper.venue} · {paper.year ?? "年份未注明"}
+              {[publicationLabel(paper.venue), paper.year].filter(Boolean).join(" · ")}
             </p>
             <h2>
               <Link to="/papers/$id" params={{ id: paper.id }}>
@@ -184,15 +197,23 @@ export function ListPage() {
             </h2>
             {paper.titleZh && <p className="paper-original-title">{paper.title}</p>}
             <p>{paper.oneSentence}</p>
+            {groups.find((group) => group.paper.id === paper.id)!.versions.length > 1 && (
+              <p className="muted">
+                {groups
+                  .find((group) => group.paper.id === paper.id)!
+                  .versions.map((version) => /-?v(\d+)$/.exec(version.id)?.[0].replace("-", ""))
+                  .join(" / ")}
+              </p>
+            )}
             <div className="row">
               <span className="paper-tag">
                 {paper.visibility === "public" ? "已公开" : "未公开"}
               </span>
               <span className="paper-tag">{reviewLabels[paper.review]}</span>
               <span className="paper-tag">{paper.readingDepth}</span>
-              {paper.spaces.map((value) => (
-                <span className="paper-tag" key={value}>
-                  {catalog.data?.spaces.find((item) => item.id === value)?.label ?? value}
+              {topicPath(taxonomy.topics, assignment(paper.id)?.topicId ?? "").map((topic) => (
+                <span className="paper-tag" key={topic.id}>
+                  {topic.label}
                 </span>
               ))}
             </div>
