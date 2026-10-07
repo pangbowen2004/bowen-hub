@@ -10,7 +10,7 @@ import type {
   InsiderTrade,
   NewsSourceHealth,
 } from "@bowen-hub/contracts";
-import { and, desc, eq, gte, lt, or, sql } from "drizzle-orm";
+import { and, asc, desc, eq, gte, lt, lte, or, sql } from "drizzle-orm";
 import {
   articles,
   calendarEvents,
@@ -20,6 +20,7 @@ import {
   filings,
   insiderTrades,
   newsSources,
+  watchItems,
 } from "../../db/schema/domain";
 import { database } from "../../lib/db";
 
@@ -196,6 +197,28 @@ export async function putCalendar(
   });
   const [first, ...rest] = statements;
   if (first) await db.batch([first, ...rest]);
+}
+export async function listCalendar(
+  binding: D1Database,
+  from: string,
+  to: string,
+): Promise<CalendarEvent[]> {
+  const rows = await database(binding)
+    .select({ payload: calendarEvents.payload })
+    .from(calendarEvents)
+    .leftJoin(watchItems, eq(calendarEvents.sourceKey, watchItems.symbol))
+    .where(
+      and(
+        gte(calendarEvents.date, from),
+        lte(calendarEvents.date, to),
+        or(
+          sql`${calendarEvents.kind} != 'earnings'`,
+          and(eq(watchItems.active, true), eq(watchItems.kind, "stock")),
+        ),
+      ),
+    )
+    .orderBy(asc(calendarEvents.date), asc(calendarEvents.sourceKey));
+  return rows.map((row) => JSON.parse(row.payload) as CalendarEvent);
 }
 export async function putEarnings(
   binding: D1Database,

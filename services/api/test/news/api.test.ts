@@ -12,6 +12,7 @@ import { beforeEach, expect, it } from "vitest";
 import { app } from "../../src/app";
 import { tools } from "../../src/modules/news/mcp";
 import * as service from "../../src/modules/news/service";
+import * as watchlistRepo from "../../src/modules/watchlist/repo";
 import { authenticatedCookie } from "../auth/fixture";
 
 const now = new Date().toISOString();
@@ -106,6 +107,83 @@ beforeEach(async () => {
     "news_sources",
   ])
     await env.DB.prepare(`DELETE FROM ${table}`).run();
+});
+
+it("私有月历按日期读，不公开名单，隐藏停用股票与ETF的财报", async () => {
+  await env.DB.prepare("DELETE FROM watch_items").run();
+  await watchlistRepo.putMany(env.DB, [
+    {
+      symbol: "NVDA",
+      name: "英伟达",
+      kind: "stock",
+      group: "测试",
+      active: true,
+      aliases: [],
+      underlying: null,
+      sectorEtf: null,
+    },
+    {
+      symbol: "AAPL",
+      name: "苹果",
+      kind: "stock",
+      group: "测试",
+      active: false,
+      aliases: [],
+      underlying: null,
+      sectorEtf: null,
+    },
+    {
+      symbol: "SOXX",
+      name: "半导体ETF",
+      kind: "etf",
+      group: "测试",
+      active: true,
+      aliases: [],
+      underlying: null,
+      sectorEtf: null,
+    },
+  ]);
+  const calendar: CalendarEvent[] = [
+    ...["NVDA", "AAPL", "SOXX"].map(
+      (symbol): CalendarEvent => ({
+        kind: "earnings",
+        date: "2026-10-29",
+        title: symbol,
+        tickers: [symbol],
+        fredReleaseId: null,
+        at: null,
+        timing: null,
+        importance: "unspecified",
+      }),
+    ),
+    {
+      kind: "macro",
+      date: "2026-10-14",
+      title: "美国 CPI",
+      tickers: [],
+      fredReleaseId: 10,
+      at: "2026-10-14T12:30:00Z",
+      timing: "08:30",
+      importance: "high",
+    },
+    {
+      kind: "macro",
+      date: "2026-11-10",
+      title: "美国 CPI",
+      tickers: [],
+      fredReleaseId: 10,
+      at: "2026-11-10T13:30:00Z",
+      timing: "08:30",
+      importance: "high",
+    },
+  ];
+  expect((await internal("calendar/batch", "POST", calendar)).status).toBe(204);
+  const path = "/v1/calendar/events?from=2026-10-01&to=2026-10-31";
+  const response = schemas.CalendarEvent.array().parse(await (await request(path)).json());
+  expect(response.map((event) => event.title)).toEqual(["美国 CPI", "NVDA"]);
+  expect((await request("/v1/calendar/events?from=2026-11-01&to=2026-10-01")).status).toBe(400);
+  expect((await request("/v1/calendar/events?from=bad&to=2026-10-01")).status).toBe(400);
+  expect((await app.request(`http://localhost${path}`, {}, env)).status).toBe(401);
 });
 
 it("期次覆盖写入、同日稳定游标分页、版次筛选及旧存档null时间", async () => {

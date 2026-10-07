@@ -87,6 +87,15 @@ jobs:
           if [[ "$NEWS_FORCE" == "true" ]]; then args+=(--force); fi
           mise exec -- uv run --project py --no-sync hub "${args[@]}"
 
+      - name: 刷新控制台本月与下月日程（不重发新闻）
+        env:
+          NEWS_DATE: ${{ inputs.date }}
+        shell: bash
+        run: |
+          args=(news calendar)
+          if [[ -n "$NEWS_DATE" ]]; then args+=(--date "$NEWS_DATE"); fi
+          mise exec -- uv run --project py --no-sync hub "${args[@]}"
+
       - name: 保存套餐续期会话（失败时也保存）
         if: always() && steps.subscription.outputs.restored == 'true'
         uses: ./.github/actions/subscription-auth

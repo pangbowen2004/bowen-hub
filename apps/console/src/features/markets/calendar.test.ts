@@ -1,6 +1,14 @@
 import type { MarketEvent } from "@bowen-hub/contracts";
 import { describe, expect, it } from "vitest";
-import { chronological, dateKey, monthWeeks, shiftMonth, weekBars } from "./calendar";
+import {
+  chronological,
+  combinedEvents,
+  dateKey,
+  isOngoing,
+  monthWeeks,
+  shiftMonth,
+  weekBars,
+} from "./calendar";
 
 const event = (id: string, startDate: string, endDate: string): MarketEvent => ({
   id,
@@ -51,5 +59,53 @@ describe("月历", () => {
     ];
     expect(chronological(rows).map((row) => row.id)).toEqual(["early", "late"]);
     expect(rows[0]!.id).toBe("late");
+  });
+  it("只有超过14天或月份精度的事项移出每周横条", () => {
+    expect(isOngoing(event("完整14天", "2026-10-01", "2026-10-14"))).toBe(false);
+    expect(isOngoing(event("15天", "2026-10-01", "2026-10-15"))).toBe(true);
+    for (const title of ["预计9—10月公布", "计划于10月推出", "预计2026年10月交付"])
+      expect(isOngoing(event(title, "2026-10-01", "2026-10-01"))).toBe(true);
+    expect(isOngoing(event("计划于10月8日发布", "2026-10-08", "2026-10-08"))).toBe(false);
+  });
+  it("美国事件按美东时刻排序，同一FOMC会议不重复", () => {
+    const events = combinedEvents(
+      [event("FOMC 会议", "2026-10-27", "2026-10-28")],
+      [
+        {
+          kind: "fomc",
+          date: "2026-10-28",
+          at: "2026-10-28T18:00:00Z",
+          fredReleaseId: 101,
+          title: "FOMC 利率决议",
+          tickers: [],
+          timing: "14:00",
+          importance: "high",
+        },
+        {
+          kind: "earnings",
+          date: "2026-10-28",
+          at: null,
+          fredReleaseId: null,
+          title: "META",
+          tickers: ["META"],
+          timing: "amc",
+          importance: "unspecified",
+        },
+        {
+          kind: "macro",
+          date: "2026-10-28",
+          at: "2026-10-28T12:30:00Z",
+          fredReleaseId: 10,
+          title: "美国 CPI",
+          tickers: [],
+          timing: "08:30",
+          importance: "high",
+        },
+      ],
+    );
+    expect(events).toHaveLength(3);
+    expect(events.every((event) => event.market === "us")).toBe(true);
+    expect(events.find((event) => event.title === "FOMC 会议")?.timing).toBe("10/28 美东 14:00");
+    expect(events.slice(1).map((event) => event.title)).toEqual(["美国 CPI", "META 财报"]);
   });
 });

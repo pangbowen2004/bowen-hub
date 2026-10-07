@@ -23,6 +23,10 @@ async function body<T extends z.ZodType>(c: Context<AppEnv>, schema: T): Promise
   }
 }
 export const handlers: Record<string, Handler<AppEnv>> = {
+  PrivateCalendar_listEvents: async (c) => {
+    const { from, to } = parse(schemas.PrivateCalendarListEventsQueryParams, c.req.query());
+    return c.json(await service.listCalendar(c.env.DB, from, to));
+  },
   PrivateNews_listEditions: async (c) => {
     const query = parse(schemas.PrivateNewsListEditionsQueryParams, c.req.query());
     return c.json(await service.listEditions(c.env.DB, query.limit, query.kind, query.cursor));

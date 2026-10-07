@@ -22,7 +22,9 @@ for (const path of [
     await expect(page.locator("body")).not.toContainText(/Bowen/i);
     if (path === "/markets/events")
       await expect(
-        page.locator(".calendar-event").filter({ hasText: "样例：产业应用验证窗口" }).first(),
+        page.getByRole("region", { name: "本月持续事项" }).getByRole("button", {
+          name: /样例：产业应用验证窗口/,
+        }),
       ).toBeVisible();
     else if (path === "/login")
       await expect(page.getByRole("button", { name: "使用通行密钥登录" })).toBeVisible();

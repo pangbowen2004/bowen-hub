@@ -10,6 +10,11 @@
 logs/
 out/
 
+# 本机视觉审阅资料
+docs/design-refs/
+docs/design-prototypes/
+docs/design-concepts/
+
 # Python
 .venv/
 __pycache__/
