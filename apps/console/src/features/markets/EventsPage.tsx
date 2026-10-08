@@ -1,8 +1,16 @@
-import type { MarketEvent } from "@bowen-hub/contracts";
-import { publicMarketsListEvents } from "@bowen-hub/contracts/client";
+import { privateCalendarListEvents, publicMarketsListEvents } from "@bowen-hub/contracts/client";
 import { useQuery } from "@tanstack/react-query";
 import { useEffect, useRef, useState } from "react";
-import { chronological, dateKey, monthStart, monthWeeks, shiftMonth, weekBars } from "./calendar";
+import {
+  type CalendarEntry,
+  combinedEvents,
+  dateKey,
+  isOngoing,
+  monthStart,
+  monthWeeks,
+  shiftMonth,
+  weekBars,
+} from "./calendar";
 import "./events.css";
 
 const status = { confirmed: "已确认", pending: "待确认" } as const;
@@ -14,7 +22,7 @@ export function EventsPage() {
     day: "2-digit",
   }).format(new Date());
   const [month, setMonth] = useState(() => monthStart(new Date(`${todayKey}T00:00:00Z`)));
-  const [selected, setSelected] = useState<MarketEvent | null>(null);
+  const [selected, setSelected] = useState<CalendarEntry | null>(null);
   const dialog = useRef<HTMLDialogElement>(null);
   const query = useQuery({
     queryKey: ["market-events"],
@@ -23,9 +31,16 @@ export function EventsPage() {
   const weeks = monthWeeks(month),
     prefix = dateKey(month).slice(0, 7);
   const end = dateKey(new Date(Date.UTC(month.getUTCFullYear(), month.getUTCMonth() + 1, 0)));
-  const events = chronological(query.data ?? []).filter(
+  const usQuery = useQuery({
+    queryKey: ["news-calendar", dateKey(month), end],
+    queryFn: ({ signal }) =>
+      privateCalendarListEvents({ from: dateKey(month), to: end }, { signal }),
+  });
+  const events = combinedEvents(query.data ?? [], usQuery.data ?? []).filter(
     (event) => event.startDate <= end && event.endDate >= dateKey(month),
   );
+  const ongoing = events.filter(isOngoing),
+    dated = events.filter((event) => !isOngoing(event));
   useEffect(() => {
     if (selected) dialog.current?.showModal();
   }, [selected]);
@@ -54,14 +69,42 @@ export function EventsPage() {
           </button>
         </div>
       </header>
-      {query.isPending && <p role="status">正在加载事件…</p>}
-      {query.error && (
+      {(query.isPending || usQuery.isPending) && <p role="status">正在加载事件…</p>}
+      {(query.error || usQuery.error) && (
         <p role="alert">
-          事件加载失败。
-          <button type="button" onClick={() => void query.refetch()}>
+          {query.error ? "A 股事件加载失败。" : "美股日程加载失败。"}
+          <button
+            type="button"
+            onClick={() => {
+              void query.refetch();
+              void usQuery.refetch();
+            }}
+          >
             重试
           </button>
         </p>
+      )}
+      <section className="calendar-legend" aria-label="市场颜色">
+        <span className="market-a">A 股</span>
+        <span className="market-us">美股</span>
+        <small>日期按各市场当地时间；美国发布时刻标注美东时间</small>
+      </section>
+      {ongoing.length > 0 && (
+        <section className="calendar-ongoing" aria-label="本月持续事项">
+          <h2>本月持续事项</h2>
+          <div>
+            {ongoing.map((event) => (
+              <button
+                type="button"
+                key={event.id}
+                className={`ongoing-item market-${event.market}`}
+                onClick={() => setSelected(event)}
+              >
+                {event.title}
+              </button>
+            ))}
+          </div>
+        </section>
       )}
       <div className="calendar-scroll">
         <section
@@ -95,11 +138,11 @@ export function EventsPage() {
                 ))}
               </div>
               <div className="calendar-bars">
-                {weekBars(days, events).map((bar) => (
+                {weekBars(days, dated).map((bar) => (
                   <button
                     type="button"
                     key={bar.event.id}
-                    className={`calendar-event ${bar.event.status}`}
+                    className={`calendar-event market-${bar.event.market}`}
                     style={{
                       gridColumn: `${bar.start + 1} / ${bar.end + 2}`,
                       gridRow: bar.lane + 1,
@@ -109,6 +152,7 @@ export function EventsPage() {
                   >
                     {bar.continuesBefore && <span aria-hidden="true">← </span>}
                     {bar.event.title}
+                    {bar.event.timing && <small>{bar.event.timing}</small>}
                     {bar.continuesAfter && <span aria-hidden="true"> →</span>}
                   </button>
                 ))}
@@ -120,13 +164,15 @@ export function EventsPage() {
       <section className="events-agenda" aria-label="本月事件列表">
         <header>
           <h2>本月日程</h2>
-          <span>{events.length} 项</span>
+          <span>{dated.length} 项</span>
         </header>
-        {!query.isPending && !query.error && !events.length && (
-          <p className="muted">本月暂无事件。</p>
-        )}
-        {events.map((event) => (
-          <article key={event.id}>
+        {!query.isPending &&
+          !usQuery.isPending &&
+          !query.error &&
+          !usQuery.error &&
+          !dated.length && <p className="muted">本月暂无事件。</p>}
+        {dated.map((event) => (
+          <article key={event.id} className={`market-${event.market}`}>
             <time dateTime={event.startDate}>
               {event.startDate.slice(5).replace("-", "/")}
               {event.endDate !== event.startDate && (
@@ -140,6 +186,8 @@ export function EventsPage() {
                 </button>
               </h3>
               <p>
+                <span className="agenda-market">{event.market === "us" ? "美股" : "A 股"}</span>{" "}
+                {event.timing && <span>· {event.timing} </span>}
                 {event.sourceLabel} <span>· {status[event.status]}</span>
               </p>
             </div>
@@ -180,6 +228,7 @@ export function EventsPage() {
             <h2>{selected.title}</h2>
             <p className="event-date">
               {selected.startDate} — {selected.endDate}
+              {selected.timing && <> · {selected.timing}</>}
             </p>
             <p>
               {selected.sourceUrl ? (

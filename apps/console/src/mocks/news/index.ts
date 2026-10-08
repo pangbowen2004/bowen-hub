@@ -50,6 +50,37 @@ window.addEventListener("hub-mock-publish-edition", () => {
   }
 });
 export const newsHandlers = [
+  http.get("/v1/calendar/events", ({ request }) => {
+    const params = new URL(request.url).searchParams;
+    const events = [
+      {
+        kind: "macro",
+        date: "2026-10-14",
+        at: "2026-10-14T12:30:00Z",
+        fredReleaseId: 10,
+        title: "美国 CPI",
+        tickers: [],
+        timing: "08:30",
+        importance: "high",
+      },
+      {
+        kind: "earnings",
+        date: "2026-10-29",
+        at: null,
+        fredReleaseId: null,
+        title: "AAPL",
+        tickers: ["AAPL"],
+        timing: "amc",
+        importance: "unspecified",
+      },
+    ];
+    return HttpResponse.json(
+      events.filter(
+        (event) =>
+          event.date >= (params.get("from") ?? "") && event.date <= (params.get("to") ?? ""),
+      ),
+    );
+  }),
   http.get("/v1/news/editions", ({ request }) => {
     const search = new URL(request.url).searchParams;
     const kind = search.get("kind");

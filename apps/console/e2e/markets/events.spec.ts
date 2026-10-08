@@ -12,8 +12,10 @@ test("月历跨周横条、只读详情与日期切换", async ({ page }) => {
   await expect(page.locator(".calendar-weekdays > span")).toHaveCount(7);
   await expect(
     page.locator(".calendar-event").filter({ hasText: "样例：产业应用验证窗口" }),
-  ).toHaveCount(5);
-  await page.locator(".calendar-event").first().click();
+  ).toHaveCount(0);
+  const ongoing = page.getByRole("region", { name: "本月持续事项" });
+  await expect(ongoing.getByRole("button", { name: "样例：产业应用验证窗口" })).toHaveCount(1);
+  await ongoing.getByRole("button", { name: "样例：产业应用验证窗口" }).click();
   const dialog = page.getByRole("dialog", { name: "事件详情" });
   await expect(dialog).toBeVisible();
   await expect(dialog.getByText("公开来源验证应用进展", { exact: true })).toBeVisible();
@@ -23,6 +25,12 @@ test("月历跨周横条、只读详情与日期切换", async ({ page }) => {
   );
   await page.keyboard.press("Escape");
   await expect(dialog).not.toBeVisible();
+  await expect(
+    page.locator(".calendar-event.market-us").filter({ hasText: "美国 CPI" }),
+  ).toHaveCount(1);
+  await page.locator(".calendar-event").filter({ hasText: "美国 CPI" }).click();
+  await expect(dialog.getByText("2026-10-14 — 2026-10-14 · 美东 08:30")).toBeVisible();
+  await page.keyboard.press("Escape");
   await page.getByRole("button", { name: "下个月" }).click();
   await expect(page.getByRole("heading", { name: "2026 年 11 月" })).toBeVisible();
   await expect(page.getByText("本月暂无事件。")).toBeVisible();

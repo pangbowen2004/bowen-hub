@@ -111,6 +111,12 @@ class MacroRules(BaseModel):
     fomcStatementTimeEt: str
 
 
+class CalendarRules(BaseModel):
+    releaseNames: list[str]
+    fomcRelease: MacroRelease
+    symbolAliases: dict[str, list[str]]
+
+
 class NewsroomRules(BaseModel):
     timezone: str
     usMarket: dict[str, str]
@@ -121,6 +127,7 @@ class NewsroomRules(BaseModel):
     filings: FilingRules
     macro: MacroRules
     megaCaps: list[str]
+    calendar: CalendarRules
 
 
 class LanguageKeywords(BaseModel):

@@ -32,6 +32,67 @@
 .calendar-scroll {
   overflow: auto;
 }
+.market-a {
+  --event-color: #568176;
+}
+.market-us {
+  --event-color: #637aaf;
+}
+.calendar-legend {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  margin-bottom: 18px;
+  font-size: 12px;
+}
+.calendar-legend > span::before {
+  content: "";
+  display: inline-block;
+  width: 7px;
+  height: 7px;
+  margin-right: 7px;
+  background: var(--event-color);
+  border-radius: 50%;
+}
+.calendar-legend small {
+  margin-left: auto;
+  color: var(--muted);
+  font-size: 11px;
+}
+.calendar-ongoing {
+  display: flex;
+  align-items: baseline;
+  gap: 22px;
+  padding: 14px 16px;
+  margin-bottom: 16px;
+  border: 1px solid var(--border);
+  background: var(--surface);
+}
+.calendar-ongoing h2 {
+  margin: 0;
+  font-size: 12px;
+  font-weight: 500;
+  white-space: nowrap;
+  color: var(--muted);
+}
+.calendar-ongoing > div {
+  display: flex;
+  min-width: 0;
+  overflow-x: auto;
+  gap: 8px 16px;
+}
+.ongoing-item {
+  flex: 0 0 auto;
+  white-space: nowrap;
+  border: 0;
+  border-left: 2px solid var(--event-color);
+  background: none;
+  padding: 0 0 0 9px;
+  color: var(--text);
+  font: 12px / 1.7 var(--font-sans);
+  text-align: left;
+  cursor: pointer;
+}
 .month-grid {
   border: 1px solid var(--border);
   min-width: 640px;
@@ -97,8 +158,8 @@
 .calendar-event {
   margin: 0 5px;
   border: 0;
-  border-left: 2px solid #b9a079;
-  background: color-mix(in srgb, #b9a079 12%, var(--bg));
+  border-left: 2px solid var(--event-color);
+  background: color-mix(in srgb, var(--event-color) 11%, var(--bg));
   color: var(--text);
   padding: 7px 9px;
   font: 11px / 1.55 var(--font-sans);
@@ -107,9 +168,11 @@
   overflow-wrap: anywhere;
   min-width: 0;
 }
-.calendar-event.confirmed {
-  border-left-color: #769287;
-  background: color-mix(in srgb, #769287 12%, var(--bg));
+.calendar-event small {
+  display: block;
+  margin-top: 2px;
+  font: 10px / 1.5 var(--font-mono);
+  color: var(--muted);
 }
 .calendar-event:hover {
   filter: brightness(0.94);
@@ -162,6 +225,9 @@
   font-size: 11px;
   color: var(--muted);
   margin: 8px 0 0;
+}
+.agenda-market {
+  color: var(--event-color);
 }
 .event-dialog {
   width: min(520px, calc(100vw - 40px));

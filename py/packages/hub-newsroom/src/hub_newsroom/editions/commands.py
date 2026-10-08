@@ -3,7 +3,9 @@
 import asyncio
 import os
 from datetime import date as Date
+from datetime import datetime
 from pathlib import Path
+from zoneinfo import ZoneInfo
 
 import typer
 from pydantic import BaseModel
@@ -20,6 +22,7 @@ from hub_newsroom.common.settings import parse_settings
 from hub_newsroom.pipeline.windows import EditionKind
 from hub_providers.common.config import sources_config
 
+from .calendar import refresh_calendar
 from .collect import Collector
 from .repository import NewsApi, Repository
 from .service import Options, PublicationError, Publisher
@@ -39,6 +42,31 @@ def register(groups: dict[str, typer.Typer]) -> None:
     groups["news"].command("morning")(morning)
     groups["news"].command("premarket")(premarket)
     groups["news"].command("weekly")(weekly)
+    groups["news"].command("calendar")(calendar)
+
+
+def calendar(date: str | None = None) -> None:
+    """刷新本月与下月日程，不调用 AI、不生成新闻、不发送邮件。"""
+    api_http, source_http = HttpClient(), HttpClient()
+    try:
+        day = Date.fromisoformat(date) if date else datetime.now(ZoneInfo("Asia/Singapore")).date()
+        root = find_root()
+        environment = Settings()
+        settings = parse_settings(
+            load_config(root / "config/newsroom.yaml"),
+            load_config(root / "config/news_keywords.yaml"),
+            load_config(root / "config/news_sources.yaml"),
+        )
+        stocks, events = refresh_calendar(
+            day, environment, settings, Repository(NewsApi(environment, api_http)), source_http
+        )
+        typer.echo(f"已核对 {stocks} 只活跃股票，保存 {events} 项日程；未改写新闻版次或发送邮件")
+    except Exception as error:
+        typer.echo(f"日历刷新未完成（{type(error).__name__}）", err=True)
+        raise typer.Exit(1) from None
+    finally:
+        api_http.close()
+        source_http.close()
 
 
 def morning(

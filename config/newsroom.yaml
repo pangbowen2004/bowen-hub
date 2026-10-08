@@ -116,6 +116,15 @@ macro:
 # 人工维护，每季度按市值看一眼。
 megaCaps: [AAPL, MSFT, NVDA, GOOGL, GOOG, AMZN, META, AVGO, TSLA, TSM, BRK.B, LLY, JPM, V, MA, WMT, ORCL, NFLX, COST, XOM]
 
+# 控制台月历复用同一供应商；不扩大邮件里的当日事件窗口。
+calendar:
+  releaseNames: ["Consumer Price Index", "Employment Situation"]
+  fomcRelease: { fredName: "FOMC Press Release", label: "FOMC 利率决议", timeEt: "14:00" }
+  # Finnhub 对部分公司返回主上市地或另一股类代码，显式映射，不猜其他证券。
+  symbolAliases:
+    GOOG: [GOOGL]
+    TSM: [2330.TW]
+
 # no_advice 校验的词表（docs/10 第 5.2 节）：出现这些说法的句子会被删掉。
 # 只拦“给读者的建议”这类祈使说法，不拦新闻事实（“分析师上调目标价”“伯克希尔减仓苹果”都是事实，可以写）。
 adviceWords: [建议买入, 建议卖出, 建议持有, 建议加仓, 建议减仓, 建议止损, 可以买入, 可以卖出, 值得买入,

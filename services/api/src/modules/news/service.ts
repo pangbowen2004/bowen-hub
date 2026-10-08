@@ -76,6 +76,15 @@ export async function listEditions(
         : null,
   };
 }
+
+export async function listCalendar(
+  binding: D1Database,
+  from: string,
+  to: string,
+): Promise<CalendarEvent[]> {
+  if (from > to) throw new ApiError(400, "开始日期不能晚于结束日期");
+  return repo.listCalendar(binding, from, to);
+}
 export async function getEdition(binding: D1Database, id: string): Promise<string> {
   const payload = await repo.getEdition(binding, id);
   if (payload === null) throw new ApiError(404, "期次不存在");
