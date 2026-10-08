@@ -6,7 +6,7 @@
 
 - 两公开站于 10/7 真实 G3 切换：<https://bowen-market-observatory.pages.dev/>、<https://bowen-paper-library.pages.dev/>；`SITES_LIVE=true`。正式私人控制台：<https://bowen-console.pages.dev/>。
 - Cloudflare 时钟 PR128 已在现有 Worker 部署；真实派发早报、盘前和备份成功，GitHub 原定时备用。六业务工作流 active，周评测与一次性探测继续停用。
-- 控制台 PR130 只保留今日/新闻室/论文/事件日历，账户弹层保留通行密钥与 MCP 授权；论文 PR131 已上线，公开 A 范围原 19 篇，后台 88 份可读版本/87 项研究，表格截图、目录和导出保留。
+- 控制台 PR130 只保留今日/新闻室/论文/事件日历，账户弹层保留通行密钥与 MCP 授权；论文 PR131 已上线。Kevin 10/8 改为公开范围 B，全部 88 份可读版本/87 项研究已发布；表格截图、目录和导出保留，私人笔记仍需登录。见 [范围 B 发布](paper-scope-b.md)。
 - 日历 PR132/133 已部署：长期/月精度事项单列，Finnhub 财报与 FRED CPI/非农/FOMC 真实数据入历，A 股/美股分色。设计材料三个目录已忽略，公开历史零进入；11 个已合并旧工作树已清理。
 - 上述实现各有本机检查、CI 及实际生产核对；精确运行见 [论文](paper-final.md)、[控制台](console-final.md)、[日历](calendar-polish.md)、[Cloudflare](cloud-clock.md)，不重复评测或上线。
 - T51 的 65 日/14 周报回填、61 假设/79 事件迁移、9 条旧待决结算已完成；7 月 23 个缺方向历史日如实保留 partial。
