@@ -13,3 +13,11 @@
 - 六项业务workflow均active，evals-weekly和schedule-probe保持停用；10/7与10/8真实production-observation均problems=[]，起点不变，未提前计满14天。
 - CNBC403、Nasdaq与国债收益率超时、VentureBeat429、36氪解析失败延续上期，失败保留；没有新增来源故障，不把工作流绿灯写成所有来源均正常。
 - 10/8 A股收盘17:05起、当晚盘前及10/12周报待实际运行；凌晨正常窗口外跳过不算当天收盘或盘前成功。
+
+## 10月8日晚间实际核对
+- 23:26新加坡只读核对：六项业务workflow均active；evals-weekly、schedule-probe继续停用，过去24小时已完成的GitHub运行无新增失败。
+- A股收盘：Cloudflare19:41:17派发[37771708198](https://github.com/pangbowen2004/bowen-hub/actions/runs/37771708198)，19:42完整产出，D1 complete=1、missing=[]、16方向；前四次缺方向的阶段产出保留，不计为完整收盘。
+- 自动[生产部署37771844023](https://github.com/pangbowen2004/bowen-hub/actions/runs/37771844023)19:47成功，正式首页为10/8“普跌收缩，广度与量能同步转弱”，与930611ba部署内容一致；未手动派发或重跑。
+- 盘前：Cloudflare20:51:24派发[37779894633](https://github.com/pangbowen2004/bowen-hub/actions/runs/37779894633)，premarket-2026-10-08于20:56:52获SMTP接收，8项有效中文消息、正文972字；另1项明确无直接消息，校验失败的内容丢弃，未回退英文。
+- Cloudflare23:21实际clock-daily四项均已产出；23:11 production-observation problems=[]，10/7观察起点不变；两公开首页HTTP200，论文首页仍为范围B的87项研究。
+- 五期早报仍为10/7–11中的2/5，10/12周报待正常运行；本人收件箱、新闻≤10分钟、收盘≤3分钟及论文≤30秒均待本人验证，既有来源故障和迟到记录不覆盖。
