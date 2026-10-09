@@ -21,3 +21,12 @@
 - 盘前：Cloudflare20:51:24派发[37779894633](https://github.com/pangbowen2004/bowen-hub/actions/runs/37779894633)，premarket-2026-10-08于20:56:52获SMTP接收，8项有效中文消息、正文972字；另1项明确无直接消息，校验失败的内容丢弃，未回退英文。
 - Cloudflare23:21实际clock-daily四项均已产出；23:11 production-observation problems=[]，10/7观察起点不变；两公开首页HTTP200，论文首页仍为范围B的87项研究。
 - 五期早报仍为10/7–11中的2/5，10/12周报待正常运行；本人收件箱、新闻≤10分钟、收盘≤3分钟及论文≤30秒均待本人验证，既有来源故障和迟到记录不覆盖。
+
+## 10月9日实际核对
+- 23:13新加坡只读核对六项业务workflow均active，evals-weekly、schedule-probe继续停用；过去24小时已完成运行无新增失败。
+- Cloudflare03:31:05派发[备份37832550005](https://github.com/pangbowen2004/bowen-hub/actions/runs/37832550005)，03:32已提交远端；07:10:43派发[早报37857953179](https://github.com/pangbowen2004/bowen-hub/actions/runs/37857953179)，07:19:33获SMTP接收，D1与日志相互印证。
+- morning-2026-10-09含9项个股及1项国际中文摘要、正文2261字，30/30活跃行情有效（含BTC、XRP）；五期窗口已记录3/5，后到的GitHub备用定时正常跳过，未重发或覆盖。
+- A股[37925269074](https://github.com/pangbowen2004/bowen-hub/actions/runs/37925269074)19:42完整产出、无缺失且16方向齐备；自动[生产37925374883](https://github.com/pangbowen2004/bowen-hub/actions/runs/37925374883)19:46成功，正式首页为10/9“涨跌分化，市场仍在寻找一致方向”，与05df14f6部署一致；早期四份缺方向产出留档。
+- Cloudflare20:51:11派发[盘前37932780199](https://github.com/pangbowen2004/bowen-hub/actions/runs/37932780199)，20:56:10获SMTP接收，8项有效中文消息、正文965字，另3项明确无直接消息；校验未通过的内容丢弃，未回退英文。
+- 23:11 clock-daily四项均已产出；22:51 production-observation problems=[]，10/7–9实际观察记录保留、起点不变，论文公开范围仍为B的88版本/87研究。
+- 五项既有来源故障延续，无新增来源故障；10/12新闻周报及本人收件、阅读耗时待验证，正式29/31不变，未重跑业务、CI或评测，旧系统继续保留。
