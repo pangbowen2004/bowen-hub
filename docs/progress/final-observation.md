@@ -50,3 +50,14 @@
 - 周日A股休市、美股无开盘；两公开首页HTTP200，A股保留10/9完整收盘、16方向且与05df14f6部署一致，论文保持范围B的88版本/87研究。
 - Cloudflare23:11 clock-daily早报、备份已产出，23:01 production-observation problems=[]；这些检查未覆盖行情内容，不能据此抹去上述失败，10/7观察起点不变。
 - 五项既有来源故障延续；10/12周报待周一早报真实运行，正式29/31不变，未手动触发业务、CI或部署，旧系统继续保留。
+
+## 10月12日实际核对
+- 23:18新加坡只读核对六项业务workflow均active，evals-weekly、schedule-probe继续停用；已发送版次的备用定时正常跳过。
+- Cloudflare03:31:07派发[备份38168362407](https://github.com/pangbowen2004/bowen-hub/actions/runs/38168362407)，03:32提交远端；07:10:36派发[早报38183288792](https://github.com/pangbowen2004/bowen-hub/actions/runs/38183288792)，07:15:27获SMTP接收，8项有效个股及7项国际中文摘要、正文2222字，另4项明确无直接消息。
+- 同一早报运行内的weekly-2026-10-12于07:57:04获SMTP接收，7项个股及5项国际中文摘要、正文3687字；28只股票/ETF周涨跌有效，BTC/XRP无周行情，未把周报记为独立cron派发。
+- 周一早报仍缺收盘快照，延续10/11已通知的weekend/lookahead旧规则问题；不补跑覆盖，固定10/7–11五期完整行情仍4/5，本人收件及阅读耗时待验证。
+- A股[38243232562](https://github.com/pangbowen2004/bowen-hub/actions/runs/38243232562)19:32完整产出、无缺失且16方向齐备；自动[生产38243331653](https://github.com/pangbowen2004/bowen-hub/actions/runs/38243331653)19:37成功，正式首页为10/12“普跌收缩，广度与量能同步转弱”，与e389b288部署一致；此前四份缺方向产出留档。
+- 新失败：[盘前38252811125](https://github.com/pangbowen2004/bowen-hub/actions/runs/38252811125)由Cloudflare21:01派发，21:06归档阶段请求失败，生成4项中文、649字但sent=false，D1无当日盘前版次；不是已确认的邮件服务器故障。
+- Cloudflare21:32记录截止缺产出并发告警，22:41 production-observation problems=[news-premarket]；失败保留，10/7观察起点不变，不能称连续正常或提前停旧。
+- 业务日志仅保留SourceRequestError类型，具体接口/HTTP状态未确认；现有令牌查询Cloudflare日志返回403，需本人补日志查询权限后继续定位，不把该403当成盘前业务HTTP状态，未过窗重跑。
+- 两公开首页HTTP200，论文范围B88版本/87研究保持；五项既有来源故障延续，正式29/31不变，今日仅只读核对与文档提交，未派发CI、评测或部署。
