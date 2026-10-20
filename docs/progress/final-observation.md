@@ -129,3 +129,13 @@
 - Cloudflare20:50:14派发[盘前39255177031](https://github.com/pangbowen2004/bowen-hub/actions/runs/39255177031)，20:51报ValueError、未进入SMTP；结合当天早报缺失，仅离线复现窗口纯函数得到“盘前窗口缺少当天早报；不能猜造覆盖起点”，未重跑采集、模型或发行。
 - A股[39245103242](https://github.com/pangbowen2004/bowen-hub/actions/runs/39245103242)19:31完整产出16方向，自动[生产39245230390](https://github.com/pangbowen2004/bowen-hub/actions/runs/39245230390)19:35成功，正式10/19首页与85307fca部署一致；此前四份缺方向产出保留，两公开首页HTTP200、论文范围B88版本/87研究不变。
 - Cloudflare08:00早报及21:30盘前截止告警，23:10 clock-daily两项仍缺产出、备份/收盘已完成，22:50实际观察problems=[news-morning,news-premarket]；旧失败、五期4/5、本人收件/耗时、收件人移除指示及10/7观察起点保留，不称连续14天正常，正式29/31，旧系统不改不停，无手动CI/评测或部署。
+
+## 10月20日实际核对
+- 23:18新加坡只读核对六业务workflow均active，evals-weekly、schedule-probe保持停用；过去24小时实际运行无新增失败，未发送成功通知或手动补跑。
+- Cloudflare03:30:14派发[备份39311531997](https://github.com/pangbowen2004/bowen-hub/actions/runs/39311531997)，03:32日志确认提交远端；GitHub备用备份定时运行39338859973也成功。
+- Cloudflare07:10:13派发[早报39339864917](https://github.com/pangbowen2004/bowen-hub/actions/runs/39339864917)，07:20:33获SMTP接收，2354字；逐项核对7项有效个股、5项国际中文，另2项无直接消息不计新闻；30/30活跃自选股均有有限涨跌，含BTC/XRP，本人收件与耗时仍待验证。
+- 09:48/10:04两条备用早报schedule正常按“本版次已发送”跳过，未覆盖版次；今天周二无独立周报应跑，10/19周报被早报失败阻断的结果保留，未补跑或以今天成功替换。
+- A股[39415413618](https://github.com/pangbowen2004/bowen-hub/actions/runs/39415413618)19:31完整产出16方向，自动[生产39415559469](https://github.com/pangbowen2004/bowen-hub/actions/runs/39415559469)19:36成功，正式10/20首页与3864e648部署一致；此前四份缺方向产出保留，22:15备用定时因“已经完成”未再次发布。
+- Cloudflare20:50:13派发[盘前39425395746](https://github.com/pangbowen2004/bowen-hub/actions/runs/39425395746)，20:55:59获SMTP接收，7项有效中文、926字，另1项无直接消息不计新闻；两条凌晨备用schedule因盘前时间窗外正常跳过，不算失败。
+- 23:10 clock-daily四项已产出，23:00 production-observation problems=[]；两公开首页HTTP200、论文B88版本/87研究不变；来源健康已更新至今天，五项既有故障延续、无新增。
+- 今天成功不证明10/12及10/17–19归档错误已修复，日志权限仍待本人；历史失败、固定五期行情4/5、本人的收件/耗时及收件人移除指示保留，10/7观察起点不变，连续14天正常未通过，正式29/31，旧系统不改不停，无手动CI/评测/部署。
